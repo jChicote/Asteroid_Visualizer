@@ -1,0 +1,19 @@
+.spacer {
+    flex: 1;
+    height: 100%;
+}
+
+.center-message {
+    display: flex;
+    text-align: center;
+}
+
+.align-items-center {
+    display: flex; 
+    align-items: center;  /*Aligns vertically center */
+    justify-content: center; /*Aligns horizontally center */
+  }
+
+.remheight {
+    height: 30%;
+}
