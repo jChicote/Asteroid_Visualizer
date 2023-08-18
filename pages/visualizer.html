@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Asteroid Visualizer</title>
-    <link rel ="stylesheet" href="css/menu.css">
+    <title>Asteroid Visualizer - Visualizer</title>
+    <link rel ="stylesheet" href="../css/menu.css">
 
     <!-- Bootstrap Stylesheets -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -20,38 +20,26 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="../index.html">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="about.html">About <span class="sr-only">(current)</span></a>
+                        </li>
                         <li class="nav-item active">
-                            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                            <a class="nav-link" href="#">Visualizer</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="pages/about.html">About</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="pages/visualizer.html">Visualizer</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="pages/sources.html">Sources</a>
+                            <a class="nav-link" href="sources.html">Sources</a>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
 
-        <!--TODO: make the center container bound to the screen height and not overflow.
-            Possibly make structure all the sub-root div elements to be equally spaced totalling to the 100% of the vertical height.-->
-        <div class="container content-vh">
-            <div class="one-third-spacer"></div>
-            <main class="one-third-spacer inner cover justify-content-center">
-                <section>
-                    <h2 class="text-white">Asteroid Visualizer</h2>
-                    <p class="text-white">See our solar system's near earth objects...</p>
-                    <a href="pages/visualizer.html">
-                        <button type="button" class="btn-red btn">Run Visualizer</button>
-                    </a>
-                </section>
-            </main>
-            <div class="one-third-spacer"></div>
-        </div>
+        <!-- Page Content ================================================================= -->
+
+        
 
         <footer class="fixed-bottom justify-content-center footer-vh bg-dark-maroon">
             <p class="text-white h-100 p-2 no-margin">&copy; 2023 Jaiden Chicote. All rights reserved.</p>
