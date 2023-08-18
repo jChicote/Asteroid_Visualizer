@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Page Title</title>
+    <title>Asteroid Visualizer</title>
     <link rel ="stylesheet" href="css/menu.css">
 
     <!-- Bootstrap Stylesheets -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body class="text-center">
-    <div class="cover-container min-vh-100 h-100 p-3 bg-dark flex-column">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="container">
+    <div class="bg-dark-maroon-black cover-container min-vh-100 h-100 flex-column">
+        <nav class="navbar navbar-expand-lg navbar-dark navbar-vh bg-dark-maroon">
+            <div class="container vh-10">
                 <a class="navbar-brand" href="#">Asteroid Visualizer</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -27,7 +27,7 @@
                             <a class="nav-link" href="#">About</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Services</a>
+                            <a class="nav-link" href="#">Sources</a>
                         </li>
                     </ul>
                 </div>
@@ -36,20 +36,20 @@
 
         <!--TODO: make the center container bound to the screen height and not overflow.
             Possibly make structure all the sub-root div elements to be equally spaced totalling to the 100% of the vertical height.-->
-        <div class="container vh-100">
+        <div class="container content-vh">
             <div class="one-third-spacer"></div>
             <main class="one-third-spacer inner cover justify-content-center">
                 <section>
-                    <h2>Asteroid Visualizer</h2>
-                    <p>See our solar system's near earth objects...</p>
-                    <button type="button" class="btn btn-dark">Run Visualizer</button>
+                    <h2 class="text-white">Asteroid Visualizer</h2>
+                    <p class="text-white">See our solar system's near earth objects...</p>
+                    <button type="button" class="btn-red btn">Run Visualizer</button>
                 </section>
             </main>
             <div class="one-third-spacer"></div>
         </div>
 
-        <footer class="fixed-bottom bg-dark">
-            <p>&copy; 2023 Jaiden Chicote. All rights reserved.</p>
+        <footer class="fixed-bottom justify-content-center footer-vh bg-dark-maroon">
+            <p class="text-white h-100 p-2 no-margin">&copy; 2023 Jaiden Chicote. All rights reserved.</p>
         </footer>
     </div>
 

@@ -1,6 +1,21 @@
+
+/* GENERAL STYLES */
+
 .spacer {
     flex: 1;
     height: 100%;
+}
+
+.navbar-vh {
+    height: 8vh;
+}
+
+.content-vh {
+    height: 86vh;
+}
+
+.footer-vh {
+    height: 6vh;
 }
 
 .center-message {
@@ -14,6 +29,50 @@
     justify-content: center; /*Aligns horizontally center */
   }
 
+
+/* SPACING STYLES */
+
+
 .one-third-spacer {
-    height: 30%;
+    height: 33%;
+}
+
+.no-margin {
+    margin: 0px;
+}
+
+
+/* BACKGROUND STYLES */
+
+
+.bg-dark-maroon-black {
+    background-color: #0E0A0A;
+}
+
+.bg-dark-maroon {
+    background-color: #3D0000;
+}
+
+.bg-maroon {
+    background-color: #950101;
+}
+
+.bg-red {
+    background-color: #FF0000;
+}
+
+
+/* BUTTON STYLES */
+
+
+.btn-red {
+    color: #fff !important;
+    background-color: #FF0000 !important;
+    border-color: #950101 !important;
+}
+
+.btn-red:hover {
+    color: #fff !important;
+    background-color: #950101 !important;
+    border-color: #3D0000 !important;
 }
