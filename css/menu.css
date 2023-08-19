@@ -11,12 +11,6 @@
     min-height: 3rem;
 }
 
-.align-items-center {
-    display: flex;
-    align-items: center;  /*Aligns vertically center */
-    justify-content: center; /*Aligns horizontally center */
-  }
-
 .centered-element {
     margin: 0;
     position: absolute;
@@ -33,18 +27,13 @@
     height: 100vh;
 }
 
-.flex-container {
-    display: flex; /* Create a flex container */
-    justify-content: space-between; /* Space items evenly */
-    align-items: center; /* Vertically align items */
-}
 
 /* SPACING STYLES */
+
 
 .one-third-spacer {
     height: 33%;
 }
-
 
 
 /* BACKGROUND STYLES */
@@ -80,12 +69,4 @@
     color: #fff !important;
     background-color: #950101 !important;
     border-color: #3D0000 !important;
-}
-
-
-/* Adjustments for Small Screens */
-@media (max-height: 300px) {
-    .one-third-spacer {
-        height: auto;
-    }
 }
