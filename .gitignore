@@ -22,3 +22,10 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+
+# Ignore MacOS misc files and Node.JS related package files
+bower_components
+node_modules
+*.log
+.DS_Store
+bundle.js

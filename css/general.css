@@ -1,0 +1,26 @@
+
+body {
+    min-width: 320px;
+    min-height: 520px;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    overflow-y: hidden;
+}
+
+.flex-container {
+    display: flex; /* Create a flex container */
+    justify-content: space-between; /* Space items evenly */
+    align-items: center; /* Vertically align items */
+    overflow: hidden;
+}
+
+.align-items-center {
+    display: flex;
+    align-items: center;  /*Aligns vertically center */
+    justify-content: center; /*Aligns horizontally center */
+  }

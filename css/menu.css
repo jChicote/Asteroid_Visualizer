@@ -6,28 +6,26 @@
     height: 100%;
 }
 
-.navbar-vh {
-    height: 8vh;
-}
-
-.content-vh {
-    height: 86vh;
-}
-
 .footer-vh {
     height: 6vh;
+    min-height: 3rem;
 }
 
-.center-message {
-    display: flex;
-    text-align: center;
+.centered-element {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
-.align-items-center {
-    display: flex;
-    align-items: center;  /*Aligns vertically center */
-    justify-content: center; /*Aligns horizontally center */
-  }
+.expand-element-width {
+    width: 100%;
+}
+
+.content-sizing {
+    box-sizing: content-box;
+    height: 100vh;
+}
 
 
 /* SPACING STYLES */
@@ -35,10 +33,6 @@
 
 .one-third-spacer {
     height: 33%;
-}
-
-.no-margin {
-    margin: 0px;
 }
 
 
