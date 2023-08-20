@@ -41,13 +41,5 @@ export function CreateTestSolarSystemScene() {
     var pluto = CreatePlanet(0.2, 0xFFC7C7);
     pluto.position.set(90, 0, 0);
 
-    // Sun.position.set(0, 0, 0);
-
-    // var geometry = new THREE.BoxGeometry( 1, 1, 1 );
-    // var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-    // var cube = new THREE.Mesh( geometry, material );
-    // console.log(cube.position);
-    // scene.add( cube );
-
     console.log("Generating solar system");
 }
