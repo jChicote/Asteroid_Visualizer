@@ -1,45 +1,46 @@
-import * as THREE from '/node_modules/three/build/three.module.js';
 import { scene } from '../main.js';
-
-function CreatePlanet(radius, hexColor) {
-    var planet = new THREE.Mesh(
-         new THREE.SphereGeometry( radius, 32, 16 ), 
-         new THREE.MeshBasicMaterial( { color: hexColor  } ) ); 
-         
-    scene.add( planet );
-    return planet
-}
+import { PlanetCreator } from './planet-creator.js';
+import { StarCreator } from './star-creator.js';
+import * as THREE from '/node_modules/three/build/three.module.js';
 
 export function CreateTestSolarSystemScene() {
-    var Sun = CreatePlanet(5, 0xFFFFFF);
-    Sun.position.set(0, 0, 0);
 
-    var mecury = CreatePlanet(0.3, 0xC7C7C7);
-    mecury.position.set(8, 0, 0);
+    // Note: The minimum scale that can be used for each planetary body should not be below 1.0
+    // Note: The maximum scale for each planetary body should not be above 10000
+    // Note: Distances used for each planet are not to scale. They are astronomical unit distances converted down:
+    // distance = x * 10
 
-    var venus = CreatePlanet(0.5, 0xFFC7C7);
-    venus.position.set(12, 0, 0);
+    var distanceMultiplier = 10;
+    var starCreator = new StarCreator(scene);
+    var planetCreator = new PlanetCreator(scene);
 
-    var earth = CreatePlanet(0.5, 0x0000FF);
-    earth.position.set(16, 0, 0);
+    // Sun
+    starCreator.CreateStar(5, 0xFFFFFF, new THREE.Vector3(0, 0, 0));
 
-    var mars = CreatePlanet(0.4, 0xFF0000);
-    mars.position.set(20, 0, 0);
+    // Mercury
+    planetCreator.CreatePlanet(0.3, 0xC7C7C7, new THREE.Vector3(0.4 * distanceMultiplier, 0, 0));
 
-    var jupiter = CreatePlanet(1.5, 0xFFC7C7);
-    jupiter.position.set(32, 0, 0);
+    // Venus
+    planetCreator.CreatePlanet(0.5, 0xFFC7C7, new THREE.Vector3(0.7 * distanceMultiplier, 0, 0));
 
-    var saturn = CreatePlanet(1.2, 0xFFC7C7);
-    saturn.position.set(40, 0, 0);
+    // Earth
+    planetCreator.CreatePlanet(0.5, 0x0000FF, new THREE.Vector3(1. * distanceMultiplier, 0, 0));
 
-    var uranus = CreatePlanet(0.8, 0xFFC7C7);
-    uranus.position.set(56, 0, 0);
+    // Mars
+    planetCreator.CreatePlanet(0.4, 0xFF0000, new THREE.Vector3(1.5 * distanceMultiplier, 0, 0));
 
-    var neptune = CreatePlanet(0.8, 0xFFC7C7);
-    neptune.position.set(70, 0, 0);
+    // Jupiter
+    planetCreator.CreatePlanet(1.5, 0xFFC7C7, new THREE.Vector3(5.2 * distanceMultiplier, 0, 0));
 
-    var pluto = CreatePlanet(0.2, 0xFFC7C7);
-    pluto.position.set(90, 0, 0);
+    // Saturn
+    planetCreator.CreatePlanet(1.2, 0xFFC7C7, new THREE.Vector3(9.5 * distanceMultiplier, 0, 0));
 
-    console.log("Generating solar system");
+    // Uranus
+    planetCreator.CreatePlanet(0.8, 0x4FD0E7, new THREE.Vector3(19.8 * distanceMultiplier, 0, 0));
+
+    // Neptune
+    planetCreator.CreatePlanet(0.8, 0x4b70dd, new THREE.Vector3(30 * distanceMultiplier, 0, 0));
+
+    // Pluto
+    planetCreator.CreatePlanet(0.2, 0xFFC7C7, new THREE.Vector3(39 * distanceMultiplier, 0, 0));
 }

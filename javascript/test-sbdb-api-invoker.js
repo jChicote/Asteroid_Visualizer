@@ -1,0 +1,2 @@
+// Note: Please used the more general SBDB database over the close-approach-neo database.
+// This generalised database should provide information of the orbital elements of the small-body objects and filters for neo

@@ -1,6 +1,6 @@
-import * as THREE from '/node_modules/three/build/three.module.js';
-import * as TEST from '/javascript/test-scene.js';
 import { OrbitControls } from '/addons/OrbitControls.js';
+import * as TEST from '/javascript/test-scene.js';
+import * as THREE from '/node_modules/three/build/three.module.js';
 
 export const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 1000 );
