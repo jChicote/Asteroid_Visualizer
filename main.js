@@ -1,3 +1,4 @@
+import { GetSmallBodyObjects } from './javascript/test-sbdb-api-invoker.js';
 import { OrbitControls } from '/addons/OrbitControls.js';
 import * as TEST from '/javascript/test-scene.js';
 import * as THREE from '/node_modules/three/build/three.module.js';
@@ -16,7 +17,7 @@ controls.update();
 
 // Initialises scene
 function init() {
-
+    GetSmallBodyObjects().then(data => console.log(smallBodyObjects));
 }
 
 function start() {
@@ -33,5 +34,6 @@ function animate() {
     console.log("This should be running.")
 }
 
+init();
 start();
 animate();
