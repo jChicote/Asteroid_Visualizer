@@ -1,4 +1,5 @@
-import { GetSmallBodyObjects, TestGetRequest } from './javascript/test-sbdb-api-invoker.js';
+import { InvokeSmallBodyDatabase } from './javascript/components/ApiInvoker.js';
+// import { express } from './server/test-server-side.js';
 import { OrbitControls } from '/addons/OrbitControls.js';
 import * as TEST from '/javascript/test-scene.js';
 import * as THREE from '/node_modules/three/build/three.module.js';
@@ -18,7 +19,7 @@ controls.update();
 // Initialises scene
 function init() {
     //GetSmallBodyObjects().then(data => console.log(smallBodyObjects));
-    TestGetRequest();
+    InvokeSmallBodyDatabase();
 }
 
 function start() {

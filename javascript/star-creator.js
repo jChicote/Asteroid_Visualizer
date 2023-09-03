@@ -1,4 +1,4 @@
-import { SetVector } from './math-library.js';
+import { SetVector } from './utils/math-library.js';
 import * as THREE from '/node_modules/three/build/three.module.js';
 
 export class StarCreator {
