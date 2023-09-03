@@ -29,12 +29,16 @@ export async function TestGetRequest() {
 
     // Define the HTTP method (GET, POST, PUT, etc.) and the API endpoint URL
     var method = "GET";
-    var url = "https://ssd-api.jpl.nasa.gov/sbdb.api?sstr=Eros";
+    var url = "https://ssd-api.jpl.nasa.gov/sbdb.api";
 
      // Initialize the request
     xhr.open(method, url, true);
 
     // Set any request headers if needed (e.g., authentication headers)
+    xhr.setRequestHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:5500/');
+    xhr.setRequestHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    xhr.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.setRequestHeader("Authorization", "Bearer YOUR_ACCESS_TOKEN");
 
