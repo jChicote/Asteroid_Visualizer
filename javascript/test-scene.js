@@ -10,7 +10,7 @@ export function CreateTestSolarSystemScene() {
     // Note: Distances used for each planet are not to scale. They are astronomical unit distances converted down:
     // distance = x * 10
 
-    var distanceMultiplier = 10;
+    var distanceMultiplier = 20;
     var starCreator = new StarCreator(scene);
     var planetCreator = new PlanetCreator(scene);
 
