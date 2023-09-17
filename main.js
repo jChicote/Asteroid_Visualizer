@@ -1,4 +1,4 @@
-import { InvokeSmallBodyDatabase } from './javascript/components/ApiInvoker.js';
+import { GetSmallBodyAsteroids, GetPlanetEphermerisData, PlanetCodes } from './javascript/components/visualiser-endpoints.js';
 // import { express } from './server/test-server-side.js';
 import { OrbitControls } from '/addons/OrbitControls.js';
 import * as TEST from '/javascript/test-scene.js';
@@ -18,8 +18,15 @@ controls.update();
 
 // Initialises scene
 function init() {
-    //GetSmallBodyObjects().then(data => console.log(smallBodyObjects));
-    InvokeSmallBodyDatabase();
+    //GetSmallBodyAsteroids();
+    (async () => {
+        try {
+            await GetPlanetEphermerisData(PlanetCodes.Mercury);
+        }
+        catch (error) {
+            console.error('Error:', error);
+        }
+    })();
 }
 
 function start() {
