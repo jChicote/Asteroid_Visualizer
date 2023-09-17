@@ -1,4 +1,4 @@
-import  { SendAsync } from './ApiInvoker.js';
+import { SendAsync } from './ApiInvoker.js';
 
 export const PlanetCodes = {
     Mercury : "199",
@@ -35,16 +35,26 @@ export async function GetPlanetEphermerisData(planetCode) {
         const formattedData = {};
 
         // TODO: only take the primary data from the first section of the response, then extract key,value data from that
+        // What needs to happen:
+        // - Extract the required object data section (seperated by *)
+        // - Seperate each data component from each line
+        // - Create key, value pair seperated by (=)
+        // - Add to dictionary
+        // - Discard the rest of the data
+
+        // TODO: Create NewHorizonsApi formatter so that we have specific functionality to handle the response.
+        // TODO: Create an object to store this data instead of a dictionary
+
         // // Clean line data and create dictionary
-        // for (const line of lines) {
-        //     if (line.trim().startsWith('*')) {
-        //         continue;
-        //     }
+        for (const line of lines) {
+            if (line.trim().startsWith('*')) {
+                continue;
+            }
 
-        //     const [key, value] = line.split('=').map(x => x.trim());
+            const [key, value] = line.split('=').map(x => x.trim());
 
-        //     formattedData[key] = value;
-        // }
+            formattedData[key] = value;
+        }
 
         console.log(formattedData);
 
