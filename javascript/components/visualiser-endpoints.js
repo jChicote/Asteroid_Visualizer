@@ -47,8 +47,9 @@ export async function GetPlanetEphermerisData(planetCode) {
 
         // EXTRACT THE PHYSICAL DATA
 
-        var physicalData = {};
-        const sectionLength = 2
+        var physicalData = [];
+
+        const keyValuePairRegex = /(\w+\s*\(.+?\))\s*=\s*([\d.]+)/g;
 
         for (const line of lines) {
             if (line.trim().startsWith('*')) {
@@ -59,28 +60,17 @@ export async function GetPlanetEphermerisData(planetCode) {
                 break;
             }
 
-            const [key, value] = line.split('=').map(x => x.trim());
-
-            physicalData[key] = value;
+            const valuePairs = line.match(keyValuePairRegex);
+            if (valuePairs != null) {
+                valuePairs.forEach((valuePair) => {
+                    const key = valuePair.split("=")[0].trim();
+                    const value = valuePair.split("=")[1].trim();
+                    physicalData.push({key, value});
+                });
+            }
         }
 
         // EXTRACT THE EPHERMERIS DATA
-
-
-
-
-        // // Clean line data and create dictionary
-        for (const line of lines) {
-            if (line.trim().startsWith('*')) {
-                continue;
-            }
-
-            const [key, value] = line.split('=').map(x => x.trim());
-
-            formattedData[key] = value;
-        }
-
-        console.log(formattedData);
 
         return lines
     } catch(error) {
