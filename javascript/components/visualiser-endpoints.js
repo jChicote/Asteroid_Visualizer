@@ -45,6 +45,30 @@ export async function GetPlanetEphermerisData(planetCode) {
         // TODO: Create NewHorizonsApi formatter so that we have specific functionality to handle the response.
         // TODO: Create an object to store this data instead of a dictionary
 
+        // EXTRACT THE PHYSICAL DATA
+
+        var physicalData = {};
+        const sectionLength = 2
+
+        for (const line of lines) {
+            if (line.trim().startsWith('*')) {
+                continue;
+            }
+
+            if (line.trim().startsWith('$')) {
+                break;
+            }
+
+            const [key, value] = line.split('=').map(x => x.trim());
+
+            physicalData[key] = value;
+        }
+
+        // EXTRACT THE EPHERMERIS DATA
+
+
+
+
         // // Clean line data and create dictionary
         for (const line of lines) {
             if (line.trim().startsWith('*')) {
