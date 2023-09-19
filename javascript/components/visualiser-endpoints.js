@@ -49,14 +49,13 @@ export async function GetPlanetEphermerisData(planetCode) {
 
         var physicalData = [];
 
-        const keyValuePairRegex = /(\w+\s*\(.+?\))\s*=\s*([\d.]+)/g;
-
+        const keyValuePairRegex = /(\S+)\s*=\s*([\d.+-]+(?:\s*[\d.+-]+)*)/g;
         for (const line of lines) {
             if (line.trim().startsWith('*')) {
                 continue;
             }
 
-            if (line.trim().startsWith('$')) {
+            if (line.trim().startsWith('$') || line.includes("Ephemeris")) {
                 break;
             }
 
@@ -71,7 +70,7 @@ export async function GetPlanetEphermerisData(planetCode) {
         }
 
         // EXTRACT THE EPHERMERIS DATA
-
+        console.log(physicalData);
         return lines
     } catch(error) {
         console.error(error);

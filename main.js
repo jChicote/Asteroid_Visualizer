@@ -21,7 +21,7 @@ function init() {
     //GetSmallBodyAsteroids();
     (async () => {
         try {
-            await GetPlanetEphermerisData(PlanetCodes.Mercury);
+            await GetPlanetEphermerisData(PlanetCodes.Venus);
         }
         catch (error) {
             console.error('Error:', error);
