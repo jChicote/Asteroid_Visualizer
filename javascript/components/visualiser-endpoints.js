@@ -45,13 +45,29 @@ export async function GetPlanetEphermerisData(planetCode) {
         // TODO: Create NewHorizonsApi formatter so that we have specific functionality to handle the response.
         // TODO: Create an object to store this data instead of a dictionary
 
+        const cleanedData = [];
+
+        // Clean up the data
+        for (const line of lines) {
+            if (line.trim().startsWith('*') || !line.includes("=")) {
+                continue;
+            }
+
+            if (line.includes("Column meaning:")) {
+                break;
+            }
+
+            const splitLine = line.split(/\s{2,}/);
+            cleanedData.push(splitLine);
+        }
+
         // EXTRACT THE PHYSICAL DATA
 
         var physicalData = [];
 
-        const keyValuePairRegex = /(\S+)\s*=\s*([\d.+-]+(?:\s*[\d.+-]+)*)/g;
-        for (const line of lines) {
-            if (line.trim().startsWith('*')) {
+        const keyValuePairRegex = /(\S.*?)\s*=\s*(.*?(?=\s+\S+\s*=|$))/g;
+        for (const line of cleanedData) {
+            if (line.trim().startsWith('*') || !line.includes("=")) {
                 continue;
             }
 
@@ -59,7 +75,9 @@ export async function GetPlanetEphermerisData(planetCode) {
                 break;
             }
 
-            const valuePairs = line.match(keyValuePairRegex);
+            // Clean up each line so its better for the key value pairs to be found
+            const cleanedLine = line.replace(/\s*=\s*/g, '=').trim();
+            const valuePairs = cleanedLine.match(keyValuePairRegex);
             if (valuePairs != null) {
                 valuePairs.forEach((valuePair) => {
                     const key = valuePair.split("=")[0].trim();
