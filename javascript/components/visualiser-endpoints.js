@@ -30,9 +30,7 @@ export async function GetPlanetEphermerisData(planetCode) {
         const response = await SendAsync(HTTPMethods.GET, apiUri, true);
 
         // Split data into lines
-        var lines = response.result.trim().split("\n");
-
-        const formattedData = {};
+        var lines = response.result.split("\n");
 
         // TODO: only take the primary data from the first section of the response, then extract key,value data from that
         // What needs to happen:
@@ -57,9 +55,13 @@ export async function GetPlanetEphermerisData(planetCode) {
                 break;
             }
 
-            const splitLine = line.split(/\s{2,}/);
+            const cleanedLine = (line.replace(/\s*=\s*/g, '='));//.split(/\s{2,}/);
+
+            const splitLine = cleanedLine.split(/\s{2,}/);
             cleanedData.push(splitLine);
         }
+
+        console.log(cleanedData);
 
         // EXTRACT THE PHYSICAL DATA
 
@@ -67,24 +69,24 @@ export async function GetPlanetEphermerisData(planetCode) {
 
         const keyValuePairRegex = /(\S.*?)\s*=\s*(.*?(?=\s+\S+\s*=|$))/g;
         for (const line of cleanedData) {
-            if (line.trim().startsWith('*') || !line.includes("=")) {
-                continue;
-            }
+            // if (line.trim().startsWith('*') || !line.includes("=")) {
+            //     continue;
+            // }
 
-            if (line.trim().startsWith('$') || line.includes("Ephemeris")) {
-                break;
-            }
+            // if (line.startsWith('$') || line.includes("Ephemeris")) {
+            //     break;
+            // }
 
             // Clean up each line so its better for the key value pairs to be found
-            const cleanedLine = line.replace(/\s*=\s*/g, '=').trim();
-            const valuePairs = cleanedLine.match(keyValuePairRegex);
-            if (valuePairs != null) {
-                valuePairs.forEach((valuePair) => {
-                    const key = valuePair.split("=")[0].trim();
-                    const value = valuePair.split("=")[1].trim();
-                    physicalData.push({key, value});
-                });
-            }
+            // const cleanedLine = line.replace(/\s*=\s*/g, '=').trim();
+            // const valuePairs = cleanedLine.match(keyValuePairRegex);
+            // if (valuePairs != null) {
+            //     valuePairs.forEach((valuePair) => {
+            //         const key = valuePair.split("=")[0].trim();
+            //         const value = valuePair.split("=")[1].trim();
+            //         physicalData.push({key, value});
+            //     });
+            // }
         }
 
         // EXTRACT THE EPHERMERIS DATA
