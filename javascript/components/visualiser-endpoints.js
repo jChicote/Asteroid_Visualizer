@@ -32,41 +32,30 @@ export async function GetPlanetEphermerisData(planetCode) {
         // Split data into lines
         var lines = response.result.split("\n");
 
-        // TODO: Create NewHorizonsApi formatter so that we have specific functionality to handle the response.
-        // TODO: Create an object to store this data instead of a dictionary
+        const physicalBodyData = [];
+        const ephemerisData = [];
 
-        const cleanedData = [];
-
-
-        // Way of cleaning:
-        // - Ignore lines that contain * or have no =
-        // - Empty the spaces around =
-        // - Based on the value right of the =
-        //      - The value should only hae a length of 16 characters or less
-        //      - If it hits the end of line then from the = sign to the ", then its a value
-        //      - If its the first pair and the length is 16 either add a seperator value or split from this point
-        // - Split the data into each key, value pair
-        // - Trim the extra whitespaces
-
-        // Clean up the data
+        // Get all Physical Body Data
         for (const line of lines) {
+            if (line.startsWith('$') || line.includes("Ephemeris") || line.includes("Column meaning:")) {
+                break;
+            }
+
             if (line.trim().startsWith('*') || !line.includes("=")) {
                 continue;
             }
 
-            if (line.includes("Column meaning:")) {
-                break;
+            const dataItems = line.match(/(.{1,40})/g);
+            if (dataItems != null) {
+                dataItems.forEach((dataPoint) => {
+                    const key = dataPoint.split("=")[0].trim();
+                    const value = dataPoint.split("=")[1].trim();
+                    physicalBodyData.push({key, value});
+                });
             }
-
-            // const startcleaned = line.trimstart();
-            const dataEntry = line.match(/(.{1,40})/g);
-            //const cleanedLine = (line.replace(/\s*=\s*/g, '='));//.split(/\s{2,}/);
-            console.log(dataEntry);
-            const splitLine = cleanedLine.split(/\s{2,}/);
-            cleanedData.push(splitLine);
         }
 
-        console.log(cleanedData);
+        console.log(physicalBodyData);
 
         // EXTRACT THE PHYSICAL DATA
 
