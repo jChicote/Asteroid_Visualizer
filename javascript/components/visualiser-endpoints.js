@@ -32,18 +32,21 @@ export async function GetPlanetEphermerisData(planetCode) {
         // Split data into lines
         var lines = response.result.split("\n");
 
-        // TODO: only take the primary data from the first section of the response, then extract key,value data from that
-        // What needs to happen:
-        // - Extract the required object data section (seperated by *)
-        // - Seperate each data component from each line
-        // - Create key, value pair seperated by (=)
-        // - Add to dictionary
-        // - Discard the rest of the data
-
         // TODO: Create NewHorizonsApi formatter so that we have specific functionality to handle the response.
         // TODO: Create an object to store this data instead of a dictionary
 
         const cleanedData = [];
+
+
+        // Way of cleaning:
+        // - Ignore lines that contain * or have no =
+        // - Empty the spaces around =
+        // - Based on the value right of the =
+        //      - The value should only hae a length of 16 characters or less
+        //      - If it hits the end of line then from the = sign to the ", then its a value
+        //      - If its the first pair and the length is 16 either add a seperator value or split from this point
+        // - Split the data into each key, value pair
+        // - Trim the extra whitespaces
 
         // Clean up the data
         for (const line of lines) {
@@ -55,8 +58,10 @@ export async function GetPlanetEphermerisData(planetCode) {
                 break;
             }
 
-            const cleanedLine = (line.replace(/\s*=\s*/g, '='));//.split(/\s{2,}/);
-
+            // const startcleaned = line.trimstart();
+            const dataEntry = line.match(/(.{1,40})/g);
+            //const cleanedLine = (line.replace(/\s*=\s*/g, '='));//.split(/\s{2,}/);
+            console.log(dataEntry);
             const splitLine = cleanedLine.split(/\s{2,}/);
             cleanedData.push(splitLine);
         }
