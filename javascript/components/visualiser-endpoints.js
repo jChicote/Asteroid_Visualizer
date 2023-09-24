@@ -21,6 +21,7 @@ const HTTPMethods =  {
 
 const ServerProxyURL = "http://localhost:8080/proxy?url="
 
+
 export async function GetPlanetEphermerisData(planetCode) {
     const apiUri = ServerProxyURL
         + "https://ssd.jpl.nasa.gov/api/horizons.api?"
@@ -35,68 +36,49 @@ export async function GetPlanetEphermerisData(planetCode) {
         const physicalBodyData = [];
         const ephemerisData = [];
         var hasPhysicalData = false;
+        var hasEphemerisData = false;
 
         // Get all Physical Body Data
         for (const line of lines) {
-            hasPhysicalData = line.includes("Ephemeris");
-
             if (line.includes("Column meaning:")) {
                 break;
             }
 
-            if (line.startsWith('$') || line.trim().startsWith('*') || !line.includes("=")) {
+            if (line.startsWith('$') || line.trim().startsWith('*')) {
                 continue;
             }
 
             if (!hasPhysicalData) {
-                // if (line.includes("=")) {
-                //     continue;
-                // }
+                hasPhysicalData = line.includes("Ephemeris");
 
                 const dataItems = line.match(/(.{1,40})/g);
-                if (dataItems != null) {
+                if (dataItems != null && dataItems.length != 0) {
                     dataItems.forEach((dataPoint) => {
-                        const key = dataPoint.split("=")[0].trim();
-                        const value = dataPoint.split("=")[1].trim();
-                        physicalBodyData.push({key, value});
+                        if (dataPoint.includes("=")) {
+                            physicalBodyData.push({
+                                key: dataPoint.split("=")[0].trim(),
+                                value: dataPoint.split("=")[1].trim()
+                            });
+                        }
                     });
                 }
             }
-            else {
 
+            else if (!hasEphemerisData) {
+                if (line.includes("Table cut-offs")) {
+                    hasEphemerisData = true;
+                    continue;
+                }
+                
+                const dataPoint = line.replace(/{.*?}/g, '');
+                ephemerisData.push({
+                    key: dataPoint.split(":")[0].trim(),
+                    value: dataPoint.split(":")[1].trim()
+                });
             }
         }
 
-        console.log(physicalBodyData);
-
-        // EXTRACT THE PHYSICAL DATA
-
-        var physicalData = [];
-
-        for (const line of cleanedData) {
-            // if (line.trim().startsWith('*') || !line.includes("=")) {
-            //     continue;
-            // }
-
-            // if (line.startsWith('$') || line.includes("Ephemeris")) {
-            //     break;
-            // }
-
-            // Clean up each line so its better for the key value pairs to be found
-            // const cleanedLine = line.replace(/\s*=\s*/g, '=').trim();
-            // const valuePairs = cleanedLine.match(keyValuePairRegex);
-            // if (valuePairs != null) {
-            //     valuePairs.forEach((valuePair) => {
-            //         const key = valuePair.split("=")[0].trim();
-            //         const value = valuePair.split("=")[1].trim();
-            //         physicalData.push({key, value});
-            //     });
-            // }
-        }
-
-        // EXTRACT THE EPHERMERIS DATA
-        console.log(physicalData);
-        return lines
+        return lines // TODO: This needs to return a object containing both these collections
     } catch(error) {
         console.error(error);
     }
