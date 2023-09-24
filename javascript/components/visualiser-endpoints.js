@@ -34,24 +34,36 @@ export async function GetPlanetEphermerisData(planetCode) {
 
         const physicalBodyData = [];
         const ephemerisData = [];
+        var hasPhysicalData = false;
 
         // Get all Physical Body Data
         for (const line of lines) {
-            if (line.startsWith('$') || line.includes("Ephemeris") || line.includes("Column meaning:")) {
+            hasPhysicalData = line.includes("Ephemeris");
+
+            if (line.includes("Column meaning:")) {
                 break;
             }
 
-            if (line.trim().startsWith('*') || !line.includes("=")) {
+            if (line.startsWith('$') || line.trim().startsWith('*') || !line.includes("=")) {
                 continue;
             }
 
-            const dataItems = line.match(/(.{1,40})/g);
-            if (dataItems != null) {
-                dataItems.forEach((dataPoint) => {
-                    const key = dataPoint.split("=")[0].trim();
-                    const value = dataPoint.split("=")[1].trim();
-                    physicalBodyData.push({key, value});
-                });
+            if (!hasPhysicalData) {
+                // if (line.includes("=")) {
+                //     continue;
+                // }
+
+                const dataItems = line.match(/(.{1,40})/g);
+                if (dataItems != null) {
+                    dataItems.forEach((dataPoint) => {
+                        const key = dataPoint.split("=")[0].trim();
+                        const value = dataPoint.split("=")[1].trim();
+                        physicalBodyData.push({key, value});
+                    });
+                }
+            }
+            else {
+
             }
         }
 
@@ -61,7 +73,6 @@ export async function GetPlanetEphermerisData(planetCode) {
 
         var physicalData = [];
 
-        const keyValuePairRegex = /(\S.*?)\s*=\s*(.*?(?=\s+\S+\s*=|$))/g;
         for (const line of cleanedData) {
             // if (line.trim().startsWith('*') || !line.includes("=")) {
             //     continue;
