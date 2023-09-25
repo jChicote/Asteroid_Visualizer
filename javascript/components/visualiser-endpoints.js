@@ -21,7 +21,8 @@ const HTTPMethods =  {
 
 const ServerProxyURL = "http://localhost:8080/proxy?url="
 
-
+// TODO: This will need to be moved into its architecture
+// - This class has too many responsibilities?: It contains both the route to the server and controller interacting behaviour
 export async function GetPlanetEphermerisData(planetCode) {
     const apiUri = ServerProxyURL
         + "https://ssd.jpl.nasa.gov/api/horizons.api?"
@@ -33,8 +34,10 @@ export async function GetPlanetEphermerisData(planetCode) {
         // Split data into lines
         var lines = response.result.split("\n");
 
-        const physicalBodyData = [];
-        const ephemerisData = [];
+        const planetData = {
+            physicalBodyData: [],
+            ephemerisData: []
+        }
         var hasPhysicalData = false;
         var hasEphemerisData = false;
 
@@ -55,7 +58,7 @@ export async function GetPlanetEphermerisData(planetCode) {
                 if (dataItems != null && dataItems.length != 0) {
                     dataItems.forEach((dataPoint) => {
                         if (dataPoint.includes("=")) {
-                            physicalBodyData.push({
+                            planetData.physicalBodyData.push({
                                 key: dataPoint.split("=")[0].trim(),
                                 value: dataPoint.split("=")[1].trim()
                             });
@@ -71,14 +74,14 @@ export async function GetPlanetEphermerisData(planetCode) {
                 }
                 
                 const dataPoint = line.replace(/{.*?}/g, '');
-                ephemerisData.push({
+                planetData.ephemerisData.push({
                     key: dataPoint.split(":")[0].trim(),
                     value: dataPoint.split(":")[1].trim()
                 });
             }
         }
 
-        return lines // TODO: This needs to return a object containing both these collections
+        return planetData;
     } catch(error) {
         console.error(error);
     }

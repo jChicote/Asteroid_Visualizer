@@ -1,5 +1,5 @@
 import { GetSmallBodyAsteroids, GetPlanetEphermerisData, PlanetCodes } from './javascript/components/visualiser-endpoints.js';
-// import { express } from './server/test-server-side.js';
+import { CalculatePlanetPosition } from './javascript/components/plantary-methods.js';
 import { OrbitControls } from '/addons/OrbitControls.js';
 import * as TEST from '/javascript/test-scene.js';
 import * as THREE from '/node_modules/three/build/three.module.js';
@@ -21,7 +21,8 @@ function init() {
     //GetSmallBodyAsteroids();
     (async () => {
         try {
-            await GetPlanetEphermerisData(PlanetCodes.Venus);
+            const data = await GetPlanetEphermerisData(PlanetCodes.Venus);
+            await CalculatePlanetPosition(data);
         }
         catch (error) {
             console.error('Error:', error);
