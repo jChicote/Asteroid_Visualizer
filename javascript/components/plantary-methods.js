@@ -1,5 +1,13 @@
 
 export function CalculatePlanetPosition(planetData) {
+    // What needs to happen here:
+    // - Will need to brush up the math involved
+    // - We will need to find the heliocentric distance of the planet to the start
+    //    - Need to find both the Mean anomaly, Semi-Major axis and the Orbital period
+    // - All the data for each planet is not consistent
+    //   - Instead of trying to get each one to fit, different extraction methods will exist depending on what can be retrieved
+    
+    
     const extractedData = GetSimplifiedData(planetData);
 
     const semiMajorAxis = Number(extractedData.equatorialRadius); // in km
@@ -33,8 +41,8 @@ export function CalculatePlanetPosition(planetData) {
 
 function GetSimplifiedData(planetData) {
     const simpleData = {
-        equatorialRadius: DataSearch("Sidereal rot. period", planetData).match(/[0-9.]+/g).join(''),
-        meanSiderealOrbitalPeriod: DataSearch("Sidereal orb. per., d", planetData),
+        equatorialRadius: DataSearch("Sidereal rot. period", planetData).match(/[0-9.]+/g).join(''), // This needs to be calculated in km and not in earth rotation. This might differe between each response
+        meanSiderealOrbitalPeriod: DataSearchWithAdditionalSearchParameters("Sidereal orb. per.", /\bd\b\s*/g, true, planetData).match(/[0-9.]+/g).join(''),
         startDate: "2022-01-01", // fixed date for now
         endDate: "12:00:00", // fixed date for now
     }
@@ -48,4 +56,20 @@ function DataSearch(key, planetData) {
             return dataPoint.value;
         }
     }
+    console.log("Nothing was found");
+
+}
+
+function DataSearchWithAdditionalSearchParameters(key, searchRegex, canSearchValue, planetData) {
+    for (const dataPoint of planetData.physicalBodyData) {
+        if (dataPoint.key.includes(key) && searchRegex.test(dataPoint.key) || (canSearchValue && searchRegex.test(dataPoint.value))) {
+            return dataPoint.value;
+        }
+    }
+
+    console.log("Nothing was found");
+}
+
+function GetEarthSiderealRotationInHours() {
+    return 
 }

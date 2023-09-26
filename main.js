@@ -20,6 +20,13 @@ controls.update();
 // Test planet renderer
 var mercuryPosition = {x: 0, y: 0, z: 0};
 var venusPosition = {x: 0, y: 0, z: 0};
+var earthPosition = {x: 0, y: 0, z: 0};
+var marsPosition = {x: 0, y: 0, z: 0};
+var jupiterPosition = {x: 0, y: 0, z: 0};
+var saturnPosition = {x: 0, y: 0, z: 0};
+var uranusPosition = {x: 0, y: 0, z: 0};
+var neptunePosition = {x: 0, y: 0, z: 0};
+var plutoPosition = {x: 0, y: 0, z: 0};
 
 // Initializes scene
 function init() {
@@ -33,17 +40,25 @@ function start() {
 
     (async () => {
         try {
+            const planetCreator = new PlanetCreator(scene);
+
             const mercuryData = await GetPlanetEphemerisData(PlanetCodes.Mercury);
             mercuryPosition = CalculatePlanetPosition(mercuryData);
-
-            const planetCreator = new PlanetCreator(scene);
             planetCreator.CreatePlanet(1, 0xC7C7C7, new THREE.Vector3(mercuryPosition.x, mercuryPosition.z, mercuryPosition.y));
 
             const venusData = await GetPlanetEphemerisData(PlanetCodes.Venus);
             venusPosition = CalculatePlanetPosition(venusData);
             planetCreator.CreatePlanet(1, 0xFFC7C7, new THREE.Vector3(venusPosition.x, venusPosition.z, venusPosition.y));
 
-            console.log("This should run at the end/")
+            const earthData = await GetPlanetEphemerisData(PlanetCodes.Earth);
+            earthPosition = CalculatePlanetPosition(earthData);
+            planetCreator.CreatePlanet(1, 0xFFC7C7, new THREE.Vector3(earthPosition.x, earthPosition.z, earthPosition.y));
+
+            const marsData = await GetPlanetEphemerisData(PlanetCodes.Mars);
+            marsPosition = CalculatePlanetPosition(marsData);
+            planetCreator.CreatePlanet(1, 0xFFC7C7, new THREE.Vector3(marsPosition.x, marsPosition.z, marsPosition.y));
+
+            // console.log("This should run at the end/")
             // var pointLightHelper = new THREE.PointLightHelper( mercury, 5);
             // scene.add( pointLightHelper );
         }
