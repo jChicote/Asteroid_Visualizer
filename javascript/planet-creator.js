@@ -10,7 +10,7 @@ export class PlanetCreator {
     CreatePlanet(radius, hexColor, position) {
         var planet = new THREE.Mesh(
              new THREE.SphereGeometry( radius, 32, 16 ),
-             new THREE.MeshStandardMaterial( { color: hexColor  } ) );
+             new THREE.MeshBasicMaterial( { color: hexColor  } ) );
         SetVector(planet, position);
         this.scene.add( planet );
 

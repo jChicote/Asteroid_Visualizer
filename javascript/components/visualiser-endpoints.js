@@ -23,7 +23,7 @@ const ServerProxyURL = "http://localhost:8080/proxy?url="
 
 // TODO: This will need to be moved into its architecture
 // - This class has too many responsibilities?: It contains both the route to the server and controller interacting behaviour
-export async function GetPlanetEphermerisData(planetCode) {
+export async function GetPlanetEphemerisData(planetCode) {
     const apiUri = ServerProxyURL
         + "https://ssd.jpl.nasa.gov/api/horizons.api?"
         + "Command=" + planetCode + "&OBJ_DATA=YES&MAKE_EPHEM=YES&EPHEM_TYPE=ELEMENTS&CENTER=500@10"; // TODO: Change this to a template literal
@@ -72,7 +72,7 @@ export async function GetPlanetEphermerisData(planetCode) {
                     hasEphemerisData = true;
                     continue;
                 }
-                
+
                 const dataPoint = line.replace(/{.*?}/g, '');
                 planetData.ephemerisData.push({
                     key: dataPoint.split(":")[0].trim(),

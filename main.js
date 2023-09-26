@@ -1,5 +1,6 @@
-import { GetSmallBodyAsteroids, GetPlanetEphermerisData, PlanetCodes } from './javascript/components/visualiser-endpoints.js';
 import { CalculatePlanetPosition } from './javascript/components/plantary-methods.js';
+import { GetPlanetEphemerisData, PlanetCodes } from './javascript/components/visualiser-endpoints.js';
+import { PlanetCreator } from './javascript/planet-creator.js';
 import { OrbitControls } from '/addons/OrbitControls.js';
 import * as TEST from '/javascript/test-scene.js';
 import * as THREE from '/node_modules/three/build/three.module.js';
@@ -16,22 +17,40 @@ const controls = new OrbitControls( camera, renderer.domElement );
 camera.position.set( 0, 20, 100 );
 controls.update();
 
-// Initialises scene
+// Test planet renderer
+var mercuryPosition = {x: 0, y: 0, z: 0};
+var venusPosition = {x: 0, y: 0, z: 0};
+
+// Initializes scene
 function init() {
     //GetSmallBodyAsteroids();
+
+
+}
+
+function start() {
+    TEST.CreateTestSolarSystemScene();
+
     (async () => {
         try {
-            const data = await GetPlanetEphermerisData(PlanetCodes.Venus);
-            await CalculatePlanetPosition(data);
+            const mercuryData = await GetPlanetEphemerisData(PlanetCodes.Mercury);
+            mercuryPosition = CalculatePlanetPosition(mercuryData);
+
+            const planetCreator = new PlanetCreator(scene);
+            planetCreator.CreatePlanet(1, 0xC7C7C7, new THREE.Vector3(mercuryPosition.x, mercuryPosition.z, mercuryPosition.y));
+
+            const venusData = await GetPlanetEphemerisData(PlanetCodes.Venus);
+            venusPosition = CalculatePlanetPosition(venusData);
+            planetCreator.CreatePlanet(1, 0xFFC7C7, new THREE.Vector3(venusPosition.x, venusPosition.z, venusPosition.y));
+
+            console.log("This should run at the end/")
+            // var pointLightHelper = new THREE.PointLightHelper( mercury, 5);
+            // scene.add( pointLightHelper );
         }
         catch (error) {
             console.error('Error:', error);
         }
     })();
-}
-
-function start() {
-    TEST.CreateTestSolarSystemScene();
 }
 
 // This is the update loop for the scene

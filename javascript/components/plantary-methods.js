@@ -28,6 +28,7 @@ export function CalculatePlanetPosition(planetData) {
     }
 
     console.log("Rough Heliocentric Coordinates (x, y, z): " + heliocentricVector.x + ", " + heliocentricVector.y + ", " + heliocentricVector.z);
+    return heliocentricVector;
 }
 
 function GetSimplifiedData(planetData) {
