@@ -6,8 +6,8 @@ export function CalculatePlanetPosition(planetData) {
     //    - Need to find both the Mean anomaly, Semi-Major axis and the Orbital period
     // - All the data for each planet is not consistent
     //   - Instead of trying to get each one to fit, different extraction methods will exist depending on what can be retrieved
-    
-    
+
+
     const extractedData = GetSimplifiedData(planetData);
 
     const semiMajorAxis = Number(extractedData.equatorialRadius); // in km
@@ -71,5 +71,9 @@ function DataSearchWithAdditionalSearchParameters(key, searchRegex, canSearchVal
 }
 
 function GetEarthSiderealRotationInHours() {
-    return 
+    return
+}
+
+function CalculateSemiMajorAxis(){
+
 }
