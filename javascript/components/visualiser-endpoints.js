@@ -84,7 +84,15 @@ export async function GetPlanetEphemerisData(planetCode) {
         }
 
         // Get the heliocentric orbiting elements from response instead of lines
-        // var heliocentricSection = response.result.start
+        var heliocentricSection = "";
+        const regPattern = /^\s*(\$\$SOE)\s*(.*?)\s*(\$\$EOE)\s*$/;
+
+        const match = response.result.match(regPattern);
+        if (match) {
+            heliocentricSection = match[1];
+            console.log(heliocentricSection);
+        }
+
 
         return planetData;
     } catch(error) {

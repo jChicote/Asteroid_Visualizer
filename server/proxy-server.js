@@ -18,6 +18,15 @@ app.get('/proxy', (req, res) => {
     console.log(targetUrl);
 
     https.get(targetUrl, (responseFromTarget) => {
+        if (responseFromTarget.statusCode !== 200) {
+            console.error(`Error: ${responseFromTarget.statusCode} ${responseFromTarget.statusMessage}`);
+            res.status(responseFromTarget.statusCode).send(`Error: ${responseFromTarget.statusCode} ${responseFromTarget.statusMessage}`);
+            return;
+        }
+
+        const contentType = responseFromTarget.headers['content-type'];
+        res.setHeader('Content-Type', "text/plain");
+
         let data = '';
     
         responseFromTarget.on('data', (chunk) => {

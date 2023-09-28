@@ -57,7 +57,6 @@ function DataSearch(key, planetData) {
         }
     }
     console.log("Nothing was found");
-
 }
 
 function DataSearchWithAdditionalSearchParameters(key, searchRegex, canSearchValue, planetData) {

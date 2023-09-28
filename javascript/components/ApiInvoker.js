@@ -6,7 +6,7 @@ export async function SendAsync(method, url, isAsync) {
         // Initialize the request
         xhr.open(method, url, true);
     
-        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.setRequestHeader("Content-Type", "text/plain");
         xhr.setRequestHeader("Authorization", "Bearer YOUR_ACCESS_TOKEN");
     
         // Define a function to handle the response when it's received
