@@ -36,10 +36,12 @@ export async function GetPlanetEphemerisData(planetCode) {
 
         const planetData = {
             physicalBodyData: [],
-            ephemerisData: []
+            ephemerisData: [],
+            heliocentricOrbitingElements: []
         }
         var hasPhysicalData = false;
         var hasEphemerisData = false;
+        var hasHeliocentricData = false
 
         // Get all Physical Body Data
         for (const line of lines) {
@@ -47,7 +49,7 @@ export async function GetPlanetEphemerisData(planetCode) {
                 break;
             }
 
-            if (line.startsWith('$') || line.trim().startsWith('*')) {
+            if (line.trim().startsWith('*')) {
                 continue;
             }
 
@@ -80,6 +82,9 @@ export async function GetPlanetEphemerisData(planetCode) {
                 });
             }
         }
+
+        // Get the heliocentric orbiting elements from response instead of lines
+        // var heliocentricSection = response.result.start
 
         return planetData;
     } catch(error) {
