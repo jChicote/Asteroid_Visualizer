@@ -24,15 +24,20 @@ app.get('/proxy', (req, res) => {
             return;
         }
 
-        const contentType = responseFromTarget.headers['content-type'];
-        res.setHeader('Content-Type', "text/plain");
+        //res.writeHead(targetRes.statusCode, responseFromTarget.headers);
 
-        let data = '';
-    
-        responseFromTarget.on('data', (chunk) => {
-            data += chunk;
-        });
-    
+        // const contentType = responseFromTarget.headers['content-type'];
+        // res.setHeader('Content-Type', "text/plain");
+
+        // console.log(req.headers['content-type']);
+
+        // let data = '';
+
+        // // responseFromTarget.on('data', (chunk) => {
+        // //     data += chunk;
+        // // });
+        // responseFromTarget.pipe;
+
         responseFromTarget.on('end', () => {
             res.send(data);  // Send the response data back to the client
         });
