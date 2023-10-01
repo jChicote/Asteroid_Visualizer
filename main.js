@@ -43,20 +43,20 @@ function start() {
             const planetCreator = new PlanetCreator(scene);
 
             const mercuryData = await GetPlanetEphemerisData(PlanetCodes.Mercury);
-            mercuryPosition = CalculatePlanetPosition(mercuryData);
-            planetCreator.CreatePlanet(1, 0xC7C7C7, new THREE.Vector3(mercuryPosition.x, mercuryPosition.z, mercuryPosition.y));
+            // mercuryPosition = CalculatePlanetPosition(mercuryData);
+            // planetCreator.CreatePlanet(1, 0xC7C7C7, new THREE.Vector3(mercuryPosition.x, mercuryPosition.z, mercuryPosition.y));
 
-            const venusData = await GetPlanetEphemerisData(PlanetCodes.Venus);
-            venusPosition = CalculatePlanetPosition(venusData);
-            planetCreator.CreatePlanet(1, 0xFFC7C7, new THREE.Vector3(venusPosition.x, venusPosition.z, venusPosition.y));
+            // const venusData = await GetPlanetEphemerisData(PlanetCodes.Venus);
+            // venusPosition = CalculatePlanetPosition(venusData);
+            // planetCreator.CreatePlanet(1, 0xFFC7C7, new THREE.Vector3(venusPosition.x, venusPosition.z, venusPosition.y));
 
-            const earthData = await GetPlanetEphemerisData(PlanetCodes.Earth);
-            earthPosition = CalculatePlanetPosition(earthData);
-            planetCreator.CreatePlanet(1, 0xFFC7C7, new THREE.Vector3(earthPosition.x, earthPosition.z, earthPosition.y));
+            // const earthData = await GetPlanetEphemerisData(PlanetCodes.Earth);
+            // earthPosition = CalculatePlanetPosition(earthData);
+            // planetCreator.CreatePlanet(1, 0xFFC7C7, new THREE.Vector3(earthPosition.x, earthPosition.z, earthPosition.y));
 
-            const marsData = await GetPlanetEphemerisData(PlanetCodes.Mars);
-            marsPosition = CalculatePlanetPosition(marsData);
-            planetCreator.CreatePlanet(1, 0xFFC7C7, new THREE.Vector3(marsPosition.x, marsPosition.z, marsPosition.y));
+            // const marsData = await GetPlanetEphemerisData(PlanetCodes.Mars);
+            // marsPosition = CalculatePlanetPosition(marsData);
+            // planetCreator.CreatePlanet(1, 0xFFC7C7, new THREE.Vector3(marsPosition.x, marsPosition.z, marsPosition.y));
 
             // console.log("This should run at the end/")
             // var pointLightHelper = new THREE.PointLightHelper( mercury, 5);

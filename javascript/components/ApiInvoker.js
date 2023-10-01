@@ -1,20 +1,22 @@
 
-export async function SendAsync(method, url, isAsync) {
+// TODO: Make the function non type specific
+export async function SendAsync(method, url, options, isAsync) {
     return new Promise((resolve, reject) => {
         var xhr = new XMLHttpRequest();
     
         // Initialize the request
         xhr.open(method, url, true);
-    
-        xhr.setRequestHeader("Content-Type", "text/plain");
-        xhr.setRequestHeader("Authorization", "Bearer YOUR_ACCESS_TOKEN");
+
+        options.forEach(element => {
+            xhr.setRequestHeader(element.name, element.value);
+        });
     
         // Define a function to handle the response when it's received
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4) { // Check if the request is complete
                 if (xhr.status === 200) { // Check if the request was successful (HTTP status code 200)
                     // Parse and use the response data
-                    resolve(JSON.parse(xhr.responseText));
+                    resolve(xhr.responseText);
                 } else {
                     // Handle errors here (e.g., display an error message)
                     console.error("Error: " + xhr.status + " " + xhr.statusText);
