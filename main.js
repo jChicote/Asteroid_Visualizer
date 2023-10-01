@@ -31,8 +31,6 @@ var plutoPosition = {x: 0, y: 0, z: 0};
 // Initializes scene
 function init() {
     //GetSmallBodyAsteroids();
-
-
 }
 
 function start() {

@@ -43,75 +43,111 @@ export async function GetPlanetEphemerisData(planetCode) {
 
     try {
         const response = await SendAsync(HTTPMethods.GET, apiUri, textContentOptions, true);
+        var planetData = {
+            captureData: {},
+            heliocentricData: {},
+            physicalBodyData: {}
+        };
 
-        console.log(response);
-        // // Split data into lines
-        // var lines = response.result.split("\n");
+        var heliocentricSection = "";
+        const heliocentricPattern = /\$\$SOE(.*?)\$\$EOE/s;
 
-        // const planetData = {
-        //     physicalBodyData: [],
-        //     ephemerisData: [],
-        //     heliocentricOrbitingElements: []
-        // }
-        // var hasPhysicalData = false;
-        // var hasEphemerisData = false;
-        // var hasHeliocentricData = false
+        const heliocentricMatch = response.match(heliocentricPattern);
+        if (heliocentricMatch) {
+            heliocentricSection = heliocentricMatch[0];
+            console.log(heliocentricSection);
+        }
 
-        // // Get all Physical Body Data
-        // for (const line of lines) {
-        //     if (line.includes("Column meaning:")) {
-        //         break;
-        //     }
+        var physicalBodySection = "";
+        const physicalBodyPattern = /PHYSICAL DATA[^]*?Ephemeris/s;
 
-        //     if (line.trim().startsWith('*')) {
-        //         continue;
-        //     }
+        const physicalBodyMatch = response.match(physicalBodyPattern);
+        if (physicalBodyMatch) {
+            physicalBodySection = physicalBodyMatch[0];
+            console.log(physicalBodySection);
+        }
 
-        //     if (!hasPhysicalData) {
-        //         hasPhysicalData = line.includes("Ephemeris");
+        planetData.captureData = ExtractCaptureData(response);
+        console.log(planetData.captureData);
 
-        //         const dataItems = line.match(/(.{1,40})/g);
-        //         if (dataItems != null && dataItems.length != 0) {
-        //             dataItems.forEach((dataPoint) => {
-        //                 if (dataPoint.includes("=")) {
-        //                     planetData.physicalBodyData.push({
-        //                         key: dataPoint.split("=")[0].trim(),
-        //                         value: dataPoint.split("=")[1].trim()
-        //                     });
-        //                 }
-        //             });
-        //         }
-        //     }
-
-        //     else if (!hasEphemerisData) {
-        //         if (line.includes("Table cut-offs")) {
-        //             hasEphemerisData = true;
-        //             continue;
-        //         }
-
-        //         const dataPoint = line.replace(/{.*?}/g, '');
-        //         planetData.ephemerisData.push({
-        //             key: dataPoint.split(":")[0].trim(),
-        //             value: dataPoint.split(":")[1].trim()
-        //         });
-        //     }
-        // }
-
-        // // Get the heliocentric orbiting elements from response instead of lines
-        // var heliocentricSection = "";
-        // const regPattern = /^\s*(\$\$SOE)\s*(.*?)\s*(\$\$EOE)\s*$/;
-
-        // const match = response.result.match(regPattern);
-        // if (match) {
-        //     heliocentricSection = match[1];
-        //     console.log(heliocentricSection);
-        // }
-        var planetData = "";
+        planetData.heliocentricData = ExtractHeliocentricData(response);
+        console.log(planetData.heliocentricData);
 
         return planetData;
     } catch(error) {
         console.error(error);
     }
+}
+
+function ExtractCaptureData(response) {
+    var ephemerisSection = "";
+    const ephemerisPattern = /Ephemeris(.*?)JDTDB/s;
+
+    const ephemerismatch = response.match(ephemerisPattern);
+    if (ephemerismatch) {
+        ephemerisSection = ephemerismatch[0].split("\n");
+        console.log(ephemerisSection);
+    }
+
+    var startDate = "";
+    var endDate = "";
+    
+    ephemerisSection.forEach(element => {
+        if (element.includes("Start time")) {
+            startDate = element;
+        }
+
+        else if (element.includes("Stop  time")) {
+            endDate = element;
+        }
+    })
+
+    return {
+        startDate: {
+            key: startDate.split(":")[0].trim(), 
+            value: startDate.split(":")[1].trim()
+        },
+        endDate: {
+            key: startDate.split(":")[0].trim(), 
+            value: startDate.split(":")[1].trim()
+        },
+    }
+}
+
+function ExtractHeliocentricData(response) {
+    var heliocentricSection = "";
+    const heliocentricPattern = /\$\$SOE(.*?)\$\$EOE/s;
+
+    const heliocentricMatch = response.match(heliocentricPattern);
+    if (heliocentricMatch) {
+        heliocentricSection = heliocentricMatch[0].split("\n"); // Take the first 5 lines
+        heliocentricMatch.slice(1, 5);
+        console.log(heliocentricSection);
+    }
+
+    const heliocentricDataMatch = heliocentricSection.match(/(\w+)\s*=\s*([\d.E+-]+)/g);
+    
+    if (heliocentricMatch) {
+        // TODO: Implement matching by using the query aboove to split all items in preparation.
+    }
+
+
+    for (line in heliocentricSection) { 
+
+    }
+
+}
+
+function ExtractPhysicalBodyData(response) {
+    var physicalBodySection = "";
+        const physicalBodyPattern = /PHYSICAL DATA[^]*?Ephemeris/s;
+
+        const physicalBodyMatch = response.match(physicalBodyPattern);
+        if (physicalBodyMatch) {
+            physicalBodySection = physicalBodyMatch[0];
+            console.log(physicalBodySection);
+        }
+
 }
 
 export async function GetSmallBodyAsteroids() {
