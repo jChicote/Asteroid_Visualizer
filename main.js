@@ -1,5 +1,5 @@
-import { CalculatePlanetPosition } from './javascript/components/plantary-methods.js';
-import { GetPlanetEphemerisData, PlanetCodes } from './javascript/components/visualiser-endpoints.js';
+import { CalculatePlanetPosition } from './javascript/infrastructure/plantary-methods.js';
+import { GetPlanetEphemerisData, PlanetCodes } from './javascript/infrastructure/gateways/horizons-gateway.js';
 import { PlanetCreator } from './javascript/planet-creator.js';
 import { OrbitControls } from '/addons/OrbitControls.js';
 import * as TEST from '/javascript/test-scene.js';
@@ -40,7 +40,7 @@ function start() {
         try {
             const planetCreator = new PlanetCreator(scene);
 
-            const mercuryData = await GetPlanetEphemerisData(PlanetCodes.Mercury);
+            const mercuryData = await GetPlanetEphemerisData(PlanetCodes.Pluto);
             // mercuryPosition = CalculatePlanetPosition(mercuryData);
             // planetCreator.CreatePlanet(1, 0xC7C7C7, new THREE.Vector3(mercuryPosition.x, mercuryPosition.z, mercuryPosition.y));
 
@@ -73,7 +73,6 @@ function animate() {
     controls.update();
 
 	renderer.render( scene, camera );
-    console.log("This should be running.")
 }
 
 init();

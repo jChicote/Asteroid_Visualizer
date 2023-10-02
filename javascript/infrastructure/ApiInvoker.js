@@ -1,5 +1,6 @@
 
 // TODO: Make the function non type specific
+// TODO: Move this into a more meaningful location
 export async function SendAsync(method, url, options, isAsync) {
     return new Promise((resolve, reject) => {
         var xhr = new XMLHttpRequest();
