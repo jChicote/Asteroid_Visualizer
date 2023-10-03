@@ -40,7 +40,7 @@ function start() {
         try {
             const planetCreator = new PlanetCreator(scene);
 
-            const mercuryData = await GetPlanetEphemerisData(PlanetCodes.Pluto);
+            const mercuryData = await GetPlanetEphemerisData(PlanetCodes.Mercury);
             // mercuryPosition = CalculatePlanetPosition(mercuryData);
             // planetCreator.CreatePlanet(1, 0xC7C7C7, new THREE.Vector3(mercuryPosition.x, mercuryPosition.z, mercuryPosition.y));
 

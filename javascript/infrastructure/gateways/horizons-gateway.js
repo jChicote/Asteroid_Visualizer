@@ -50,7 +50,7 @@ export async function GetPlanetEphemerisData(planetCode) {
 
         planetData.captureData = ExtractCaptureData(response);
         planetData.heliocentricData = ExtractHeliocentricData(response);
-        planetData.physicalBodyData = ExtractPhysicalBodyData(response);
+        planetData.physicalBodyData = GetPlanetPhysicalBody(response);
 
         console.log(planetData);
         return planetData;
@@ -137,7 +137,8 @@ function ExtractHeliocentricData(response) {
 }
 
 // TODO: Make this work for the planet earth, as it uses a different set of headers.
-function ExtractPhysicalBodyData(response) {
+// Convert this to search for the data for each field and forloop within them.
+function GetPlanetPhysicalBody(response) {
     var physicalBodySection = [];
     const physicalBodyData = {
         obliquityToOrbit: "",
@@ -146,10 +147,9 @@ function ExtractPhysicalBodyData(response) {
         meanSolarDay: "",
     }
 
-    const physicalBodyPattern = /PHYSICAL DATA[^]*?Ephemeris/s;
-    const physicalBodyMatch = response.match(physicalBodyPattern);
-    if (physicalBodyMatch) {
-        physicalBodySection = physicalBodyMatch[0].split("\n");
+    physicalBodySection = ExtractPhysicalBodySection(response);
+
+    if (physicalBodySection.length != 0) {
 
         for (const line of physicalBodySection) {
             if (line.trim().startsWith("*") || !line.includes("=")) {
@@ -166,18 +166,10 @@ function ExtractPhysicalBodyData(response) {
                         };
 
                         // TODO: Create an options parameter in the future to contain the search options for the physical datapoints.
-                        if (data.key.includes("Obliquity to orbit")) {
-                            physicalBodyData.obliquityToOrbit = data.value;
-                        }
-                        else if (data.key.includes("Orbital speed") || data.key.includes("Mean Orbit vel") || data.key.includes("Orbit speed") || data.key.includes("Mean orbit speed") || data.key.includes("Mean orbit velocity")) {
-                            physicalBodyData.orbitalSpeed = data.value;
-                        }
-                        else if (data.key.toLowerCase().includes("vol. mean radius")) {
-                            physicalBodyData.planateryRadius = data.value;
-                        }
-                        else if (data.key.includes("Mean solar day")) {
-                            physicalBodyData.meanSolarDay = data.value;
-                        }
+                        physicalBodyData.meanSolarDay = physicalBodyData.meanSolarDay == "" ? GetPhysicalBodyValue(data, ["Mean solar day"]) : physicalBodyData.meanSolarDay;
+                        physicalBodyData.obliquityToOrbit = physicalBodyData.obliquityToOrbit == "" ? GetPhysicalBodyValue(data, ["Obliquity to orbit"]) : physicalBodyData.obliquityToOrbit;
+                        physicalBodyData.orbitalSpeed = physicalBodyData.orbitalSpeed == "" ? GetPhysicalBodyValue(data, ["Orbital speed", "Mean Orbit vel", "Orbit speed", "Mean orbit speed", "Mean orbit velocity"]) : physicalBodyData.orbitalSpeed;
+                        physicalBodyData.planateryRadius = physicalBodyData.planateryRadius == "" ? GetPhysicalBodyValue(data, ["vol. mean radius"]) : physicalBodyData.planateryRadius;
                     }
                 });
             }
@@ -185,11 +177,24 @@ function ExtractPhysicalBodyData(response) {
 
         return physicalBodyData;
     }
-}
 
-//TODO: Move this out to its own gateway
-export async function GetSmallBodyAsteroids() {
-    const apiUri = ServerProxyURL + "https://ssd-api.jpl.nasa.gov/sbdb.api?sstr=Eros";
+    function ExtractPhysicalBodySection(response) {
+        const physicalBodyPattern = /PHYSICAL DATA[^]*?Ephemeris/s;
+        const physicalBodyMatch = response.match(physicalBodyPattern);
+        if (physicalBodyMatch) {
+            return physicalBodyMatch[0].split("\n");
+        }
 
-    await SendAsync(HTTPMethods.GET, apiUri, true);
+        return [];
+    }
+
+    function GetPhysicalBodyValue(dataPoint, keys) {
+        for (const key of keys) {
+            if (dataPoint.key.toLowerCase().includes(key.toLowerCase())) {
+                return dataPoint.value;
+            }
+        }
+
+        return "";
+    }
 }
