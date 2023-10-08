@@ -1,5 +1,5 @@
-import { CalculatePlanetPosition } from './javascript/infrastructure/plantary-methods.js';
-import { GetPlanetEphemerisData, PlanetCodes } from './javascript/infrastructure/gateways/horizons-gateway.js';
+// import { CalculatePlanetPosition } from './javascript/assets/infrastructure/plantary-methods.js';
+import { GetPlanetEphemerisData, PlanetCodes } from './javascript/assets/infrastructure/gateways/horizons-gateway.js';
 import { PlanetCreator } from './javascript/planet-creator.js';
 import { OrbitControls } from '/addons/OrbitControls.js';
 import * as TEST from '/javascript/test-scene.js';

@@ -1,5 +1,6 @@
-import { SendAsync } from '../ApiInvoker.js';
+import { SendAsync } from './gateway-base.js';
 import { textContentOptions } from './configuration/gateway-options.js';
+import { GetProxyServerUrl } from '../services/providers/serverProxyUriProvider.js';
 
 
 export const PlanetCodes = {
@@ -21,26 +22,15 @@ const HTTPMethods =  {
     DELETE : "DELETE"
 }
 
-// TODO: Move the URL along with the content options into a configuration file for the application.
-// const ServerProxyURL = "http://localhost:8080/proxy?url="
-
-// const textContentOptions = [
-//     {name: "Authorization", value: "Bearer YOUR_ACCESS_TOKEN"},
-//     {name: "Content-Type", value: "text/plain"},
-// ];
-
-// const jsonContentOptions = [
-//     {name: "Authorization", value: "Bearer YOUR_ACCESS_TOKEN"},
-//     {name: "Content-Type", value: "application/json"},
-// ];
-
 // TODO: This will need to be moved into its architecture
 // - This class has too many responsibilities?: It contains both the route to the server and controller interacting behaviour
 export async function GetPlanetEphemerisData(planetCode) {
     const contentType = "text";
     const encodedUri = encodeURIComponent("https://ssd.jpl.nasa.gov/api/horizons.api?"
                             + "COMMAND=" + planetCode + "&OBJ_DATA=YES&MAKE_EPHEM=YES&EPHEM_TYPE=ELEMENTS&CENTER=500@10&format=" + contentType);
-    const apiUri = ServerProxyURL + encodedUri; // TODO: Change this to a template literal
+    const apiUri = GetProxyServerUrl() + encodedUri; // TODO: Change this to a template literal
+
+    console.log(GetProxyServerUrl());
 
     try {
         const response = await SendAsync(HTTPMethods.GET, apiUri, textContentOptions, true);
