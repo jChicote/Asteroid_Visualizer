@@ -27,7 +27,7 @@ app.get('/proxy', (req, res) => {
         }
 
         responseFromTarget.pipe(res);
-        
+
     });
 }).on('error', (error) => {
     console.log(`Error: ${error}`);

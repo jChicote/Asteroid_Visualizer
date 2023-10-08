@@ -4,14 +4,14 @@
 export async function SendAsync(method, url, options, isAsync) {
     return new Promise((resolve, reject) => {
         var xhr = new XMLHttpRequest();
-    
+
         // Initialize the request
         xhr.open(method, url, true);
 
         options.forEach(element => {
             xhr.setRequestHeader(element.name, element.value);
         });
-    
+
         // Define a function to handle the response when it's received
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4) { // Check if the request is complete
@@ -29,7 +29,7 @@ export async function SendAsync(method, url, options, isAsync) {
         xhr.onerror = () => {
             reject(new Error("Network error"));
         };
-        
+
         // Send the request (with optional request body for POST or PUT requests)
         xhr.send();
     });

@@ -1,4 +1,6 @@
 import { SendAsync } from '../ApiInvoker.js';
+import { textContentOptions } from './configuration/gateway-options.js';
+
 
 export const PlanetCodes = {
     Mercury : "199",
@@ -20,17 +22,17 @@ const HTTPMethods =  {
 }
 
 // TODO: Move the URL along with the content options into a configuration file for the application.
-const ServerProxyURL = "http://localhost:8080/proxy?url="
+// const ServerProxyURL = "http://localhost:8080/proxy?url="
 
-const textContentOptions = [
-    {name: "Authorization", value: "Bearer YOUR_ACCESS_TOKEN"},
-    {name: "Content-Type", value: "text/plain"},
-];
+// const textContentOptions = [
+//     {name: "Authorization", value: "Bearer YOUR_ACCESS_TOKEN"},
+//     {name: "Content-Type", value: "text/plain"},
+// ];
 
-const jsonContentOptions = [
-    {name: "Authorization", value: "Bearer YOUR_ACCESS_TOKEN"},
-    {name: "Content-Type", value: "application/json"},
-];
+// const jsonContentOptions = [
+//     {name: "Authorization", value: "Bearer YOUR_ACCESS_TOKEN"},
+//     {name: "Content-Type", value: "application/json"},
+// ];
 
 // TODO: This will need to be moved into its architecture
 // - This class has too many responsibilities?: It contains both the route to the server and controller interacting behaviour
@@ -59,7 +61,7 @@ export async function GetPlanetEphemerisData(planetCode) {
     }
 }
 
-// TODO: Move the funcitons below as seperate service functions for the gateway.
+// TODO: Move the functions below as seperate service functions for the gateway.
 function ExtractCaptureData(response) {
     var ephemerisSection = "";
     const ephemerisPattern = /Ephemeris(.*?)JDTDB/s;
@@ -71,7 +73,7 @@ function ExtractCaptureData(response) {
 
     var startDate = "";
     var endDate = "";
-    
+
     ephemerisSection.forEach(element => {
         if (element.includes("Start time")) {
             startDate = element;
@@ -118,7 +120,7 @@ function ExtractHeliocentricData(response) {
                         key: dataPoint.split("=")[0].trim(),
                         value: dataPoint.split("=")[1].trim()
                     }
-                    
+
                     if (data.key == "EC") {
                         heliocentricData.eccentricity = data.value;
                     }
