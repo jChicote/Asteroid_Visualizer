@@ -1,5 +1,7 @@
 // import { CalculatePlanetPosition } from './javascript/assets/infrastructure/plantary-methods.js';
 import { GetPlanetEphemerisData, PlanetCodes } from './javascript/assets/infrastructure/gateways/horizons-gateway.js';
+import { RegisterServiceDependecies } from './javascript/assets/infrastructure/DependencyInjection/BackEndServiceRegistration.js';
+import { container } from './javascript/shared/Startup.js';
 import { PlanetCreator } from './javascript/planet-creator.js';
 import { OrbitControls } from '/addons/OrbitControls.js';
 import * as TEST from '/javascript/test-scene.js';
@@ -31,6 +33,10 @@ var plutoPosition = {x: 0, y: 0, z: 0};
 // Initializes scene
 function init() {
     //GetSmallBodyAsteroids();
+    RegisterServiceDependecies.RegisterServiceDependecies();
+
+    const getMainPlanetsPresenter = container.get(GetMainPlanetsPresenter);
+    getMainPlanetsPresenter.testMethodDependencyInjection();
 }
 
 function start() {

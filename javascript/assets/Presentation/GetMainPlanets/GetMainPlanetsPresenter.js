@@ -7,6 +7,10 @@ class GetMainPlanetsPresenter {
     async presentMainPlanetsAsync(planetData) {
 
     }
+
+    async testMethodDependencyInjection() {
+        console.log("This is a test method");
+    }
 }
 
 // TODO: We need to move the services folder out
