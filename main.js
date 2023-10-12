@@ -1,8 +1,8 @@
 // import { CalculatePlanetPosition } from './javascript/assets/infrastructure/plantary-methods.js';
 import { GetPlanetEphemerisData, PlanetCodes } from './javascript/assets/infrastructure/gateways/horizons-gateway.js';
-import { RegisterServiceDependecies } from './javascript/assets/infrastructure/DependencyInjection/BackEndServiceRegistration.js';
-import { container } from './javascript/shared/Startup.js';
 import { PlanetCreator } from './javascript/planet-creator.js';
+import { RegisterAllServices } from './javascript/shared/DepedencyInjectionServices/ServiceContainer.js';
+import { container } from './javascript/shared/Startup.js';
 import { OrbitControls } from '/addons/OrbitControls.js';
 import * as TEST from '/javascript/test-scene.js';
 import * as THREE from '/node_modules/three/build/three.module.js';
@@ -33,7 +33,7 @@ var plutoPosition = {x: 0, y: 0, z: 0};
 // Initializes scene
 function init() {
     //GetSmallBodyAsteroids();
-    RegisterServiceDependecies.RegisterServiceDependecies();
+    RegisterAllServices();
 
     const getMainPlanetsPresenter = container.get(GetMainPlanetsPresenter);
     getMainPlanetsPresenter.testMethodDependencyInjection();

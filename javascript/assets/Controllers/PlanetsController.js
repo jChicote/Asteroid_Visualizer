@@ -1,5 +1,5 @@
 
-class PlanetController {
+export class PlanetsController {
     constructor(horizonsGateway) {
         this.horizonsGateway = horizonsGateway;
     }

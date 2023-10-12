@@ -1,5 +1,5 @@
 
-class GetMainPlanetsPresenter {
+export class GetMainPlanetsPresenter {
     constructor() {
 
     }
