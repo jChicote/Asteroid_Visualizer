@@ -1,6 +1,6 @@
 import { RegisterServiceDependencies } from '../../assets/infrastructure/DependencyInjection/BackEndServiceRegistration.js';
-import { createContainer } from '/node_modules/awilix/lib/awilix.module.mjs'; ///node_modules/awilix/lib/awilix.js';
-// const { createContainer } = require('../../../node_modules/awilix');
+import { createContainer } from '../../../node_modules/awilix/lib/awilix.js';// '/node_modules/awilix/lib/awilix.module.mjs'; ///node_modules/awilix/lib/awilix.js';
+//const { createContainer } = require('../../../node_modules/awilix/lib/awilix.js'); 
 
 // /**
 //  * IoC container to resolve dependencies.
@@ -49,7 +49,7 @@ import { createContainer } from '/node_modules/awilix/lib/awilix.module.mjs'; //
 //     }
 // }
 
-const serviceContainer = createContainer();
+export const serviceContainer = createContainer();
 
 export function RegisterAllServices() {
     RegisterServiceDependencies(serviceContainer);
