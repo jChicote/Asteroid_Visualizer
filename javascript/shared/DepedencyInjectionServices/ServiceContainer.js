@@ -1,55 +1,74 @@
 import { RegisterServiceDependencies } from '../../assets/infrastructure/DependencyInjection/BackEndServiceRegistration.js';
-import { createContainer } from '../../../node_modules/awilix/lib/awilix.js';// '/node_modules/awilix/lib/awilix.module.mjs'; ///node_modules/awilix/lib/awilix.js';
-//const { createContainer } = require('../../../node_modules/awilix/lib/awilix.js'); 
 
-// /**
-//  * IoC container to resolve dependencies.
-//  */
-// class ServiceContainer {
-//     constructor() {
-//         this.dependencies = {};
-//     }
+/**
+ * IoC container to resolve dependencies.
+ */
+export class ServiceContainer {
+    constructor() {
+        this.dependencies = new Map();
+        this.instances = new Map();
+    }
 
-//     /**
-//      * Registers a service in the container as a dependency.
-//      * @param {*} name Name of the service.
-//      * @param {*} dependency Implementation of the service.
-//      */
-//     RegisterService(name, dependency) {
-//         this.dependencies[name] = dependency;
-//         ServiceContainer.inject
-//     }
+    /**
+     * Registers a service in the container as a dependency.
+     */
+    RegisterService(dependency, scope = 'transient') {
+        if (!this.dependencies.has(dependency.name)) {
+            this.dependencies.set(dependency.name, {
+                dependency,
+                scope
+            });
+        }
+    }
 
-//     /**
-//      * Resolves a service from the container.
-//      * @param {*} name Name of the service to resolve.
-//      * @returns The instance of the dependency.
-//      */
-//     Resolve(name) {
-//         if (this.dependencies[name]) {
-//             return this.dependencies[name];
-//         }
-//         else {
-//             throw new Error("ServiceNotFound");
-//         }
-//     }
+    /**
+     * Resolves a service from the container.
+     */
+    Resolve(ClassToResolve) {
+        // Create a map for instances if it has not been created
+        if (!this.instances.has(ClassToResolve.name)) {
+            this.instances.set(ClassToResolve.name, new Map());
+        }
 
-//     /**
-//      * Resolves a service from the container.
-//      * @param {*} classType The class type of the service to resolve
-//      * @returns The instance of the dependency.
-//      */
-//     Resolve(classType) {
-//         try {
+        // Check if the instance has already been created in the scope
+        const scope = this.instances.get(ClassToResolve.name);
+        if (scope.has(ClassToResolve)) {
+            return scope.get(ClassToResolve);
+        } 
 
-//         }
-//         catch(error) {
-//             throw new Error(error);
-//         }
-//     }
-// }
+        const { dependency, scope: dependencyScope } = this.dependencies.get(ClassToResolve.name);
 
-export const serviceContainer = createContainer();
+        // Check if the dependency is a singleton and if it has been created
+        if (dependencyScope === 'singleton' && this.instances.has('singleton')) {
+            return this.instances.get('singleton').get(ClassToResolve); // TODO: Move singleton specific checks out
+        }
+
+        // TODO: We need a way of resolving dependies of nested objects wthout being affected by the softwware's architecture.
+        // Create the instance
+        const instance = new dependency();
+        console.log(instance);
+
+        // Resolve constructor dependencies of the dependency being resolved
+        const resolvedDependencies = {};
+        
+
+        // Store the instance in a singleton specific scope if applicable
+        if (dependencyScope == 'singleton') {
+            if (!this.instances.has('singleton')) {
+                this.instances.set('singleton', new Map());
+            }
+
+            this.instances.get('singleton').set(ClassToResolve, instance);
+        }
+
+        // Store the instance into a scope specific map
+        scope.set(ClassToResolve, instance);
+        
+        return instance;
+    }
+}
+
+// export const serviceContainer = createContainer();
 
 export function RegisterAllServices() {
     RegisterServiceDependencies(serviceContainer);

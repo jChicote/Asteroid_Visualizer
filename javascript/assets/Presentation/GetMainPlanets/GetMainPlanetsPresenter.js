@@ -1,7 +1,7 @@
 
 export class GetMainPlanetsPresenter {
-    constructor() {
-
+    constructor(testPresenterService) {
+        this.testPresenterService = testPresenterService;
     }
 
     async presentMainPlanetsAsync(planetData) {
@@ -10,6 +10,16 @@ export class GetMainPlanetsPresenter {
 
     async testMethodDependencyInjection() {
         console.log("This is a test method");
+    }
+}
+
+export class TestPresenterService {
+    constructor() {
+
+    }
+
+    async testMethodDependencyInjection() {
+        console.log("This is a test method within the test presenter service");
     }
 }
 

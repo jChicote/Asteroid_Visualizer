@@ -13,9 +13,9 @@ export function RegisterServiceDependencies(container){
  * Register controllers for Dependency Injection.
  */
 function RegisterControllers(container) {
-    container.register({
-        PlanetsController: asClass(PlanetsController).singleton(),
-    });
+    // container.register({
+    //     PlanetsController: asClass(PlanetsController).singleton(),
+    // });
     // container.bind(PlanetsController).toSelf();
 }
 
@@ -23,8 +23,8 @@ function RegisterControllers(container) {
  * Register presenters for Dependency Injection.
  */
 function RegisterPresentation(container) {
-    container.register({
-        GetMainPlanetsPresenter: asClass(GetMainPlanetsPresenter).singleton()
-    })
+    // container.register({
+    //     GetMainPlanetsPresenter: asClass(GetMainPlanetsPresenter).singleton()
+    // })
     // container.bind(GetMainPlanetsPresenter).toSelf();
 }

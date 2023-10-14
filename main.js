@@ -1,10 +1,11 @@
 // import { CalculatePlanetPosition } from './javascript/assets/infrastructure/plantary-methods.js';
 import { GetPlanetEphemerisData, PlanetCodes } from './javascript/assets/infrastructure/gateways/horizons-gateway.js';
 import { PlanetCreator } from './javascript/planet-creator.js';
-import { serviceContainer, RegisterAllServices } from './javascript/shared/DepedencyInjectionServices/ServiceContainer.js';
+import { ServiceContainer, RegisterAllServices } from './javascript/shared/DepedencyInjectionServices/ServiceContainer.js';
 import { OrbitControls } from '/addons/OrbitControls.js';
 import * as TEST from '/javascript/test-scene.js';
 import * as THREE from '/node_modules/three/build/three.module.js';
+import { GetMainPlanetsPresenter } from './javascript/assets/Presentation/GetMainPlanets/GetMainPlanetsPresenter.js';
 
 export const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 1000 );
@@ -36,6 +37,14 @@ function init() {
 
     // const getMainPlanetsPresenter = serviceContainer.build(GetMainPlanetsPresenter);
     // getMainPlanetsPresenter.testMethodDependencyInjection();
+
+    // Registration Test:
+    const container = new ServiceContainer();
+    container.RegisterService(GetMainPlanetsPresenter);
+
+    const getMainPlanetsPresenter = container.Resolve(GetMainPlanetsPresenter);
+    console.log(getMainPlanetsPresenter);
+    getMainPlanetsPresenter.testMethodDependencyInjection();
 }
 
 function start() {
