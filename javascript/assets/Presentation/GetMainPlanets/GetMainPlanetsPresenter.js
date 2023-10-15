@@ -1,12 +1,11 @@
+import { ErrorResult, SuccessfulResult } from "../Common/PresentationResult.js";
 
 export class GetMainPlanetsPresenter {
     constructor(testPresenterServices) {
         this.testPresenterService = testPresenterServices.find(dependency => dependency.name == TestPresenterService.name).service;
         this.testPresenterServiceB = testPresenterServices.find(dependency => dependency.name == TestPresenterServiceB.name).service;
-    }
 
-    async presentMainPlanetsAsync(planetData) {
-
+        this.result = {};
     }
 
     async testMethodDependencyInjection() {
@@ -19,6 +18,19 @@ export class GetMainPlanetsPresenter {
 
     async testMethodDependencyInjection3() {
         this.testPresenterServiceB.testMethodDependencyInjection();
+    }
+
+    async PresentsPlanetDataAsync(planetData) {
+        // TODO: Create a view model instead of passing the planet data directly.
+        this.result = new SuccessfulResult(planetData);
+    }
+
+    async PresentsPlanetDataNotFoundAsync(planetCode) {
+        this.result = new ErrorResult("There is no planet with the code: " + planetCode);
+    }
+
+    async PresentsRequestFailureAsync(errorMessage) {
+        this.result = new ErrorResult(errorMessage);
     }
 }
 

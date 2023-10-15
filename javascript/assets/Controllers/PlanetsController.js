@@ -1,13 +1,7 @@
+import { ServiceProvider } from "../../shared/DepedencyInjectionServices/ServiceProvider.js";
 
 export class PlanetsController {
-    constructor(horizonsGateway) {
-        this.horizonsGateway = horizonsGateway;
-    }
-
-    getMainPlanets(id) {
-        this.planetService.getPlanet(id)
-            .then(planet => {
-                this.planet = planet;
-            });
+    constructor(serviceDependencies) {
+        this.serviceProvider = serviceDependencies.find(dependency => dependency.name == ServiceProvider.name).service;
     }
 }

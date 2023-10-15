@@ -1,4 +1,4 @@
-import { GetPlanetEphemerisData, PlanetCodes } from './javascript/assets/infrastructure/gateways/horizons-gateway.js';
+import { HorizonsApiGateway, PlanetCodes } from './javascript/assets/infrastructure/gateways/horizons-gateway.js';
 import { PlanetCreator } from './javascript/planet-creator.js';
 import { ServiceContainer } from './javascript/shared/DepedencyInjectionServices/ServiceContainer.js';
 import { ServiceProvider } from './javascript/shared/DepedencyInjectionServices/ServiceProvider.js';
@@ -66,7 +66,8 @@ function start() {
         try {
             const planetCreator = new PlanetCreator(scene);
 
-            const mercuryData = await GetPlanetEphemerisData(PlanetCodes.Mercury);
+            const gateway = new HorizonsApiGateway();
+            const mercuryData = await gateway.GetPlanetEphemerisData(PlanetCodes.Mercury);
             // mercuryPosition = CalculatePlanetPosition(mercuryData);
             // planetCreator.CreatePlanet(1, 0xC7C7C7, new THREE.Vector3(mercuryPosition.x, mercuryPosition.z, mercuryPosition.y));
 
