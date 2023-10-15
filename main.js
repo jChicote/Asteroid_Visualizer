@@ -1,12 +1,10 @@
 import { HorizonsApiGateway, PlanetCodes } from './javascript/assets/infrastructure/gateways/horizons-gateway.js';
 import { PlanetCreator } from './javascript/planet-creator.js';
+import { ConfigurationService } from './javascript/shared/ConfigurationService.js';
 import { ServiceContainer } from './javascript/shared/DepedencyInjectionServices/ServiceContainer.js';
-import { ServiceProvider } from './javascript/shared/DepedencyInjectionServices/ServiceProvider.js';
 import { OrbitControls } from '/addons/OrbitControls.js';
 import * as TEST from '/javascript/test-scene.js';
 import * as THREE from '/node_modules/three/build/three.module.js';
-import { GetMainPlanetsPresenter } from './javascript/assets/Presentation/GetMainPlanets/GetMainPlanetsPresenter.js';
-import { ConfigurationService } from './javascript/shared/ConfigurationService.js';
 
 /**
  * Getter for the singleton instance of the service container.
@@ -50,13 +48,6 @@ function init() {
     // Registration Test:
     const configuration = new ConfigurationService();
     configuration.ConfigureProject();
-
-    const container = Container();
-    const serviceProvider = container.Resolve(ServiceProvider);
-
-    const getMainPlanetsPresenter = serviceProvider.GetService(GetMainPlanetsPresenter);
-    getMainPlanetsPresenter.testMethodDependencyInjection2();
-    getMainPlanetsPresenter.testMethodDependencyInjection3();
 }
 
 function start() {

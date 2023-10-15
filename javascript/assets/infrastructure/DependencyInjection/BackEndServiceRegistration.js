@@ -1,7 +1,7 @@
-import { PlanetsController } from '../../Controllers/PlanetsController.js';
-import { GetMainPlanetsPresenter, TestPresenterService, TestPresenterServiceB } from '../../Presentation/GetMainPlanets/GetMainPlanetsPresenter.js';
-import { HorizonsApiGateway } from '../gateways/horizons-gateway.js';
 import { ServiceProvider } from '../../../shared/DepedencyInjectionServices/ServiceProvider.js';
+import { PlanetsController } from '../../Controllers/PlanetsController.js';
+import { GetMainPlanetPresenter } from '../../Presentation/GetMainPlanets/GetMainPlanetPresenter.js';
+import { HorizonsApiGateway } from '../gateways/horizons-gateway.js';
 
 /**
  * Registers all the dependencies from the backend application.
@@ -28,9 +28,7 @@ function RegisterControllers(container) {
  * Register presenters for Dependency Injection.
  */
 function RegisterPresentation(container) {
-    container.RegisterService(GetMainPlanetsPresenter, {TestPresenterService, TestPresenterServiceB});
-    container.RegisterService(TestPresenterService);
-    container.RegisterService(TestPresenterServiceB);
+    container.RegisterService(GetMainPlanetPresenter);
 }
 
 /**

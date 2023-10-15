@@ -1,6 +1,6 @@
 import { HorizonsApiGateway } from "../../../infrastructure/gateways/horizons-gateway";
 
-class GetMainPlanetInteractor {
+export class GetMainPlanetInteractor {
   constructor(serviceDependencies) {
     this.horizonsGatway = serviceDependencies.find(dependency => dependency.name == HorizonsApiGateway.name).service;
   }
