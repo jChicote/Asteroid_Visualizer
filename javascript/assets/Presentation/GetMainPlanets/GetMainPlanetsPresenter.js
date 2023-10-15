@@ -1,7 +1,8 @@
 
 export class GetMainPlanetsPresenter {
-    constructor(testPresenterService) {
-        this.testPresenterService = testPresenterService;
+    constructor(testPresenterServices) {
+        this.testPresenterService = testPresenterServices.find(dependency => dependency.name == TestPresenterService.name).service;
+        this.testPresenterServiceB = testPresenterServices.find(dependency => dependency.name == TestPresenterServiceB.name).service;
     }
 
     async presentMainPlanetsAsync(planetData) {
@@ -10,6 +11,14 @@ export class GetMainPlanetsPresenter {
 
     async testMethodDependencyInjection() {
         console.log("This is a test method");
+    }
+
+    async testMethodDependencyInjection2() {
+        this.testPresenterService.testMethodDependencyInjection();
+    }
+
+    async testMethodDependencyInjection3() {
+        this.testPresenterServiceB.testMethodDependencyInjection();
     }
 }
 
@@ -20,6 +29,16 @@ export class TestPresenterService {
 
     async testMethodDependencyInjection() {
         console.log("This is a test method within the test presenter service");
+    }
+}
+
+export class TestPresenterServiceB {
+    constructor() {
+
+    }
+
+    async testMethodDependencyInjection() {
+        console.log("This is a test method within the 2nd test presenter service");
     }
 }
 

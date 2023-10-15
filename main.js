@@ -1,11 +1,26 @@
-// import { CalculatePlanetPosition } from './javascript/assets/infrastructure/plantary-methods.js';
 import { GetPlanetEphemerisData, PlanetCodes } from './javascript/assets/infrastructure/gateways/horizons-gateway.js';
 import { PlanetCreator } from './javascript/planet-creator.js';
-import { ServiceContainer, RegisterAllServices } from './javascript/shared/DepedencyInjectionServices/ServiceContainer.js';
+import { ServiceContainer } from './javascript/shared/DepedencyInjectionServices/ServiceContainer.js';
+import { ServiceProvider } from './javascript/shared/DepedencyInjectionServices/ServiceProvider.js';
 import { OrbitControls } from '/addons/OrbitControls.js';
 import * as TEST from '/javascript/test-scene.js';
 import * as THREE from '/node_modules/three/build/three.module.js';
 import { GetMainPlanetsPresenter } from './javascript/assets/Presentation/GetMainPlanets/GetMainPlanetsPresenter.js';
+import { ConfigurationService } from './javascript/shared/ConfigurationService.js';
+
+/**
+ * Getter for the singleton instance of the service container.
+ */
+var serviceContainer;
+export const Container = function() {
+    return (function() {
+        if (serviceContainer == null) {
+            serviceContainer = new ServiceContainer();
+        }
+
+        return serviceContainer;
+    })();
+}
 
 export const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 1000 );
@@ -32,19 +47,16 @@ var plutoPosition = {x: 0, y: 0, z: 0};
 
 // Initializes scene
 function init() {
-    //GetSmallBodyAsteroids();
-    // RegisterAllServices();
-
-    // const getMainPlanetsPresenter = serviceContainer.build(GetMainPlanetsPresenter);
-    // getMainPlanetsPresenter.testMethodDependencyInjection();
-
     // Registration Test:
-    const container = new ServiceContainer();
-    container.RegisterService(GetMainPlanetsPresenter);
+    const configuration = new ConfigurationService();
+    configuration.ConfigureProject();
 
-    const getMainPlanetsPresenter = container.Resolve(GetMainPlanetsPresenter);
-    console.log(getMainPlanetsPresenter);
-    getMainPlanetsPresenter.testMethodDependencyInjection();
+    const container = Container();
+    const serviceProvider = container.Resolve(ServiceProvider);
+
+    const getMainPlanetsPresenter = serviceProvider.GetService(GetMainPlanetsPresenter);
+    getMainPlanetsPresenter.testMethodDependencyInjection2();
+    getMainPlanetsPresenter.testMethodDependencyInjection3();
 }
 
 function start() {

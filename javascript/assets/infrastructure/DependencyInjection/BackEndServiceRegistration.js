@@ -1,10 +1,11 @@
 import { PlanetsController } from '../../Controllers/PlanetsController.js';
-import { GetMainPlanetsPresenter } from '../../Presentation/GetMainPlanets/GetMainPlanetsPresenter.js';
+import { GetMainPlanetsPresenter, TestPresenterService, TestPresenterServiceB } from '../../Presentation/GetMainPlanets/GetMainPlanetsPresenter.js';
 
 /**
  * Registers all the dependencies from the backend application.
  */
-export function RegisterServiceDependencies(container){
+export function RegisterBackendServices(container){
+    RegisterGateways(container);
     RegisterControllers(container);
     RegisterPresentation(container);
 }
@@ -13,18 +14,20 @@ export function RegisterServiceDependencies(container){
  * Register controllers for Dependency Injection.
  */
 function RegisterControllers(container) {
-    // container.register({
-    //     PlanetsController: asClass(PlanetsController).singleton(),
-    // });
-    // container.bind(PlanetsController).toSelf();
 }
 
 /**
  * Register presenters for Dependency Injection.
  */
 function RegisterPresentation(container) {
-    // container.register({
-    //     GetMainPlanetsPresenter: asClass(GetMainPlanetsPresenter).singleton()
-    // })
-    // container.bind(GetMainPlanetsPresenter).toSelf();
+    container.RegisterService(GetMainPlanetsPresenter, {TestPresenterService, TestPresenterServiceB});
+    container.RegisterService(TestPresenterService);
+    container.RegisterService(TestPresenterServiceB);
+}
+
+/**
+ * Registers the API gateways used by the application.
+ */
+function RegisterGateways(container) {
+
 }

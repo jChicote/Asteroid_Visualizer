@@ -1,4 +1,8 @@
-import { RegisterServiceDependencies } from '../../assets/infrastructure/DependencyInjection/BackEndServiceRegistration.js';
+
+export const ServiceScopes = {
+    Transient: 'transient',
+    Singleton: 'singleton'
+}
 
 /**
  * IoC container to resolve dependencies.
@@ -11,11 +15,15 @@ export class ServiceContainer {
 
     /**
      * Registers a service in the container as a dependency.
+     * @param {*} dependency Class to register
+     * @param {*} serviceDependencies Dependencies the service requires
+     * @param {*} scope The DI lifetime to apply on this service. Note: Transient by default.
      */
-    RegisterService(dependency, scope = 'transient') {
+    RegisterService(dependency, serviceDependencies = {}, scope = ServiceScopes.Transient) {
         if (!this.dependencies.has(dependency.name)) {
             this.dependencies.set(dependency.name, {
                 dependency,
+                serviceDependencies,
                 scope
             });
         }
@@ -24,7 +32,7 @@ export class ServiceContainer {
     /**
      * Resolves a service from the container.
      */
-    Resolve(ClassToResolve, customDependencies = {}) {
+    Resolve(ClassToResolve) {
         if (this.dependencies.size == 0) {
             console.warn('No dependencies have been registered in the container.');
             return null;
@@ -41,30 +49,42 @@ export class ServiceContainer {
             return scope.get(ClassToResolve);
         } 
 
-        const { dependency, scope: dependencyScope } = this.dependencies.get(ClassToResolve.name);
+        const { dependency, serviceDependencies: dependencies, scope: dependencyScope } = this.dependencies.get(ClassToResolve.name);
 
         // Check if the dependency is a singleton and if it has been created
-        if (dependencyScope === 'singleton' && this.instances.has('singleton')) {
-            return this.instances.get('singleton').get(ClassToResolve); // TODO: Move singleton specific checks out
+        if (dependencyScope === ServiceScopes.Singleton && this.instances.has(ServiceScopes.Singleton)) {
+            return this.instances.get(ServiceScopes.Singleton).get(ClassToResolve); // TODO: Move singleton specific checks out
         }
-
-        // TODO: We need a way of resolving dependies of nested objects wthout being affected by the softwware's architecture.
-        // Create the instance
-        const instance = new dependency();
-        console.log(instance);
-
+        
+        
         // Resolve constructor dependencies of the dependency being resolved
-        const resolvedDependencies = Object.entries(customDependencies).map(([key, dependency]) => {
-            return this.Resolve(dependency);
-        });
+        var instance;
+        if (dependencies != null) {
+            const resolvedDependencies = Object.entries(dependencies).map(([name, dependency]) => {
+                const service = this.Resolve(dependency);
 
+                return {
+                    name,
+                    service
+                };
+            });
+
+            instance = new dependency(resolvedDependencies);
+        }
+        else {
+            // TODO: We need a way of resolving dependies of nested objects wthout being affected by the softwware's architecture.
+            // Create the instance
+            instance = new dependency();
+            console.log(instance);
+        }
+        
         // Store the instance in a singleton specific scope if applicable
-        if (dependencyScope == 'singleton') {
-            if (!this.instances.has('singleton')) {
-                this.instances.set('singleton', new Map());
+        if (dependencyScope == ServiceScopes.Singleton ) {
+            if (!this.instances.has(ServiceScopes.Singleton )) {
+                this.instances.set(ServiceScopes.Singleton , new Map());
             }
 
-            this.instances.get('singleton').set(ClassToResolve, instance);
+            this.instances.get(ServiceScopes.Singleton).set(ClassToResolve, instance);
         }
 
         // Store the instance into a scope specific map
@@ -72,10 +92,4 @@ export class ServiceContainer {
         
         return instance;
     }
-}
-
-// export const serviceContainer = createContainer();
-
-export function RegisterAllServices() {
-    RegisterServiceDependencies(serviceContainer);
 }
