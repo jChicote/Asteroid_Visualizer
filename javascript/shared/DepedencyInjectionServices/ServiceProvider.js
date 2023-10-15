@@ -5,7 +5,7 @@
 export class ServiceProvider {
     constructor(container) {
         if (this.container == null) {
-            throw new Error("container cannot be null");
+            // throw new Error("container cannot be null");
         }
 
         this.container = container;
@@ -16,6 +16,7 @@ export class ServiceProvider {
     }
 }
 
+// This is only for a test
 export function sum(a, b) {
     return a + b;
 }

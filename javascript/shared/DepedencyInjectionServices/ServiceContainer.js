@@ -25,6 +25,11 @@ export class ServiceContainer {
      * Resolves a service from the container.
      */
     Resolve(ClassToResolve) {
+        if (this.dependencies.size == 0) {
+            console.warn('No dependencies have been registered in the container.');
+            return null;
+        }
+
         // Create a map for instances if it has not been created
         if (!this.instances.has(ClassToResolve.name)) {
             this.instances.set(ClassToResolve.name, new Map());
