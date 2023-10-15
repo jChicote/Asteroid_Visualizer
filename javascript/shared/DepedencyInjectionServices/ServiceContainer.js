@@ -24,7 +24,7 @@ export class ServiceContainer {
     /**
      * Resolves a service from the container.
      */
-    Resolve(ClassToResolve) {
+    Resolve(ClassToResolve, customDependencies = {}) {
         if (this.dependencies.size == 0) {
             console.warn('No dependencies have been registered in the container.');
             return null;
@@ -54,8 +54,9 @@ export class ServiceContainer {
         console.log(instance);
 
         // Resolve constructor dependencies of the dependency being resolved
-        const resolvedDependencies = {};
-        
+        const resolvedDependencies = Object.entries(customDependencies).map(([key, dependency]) => {
+            return this.Resolve(dependency);
+        });
 
         // Store the instance in a singleton specific scope if applicable
         if (dependencyScope == 'singleton') {

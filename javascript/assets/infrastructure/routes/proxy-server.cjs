@@ -1,3 +1,5 @@
+// TODO: Make this file ESM syntax when Node.js supports it.
+
 const cors = require('cors');
 const express = require('express');
 const https = require('https');
