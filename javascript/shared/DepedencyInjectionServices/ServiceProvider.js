@@ -12,6 +12,10 @@ export class ServiceProvider {
     }
 
     GetService(ClassToResolve) {
-        
+        return this.container.Resolve(ClassToResolve);
     }
+}
+
+export function sum(a, b) {
+    return a + b;
 }
