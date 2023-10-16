@@ -17,10 +17,16 @@ export async function SendAsync(method, url, options, isAsync) {
             if (xhr.readyState === 4) { // Check if the request is complete
                 if (xhr.status === 200) { // Check if the request was successful (HTTP status code 200)
                     // Parse and use the response data
-                    resolve(xhr.responseText);
+                    resolve({
+                        status: 200,
+                        content: xhr.responseText
+                    });
                 } else {
                     // Handle errors here (e.g., display an error message)
-                    console.error("Error: " + xhr.status + " " + xhr.statusText);
+                    resolve({
+                        status: xhr.status,
+                        statusText: xhr.statusText
+                    });
                 }
             }
         };

@@ -1,5 +1,6 @@
 import { ServiceProvider } from "../../shared/DepedencyInjectionServices/ServiceProvider.js";
-import { GetMainPlanetInputPort, GetMainPlanetInteractor } from "../Application/UseCases/GetMainPlanets/GetMainPlanetInteractor.js";
+import { GetMainPlanetInputPort } from "../Application/UseCases/GetMainPlanets/GetMainPlanetInputPort.js";
+import { GetMainPlanetInteractor } from "../Application/UseCases/GetMainPlanets/GetMainPlanetInteractor.js";
 import { GetMainPlanetPresenter } from "../Presentation/GetMainPlanets/GetMainPlanetPresenter.js";
 
 export class PlanetsController {

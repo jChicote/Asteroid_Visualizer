@@ -1,4 +1,12 @@
-import { HorizonsApiGateway } from "../../../infrastructure/gateways/horizons-gateway";
+import { HorizonsApiGateway } from "../../../infrastructure/gateways/horizons-gateway.js";
+
+export class PlanetEphemerisDto {
+  consturctor(captureData, heliocentricData, endDate) {
+    this.heliocentricData = heliocentricData;
+    this.startDate = startDate;
+    this.endDate = endDate;
+  }
+}
 
 export class GetMainPlanetInteractor {
   constructor(serviceDependencies) {
@@ -6,7 +14,123 @@ export class GetMainPlanetInteractor {
   }
 
   async Handle(inputPort, presenter) {
-    const planetData = await gateway.GetPlanetEphemerisData(inputPort.planetCode);
-    return planets;
+    const gatewayViewModel = await gateway.GetPlanetEphemerisData(inputPort.planetCode);
+
+    if (gatewayViewModel.isSuccessful) {
+      const captureData = this.ExtractCaptureData(planetData.captureSection);
+      const heliocentricData = this.ExtractHeliocentricData(planetData.heliocentricSection);
+      const physicalBodyData = this.ExtractPhysicalBodyData(planetData.physicalBodySection);
+  
+      presenter.PresentsPlanetDataAsync(new PlanetEphemerisDto(captureData, heliocentricData, physicalBodyData));
+    }
+    else {
+      presenter.PresentsRequestFailureAsync(gatewayViewModel.error.statusText);
+    }
   }
+
+  ExtractCaptureData(captureSection) {
+    var startDate = "";
+    var endDate = "";
+
+    captureSection.forEach(element => {
+        if (element.includes("Start time")) {
+            startDate = element;
+        }
+
+        else if (element.includes("Stop  time")) {
+            endDate = element;
+        }
+    })
+
+    const parseData = dateString => {
+        const [dateKey, dateValue] = dateString.split(":").map(item => item.trim());
+        return { key: dateKey, value: dateValue };
+    }
+
+    return {
+        startDate: parseData(startDate),
+        endDate: parseData(endDate)
+    }
+  }
+
+  ExtractHeliocentricData(heliocentricSection) {
+    var heliocentricData = {
+        eccentricity: "",
+        meanAnomaly: "",
+        semiMajorAxis: "",
+    }
+
+    // Process heliocentric data and set values in heliocentricData object
+    if (heliocentricSection != undefined && heliocentricSection.length != 0) {
+      for (const line of heliocentricSection) {
+        const dataPoints = line.trim().match(/(\w+)\s*=\s*([\d.E+-]+)/g);
+        if (dataPoints != null && dataPoints.length != 0) {
+          dataPoints.forEach((dataPoint) => {
+            const data = {
+              key: dataPoint.split("=")[0].trim(),
+              value: dataPoint.split("=")[1].trim()
+            }
+
+            if (data.key == "EC") {
+              heliocentricData.eccentricity = data.value;
+            }
+            else if (data.key == "MA") {
+              heliocentricData.meanAnomaly = data.value;
+            }
+            else if (data.key == "A") {
+              heliocentricData.semiMajorAxis = data.value;
+            }
+          });
+        }
+      }
+    }
+
+    return heliocentricData;
+  }
+
+  ExtractPhysicalBodyData(physicalBodySection) {
+    const physicalBodyData = {
+      obliquityToOrbit: "",
+      orbitalSpeed: "",
+      planateryRadius: "",
+      meanSolarDay: "",
+    }
+
+    for (const line of physicalBodySection) {
+      if (line.trim().startsWith("*") || !line.includes("=")) {
+          continue;
+      }
+
+      const dataPoints = line.match(/(.{1,40})/g);
+      if (dataPoints != null && dataPoints.length != 0) {
+        dataPoints.forEach((dataPoint) => {
+          if (dataPoint.includes("=")) {
+            const data = {
+              key: dataPoint.split("=")[0].trim(),
+              value: dataPoint.split("=")[1].trim()
+            };
+
+            // TODO: Create an options parameter in the future to contain the search options for the physical datapoints.
+            physicalBodyData.meanSolarDay = physicalBodyData.meanSolarDay == "" ? GetPhysicalBodyValue(data, ["Mean solar day"]) : physicalBodyData.meanSolarDay;
+            physicalBodyData.obliquityToOrbit = physicalBodyData.obliquityToOrbit == "" ? GetPhysicalBodyValue(data, ["Obliquity to orbit"]) : physicalBodyData.obliquityToOrbit;
+            physicalBodyData.orbitalSpeed = physicalBodyData.orbitalSpeed == "" ? GetPhysicalBodyValue(data, ["Orbital speed", "Mean Orbit vel", "Orbit speed", "Mean orbit speed", "Mean orbit velocity"]) : physicalBodyData.orbitalSpeed;
+            physicalBodyData.planateryRadius = physicalBodyData.planateryRadius == "" ? GetPhysicalBodyValue(data, ["vol. mean radius"]) : physicalBodyData.planateryRadius;
+          }
+        });
+      }
+    }
+
+    return physicalBodyData;
+  }
+
+  GetPhysicalBodyValue(dataPoint, keys) {
+      for (const key of keys) {
+          if (dataPoint.key.toLowerCase().includes(key.toLowerCase())) {
+              return dataPoint.value;
+          }
+      }
+
+      return "";
+  }
+
 }
