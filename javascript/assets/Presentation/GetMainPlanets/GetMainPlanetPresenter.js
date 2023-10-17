@@ -1,4 +1,5 @@
 import { ErrorResult, SuccessfulResult } from "../Common/PresentationResult.js";
+import { PlanetEphemerisDto } from "../../Application/UseCases/GetMainPlanets/GetMainPlanetInteractor.js";
 
 export class GetMainPlanetPresenter {
     constructor() {
@@ -8,7 +9,7 @@ export class GetMainPlanetPresenter {
     async PresentsPlanetDataAsync(planetData) {
         // TODO: Create a view model instead of passing the planet data directly.
         console.log("Encountered Success");
-        console.log(planetData);
+        console.log(planetData.captureSection);
         this.result = new SuccessfulResult(planetData);
     }
 

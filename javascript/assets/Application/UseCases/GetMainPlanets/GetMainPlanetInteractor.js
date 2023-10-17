@@ -1,13 +1,17 @@
 import { HorizonsApiGateway } from "../../../infrastructure/gateways/horizons-gateway.js";
 
+// TODO: Create mapping behaviour to better handle this
 export class PlanetEphemerisDto {
-  consturctor(captureData, heliocentricData, endDate) {
+  consturctor(captureData, heliocentricData, physicalBodyData) {
+    this.captureData = captureData;
     this.heliocentricData = heliocentricData;
-    this.startDate = startDate;
-    this.endDate = endDate;
+    this.physicalBodyData = physicalBodyData;
   }
 }
 
+/**
+ * The UseCase for getting a specified main planet.
+ */
 export class GetMainPlanetInteractor {
   constructor(serviceDependencies) {
     this.horizonsGateway = serviceDependencies.find(dependency => dependency.name == HorizonsApiGateway.name).service;
@@ -28,36 +32,44 @@ export class GetMainPlanetInteractor {
     }
   }
 
+  /**
+   * Extracts the time-related data from the capture section of the ephemeris data.
+   * @param {*} captureSection Section containing the data.
+   */
   ExtractCaptureData(captureSection) {
     var startDate = "";
     var endDate = "";
 
     captureSection.forEach(element => {
         if (element.includes("Start time")) {
-            startDate = element;
+          startDate = element;
         }
 
         else if (element.includes("Stop  time")) {
-            endDate = element;
+          endDate = element;
         }
     })
 
     const parseData = dateString => {
-        const [dateKey, dateValue] = dateString.split(":").map(item => item.trim());
-        return { key: dateKey, value: dateValue };
+      const [dateKey, dateValue] = dateString.split(":").map(item => item.trim());
+      return { key: dateKey, value: dateValue };
     }
 
     return {
-        startDate: parseData(startDate),
-        endDate: parseData(endDate)
+      startDate: parseData(startDate),
+      endDate: parseData(endDate)
     }
   }
 
+  /**
+   * Extracts the planet's orbital heliocentric information from the ephemeris data.
+   * @param {*} heliocentricSection Section containing the data
+   */
   ExtractHeliocentricData(heliocentricSection) {
     var heliocentricData = {
-        eccentricity: "",
-        meanAnomaly: "",
-        semiMajorAxis: "",
+      eccentricity: "",
+      meanAnomaly: "",
+      semiMajorAxis: "",
     }
 
     // Process heliocentric data and set values in heliocentricData object
@@ -88,6 +100,10 @@ export class GetMainPlanetInteractor {
     return heliocentricData;
   }
 
+  /**
+   * Extracts the physical information of the planet.
+   * @param {*} physicalBodySection The section containing the data.
+   */
   ExtractPhysicalBodyData(physicalBodySection) {
     const physicalBodyData = {
       obliquityToOrbit: "",
