@@ -2,7 +2,7 @@ import { HorizonsApiGateway } from "../../../infrastructure/gateways/horizons-ga
 
 // TODO: Create mapping behaviour to better handle this
 export class PlanetEphemerisDto {
-  consturctor(captureData, heliocentricData, physicalBodyData) {
+  constructor(captureData, heliocentricData, physicalBodyData) {
     this.captureData = captureData;
     this.heliocentricData = heliocentricData;
     this.physicalBodyData = physicalBodyData;
@@ -17,7 +17,7 @@ export class GetMainPlanetInteractor {
     this.horizonsGateway = serviceDependencies.find(dependency => dependency.name == HorizonsApiGateway.name).service;
   }
 
-  async Handle(inputPort, presenter) {
+  async Handle (inputPort, presenter) {
     const gatewayViewModel = await this.horizonsGateway.GetPlanetEphemerisData(inputPort.planetCode);
 
     if (gatewayViewModel.isSuccessful) {
