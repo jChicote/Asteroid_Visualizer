@@ -1,7 +1,7 @@
 /**
  * The query to get the main planets of the solar system.
  */
-class GetMainPlanetsQuery {
+export class GetMainPlanetQuery {
     constructor(planetCode) {
         this.planetCode = planetCode;
     }

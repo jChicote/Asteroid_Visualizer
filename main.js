@@ -1,7 +1,10 @@
-import { HorizonsApiGateway, PlanetCodes } from './javascript/assets/infrastructure/gateways/horizons-gateway.js';
+import { PlanetsController } from './javascript/assets/Controllers/PlanetsController.js';
+import { GetMainPlanetQuery } from './javascript/assets/Presentation/GetMainPlanets/GetMainPlanetQuery.js';
+import { PlanetCodes } from './javascript/assets/infrastructure/gateways/horizons-gateway.js';
 import { PlanetCreator } from './javascript/planet-creator.js';
 import { ConfigurationService } from './javascript/shared/ConfigurationService.js';
 import { ServiceContainer } from './javascript/shared/DepedencyInjectionServices/ServiceContainer.js';
+import { ServiceProvider } from './javascript/shared/DepedencyInjectionServices/ServiceProvider.js';
 import { OrbitControls } from '/addons/OrbitControls.js';
 import * as TEST from '/javascript/test-scene.js';
 import * as THREE from '/node_modules/three/build/three.module.js';
@@ -48,6 +51,13 @@ function init() {
     // Registration Test:
     const configuration = new ConfigurationService();
     configuration.ConfigureProject();
+
+    const container = Container();
+    const serviceProvider = container.Resolve(ServiceProvider);
+    const controller = serviceProvider.GetService(PlanetsController);
+    (async () => {
+        await controller.GetMainPlanetAsync(new GetMainPlanetQuery(PlanetCodes.Mercury));
+    })();
 }
 
 function start() {
@@ -57,8 +67,8 @@ function start() {
         try {
             const planetCreator = new PlanetCreator(scene);
 
-            const gateway = new HorizonsApiGateway();
-            const mercuryData = await gateway.GetPlanetEphemerisData(PlanetCodes.Mercury);
+            // const gateway = new HorizonsApiGateway();
+            // const mercuryData = await gateway.GetPlanetEphemerisData(PlanetCodes.Mercury);
             // mercuryPosition = CalculatePlanetPosition(mercuryData);
             // planetCreator.CreatePlanet(1, 0xC7C7C7, new THREE.Vector3(mercuryPosition.x, mercuryPosition.z, mercuryPosition.y));
 

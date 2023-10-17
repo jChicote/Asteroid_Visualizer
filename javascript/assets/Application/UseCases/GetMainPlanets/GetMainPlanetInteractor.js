@@ -10,18 +10,18 @@ export class PlanetEphemerisDto {
 
 export class GetMainPlanetInteractor {
   constructor(serviceDependencies) {
-    this.horizonsGatway = serviceDependencies.find(dependency => dependency.name == HorizonsApiGateway.name).service;
+    this.horizonsGateway = serviceDependencies.find(dependency => dependency.name == HorizonsApiGateway.name).service;
   }
 
   async Handle(inputPort, presenter) {
-    const gatewayViewModel = await gateway.GetPlanetEphemerisData(inputPort.planetCode);
+    const gatewayViewModel = await this.horizonsGateway.GetPlanetEphemerisData(inputPort.planetCode);
 
     if (gatewayViewModel.isSuccessful) {
-      const captureData = this.ExtractCaptureData(planetData.captureSection);
-      const heliocentricData = this.ExtractHeliocentricData(planetData.heliocentricSection);
-      const physicalBodyData = this.ExtractPhysicalBodyData(planetData.physicalBodySection);
-  
-      presenter.PresentsPlanetDataAsync(new PlanetEphemerisDto(captureData, heliocentricData, physicalBodyData));
+      const captureData = this.ExtractCaptureData(gatewayViewModel.data.captureSection);
+      const heliocentricData = this.ExtractHeliocentricData(gatewayViewModel.data.heliocentricSection);
+      const physicalBodyData = this.ExtractPhysicalBodyData(gatewayViewModel.data.physicalBodySection);
+
+      await presenter.PresentsPlanetDataAsync(new PlanetEphemerisDto(captureData, heliocentricData, physicalBodyData));
     }
     else {
       presenter.PresentsRequestFailureAsync(gatewayViewModel.error.statusText);
@@ -111,10 +111,10 @@ export class GetMainPlanetInteractor {
             };
 
             // TODO: Create an options parameter in the future to contain the search options for the physical datapoints.
-            physicalBodyData.meanSolarDay = physicalBodyData.meanSolarDay == "" ? GetPhysicalBodyValue(data, ["Mean solar day"]) : physicalBodyData.meanSolarDay;
-            physicalBodyData.obliquityToOrbit = physicalBodyData.obliquityToOrbit == "" ? GetPhysicalBodyValue(data, ["Obliquity to orbit"]) : physicalBodyData.obliquityToOrbit;
-            physicalBodyData.orbitalSpeed = physicalBodyData.orbitalSpeed == "" ? GetPhysicalBodyValue(data, ["Orbital speed", "Mean Orbit vel", "Orbit speed", "Mean orbit speed", "Mean orbit velocity"]) : physicalBodyData.orbitalSpeed;
-            physicalBodyData.planateryRadius = physicalBodyData.planateryRadius == "" ? GetPhysicalBodyValue(data, ["vol. mean radius"]) : physicalBodyData.planateryRadius;
+            physicalBodyData.meanSolarDay = physicalBodyData.meanSolarDay == "" ? this.GetPhysicalBodyValue(data, ["Mean solar day"]) : physicalBodyData.meanSolarDay;
+            physicalBodyData.obliquityToOrbit = physicalBodyData.obliquityToOrbit == "" ? this.GetPhysicalBodyValue(data, ["Obliquity to orbit"]) : physicalBodyData.obliquityToOrbit;
+            physicalBodyData.orbitalSpeed = physicalBodyData.orbitalSpeed == "" ? this.GetPhysicalBodyValue(data, ["Orbital speed", "Mean Orbit vel", "Orbit speed", "Mean orbit speed", "Mean orbit velocity"]) : physicalBodyData.orbitalSpeed;
+            physicalBodyData.planateryRadius = physicalBodyData.planateryRadius == "" ? this.GetPhysicalBodyValue(data, ["vol. mean radius"]) : physicalBodyData.planateryRadius;
           }
         });
       }

@@ -9,8 +9,8 @@ export class PlanetsController {
     }
 
     async GetMainPlanetAsync(query){
-        const interactor = serviceProvider.GetService(GetMainPlanetInteractor);
-        const presenter = serviceProvider.GetService(GetMainPlanetPresenter);
+        const interactor = this.serviceProvider.GetService(GetMainPlanetInteractor);
+        const presenter = this.serviceProvider.GetService(GetMainPlanetPresenter);
 
         // TODO: Create a mediator to handle the different use cases.
         interactor.Handle(new GetMainPlanetInputPort(query.planetCode), presenter);

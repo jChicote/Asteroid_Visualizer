@@ -7,6 +7,8 @@ export class GetMainPlanetPresenter {
 
     async PresentsPlanetDataAsync(planetData) {
         // TODO: Create a view model instead of passing the planet data directly.
+        console.log("Encountered Success");
+        console.log(planetData);
         this.result = new SuccessfulResult(planetData);
     }
 
@@ -15,6 +17,7 @@ export class GetMainPlanetPresenter {
     }
 
     async PresentsRequestFailureAsync(errorMessage) {
+        console.log("Encountered Error")
         this.result = new ErrorResult(errorMessage);
     }
 }

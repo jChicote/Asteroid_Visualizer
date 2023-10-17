@@ -1,7 +1,7 @@
-import { SendAsync } from './gateway-base.js';
-import { textContentOptions } from './configuration/gateway-options.js';
 import { GetProxyServerUrl } from '../services/providers/serverProxyUriProvider.js';
 import { GatewayViewModel } from './Common/GatewayViewModels.js';
+import { textContentOptions } from './configuration/gateway-options.js';
+import { SendAsync } from './gateway-base.js';
 
 
 export const PlanetCodes = {
@@ -31,7 +31,7 @@ export class HorizonsApiGateway {
         const encodedUri = encodeURIComponent("https://ssd.jpl.nasa.gov/api/horizons.api?"
                                 + "COMMAND=" + planetCode + "&OBJ_DATA=YES&MAKE_EPHEM=YES&EPHEM_TYPE=ELEMENTS&CENTER=500@10&format=" + contentType);
         const apiUri = GetProxyServerUrl() + encodedUri; // TODO: Change this to a template literal
-    
+
         try {
             const response = await SendAsync(HTTPMethods.GET, apiUri, textContentOptions, true);
 
@@ -41,11 +41,11 @@ export class HorizonsApiGateway {
                     heliocentricSection: {},
                     physicalBodySection: {}
                 };
-        
+
                 planetData.captureSection = this.ExtractCaptureSection(response.content);
                 planetData.heliocentricSection = this.ExtractHeliocentricSection(response.content);
                 planetData.physicalBodySection = this.ExtractPhysicalBodySection(response.content);
-        
+
                 console.log(planetData);
                 return new GatewayViewModel(true, planetData, null);
             }
@@ -55,13 +55,14 @@ export class HorizonsApiGateway {
             }
         } catch(error) {
             console.error(error);
+            return new GatewayViewModel(false, null, response);
         }
     }
 
     ExtractCaptureSection(response) {
         var ephemerisSection = "";
         const ephemerisPattern = /Ephemeris(.*?)JDTDB/s;
-    
+
         const ephemerismatch = response.match(ephemerisPattern);
         if (ephemerismatch) {
             ephemerisSection = ephemerismatch[0].split("\n");
@@ -82,7 +83,7 @@ export class HorizonsApiGateway {
 
         return heliocentricSection;
     }
-    
+
     ExtractPhysicalBodySection(response) {
         const physicalBodyPattern = /PHYSICAL DATA[^]*?Ephemeris/s;
         const physicalBodyMatch = response.match(physicalBodyPattern);
