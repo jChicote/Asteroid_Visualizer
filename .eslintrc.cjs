@@ -1,5 +1,4 @@
 module.exports = {
-  extends: [
-    'semistandard'
-  ]
+  indent: ["error", 4],
+  extends: ["semistandard"],
 };

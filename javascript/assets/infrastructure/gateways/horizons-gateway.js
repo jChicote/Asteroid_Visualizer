@@ -5,31 +5,31 @@ import { SendAsync } from './gateway-base.js';
 
 
 export const PlanetCodes = {
-    Mercury : "199",
-    Venus : "299",
-    Earth : "399",
-    Mars : "499",
-    Jupiter : "599",
-    Saturn : "699",
-    Uranus : "799",
-    Neptune : "899",
-    Pluto : "999"
+    Mercury: "199",
+    Venus: "299",
+    Earth: "399",
+    Mars: "499",
+    Jupiter: "599",
+    Saturn: "699",
+    Uranus: "799",
+    Neptune: "899",
+    Pluto: "999"
 }
 
-const HTTPMethods =  {
-    GET : "GET",
-    POST : "POST",
-    PUT : "PUT",
-    DELETE : "DELETE"
+const HTTPMethods = {
+    GET: "GET",
+    POST: "POST",
+    PUT: "PUT",
+    DELETE: "DELETE"
 }
 
 export class HorizonsApiGateway {
-    constructor() {}
+    constructor() { }
 
     async GetPlanetEphemerisData(planetCode) {
         const contentType = "text";
         const encodedUri = encodeURIComponent("https://ssd.jpl.nasa.gov/api/horizons.api?"
-                                + "COMMAND=" + planetCode + "&OBJ_DATA=YES&MAKE_EPHEM=YES&EPHEM_TYPE=ELEMENTS&CENTER=500@10&format=" + contentType);
+            + "COMMAND=" + planetCode + "&OBJ_DATA=YES&MAKE_EPHEM=YES&EPHEM_TYPE=ELEMENTS&CENTER=500@10&format=" + contentType);
         const apiUri = GetProxyServerUrl() + encodedUri; // TODO: Change this to a template literal
 
         try {
@@ -53,7 +53,7 @@ export class HorizonsApiGateway {
                 console.log("encountered a 400 error");
                 return new GatewayViewModel(false, null, response);
             }
-        } catch(error) {
+        } catch (error) {
             console.error(error);
             return new GatewayViewModel(false, null, response);
         }

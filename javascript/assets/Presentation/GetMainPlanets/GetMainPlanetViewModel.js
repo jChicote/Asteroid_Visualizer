@@ -2,7 +2,7 @@
  * The view model for the main planets of the solar system.
  */
 export class GetMainPlanetViewModel {
-    constructor (
+    constructor(
         startDate,
         eccentricity,
         endDate,
