@@ -13,7 +13,7 @@ export class PlanetsController {
         const presenter = this.serviceProvider.GetService(GetMainPlanetPresenter);
 
         // TODO: Create a mediator to handle the different use cases.
-        interactor.Handle(new GetMainPlanetInputPort(query.planetCode), presenter);
+        await interactor.Handle(new GetMainPlanetInputPort(query.planetCode), presenter);
         return presenter.result;
     }
 }

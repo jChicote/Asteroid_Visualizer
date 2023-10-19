@@ -108,7 +108,7 @@ export class GetMainPlanetInteractor {
     const physicalBodyData = {
       obliquityToOrbit: "",
       orbitalSpeed: "",
-      planateryRadius: "",
+      planetRadius: "",
       meanSolarDay: "",
     }
 
@@ -130,7 +130,7 @@ export class GetMainPlanetInteractor {
             physicalBodyData.meanSolarDay = physicalBodyData.meanSolarDay == "" ? this.GetPhysicalBodyValue(data, ["Mean solar day"]) : physicalBodyData.meanSolarDay;
             physicalBodyData.obliquityToOrbit = physicalBodyData.obliquityToOrbit == "" ? this.GetPhysicalBodyValue(data, ["Obliquity to orbit"]) : physicalBodyData.obliquityToOrbit;
             physicalBodyData.orbitalSpeed = physicalBodyData.orbitalSpeed == "" ? this.GetPhysicalBodyValue(data, ["Orbital speed", "Mean Orbit vel", "Orbit speed", "Mean orbit speed", "Mean orbit velocity"]) : physicalBodyData.orbitalSpeed;
-            physicalBodyData.planateryRadius = physicalBodyData.planateryRadius == "" ? this.GetPhysicalBodyValue(data, ["vol. mean radius"]) : physicalBodyData.planateryRadius;
+            physicalBodyData.planetRadius = physicalBodyData.planetRadius == "" ? this.GetPhysicalBodyValue(data, ["vol. mean radius"]) : physicalBodyData.planetRadius;
           }
         });
       }

@@ -1,4 +1,5 @@
 import { ErrorResult, SuccessfulResult } from "../Common/PresentationResult.js";
+import { GetMainPlanetViewModel } from './GetMainPlanetViewModel.js';
 
 export class GetMainPlanetPresenter {
     constructor() {
@@ -6,10 +7,18 @@ export class GetMainPlanetPresenter {
     }
 
     async PresentsPlanetDataAsync(planetData) {
-        // TODO: Create a view model instead of passing the planet data directly.
         console.log("Encountered Success");
-        console.log(planetData.captureData);
-        this.result = new SuccessfulResult(planetData);
+        this.result = new SuccessfulResult(new GetMainPlanetViewModel( // TODO: Create bindings for this
+            planetData.captureData.startDate,
+            planetData.heliocentricData.eccentricity,
+            planetData.captureData.endDate,
+            planetData.physicalBodyData.obliquityToOrbit,
+            planetData.physicalBodyData.orbitalSpeed,
+            planetData.heliocentricData.meanAnomaly,
+            planetData.physicalBodyData.meanSolarDay,
+            planetData.heliocentricData.semiMajorAxis,
+            planetData.physicalBodyData.planetRadius
+        ));
     }
 
     async PresentsPlanetDataNotFoundAsync(planetCode) {

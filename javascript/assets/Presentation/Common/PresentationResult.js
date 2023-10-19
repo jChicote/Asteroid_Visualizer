@@ -1,8 +1,8 @@
 
 class BaseResult {
-    constructor(errorMessage, viewModel, success){
+    constructor(errorMessage, result, success){
         this.errorMessage = errorMessage;
-        this.viewModel = viewModel;
+        this.result = result;
         this.success = success;
     }
 }

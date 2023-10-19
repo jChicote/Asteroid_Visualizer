@@ -56,7 +56,8 @@ function init() {
     const serviceProvider = container.Resolve(ServiceProvider);
     const controller = serviceProvider.GetService(PlanetsController);
     (async () => {
-        await controller.GetMainPlanetAsync(new GetMainPlanetQuery(PlanetCodes.Mercury));
+        const planet = await controller.GetMainPlanetAsync(new GetMainPlanetQuery(PlanetCodes.Mercury));
+        console.log(planet);
     })();
 }
 
