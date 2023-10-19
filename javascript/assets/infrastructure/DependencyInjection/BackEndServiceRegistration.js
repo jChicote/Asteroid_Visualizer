@@ -1,8 +1,8 @@
-import { ServiceProvider } from '../../../shared/DepedencyInjectionServices/ServiceProvider.js';
-import { GetMainPlanetInteractor } from '../../Application/UseCases/GetMainPlanets/GetMainPlanetInteractor.js';
-import { PlanetsController } from '../../Controllers/PlanetsController.js';
-import { GetMainPlanetPresenter } from '../../Presentation/GetMainPlanets/GetMainPlanetPresenter.js';
-import { HorizonsApiGateway } from '../gateways/horizons-gateway.js';
+import { ServiceProvider } from "../../../shared/DepedencyInjectionServices/ServiceProvider.js";
+import { GetMainPlanetInteractor } from "../../Application/UseCases/GetMainPlanets/GetMainPlanetInteractor.js";
+import { PlanetsController } from "../../Controllers/PlanetsController.js";
+import { GetMainPlanetPresenter } from "../../Presentation/GetMainPlanets/GetMainPlanetPresenter.js";
+import { HorizonsApiGateway } from "../gateways/horizons-gateway.js";
 
 /**
  * Registers all the dependencies from the backend application.

@@ -1,9 +1,8 @@
-
 // TODO: Make the function non type specific
 // TODO: Move this into a more meaningful location
 export async function SendAsync(method, url, options, isAsync) {
     return new Promise((resolve, reject) => {
-        var xhr = new XMLHttpRequest();
+        const xhr = new XMLHttpRequest();
 
         // Initialize the request
         xhr.open(method, url, true);
@@ -12,7 +11,7 @@ export async function SendAsync(method, url, options, isAsync) {
             xhr.setRequestHeader(element.name, element.value);
         });
 
-        // Define a function to handle the response when it's received
+        // Define a function to handle the response when it"s received
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4) { // Check if the request is complete
                 if (xhr.status === 200) { // Check if the request was successful (HTTP status code 200)
