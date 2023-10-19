@@ -7,7 +7,6 @@ export function CalculatePlanetPosition(planetData) {
     // - All the data for each planet is not consistent
     //   - Instead of trying to get each one to fit, different extraction methods will exist depending on what can be retrieved
 
-
     const extractedData = GetSimplifiedData(planetData);
 
     const semiMajorAxis = Number(extractedData.equatorialRadius); // in km
@@ -22,7 +21,7 @@ export function CalculatePlanetPosition(planetData) {
     const referenceEpoch = new Date("2023-09-16");  // Reference epoch (adjust as needed)
     const daysFromReferenceEpoch = Math.floor((startDate - referenceEpoch) / (24 * 60 * 60 * 1000));
 
-   // Calculate the mean anomaly (M) for the start date
+    // Calculate the mean anomaly (M) for the start date
     const meanAnomalyDegrees = (360 * daysFromReferenceEpoch) / orbitalPeriodDays;
 
     // Convert the mean Anomaly to radians
@@ -73,6 +72,6 @@ function GetEarthSiderealRotationInHours() {
     return
 }
 
-function CalculateSemiMajorAxis(){
+function CalculateSemiMajorAxis() {
 
 }

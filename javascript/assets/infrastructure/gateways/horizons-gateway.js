@@ -53,6 +53,9 @@ export class HorizonsApiGateway {
                 console.log("encountered a 400 error");
                 return new GatewayViewModel(false, null, response);
             }
+            else {
+                return new GatewayViewModel(false, null, response);
+            }
         } catch (error) {
             console.error(error);
             return new GatewayViewModel(false, null, response);

@@ -15,14 +15,12 @@ export class PlanetEphemerisDto {
 export class GetMainPlanetInteractor {
     constructor(serviceDependencies) {
         this.horizonsGateway = serviceDependencies.find(
-            (dependency) => dependency.name === HorizonsApiGateway.name
+            (dependency) => dependency.name == HorizonsApiGateway.name
         ).service;
     }
 
     async Handle(inputPort, presenter) {
-        const gatewayViewModel = await this.horizonsGateway.GetPlanetEphemerisData(
-            inputPort.planetCode
-        );
+        const gatewayViewModel = await this.horizonsGateway.GetPlanetEphemerisData(inputPort.planetCode);
 
         if (gatewayViewModel.isSuccessful) {
             const captureData = this.ExtractCaptureData(

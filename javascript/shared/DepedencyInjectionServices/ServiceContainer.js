@@ -47,7 +47,7 @@ export class ServiceContainer {
         const scope = this.instances.get(ClassToResolve.name);
         if (scope.has(ClassToResolve)) {
             return scope.get(ClassToResolve);
-        } 
+        }
 
         const { dependency, serviceDependencies: dependencies, scope: dependencyScope } = this.dependencies.get(ClassToResolve.name);
 
@@ -55,8 +55,8 @@ export class ServiceContainer {
         if (dependencyScope === ServiceScopes.Singleton && this.instances.has(ServiceScopes.Singleton)) {
             return this.instances.get(ServiceScopes.Singleton).get(ClassToResolve); // TODO: Move singleton specific checks out
         }
-        
-        
+
+
         // Resolve constructor dependencies of the dependency being resolved
         var instance;
         if (dependencies != null) {
@@ -77,11 +77,11 @@ export class ServiceContainer {
             instance = new dependency();
             console.log(instance);
         }
-        
+
         // Store the instance in a singleton specific scope if applicable
-        if (dependencyScope == ServiceScopes.Singleton ) {
-            if (!this.instances.has(ServiceScopes.Singleton )) {
-                this.instances.set(ServiceScopes.Singleton , new Map());
+        if (dependencyScope == ServiceScopes.Singleton) {
+            if (!this.instances.has(ServiceScopes.Singleton)) {
+                this.instances.set(ServiceScopes.Singleton, new Map());
             }
 
             this.instances.get(ServiceScopes.Singleton).set(ClassToResolve, instance);
@@ -89,7 +89,7 @@ export class ServiceContainer {
 
         // Store the instance into a scope specific map
         scope.set(ClassToResolve, instance);
-        
+
         return instance;
     }
 }
