@@ -1,3 +1,5 @@
+// TODO: Make this file ESM syntax when Node.js supports it.
+
 const cors = require('cors');
 const express = require('express');
 const https = require('https');
@@ -27,7 +29,6 @@ app.get('/proxy', (req, res) => {
         }
 
         responseFromTarget.pipe(res);
-
     });
 }).on('error', (error) => {
     console.log(`Error: ${error}`);
