@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "awilix": "^8.0.1",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "fast-glob": "^3.3.1",

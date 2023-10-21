@@ -63,7 +63,7 @@ export class HorizonsApiGateway {
 
         const ephemerisMatch = response.match(ephemerisPattern);
         if (ephemerisMatch) {
-            ephemerisSection = ephemerismatch[0].split("\n");
+            ephemerisSection = ephemerisMatch[0].split("\n");
         }
 
         return ephemerisSection;

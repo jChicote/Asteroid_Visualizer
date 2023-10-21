@@ -12,15 +12,15 @@ import * as THREE from "./node_modules/three/build/three.module.js";
  * Getter for the singleton instance of the service container.
  */
 let serviceContainer;
-export const Container = function () {
-    return (function () {
+export const Container = function() {
+    return (function() {
         if (serviceContainer == null) {
             serviceContainer = new ServiceContainer();
         }
 
         return serviceContainer;
     })();
-}
+};
 
 export const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 1000);
@@ -87,8 +87,7 @@ function start() {
             // console.log("This should run at the end/")
             // var pointLightHelper = new THREE.PointLightHelper( mercury, 5);
             // scene.add( pointLightHelper );
-        }
-        catch (error) {
+        } catch (error) {
             console.error('Error:', error);
         }
     })();

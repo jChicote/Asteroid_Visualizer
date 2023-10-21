@@ -1,6 +1,7 @@
 module.exports = {
     extends: ["semistandard"],
     rules: {
+        "array-bracket-spacing": ["error", "never"],
         "comma-dangle": ["error", {
             arrays: "never",
             objects: "never",
@@ -13,7 +14,7 @@ module.exports = {
         "space-before-function-paren": ["error", {
             anonymous: "never",
             named: "never",
-            asyncArrow: "never"
+            asyncArrow: "always"
         }],
         "no-undef": "off",
         "no-whitespace-before-property": "off",

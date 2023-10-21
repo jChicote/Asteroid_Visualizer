@@ -12,7 +12,7 @@ export async function SendAsync(method, url, options, isAsync) {
         });
 
         // Define a function to handle the response when it"s received
-        xhr.onreadystatechange = function () {
+        xhr.onreadystatechange = function() {
             if (xhr.readyState === 4) { // Check if the request is complete
                 if (xhr.status === 200) { // Check if the request was successful (HTTP status code 200)
                     // Parse and use the response data
