@@ -13,4 +13,4 @@ export const HTTPMethods = {
     POST: "POST",
     PUT: "PUT",
     DELETE: "DELETE"
-}
+};

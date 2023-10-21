@@ -1,5 +1,5 @@
 import { ErrorResult, SuccessfulResult } from "../Common/PresentationResult.js";
-import { GetMainPlanetViewModel } from './GetMainPlanetViewModel.js';
+import { GetMainPlanetViewModel } from "./GetMainPlanetViewModel.js";
 
 export class GetMainPlanetPresenter {
     constructor() {
@@ -26,7 +26,7 @@ export class GetMainPlanetPresenter {
     }
 
     async PresentsRequestFailureAsync(errorMessage) {
-        console.log("Encountered Error")
+        console.log("Encountered Error");
         this.result = new ErrorResult(errorMessage);
     }
 }
