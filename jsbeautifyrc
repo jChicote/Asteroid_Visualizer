@@ -1,9 +1,0 @@
-{
-  "indent_size": 4,
-  "indent_char": " ",
-  "indent_with_tabs": false,
-  "brace_style": "collapse",
-  "printWith": 80,
-  "eol": "\n",
-  "space_before_conditional": false
-}
