@@ -1,5 +1,3 @@
-import { HorizonsApiGateway } from "../../../infrastructure/gateways/horizons-gateway.js";
-
 // TODO: Create mapping behaviour to better handle this
 export class PlanetEphemerisDto {
     constructor(captureData, heliocentricData, physicalBodyData) {
@@ -13,24 +11,20 @@ export class PlanetEphemerisDto {
  * The UseCase for getting a specified main planet.
  */
 export class GetMainPlanetInteractor {
-    constructor(serviceDependencies) {
-        this.horizonsGateway = serviceDependencies.find(
-            (dependency) => dependency.name === HorizonsApiGateway.name
-        ).service;
-    }
-
     async Handle(inputPort, presenter) {
-        const gatewayViewModel = await this.horizonsGateway.GetPlanetEphemerisData(inputPort.planetCode);
-
-        if (gatewayViewModel.isSuccessful) {
-            const captureData = this.ExtractCaptureData(gatewayViewModel.data.captureSection);
-            const heliocentricData = this.ExtractHeliocentricData(gatewayViewModel.data.heliocentricSection);
-            const physicalBodyData = this.ExtractPhysicalBodyData(gatewayViewModel.data.physicalBodySection);
-
-            await presenter.PresentsPlanetDataAsync(new PlanetEphemerisDto(captureData, heliocentricData, physicalBodyData));
-        } else {
-            presenter.PresentsRequestFailureAsync(gatewayViewModel.error.statusText);
+        if (inputPort.capture === null) {
+            presenter.PresentPlanetDataNotFoundAsync(inputPort.planetCode, "capture");
+        } else if (inputPort.heliocentric === null) {
+            presenter.PresentPlanetDataNotFoundAsync(inputPort.planetCode, "heliocentric");
+        } else if (inputPort.physicalBody === null) {
+            presenter.PresentPlanetDataNotFoundAsync(inputPort.planetCode, "physical body");
         }
+
+        const captureData = this.ExtractCaptureData(inputPort.capture);
+        const heliocentricData = this.ExtractHeliocentricData(inputPort.heliocentric);
+        const physicalBodyData = this.ExtractPhysicalBodyData(inputPort.physicalBody);
+
+        await presenter.PresentsPlanetDataAsync(new PlanetEphemerisDto(captureData, heliocentricData, physicalBodyData));
     }
 
     /**

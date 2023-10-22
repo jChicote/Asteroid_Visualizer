@@ -1,13 +1,13 @@
 import { ServiceProvider } from "../../../shared/DepedencyInjectionServices/ServiceProvider.js";
 import { GetMainPlanetInteractor } from "../../Application/UseCases/GetMainPlanets/GetMainPlanetInteractor.js";
-import { PlanetsController } from "../../Controllers/PlanetsController.js";
-import { GetMainPlanetPresenter } from "../../Presentation/GetMainPlanets/GetMainPlanetPresenter.js";
-import { HorizonsApiGateway } from "../gateways/horizons-gateway.js";
+import { PlanetsController } from "../Controllers/PlanetsController.js";
+import { GetMainPlanetPresenter } from "../Presentation/GetMainPlanet/GetMainPlanetPresenter.js";
+import { HorizonsApiGateway } from "../Infrastructure/Gateways/HorizonsApiGateway.js";
 
 /**
  * Registers all the dependencies from the backend application.
  */
-export function RegisterBackendServices(container) {
+export function RegisterFrameworkServices(container) {
     RegisterGateways(container);
     RegisterApplication(container);
     RegisterControllers(container);
@@ -16,14 +16,14 @@ export function RegisterBackendServices(container) {
 }
 
 function RegisterApplication(container) {
-    container.RegisterService(GetMainPlanetInteractor, { HorizonsApiGateway });
+    container.RegisterService(GetMainPlanetInteractor);
 }
 
 /**
  * Register controllers for Dependency Injection.
  */
 function RegisterControllers(container) {
-    container.RegisterService(PlanetsController, { ServiceProvider });
+    container.RegisterService(PlanetsController, { ServiceProvider, HorizonsApiGateway });
 }
 
 /**

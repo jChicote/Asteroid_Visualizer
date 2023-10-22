@@ -1,5 +1,6 @@
 import { ErrorResult, SuccessfulResult } from "../Common/PresentationResult.js";
 import { GetMainPlanetViewModel } from "./GetMainPlanetViewModel.js";
+import { PlanetCodes } from "../../../Framework/Infrastructure/Gateways/HorizonsApiGateway.js";
 
 export class GetMainPlanetPresenter {
     constructor() {
@@ -21,8 +22,16 @@ export class GetMainPlanetPresenter {
         ));
     }
 
-    async PresentsPlanetDataNotFoundAsync(planetCode) {
+    async PresentsPlanetNotFoundAsync(planetCode) {
         this.result = new ErrorResult("There is no planet with the code: " + planetCode);
+    }
+
+    async PresentPlanetDataNotFoundAsync(planetCode, dataPointName) {
+        this.result = new ErrorResult("The planet " +
+            Object.keys(PlanetCodes).find((key) => PlanetCodes[key] === planetCode) +
+            "'s " +
+            dataPointName +
+            " information was not found.");
     }
 
     async PresentsRequestFailureAsync(errorMessage) {

@@ -1,7 +1,7 @@
-import { GetProxyServerUrl } from "../services/providers/serverProxyUriProvider.js";
+import { GetProxyServerUrl } from "../../Services/Providers/serverProxyUriProvider.js";
 import { GatewayViewModel } from "./Common/GatewayViewModels.js";
-import { textContentOptions } from "./configuration/gateway-options.js";
-import { SendAsync } from "./gateway-base.js";
+import { textContentOptions } from "./Configuration/gateway-options.js";
+import { SendAsync } from "./GatewayClient.js";
 
 export const PlanetCodes = {
     Mercury: "199",
@@ -43,7 +43,6 @@ export class HorizonsApiGateway {
                 planetData.heliocentricSection = this.ExtractHeliocentricSection(response.content);
                 planetData.physicalBodySection = this.ExtractPhysicalBodySection(response.content);
 
-                console.log(planetData);
                 return new GatewayViewModel(true, planetData, null);
             } else if (response.status === 400) {
                 console.log("encountered a 400 error");

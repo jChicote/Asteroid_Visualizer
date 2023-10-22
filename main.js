@@ -1,7 +1,7 @@
 import { OrbitControls } from "./addons/OrbitControls.js";
-import { PlanetsController } from "./javascript/assets/Controllers/PlanetsController.js";
-import { GetMainPlanetQuery } from "./javascript/assets/Presentation/GetMainPlanets/GetMainPlanetQuery.js";
-import { PlanetCodes } from "./javascript/assets/infrastructure/gateways/horizons-gateway.js";
+import { PlanetsController } from "./javascript/assets/Framework/Controllers/PlanetsController.js";
+import { GetMainPlanetQuery } from "./javascript/assets/Framework/Presentation/GetMainPlanet/GetMainPlanetQuery.js";
+import { PlanetCodes } from "./javascript/assets/Framework/Infrastructure/Gateways/HorizonsApiGateway.js";
 import { ConfigurationService } from "./javascript/shared/ConfigurationService.js";
 import { ServiceContainer } from "./javascript/shared/DepedencyInjectionServices/ServiceContainer.js";
 import { ServiceProvider } from "./javascript/shared/DepedencyInjectionServices/ServiceProvider.js";
