@@ -2,7 +2,7 @@ import { OrbitControls } from "./addons/OrbitControls.js";
 import { PlanetsController } from "./javascript/assets/Framework/Controllers/PlanetsController.js";
 import { GetMainPlanetQuery } from "./javascript/assets/Framework/Presentation/GetMainPlanet/GetMainPlanetQuery.js";
 import { PlanetCodes } from "./javascript/assets/Framework/Infrastructure/Gateways/HorizonsApiGateway.js";
-import { ConfigurationService } from "./javascript/shared/ConfigurationService.js";
+import { Configuration } from "./javascript/shared/Configuration.js";
 import { ServiceContainer } from "./javascript/shared/DepedencyInjectionServices/ServiceContainer.js";
 import { ServiceProvider } from "./javascript/shared/DepedencyInjectionServices/ServiceProvider.js";
 import * as TEST from "./javascript/test-scene.js";
@@ -48,7 +48,7 @@ controls.update();
 // Initializes scene
 function init() {
     // Registration Test:
-    const configuration = new ConfigurationService();
+    const configuration = new Configuration();
     configuration.ConfigureProject();
 
     const container = Container();

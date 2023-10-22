@@ -4,7 +4,7 @@ import { ServiceScopes } from "./DepedencyInjectionServices/ServiceContainer.js"
 import { ServiceProvider } from "./DepedencyInjectionServices/ServiceProvider.js";
 import { Container } from "../../main.js";
 
-export class ConfigurationService {
+export class Configuration {
     ConfigureProject() {
         const container = Container();
         container.RegisterService(ServiceProvider, {}, ServiceScopes.Singleton);
