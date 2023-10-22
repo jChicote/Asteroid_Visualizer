@@ -32,28 +32,21 @@ export class GetMainPlanetInteractor {
      * @param {*} captureSection Section containing the data.
      */
     ExtractCaptureData(captureSection) {
-        let startDate = "";
-        let endDate = "";
+        const captureData = {
+            startDate: "",
+            endDate: ""
+        };
 
+        const dateTimeRegex = /(\d{4})-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)-(\d{1,2})/;
         captureSection.forEach((element) => {
             if (element.includes("Start time")) {
-                startDate = element;
+                captureData.startDate = (element.split(":")[1].trim()).match(dateTimeRegex)[0];
             } else if (element.includes("Stop  time")) {
-                endDate = element;
+                captureData.endDate = (element.split(":")[1].trim()).match(dateTimeRegex)[0];
             }
         });
 
-        const parseData = (dateString) => {
-            const [dateKey, dateValue] = dateString
-                .split(":")
-                .map((item) => item.trim());
-            return { key: dateKey, value: dateValue };
-        };
-
-        return {
-            startDate: parseData(startDate),
-            endDate: parseData(endDate)
-        };
+        return captureData;
     }
 
     /**
