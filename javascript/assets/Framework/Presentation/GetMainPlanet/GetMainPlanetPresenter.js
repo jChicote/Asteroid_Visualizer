@@ -22,10 +22,6 @@ export class GetMainPlanetPresenter {
         ));
     }
 
-    async PresentsPlanetNotFoundAsync(planetCode) {
-        this.result = new ErrorResult("There is no planet with the code: " + planetCode);
-    }
-
     async PresentPlanetDataNotFoundAsync(planetCode, dataPointName) {
         this.result = new ErrorResult("The planet " +
             Object.keys(PlanetCodes).find((key) => PlanetCodes[key] === planetCode) +

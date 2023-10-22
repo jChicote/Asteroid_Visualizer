@@ -1,3 +1,5 @@
+import { GetMainPlanetInteractor } from "../UseCases/GetMainPlanets/GetMainPlanetInteractor.js";
+
 /**
  * Registers all the dependencies from the application backend.
  */

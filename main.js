@@ -35,15 +35,15 @@ camera.position.set(0, 20, 100);
 controls.update();
 
 // Test planet renderer
-var mercuryPosition = { x: 0, y: 0, z: 0 };
-var venusPosition = { x: 0, y: 0, z: 0 };
-var earthPosition = { x: 0, y: 0, z: 0 };
-var marsPosition = { x: 0, y: 0, z: 0 };
-var jupiterPosition = { x: 0, y: 0, z: 0 };
-var saturnPosition = { x: 0, y: 0, z: 0 };
-var uranusPosition = { x: 0, y: 0, z: 0 };
-var neptunePosition = { x: 0, y: 0, z: 0 };
-var plutoPosition = { x: 0, y: 0, z: 0 };
+// var mercuryPosition = { x: 0, y: 0, z: 0 };
+// var venusPosition = { x: 0, y: 0, z: 0 };
+// var earthPosition = { x: 0, y: 0, z: 0 };
+// var marsPosition = { x: 0, y: 0, z: 0 };
+// var jupiterPosition = { x: 0, y: 0, z: 0 };
+// var saturnPosition = { x: 0, y: 0, z: 0 };
+// var uranusPosition = { x: 0, y: 0, z: 0 };
+// var neptunePosition = { x: 0, y: 0, z: 0 };
+// var plutoPosition = { x: 0, y: 0, z: 0 };
 
 // Initializes scene
 function init() {
