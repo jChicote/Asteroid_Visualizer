@@ -1,11 +1,4 @@
-// TODO: Create mapping behaviour to better handle this
-export class PlanetEphemerisDto {
-    constructor(captureData, heliocentricData, physicalBodyData) {
-        this.captureData = captureData;
-        this.heliocentricData = heliocentricData;
-        this.physicalBodyData = physicalBodyData;
-    }
-}
+import { GetMainPlanetDto } from "../../Dtos/GetMainPlanetDto.js";
 
 /**
  * The UseCase for getting a specified main planet.
@@ -24,7 +17,7 @@ export class GetMainPlanetInteractor {
         const heliocentricData = this.ExtractHeliocentricData(inputPort.heliocentric);
         const physicalBodyData = this.ExtractPhysicalBodyData(inputPort.physicalBody);
 
-        await presenter.PresentsPlanetDataAsync(new PlanetEphemerisDto(captureData, heliocentricData, physicalBodyData));
+        await presenter.PresentsPlanetDataAsync(new GetMainPlanetDto(captureData, heliocentricData, physicalBodyData));
     }
 
     /**
