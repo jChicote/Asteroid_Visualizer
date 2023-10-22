@@ -1,6 +1,5 @@
-
 class BaseResult {
-    constructor(errorMessage, result, success){
+    constructor(errorMessage, result, success) {
         this.errorMessage = errorMessage;
         this.result = result;
         this.success = success;
@@ -8,13 +7,13 @@ class BaseResult {
 }
 
 export class SuccessfulResult extends BaseResult {
-    constructor(viewModel){
+    constructor(viewModel) {
         super("", viewModel, true);
     }
 }
 
 export class ErrorResult extends BaseResult {
-    constructor(errorMessage){
+    constructor(errorMessage) {
         super(errorMessage, null, false);
     }
 }

@@ -1,8 +1,8 @@
-
+/* eslint-disable new-cap */
 export const ServiceScopes = {
-    Transient: 'transient',
-    Singleton: 'singleton'
-}
+    Transient: "transient",
+    Singleton: "singleton"
+};
 
 /**
  * IoC container to resolve dependencies.
@@ -33,8 +33,8 @@ export class ServiceContainer {
      * Resolves a service from the container.
      */
     Resolve(ClassToResolve) {
-        if (this.dependencies.size == 0) {
-            console.warn('No dependencies have been registered in the container.');
+        if (this.dependencies.size === 0) {
+            console.warn("No dependencies have been registered in the container.");
             return null;
         }
 
@@ -47,7 +47,7 @@ export class ServiceContainer {
         const scope = this.instances.get(ClassToResolve.name);
         if (scope.has(ClassToResolve)) {
             return scope.get(ClassToResolve);
-        } 
+        }
 
         const { dependency, serviceDependencies: dependencies, scope: dependencyScope } = this.dependencies.get(ClassToResolve.name);
 
@@ -55,10 +55,9 @@ export class ServiceContainer {
         if (dependencyScope === ServiceScopes.Singleton && this.instances.has(ServiceScopes.Singleton)) {
             return this.instances.get(ServiceScopes.Singleton).get(ClassToResolve); // TODO: Move singleton specific checks out
         }
-        
-        
+
         // Resolve constructor dependencies of the dependency being resolved
-        var instance;
+        let instance;
         if (dependencies != null) {
             const resolvedDependencies = Object.entries(dependencies).map(([name, dependency]) => {
                 const service = this.Resolve(dependency);
@@ -70,18 +69,17 @@ export class ServiceContainer {
             });
 
             instance = new dependency(resolvedDependencies);
-        }
-        else {
+        } else {
             // TODO: We need a way of resolving dependies of nested objects wthout being affected by the softwware's architecture.
             // Create the instance
             instance = new dependency();
             console.log(instance);
         }
-        
+
         // Store the instance in a singleton specific scope if applicable
-        if (dependencyScope == ServiceScopes.Singleton ) {
-            if (!this.instances.has(ServiceScopes.Singleton )) {
-                this.instances.set(ServiceScopes.Singleton , new Map());
+        if (dependencyScope === ServiceScopes.Singleton) {
+            if (!this.instances.has(ServiceScopes.Singleton)) {
+                this.instances.set(ServiceScopes.Singleton, new Map());
             }
 
             this.instances.get(ServiceScopes.Singleton).set(ClassToResolve, instance);
@@ -89,7 +87,7 @@ export class ServiceContainer {
 
         // Store the instance into a scope specific map
         scope.set(ClassToResolve, instance);
-        
+
         return instance;
     }
 }
