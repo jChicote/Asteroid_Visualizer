@@ -5,6 +5,7 @@ import { PlanetCodes } from "./javascript/assets/Framework/Infrastructure/Gatewa
 import { Configuration } from "./javascript/shared/Configuration.js";
 import { ServiceContainer } from "./javascript/shared/DepedencyInjectionServices/ServiceContainer.js";
 import { ServiceProvider } from "./javascript/shared/DepedencyInjectionServices/ServiceProvider.js";
+import { PlanetCreationSystem } from "./javascript/game/Planets/PlanetCreationSystem.js";
 import * as TEST from "./javascript/test-scene.js";
 import * as THREE from "./node_modules/three/build/three.module.js";
 
@@ -65,6 +66,11 @@ function start() {
 
     (async () => {
         try {
+            const container = Container();
+            const serviceProvider = container.Resolve(ServiceProvider);
+            const planetCreator = new PlanetCreationSystem(serviceProvider, scene);
+            await planetCreator.CreateMainPlanets();
+
             // const planetCreator = new PlanetCreator(scene);
 
             // const gateway = new HorizonsApiGateway();
