@@ -1,6 +1,5 @@
 import { PlanetCodes } from "../../assets/Framework/Infrastructure/Gateways/HorizonsApiGateway.js";
 import { PlanetsController } from "../../assets/Framework/Controllers/PlanetsController.js";
-import { PlanetLocator } from "./PlanetLocator.js";
 import { GetMainPlanetQuery } from "../../assets/Framework/Presentation/GetMainPlanet/GetMainPlanetQuery.js";
 import { SetVector } from "../../utils/math-library.js";
 import * as THREE from "../../../node_modules/three/build/three.module.js";
@@ -8,7 +7,6 @@ import * as THREE from "../../../node_modules/three/build/three.module.js";
 export class PlanetCreationSystem {
     constructor(serviceProvider, scene) {
         this.planetController = serviceProvider.GetService(PlanetsController);
-        this.planetLocator = new PlanetLocator();
         this.scene = scene;
     }
 
@@ -29,9 +27,9 @@ export class PlanetCreationSystem {
     async CreatePlanet(planetCode) {
         // Gets planet data.
         const planetViewModel = await this.planetController.GetMainPlanetAsync(new GetMainPlanetQuery(planetCode));
-
-        const planetPosition = await this.planetLocator.CalculatePlanetPosition(planetViewModel.result);
-        const planetObject = this.RenderPlanet(planetCode > 500 ? 12 : 1, 0xFFC7C7, planetPosition);
+        const planetPosition = await this.CalculatePlanetPosition(planetViewModel.result);
+        const planetRadius = await this.CalculatePlanetRadius(planetViewModel.result);
+        const planetObject = this.RenderPlanet(planetRadius, 0xFFC7C7, planetPosition);
 
         return planetObject;
     }
@@ -45,5 +43,30 @@ export class PlanetCreationSystem {
         this.scene.add(planet);
 
         return planet;
+    }
+
+    async CalculatePlanetPosition(planetData) {
+        // TODO: This should be done within the use case interactor
+        const meanAnomaly = parseFloat(planetData.meanAnomaly);
+        const eccentricity = parseFloat(planetData.eccentricity);
+        const semiMajorAxis = parseFloat(planetData.semiMajorAxis);
+
+        // TODO: Simplify the calculation
+        const eccentricAnomaly = meanAnomaly + eccentricity * Math.sin(meanAnomaly);
+        const trueAnomaly = 2 * Math.atan(Math.sqrt((1 + eccentricity) / (1 - eccentricity)) * Math.tan(eccentricAnomaly / 2));
+
+        const distanceRadiusFromSun = semiMajorAxis * (1 - eccentricity * Math.cos(eccentricAnomaly));
+
+        const x = distanceRadiusFromSun * Math.cos(trueAnomaly);
+        const y = distanceRadiusFromSun * Math.sin(trueAnomaly);
+
+        return { x: x * 0.0000005, y: 0, z: y * 0.0000005 };
+    }
+
+    async CalculatePlanetRadius(planetData) {
+        const trueRadius = parseInt(planetData.planetRadius);
+        const scaledRadius = trueRadius * 0.00005; // TODO: Make this dynamicically scaled
+
+        return scaledRadius;
     }
 }

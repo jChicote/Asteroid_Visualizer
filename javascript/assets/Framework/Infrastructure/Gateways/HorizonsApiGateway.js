@@ -85,8 +85,15 @@ export class HorizonsApiGateway {
     }
 
     ExtractPhysicalBodySection(response) {
-        const physicalBodyPattern = /PHYSICAL DATA[^]*?Ephemeris/s;
-        const physicalBodyMatch = response.match(physicalBodyPattern);
+        let physicalBodyMatch = "";
+
+        if (response.includes("PHYSICAL DATA")) {
+            const physicalBodyPattern = /PHYSICAL DATA[^]*?Ephemeris/s;
+            physicalBodyMatch = response.match(physicalBodyPattern);
+        } else if (response.includes("GEOPHYSICAL PROPERTIES")) {
+            const physicalBodyPattern = /GEOPHYSICAL PROPERTIES[^]*?Ephemeris/s;
+            physicalBodyMatch = response.match(physicalBodyPattern);
+        }
 
         if (physicalBodyMatch) {
             return physicalBodyMatch[0].split("\n");
