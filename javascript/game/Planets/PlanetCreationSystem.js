@@ -47,9 +47,9 @@ export class PlanetCreationSystem {
 
     async CalculatePlanetPosition(planetData) {
         // TODO: This should be done within the use case interactor
-        const meanAnomaly = parseFloat(planetData.meanAnomaly);
-        const eccentricity = parseFloat(planetData.eccentricity);
-        const semiMajorAxis = parseFloat(planetData.semiMajorAxis);
+        const meanAnomaly = planetData.meanAnomaly;
+        const eccentricity = planetData.eccentricity;
+        const semiMajorAxis = planetData.semiMajorAxis;
 
         // TODO: Simplify the calculation
         const eccentricAnomaly = meanAnomaly + eccentricity * Math.sin(meanAnomaly);

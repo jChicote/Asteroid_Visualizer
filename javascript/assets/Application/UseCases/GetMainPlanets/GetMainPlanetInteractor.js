@@ -13,9 +13,9 @@ export class GetMainPlanetInteractor {
             presenter.PresentPlanetDataNotFoundAsync(inputPort.planetCode, "physical body");
         }
 
-        const captureData = this.ExtractCaptureData(inputPort.capture);
-        const heliocentricData = this.ExtractHeliocentricData(inputPort.heliocentric);
-        const physicalBodyData = this.ExtractPhysicalBodyData(inputPort.physicalBody);
+        const captureData = await this.ExtractCaptureData(inputPort.capture);
+        const heliocentricData = await this.ExtractHeliocentricData(inputPort.heliocentric);
+        const physicalBodyData = await this.ExtractPhysicalBodyData(inputPort.physicalBody);
 
         await presenter.PresentsPlanetDataAsync(new GetMainPlanetDto(captureData, heliocentricData, physicalBodyData));
     }
@@ -24,7 +24,7 @@ export class GetMainPlanetInteractor {
      * Extracts the time-related data from the capture section of the ephemeris data.
      * @param {*} captureSection Section containing the data.
      */
-    ExtractCaptureData(captureSection) {
+    async ExtractCaptureData(captureSection) {
         const captureData = {
             startDate: "",
             endDate: ""
@@ -46,7 +46,7 @@ export class GetMainPlanetInteractor {
      * Extracts the planet"s orbital heliocentric information from the ephemeris data.
      * @param {*} heliocentricSection Section containing the data
      */
-    ExtractHeliocentricData(heliocentricSection) {
+    async ExtractHeliocentricData(heliocentricSection) {
         const heliocentricData = {
             eccentricity: "",
             meanAnomaly: "",
@@ -65,11 +65,11 @@ export class GetMainPlanetInteractor {
                         };
 
                         if (data.key === "EC") {
-                            heliocentricData.eccentricity = data.value;
+                            heliocentricData.eccentricity = parseFloat(data.value);
                         } else if (data.key === "MA") {
-                            heliocentricData.meanAnomaly = data.value;
+                            heliocentricData.meanAnomaly = parseFloat(data.value);
                         } else if (data.key === "A") {
-                            heliocentricData.semiMajorAxis = data.value;
+                            heliocentricData.semiMajorAxis = parseFloat(data.value);
                         }
                     });
                 }
@@ -83,7 +83,7 @@ export class GetMainPlanetInteractor {
      * Extracts the physical information of the planet.
      * @param {*} physicalBodySection The section containing the data.
      */
-    ExtractPhysicalBodyData(physicalBodySection) {
+    async ExtractPhysicalBodyData(physicalBodySection) {
         const physicalBodyData = {
             obliquityToOrbit: "",
             orbitalSpeed: "",
