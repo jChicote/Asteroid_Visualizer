@@ -46,27 +46,18 @@ export class PlanetCreationSystem {
     }
 
     async CalculatePlanetPosition(planetData) {
-        // TODO: This should be done within the use case interactor
-        const meanAnomaly = planetData.meanAnomaly;
-        const eccentricity = planetData.eccentricity;
-        const semiMajorAxis = planetData.semiMajorAxis;
+        const eccentricAnomaly = planetData.meanAnomaly + planetData.eccentricity * Math.sin(planetData.meanAnomaly);
+        const trueAnomaly = 2 * Math.atan(Math.sqrt((1 + planetData.eccentricity) / (1 - planetData.eccentricity)) * Math.tan(eccentricAnomaly / 2));
+        const distanceRadiusFromSun = planetData.semiMajorAxis * (1 - planetData.eccentricity * Math.cos(eccentricAnomaly));
 
-        // TODO: Simplify the calculation
-        const eccentricAnomaly = meanAnomaly + eccentricity * Math.sin(meanAnomaly);
-        const trueAnomaly = 2 * Math.atan(Math.sqrt((1 + eccentricity) / (1 - eccentricity)) * Math.tan(eccentricAnomaly / 2));
-
-        const distanceRadiusFromSun = semiMajorAxis * (1 - eccentricity * Math.cos(eccentricAnomaly));
-
-        const x = distanceRadiusFromSun * Math.cos(trueAnomaly);
-        const y = distanceRadiusFromSun * Math.sin(trueAnomaly);
-
-        return { x: x * 0.0000005, y: 0, z: y * 0.0000005 };
+        return {
+            x: (distanceRadiusFromSun * Math.cos(trueAnomaly)) * 0.0000005,
+            y: 0,
+            z: (distanceRadiusFromSun * Math.sin(trueAnomaly)) * 0.0000005
+        };
     }
 
     async CalculatePlanetRadius(planetData) {
-        const trueRadius = parseInt(planetData.planetRadius);
-        const scaledRadius = trueRadius * 0.00005; // TODO: Make this dynamicically scaled
-
-        return scaledRadius;
+        return planetData.planetRadius * 0.00005; // TODO: Make this dynamicically scaled
     }
 }
