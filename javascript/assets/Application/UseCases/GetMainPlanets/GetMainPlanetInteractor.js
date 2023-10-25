@@ -13,9 +13,9 @@ export class GetMainPlanetInteractor {
             presenter.PresentPlanetDataNotFoundAsync(inputPort.planetCode, "physical body");
         }
 
-        const captureData = this.ExtractCaptureData(inputPort.capture);
-        const heliocentricData = this.ExtractHeliocentricData(inputPort.heliocentric);
-        const physicalBodyData = this.ExtractPhysicalBodyData(inputPort.physicalBody);
+        const captureData = await this.ExtractCaptureData(inputPort.capture);
+        const heliocentricData = await this.ExtractHeliocentricData(inputPort.heliocentric);
+        const physicalBodyData = await this.ExtractPhysicalBodyData(inputPort.physicalBody);
 
         await presenter.PresentsPlanetDataAsync(new GetMainPlanetDto(captureData, heliocentricData, physicalBodyData));
     }
@@ -24,7 +24,7 @@ export class GetMainPlanetInteractor {
      * Extracts the time-related data from the capture section of the ephemeris data.
      * @param {*} captureSection Section containing the data.
      */
-    ExtractCaptureData(captureSection) {
+    async ExtractCaptureData(captureSection) {
         const captureData = {
             startDate: "",
             endDate: ""
@@ -33,9 +33,9 @@ export class GetMainPlanetInteractor {
         const dateTimeRegex = /(\d{4})-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)-(\d{1,2})/;
         captureSection.forEach((element) => {
             if (element.includes("Start time")) {
-                captureData.startDate = (element.split(":")[1].trim()).match(dateTimeRegex)[0];
+                captureData.startDate = this.CreateDictionaryFromData(element, ":").value.match(dateTimeRegex)[0];
             } else if (element.includes("Stop  time")) {
-                captureData.endDate = (element.split(":")[1].trim()).match(dateTimeRegex)[0];
+                captureData.endDate = this.CreateDictionaryFromData(element, ":").value.match(dateTimeRegex)[0];
             }
         });
 
@@ -46,7 +46,7 @@ export class GetMainPlanetInteractor {
      * Extracts the planet"s orbital heliocentric information from the ephemeris data.
      * @param {*} heliocentricSection Section containing the data
      */
-    ExtractHeliocentricData(heliocentricSection) {
+    async ExtractHeliocentricData(heliocentricSection) {
         const heliocentricData = {
             eccentricity: "",
             meanAnomaly: "",
@@ -59,17 +59,14 @@ export class GetMainPlanetInteractor {
                 const dataPoints = line.trim().match(/(\w+)\s*=\s*([\d.E+-]+)/g);
                 if (dataPoints != null && dataPoints.length !== 0) {
                     dataPoints.forEach((dataPoint) => {
-                        const data = {
-                            key: dataPoint.split("=")[0].trim(),
-                            value: dataPoint.split("=")[1].trim()
-                        };
+                        const data = this.CreateDictionaryFromData(dataPoint);
 
                         if (data.key === "EC") {
-                            heliocentricData.eccentricity = data.value;
+                            heliocentricData.eccentricity = this.ParseValidFloat(data.value);
                         } else if (data.key === "MA") {
-                            heliocentricData.meanAnomaly = data.value;
+                            heliocentricData.meanAnomaly = this.ParseValidFloat(data.value);
                         } else if (data.key === "A") {
-                            heliocentricData.semiMajorAxis = data.value;
+                            heliocentricData.semiMajorAxis = this.ParseValidFloat(data.value);
                         }
                     });
                 }
@@ -83,7 +80,7 @@ export class GetMainPlanetInteractor {
      * Extracts the physical information of the planet.
      * @param {*} physicalBodySection The section containing the data.
      */
-    ExtractPhysicalBodyData(physicalBodySection) {
+    async ExtractPhysicalBodyData(physicalBodySection) {
         const physicalBodyData = {
             obliquityToOrbit: "",
             orbitalSpeed: "",
@@ -100,35 +97,32 @@ export class GetMainPlanetInteractor {
             if (dataPoints != null && dataPoints.length !== 0) {
                 dataPoints.forEach((dataPoint) => {
                     if (dataPoint.includes("=")) {
-                        const data = {
-                            key: dataPoint.split("=")[0].trim(),
-                            value: dataPoint.split("=")[1].trim()
-                        };
+                        const data = this.CreateDictionaryFromData(dataPoint);
 
                         // TODO: Create an options parameter in the future to contain the search options for the physical datapoints.
                         physicalBodyData.meanSolarDay =
                             physicalBodyData.meanSolarDay === ""
-                                ? this.GetPhysicalBodyValue(data, ["Mean solar day"])
+                                ? this.ParseValidFloat(this.GetPhysicalBodyValue(data, ["Mean solar day"]))
                                 : physicalBodyData.meanSolarDay;
 
                         physicalBodyData.obliquityToOrbit =
                             physicalBodyData.obliquityToOrbit === ""
-                                ? this.GetPhysicalBodyValue(data, ["Obliquity to orbit"])
+                                ? this.ParseValidFloat(this.GetPhysicalBodyValue(data, ["Obliquity to orbit"]))
                                 : physicalBodyData.obliquityToOrbit;
 
                         physicalBodyData.orbitalSpeed =
                             physicalBodyData.orbitalSpeed === ""
-                                ? this.GetPhysicalBodyValue(data, [
+                                ? this.ParseValidFloat(this.GetPhysicalBodyValue(data, [
                                     "Orbital speed",
                                     "Mean Orbit vel",
                                     "Orbit speed",
                                     "Mean orbit speed",
                                     "Mean orbit velocity"
-                                ])
+                                ]))
                                 : physicalBodyData.orbitalSpeed;
                         physicalBodyData.planetRadius =
                             physicalBodyData.planetRadius === ""
-                                ? this.GetPhysicalBodyValue(data, ["vol. mean radius"])
+                                ? this.ParseValidInt(this.GetPhysicalBodyValue(data, ["Vol. Mean Radius"]))
                                 : physicalBodyData.planetRadius;
                     }
                 });
@@ -136,6 +130,29 @@ export class GetMainPlanetInteractor {
         }
 
         return physicalBodyData;
+    }
+
+    CreateDictionaryFromData(dataPoint, seperator = "=") {
+        return {
+            key: dataPoint.split(seperator)[0].trim(),
+            value: dataPoint.split(seperator)[1].trim()
+        };
+    }
+
+    ParseValidFloat(data) {
+        if (data === "" || data === undefined) {
+            return "";
+        }
+
+        return parseFloat(data);
+    }
+
+    ParseValidInt(data) {
+        if (data === "" || data === undefined) {
+            return "";
+        }
+
+        return parseInt(data);
     }
 
     GetPhysicalBodyValue(dataPoint, keys) {
