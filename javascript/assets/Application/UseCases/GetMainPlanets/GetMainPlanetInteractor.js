@@ -128,7 +128,7 @@ export class GetMainPlanetInteractor {
                                 : physicalBodyData.orbitalSpeed;
                         physicalBodyData.planetRadius =
                             physicalBodyData.planetRadius === ""
-                                ? this.GetPhysicalBodyValue(data, ["Vol. Mean Radius"])
+                                ? this.ParseValidInt(this.GetPhysicalBodyValue(data, ["Vol. Mean Radius"]))
                                 : physicalBodyData.planetRadius;
                     }
                 });
@@ -136,6 +136,14 @@ export class GetMainPlanetInteractor {
         }
 
         return physicalBodyData;
+    }
+
+    ParseValidInt(data) {
+        if (data === "" || data === undefined) {
+            return "";
+        }
+
+        return parseInt(data);
     }
 
     GetPhysicalBodyValue(dataPoint, keys) {
