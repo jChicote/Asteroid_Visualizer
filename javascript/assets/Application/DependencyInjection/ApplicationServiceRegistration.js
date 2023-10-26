@@ -1,4 +1,4 @@
-import { PlanetRepository } from "../../Domain/Repositories/PlanetRespository.js";
+import { PlanetRepository } from "../../Domain/Repositories/PlanetRepository.js";
 import { GetMainPlanetInteractor } from "../UseCases/GetMainPlanets/GetMainPlanetInteractor.js";
 
 /**
