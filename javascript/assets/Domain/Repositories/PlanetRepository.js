@@ -3,11 +3,11 @@ export class PlanetRepository {
         this.data = new Map();
     }
 
-    AddPlanet(planet) {
+    async Add(planet) {
         this.data.set(planet.planetCode, planet);
     }
 
-    Find(planetCode) {
+    async Find(planetCode) {
         return this.data.get(planetCode);
     }
 }

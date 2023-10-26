@@ -53,7 +53,9 @@ export class ServiceContainer {
 
         // Check if the dependency is a singleton and if it has been created
         if (dependencyScope === ServiceScopes.Singleton && this.instances.has(ServiceScopes.Singleton)) {
-            return this.instances.get(ServiceScopes.Singleton).get(ClassToResolve); // TODO: Move singleton specific checks out
+            if (this.instances.get(ServiceScopes.Singleton).get(ClassToResolve) !== undefined) {
+                return this.instances.get(ServiceScopes.Singleton).get(ClassToResolve); // TODO: Move singleton specific checks out
+            }
         }
 
         // Resolve constructor dependencies of the dependency being resolved

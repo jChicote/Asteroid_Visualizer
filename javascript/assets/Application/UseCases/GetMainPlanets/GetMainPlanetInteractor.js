@@ -1,3 +1,4 @@
+import { Planet } from "../../../Domain/Entities/Planet.js";
 import { PlanetRepository } from "../../../Domain/Repositories/PlanetRepository.js";
 import { GetMainPlanetDto } from "../../Dtos/GetMainPlanetDto.js";
 
@@ -21,6 +22,18 @@ export class GetMainPlanetInteractor {
         const captureData = await this.ExtractCaptureData(inputPort.capture);
         const heliocentricData = await this.ExtractHeliocentricData(inputPort.heliocentric);
         const physicalBodyData = await this.ExtractPhysicalBodyData(inputPort.physicalBody);
+
+        const planet = new Planet(
+            inputPort.planetCode,
+            heliocentricData.eccentricity,
+            heliocentricData.meanAnomaly,
+            physicalBodyData.planetRadius,
+            heliocentricData.semiMajorAxis);
+
+        console.log(this.planetRepository);
+
+        // Store planet domain entity
+        await this.planetRepository.Add(planet);
 
         await presenter.PresentsPlanetDataAsync(new GetMainPlanetDto(captureData, heliocentricData, physicalBodyData));
     }
