@@ -1,5 +1,6 @@
 export class Planet {
-    constructor(eccentricity, meanAnomaly, planetRadius, semiMajorAxis) {
+    constructor(planetCode, eccentricity, meanAnomaly, planetRadius, semiMajorAxis) {
+        this.planetCode = planetCode;
         this.eccentricity = eccentricity;
         this.meanAnomaly = meanAnomaly;
         this.planetRadius = planetRadius;

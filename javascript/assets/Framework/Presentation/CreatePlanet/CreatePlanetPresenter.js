@@ -1,15 +1,15 @@
 import { ErrorResult, SuccessfulResult } from "../Common/PresentationResult.js";
-import { GetMainPlanetViewModel } from "./GetMainPlanetViewModel.js";
-import { PlanetCodes } from "../../../Framework/Infrastructure/Gateways/HorizonsApiGateway.js";
+import { CreatePlanetViewModel } from "./CreatePlanetViewModel.js";
+import { PlanetCodes } from "../../Infrastructure/Gateways/HorizonsApiGateway.js";
 
-export class GetMainPlanetPresenter {
+export class CreatePlanetPresenter {
     constructor() {
         this.result = {};
     }
 
     async PresentsPlanetDataAsync(planetData) {
         console.log("Encountered Success");
-        this.result = new SuccessfulResult(new GetMainPlanetViewModel( // TODO: Create bindings for this
+        this.result = new SuccessfulResult(new CreatePlanetViewModel( // TODO: Create bindings for this
             planetData.captureData.startDate,
             planetData.heliocentricData.eccentricity,
             planetData.captureData.endDate,

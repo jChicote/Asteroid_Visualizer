@@ -1,8 +1,8 @@
 import { OrbitControls } from "./addons/OrbitControls.js";
-import { Configuration } from "./javascript/shared/Configuration.js";
-import { ServiceContainer } from "./javascript/shared/DepedencyInjectionServices/ServiceContainer.js";
-import { ServiceProvider } from "./javascript/shared/DepedencyInjectionServices/ServiceProvider.js";
 import { PlanetCreationSystem } from "./javascript/game/Planets/PlanetCreationSystem.js";
+import { Configuration } from "./javascript/shared/Configuration.js";
+import { ServiceContainer } from "./javascript/shared/DependencyInjectionServices/ServiceContainer.js";
+import { ServiceProvider } from "./javascript/shared/DependencyInjectionServices/ServiceProvider.js";
 import * as TEST from "./javascript/test-scene.js";
 import * as THREE from "./node_modules/three/build/three.module.js";
 

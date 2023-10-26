@@ -53,7 +53,9 @@ export class ServiceContainer {
 
         // Check if the dependency is a singleton and if it has been created
         if (dependencyScope === ServiceScopes.Singleton && this.instances.has(ServiceScopes.Singleton)) {
-            return this.instances.get(ServiceScopes.Singleton).get(ClassToResolve); // TODO: Move singleton specific checks out
+            if (this.instances.get(ServiceScopes.Singleton).get(ClassToResolve) !== undefined) {
+                return this.instances.get(ServiceScopes.Singleton).get(ClassToResolve); // TODO: Move singleton specific checks out
+            }
         }
 
         // Resolve constructor dependencies of the dependency being resolved
@@ -61,7 +63,6 @@ export class ServiceContainer {
         if (dependencies != null) {
             const resolvedDependencies = Object.entries(dependencies).map(([name, dependency]) => {
                 const service = this.Resolve(dependency);
-
                 return {
                     name,
                     service
@@ -79,9 +80,11 @@ export class ServiceContainer {
         // Store the instance in a singleton specific scope if applicable
         if (dependencyScope === ServiceScopes.Singleton) {
             if (!this.instances.has(ServiceScopes.Singleton)) {
+                // Create a map for singleton instances if it has not been created
                 this.instances.set(ServiceScopes.Singleton, new Map());
             }
 
+            // Store the instance into a singleton specific map
             this.instances.get(ServiceScopes.Singleton).set(ClassToResolve, instance);
         }
 
