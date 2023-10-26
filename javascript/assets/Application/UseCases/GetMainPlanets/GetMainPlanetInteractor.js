@@ -1,9 +1,14 @@
+import { PlanetRepository } from "../../../Domain/Repositories/PlanetRespository.js";
 import { GetMainPlanetDto } from "../../Dtos/GetMainPlanetDto.js";
 
 /**
  * The UseCase for getting a specified main planet.
  */
 export class GetMainPlanetInteractor {
+    constructor(serviceDependencies) {
+        this.planetRepository = serviceDependencies.find((dependency) => dependency.name === PlanetRepository.name).service;
+    }
+
     async Handle(inputPort, presenter) {
         if (inputPort.capture === null) {
             presenter.PresentPlanetDataNotFoundAsync(inputPort.planetCode, "capture");

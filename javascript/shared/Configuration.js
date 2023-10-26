@@ -1,8 +1,8 @@
-import { RegisterFrameworkServices } from "../assets/Framework/DependencyInjection/FrameworkServiceRegistration.js";
-import { RegisterApplicationServices } from "../assets/Application/DependencyInjection/ApplicationServiceRegistration.js";
-import { ServiceScopes } from "./DepedencyInjectionServices/ServiceContainer.js";
-import { ServiceProvider } from "./DepedencyInjectionServices/ServiceProvider.js";
 import { Container } from "../../main.js";
+import { RegisterApplicationServices } from "../assets/Application/DependencyInjection/ApplicationServiceRegistration.js";
+import { RegisterFrameworkServices } from "../assets/Framework/DependencyInjection/FrameworkServiceRegistration.js";
+import { ServiceScopes } from "./DependencyInjectionServices/ServiceContainer.js";
+import { ServiceProvider } from "./DependencyInjectionServices/ServiceProvider.js";
 
 export class Configuration {
     ConfigureProject() {
@@ -10,6 +10,7 @@ export class Configuration {
         container.RegisterService(ServiceProvider, {}, ServiceScopes.Singleton);
 
         // Register all services
+        RegisterApplicationServices(container);
         RegisterApplicationServices(container);
         RegisterFrameworkServices(container);
 

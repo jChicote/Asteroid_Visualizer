@@ -1,8 +1,8 @@
-import { ServiceProvider } from "../../../shared/DepedencyInjectionServices/ServiceProvider.js";
+import { ServiceProvider } from "../../../shared/DependencyInjectionServices/ServiceProvider.js";
 import { GetMainPlanetInputPort } from "../../Application/UseCases/GetMainPlanets/GetMainPlanetInputPort.js";
 import { GetMainPlanetInteractor } from "../../Application/UseCases/GetMainPlanets/GetMainPlanetInteractor.js";
-import { GetMainPlanetPresenter } from "../Presentation/GetMainPlanet/GetMainPlanetPresenter.js";
 import { HorizonsApiGateway } from "../Infrastructure/Gateways/HorizonsApiGateway.js";
+import { GetMainPlanetPresenter } from "../Presentation/GetMainPlanet/GetMainPlanetPresenter.js";
 
 export class PlanetsController {
     constructor(serviceDependencies) {
