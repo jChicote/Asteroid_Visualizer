@@ -1,11 +1,11 @@
 import { Planet } from "../../../Domain/Entities/Planet.js";
 import { PlanetRepository } from "../../../Domain/Repositories/PlanetRepository.js";
-import { GetMainPlanetDto } from "../../Dtos/GetMainPlanetDto.js";
+import { PlanetDto } from "../../Dtos/PlanetDto.js";
 
 /**
  * The UseCase for getting a specified main planet.
  */
-export class GetMainPlanetInteractor {
+export class CreatePlanetInteractor {
     constructor(serviceDependencies) {
         this.planetRepository = serviceDependencies.find((dependency) => dependency.name === PlanetRepository.name).service;
     }
@@ -30,12 +30,10 @@ export class GetMainPlanetInteractor {
             physicalBodyData.planetRadius,
             heliocentricData.semiMajorAxis);
 
-        console.log(this.planetRepository);
-
         // Store planet domain entity
         await this.planetRepository.Add(planet);
 
-        await presenter.PresentsPlanetDataAsync(new GetMainPlanetDto(captureData, heliocentricData, physicalBodyData));
+        await presenter.PresentsPlanetDataAsync(new PlanetDto(captureData, heliocentricData, physicalBodyData));
     }
 
     /**

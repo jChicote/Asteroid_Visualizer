@@ -1,6 +1,6 @@
 import { PlanetCodes } from "../../assets/Framework/Infrastructure/Gateways/HorizonsApiGateway.js";
 import { PlanetsController } from "../../assets/Framework/Controllers/PlanetsController.js";
-import { GetMainPlanetQuery } from "../../assets/Framework/Presentation/GetMainPlanet/GetMainPlanetQuery.js";
+import { CreatePlanetQuery } from "../../assets/Framework/Presentation/CreatePlanet/CreatePlanetQuery.js";
 import { SetVector } from "../../utils/math-library.js";
 import * as THREE from "../../../node_modules/three/build/three.module.js";
 
@@ -26,7 +26,7 @@ export class PlanetCreationSystem {
 
     async CreatePlanet(planetCode) {
         // Gets planet data.
-        const planetViewModel = await this.planetController.GetMainPlanetAsync(new GetMainPlanetQuery(planetCode));
+        const planetViewModel = await this.planetController.GetMainPlanetAsync(new CreatePlanetQuery(planetCode));
         const planetPosition = await this.CalculatePlanetPosition(planetViewModel.result);
         const planetRadius = await this.CalculatePlanetRadius(planetViewModel.result);
         const planetObject = this.RenderPlanet(planetRadius, 0xFFC7C7, planetPosition);

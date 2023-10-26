@@ -1,7 +1,7 @@
 /**
  * The view model for the main planets of the solar system.
  */
-export class GetMainPlanetViewModel {
+export class CreatePlanetViewModel {
     constructor(
         startDate,
         eccentricity,
