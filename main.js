@@ -1,10 +1,6 @@
-import { OrbitControls } from "./addons/OrbitControls.js";
-import { PlanetCreationSystem } from "./javascript/game/Planets/PlanetCreationSystem.js";
 import { Configuration } from "./javascript/shared/Configuration.js";
 import { ServiceContainer } from "./javascript/shared/DependencyInjectionServices/ServiceContainer.js";
 import { ServiceProvider } from "./javascript/shared/DependencyInjectionServices/ServiceProvider.js";
-import * as TEST from "./javascript/test-scene.js";
-import * as THREE from "./node_modules/three/build/three.module.js";
 import { GameManager } from "./javascript/game/GameManager.js";
 
 /**
@@ -21,6 +17,9 @@ export const Container = function() {
     })();
 };
 
+/**
+ * Getter for the singleton instance of the root game / visualiser management.
+ */
 let gameManager;
 export const VisualiserManager = function() {
     return (function() {
@@ -34,18 +33,6 @@ export const VisualiserManager = function() {
 
 let canUpdate = false;
 
-export const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 4000);
-
-const renderer = new THREE.WebGLRenderer();
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.getElementById("canvas-container").appendChild(renderer.domElement);
-
-const controls = new OrbitControls(camera, renderer.domElement);
-
-camera.position.set(0, 20, 100);
-controls.update();
-
 // Initializes scene
 async function init() {
     // Backend Initialisation
@@ -58,22 +45,10 @@ async function init() {
 }
 
 async function start() {
-    TEST.CreateTestSolarSystemScene();
-
-    (async () => {
-        try {
-            const container = Container();
-            const serviceProvider = container.Resolve(ServiceProvider);
-
-            const planetCreator = new PlanetCreationSystem(serviceProvider, scene);
-            await planetCreator.CreateMainPlanets();
-        } catch (error) {
-            console.error("Error:", error);
-        }
-    })();
+    // Start the game
+    VisualiserManager().Start();
 }
 
-// This is the update loop for the scene
 function animate() {
     if (!canUpdate) {
         return;
@@ -81,16 +56,16 @@ function animate() {
 
     requestAnimationFrame(animate);
 
-    controls.update();
-
-    renderer.render(scene, camera);
+    // Update the scene
+    VisualiserManager().Update();
 }
 
 async function ProgramStarter() {
     await init();
     await start();
+
     canUpdate = true;
-    console.log("Can run now");
+    console.log("Program can now start");
 }
 
 await ProgramStarter();
