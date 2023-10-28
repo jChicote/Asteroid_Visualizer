@@ -18,7 +18,7 @@ export function RegisterFrameworkServices(container) {
  * Register controllers for Dependency Injection.
  */
 function RegisterControllers(container) {
-    container.RegisterService(PlanetsController, { ServiceProvider, HorizonsApiGateway });
+    container.RegisterService(PlanetsController, { ServiceProvider });
 }
 
 /**

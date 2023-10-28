@@ -5,6 +5,7 @@ import { ServiceContainer } from "./javascript/shared/DependencyInjectionService
 import { ServiceProvider } from "./javascript/shared/DependencyInjectionServices/ServiceProvider.js";
 import * as TEST from "./javascript/test-scene.js";
 import * as THREE from "./node_modules/three/build/three.module.js";
+import { GameManager } from "./javascript/game/GameManager.js";
 
 /**
  * Getter for the singleton instance of the service container.
@@ -17,6 +18,17 @@ export const Container = function() {
         }
 
         return serviceContainer;
+    })();
+};
+
+let gameManager;
+export const VisualiserManager = function() {
+    return (function() {
+        if (gameManager == null) {
+            gameManager = new GameManager(Container().Resolve(ServiceProvider));
+        }
+
+        return gameManager;
     })();
 };
 
@@ -34,17 +46,13 @@ controls.update();
 
 // Initializes scene
 function init() {
-    // Registration Test:
+    // Backend Initialisation
     const configuration = new Configuration();
     configuration.ConfigureProject();
 
-    // const container = Container();
-    // const serviceProvider = container.Resolve(ServiceProvider);
-    // const controller = serviceProvider.GetService(PlanetsController);
-    // (async () => {
-    //     const planet = await controller.GetMainPlanetAsync(new GetMainPlanetQuery(PlanetCodes.Mercury));
-    //     console.log(planet);
-    // })();
+    // Game / Visualiser Initialisation
+    const visualiserManager = VisualiserManager();
+    visualiserManager.Initialise();
 }
 
 function start() {
@@ -57,7 +65,7 @@ function start() {
             const planetCreator = new PlanetCreationSystem(serviceProvider, scene);
             await planetCreator.CreateMainPlanets();
         } catch (error) {
-            console.error('Error:', error);
+            console.error("Error:", error);
         }
     })();
 }

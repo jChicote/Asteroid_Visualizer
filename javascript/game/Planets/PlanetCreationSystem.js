@@ -12,21 +12,11 @@ export class PlanetCreationSystem {
 
     async CreateMainPlanets() {
         // TODO: Information should be pre-loaded before any rendering
-        await this.CreatePlanet(PlanetCodes.Mercury);
-        await this.CreatePlanet(PlanetCodes.Venus);
-        await this.CreatePlanet(PlanetCodes.Earth);
-        await this.CreatePlanet(PlanetCodes.Mars);
 
-        await this.CreatePlanet(PlanetCodes.Jupiter);
-        await this.CreatePlanet(PlanetCodes.Saturn);
-        await this.CreatePlanet(PlanetCodes.Uranus);
-        await this.CreatePlanet(PlanetCodes.Neptune);
-        await this.CreatePlanet(PlanetCodes.Pluto);
     }
 
     async CreatePlanet(planetCode) {
         // Gets planet data.
-        const planetViewModel = await this.planetController.GetMainPlanetAsync(new CreatePlanetQuery(planetCode));
         const planetPosition = await this.CalculatePlanetPosition(planetViewModel.result);
         const planetRadius = await this.CalculatePlanetRadius(planetViewModel.result);
         const planetObject = this.RenderPlanet(planetRadius, 0xFFC7C7, planetPosition);
