@@ -32,6 +32,8 @@ export const VisualiserManager = function() {
     })();
 };
 
+let canUpdate = false;
+
 export const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 4000);
 
@@ -45,23 +47,24 @@ camera.position.set(0, 20, 100);
 controls.update();
 
 // Initializes scene
-function init() {
+async function init() {
     // Backend Initialisation
     const configuration = new Configuration();
     configuration.ConfigureProject();
 
     // Game / Visualiser Initialisation
     const visualiserManager = VisualiserManager();
-    visualiserManager.Initialise();
+    await visualiserManager.Initialise();
 }
 
-function start() {
+async function start() {
     TEST.CreateTestSolarSystemScene();
 
     (async () => {
         try {
             const container = Container();
             const serviceProvider = container.Resolve(ServiceProvider);
+
             const planetCreator = new PlanetCreationSystem(serviceProvider, scene);
             await planetCreator.CreateMainPlanets();
         } catch (error) {
@@ -72,6 +75,10 @@ function start() {
 
 // This is the update loop for the scene
 function animate() {
+    if (!canUpdate) {
+        return;
+    }
+
     requestAnimationFrame(animate);
 
     controls.update();
@@ -79,6 +86,12 @@ function animate() {
     renderer.render(scene, camera);
 }
 
-init();
-start();
+async function ProgramStarter() {
+    await init();
+    await start();
+    canUpdate = true;
+    console.log("Can run now");
+}
+
+await ProgramStarter();
 animate();

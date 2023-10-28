@@ -3,6 +3,7 @@ import { PlanetsController } from "../Controllers/PlanetsController.js";
 import { GatewayClient } from "../Infrastructure/Gateways/GatewayClient.js";
 import { HorizonsApiGateway } from "../Infrastructure/Gateways/HorizonsApiGateway.js";
 import { CreatePlanetPresenter } from "../Presentation/CreatePlanet/CreatePlanetPresenter.js";
+import { GetPlanetsPresenter } from "../Presentation/GetPlanets/GetPlanetsPresenter.js";
 
 /**
  * Registers all the dependencies from the backend application.
@@ -26,6 +27,7 @@ function RegisterControllers(container) {
  */
 function RegisterPresentation(container) {
     container.RegisterService(CreatePlanetPresenter);
+    container.RegisterService(GetPlanetsPresenter);
 }
 
 /**

@@ -10,15 +10,15 @@ export class CreatePlanetPresenter {
     async PresentsPlanetDataAsync(planetData) {
         console.log("Encountered Success");
         this.result = new SuccessfulResult(new CreatePlanetViewModel( // TODO: Create bindings for this
-            planetData.captureData.startDate,
-            planetData.heliocentricData.eccentricity,
-            planetData.captureData.endDate,
-            planetData.physicalBodyData.obliquityToOrbit,
-            planetData.physicalBodyData.orbitalSpeed,
-            planetData.heliocentricData.meanAnomaly,
-            planetData.physicalBodyData.meanSolarDay,
-            planetData.heliocentricData.semiMajorAxis,
-            planetData.physicalBodyData.planetRadius
+            planetData.startDate,
+            planetData.eccentricity,
+            planetData.endDate,
+            planetData.obliquityToOrbit,
+            planetData.orbitalSpeed,
+            planetData.meanAnomaly,
+            planetData.meanSolarDay,
+            planetData.semiMajorAxis,
+            planetData.planetRadius
         ));
     }
 

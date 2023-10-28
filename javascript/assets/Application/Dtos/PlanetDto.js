@@ -1,7 +1,14 @@
 export class PlanetDto {
-    constructor(captureData, heliocentricData, physicalBodyData) {
-        this.captureData = captureData;
-        this.heliocentricData = heliocentricData;
-        this.physicalBodyData = physicalBodyData;
+    constructor(planetCode, eccentricity, endDate, meanAnomaly, meanSolarDay, obliquityToOrbit, orbitalSpeed, planetRadius, semiMajorAxis, startDate) {
+        this.planetCode = planetCode;
+        this.eccentricity = eccentricity;
+        this.endDate = endDate;
+        this.meanAnomaly = meanAnomaly;
+        this.meanSolarDay = meanSolarDay;
+        this.obliquityToOrbit = obliquityToOrbit;
+        this.orbitalSpeed = orbitalSpeed;
+        this.planetRadius = planetRadius;
+        this.semiMajorAxis = semiMajorAxis;
+        this.startDate = startDate;
     }
 }

@@ -1,6 +1,4 @@
-import { PlanetCodes } from "../../assets/Framework/Infrastructure/Gateways/HorizonsApiGateway.js";
 import { PlanetsController } from "../../assets/Framework/Controllers/PlanetsController.js";
-import { CreatePlanetQuery } from "../../assets/Framework/Presentation/CreatePlanet/CreatePlanetQuery.js";
 import { SetVector } from "../../utils/math-library.js";
 import * as THREE from "../../../node_modules/three/build/three.module.js";
 
@@ -12,7 +10,8 @@ export class PlanetCreationSystem {
 
     async CreateMainPlanets() {
         // TODO: Information should be pre-loaded before any rendering
-
+        const result = await this.planetController.GetPlanetsAsync();
+        console.log(result.result);
     }
 
     async CreatePlanet(planetCode) {

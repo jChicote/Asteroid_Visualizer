@@ -33,7 +33,18 @@ export class CreatePlanetInteractor {
         // Store planet domain entity
         await this.planetRepository.Add(planet);
 
-        await presenter.PresentsPlanetDataAsync(new PlanetDto(captureData, heliocentricData, physicalBodyData));
+        await presenter.PresentsPlanetDataAsync(new PlanetDto(
+            inputPort.planetCode,
+            heliocentricData.eccentricity,
+            captureData.endDate,
+            heliocentricData.meanAnomaly,
+            physicalBodyData.meanSolarDay,
+            physicalBodyData.obliquityToOrbit,
+            physicalBodyData.orbitalSpeed,
+            physicalBodyData.planetRadius,
+            heliocentricData.semiMajorAxis,
+            captureData.startDate
+        ));
     }
 
     /**
