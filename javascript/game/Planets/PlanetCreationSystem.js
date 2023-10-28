@@ -10,10 +10,13 @@ export class PlanetCreationSystem {
 
     async CreateMainPlanets() {
         const planets = (await this.planetController.GetPlanetsAsync()).result.planets;
+        const planetObjects = [];
 
         for (const planet of planets) {
-            this.CreatePlanet(planet);
+            planetObjects.push(this.CreatePlanet(planet));
         }
+
+        return planetObjects;
     }
 
     async CreatePlanet(planet) {

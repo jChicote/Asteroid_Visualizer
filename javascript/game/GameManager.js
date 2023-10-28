@@ -1,8 +1,8 @@
 import { DataLoaderProvider } from "./Infrastructure/DataLoaders/DataLoaderProvider.js";
-import { PlanetCreationSystem } from "./Planets/PlanetCreationSystem.js";
 import * as THREE from "../../node_modules/three/build/three.module.js";
 import { OrbitControls } from "../../addons/OrbitControls.js";
 import { StarCreator } from "../star-creator.js";
+import { PlanetManager } from "./Planets/PlanetManager.js";
 
 export class GameManager {
     static scene;
@@ -17,7 +17,7 @@ export class GameManager {
         }
 
         this.dataLoaderProvider = new DataLoaderProvider(serviceProvider);
-        this.planetCreater = new PlanetCreationSystem(serviceProvider, this.scene);
+        this.planetManager = new PlanetManager(serviceProvider, this.scene);
     }
 
     async Initialise() {
@@ -28,7 +28,7 @@ export class GameManager {
 
     Start() {
         this.SetupScene();
-        this.planetCreater.CreateMainPlanets();
+        this.planetManager.SetupPlanets();
 
         // TODO: Move this to its own section
         const starCreator = new StarCreator(this.scene);
