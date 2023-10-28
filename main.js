@@ -5,6 +5,7 @@ import { ServiceContainer } from "./javascript/shared/DependencyInjectionService
 import { ServiceProvider } from "./javascript/shared/DependencyInjectionServices/ServiceProvider.js";
 import * as TEST from "./javascript/test-scene.js";
 import * as THREE from "./node_modules/three/build/three.module.js";
+import { GameManager } from "./javascript/game/GameManager.js";
 
 /**
  * Getter for the singleton instance of the service container.
@@ -20,6 +21,19 @@ export const Container = function() {
     })();
 };
 
+let gameManager;
+export const VisualiserManager = function() {
+    return (function() {
+        if (gameManager == null) {
+            gameManager = new GameManager(Container().Resolve(ServiceProvider));
+        }
+
+        return gameManager;
+    })();
+};
+
+let canUpdate = false;
+
 export const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 4000);
 
@@ -33,37 +47,38 @@ camera.position.set(0, 20, 100);
 controls.update();
 
 // Initializes scene
-function init() {
-    // Registration Test:
+async function init() {
+    // Backend Initialisation
     const configuration = new Configuration();
     configuration.ConfigureProject();
 
-    // const container = Container();
-    // const serviceProvider = container.Resolve(ServiceProvider);
-    // const controller = serviceProvider.GetService(PlanetsController);
-    // (async () => {
-    //     const planet = await controller.GetMainPlanetAsync(new GetMainPlanetQuery(PlanetCodes.Mercury));
-    //     console.log(planet);
-    // })();
+    // Game / Visualiser Initialisation
+    const visualiserManager = VisualiserManager();
+    await visualiserManager.Initialise();
 }
 
-function start() {
+async function start() {
     TEST.CreateTestSolarSystemScene();
 
     (async () => {
         try {
             const container = Container();
             const serviceProvider = container.Resolve(ServiceProvider);
+
             const planetCreator = new PlanetCreationSystem(serviceProvider, scene);
             await planetCreator.CreateMainPlanets();
         } catch (error) {
-            console.error('Error:', error);
+            console.error("Error:", error);
         }
     })();
 }
 
 // This is the update loop for the scene
 function animate() {
+    if (!canUpdate) {
+        return;
+    }
+
     requestAnimationFrame(animate);
 
     controls.update();
@@ -71,6 +86,12 @@ function animate() {
     renderer.render(scene, camera);
 }
 
-init();
-start();
+async function ProgramStarter() {
+    await init();
+    await start();
+    canUpdate = true;
+    console.log("Can run now");
+}
+
+await ProgramStarter();
 animate();

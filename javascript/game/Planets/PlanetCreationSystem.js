@@ -1,6 +1,4 @@
-import { PlanetCodes } from "../../assets/Framework/Infrastructure/Gateways/HorizonsApiGateway.js";
 import { PlanetsController } from "../../assets/Framework/Controllers/PlanetsController.js";
-import { CreatePlanetQuery } from "../../assets/Framework/Presentation/CreatePlanet/CreatePlanetQuery.js";
 import { SetVector } from "../../utils/math-library.js";
 import * as THREE from "../../../node_modules/three/build/three.module.js";
 
@@ -12,23 +10,17 @@ export class PlanetCreationSystem {
 
     async CreateMainPlanets() {
         // TODO: Information should be pre-loaded before any rendering
-        await this.CreatePlanet(PlanetCodes.Mercury);
-        await this.CreatePlanet(PlanetCodes.Venus);
-        await this.CreatePlanet(PlanetCodes.Earth);
-        await this.CreatePlanet(PlanetCodes.Mars);
+        const planets = (await this.planetController.GetPlanetsAsync()).result.planets;
 
-        await this.CreatePlanet(PlanetCodes.Jupiter);
-        await this.CreatePlanet(PlanetCodes.Saturn);
-        await this.CreatePlanet(PlanetCodes.Uranus);
-        await this.CreatePlanet(PlanetCodes.Neptune);
-        await this.CreatePlanet(PlanetCodes.Pluto);
+        for (const planet of planets) {
+            this.CreatePlanet(planet);
+        }
     }
 
-    async CreatePlanet(planetCode) {
+    async CreatePlanet(planet) {
         // Gets planet data.
-        const planetViewModel = await this.planetController.GetMainPlanetAsync(new CreatePlanetQuery(planetCode));
-        const planetPosition = await this.CalculatePlanetPosition(planetViewModel.result);
-        const planetRadius = await this.CalculatePlanetRadius(planetViewModel.result);
+        const planetPosition = await this.CalculatePlanetPosition(planet);
+        const planetRadius = await this.CalculatePlanetRadius(planet);
         const planetObject = this.RenderPlanet(planetRadius, 0xFFC7C7, planetPosition);
 
         return planetObject;

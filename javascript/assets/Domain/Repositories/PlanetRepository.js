@@ -10,4 +10,8 @@ export class PlanetRepository {
     async Find(planetCode) {
         return this.data.get(planetCode);
     }
+
+    async GetEntities() {
+        return Array.from(this.data.values());
+    }
 }
