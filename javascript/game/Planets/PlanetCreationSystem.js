@@ -1,6 +1,7 @@
 import { PlanetsController } from "../../assets/Framework/Controllers/PlanetsController.js";
 import { SetVector } from "../../utils/math-library.js";
 import * as THREE from "../../../node_modules/three/build/three.module.js";
+import { PlanetObject } from "../Entities/PlanetObject.js";
 
 export class PlanetCreationSystem {
     constructor(serviceProvider, scene) {
@@ -24,7 +25,7 @@ export class PlanetCreationSystem {
         const planetRadius = await this.CalculatePlanetRadius(planet);
         const planetObject = this.RenderPlanet(planetRadius, 0xFFC7C7, planetPosition);
 
-        return planetObject;
+        return new PlanetObject(planetObject, planet.planetCode);
     }
 
     async RenderPlanet(radius, hexColor, planetPosition) {
