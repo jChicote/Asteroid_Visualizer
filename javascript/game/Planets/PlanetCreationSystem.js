@@ -20,15 +20,15 @@ export class PlanetCreationSystem {
         return planetObjects;
     }
 
-    async CreatePlanet(planet) {
-        const planetPosition = await this.CalculatePlanetPosition(planet);
-        const planetRadius = await this.CalculatePlanetRadius(planet);
+    CreatePlanet(planet) {
+        const planetPosition = this.CalculatePlanetPosition(planet);
+        const planetRadius = this.CalculatePlanetRadius(planet);
         const planetObject = this.RenderPlanet(planetRadius, 0xFFC7C7, planetPosition);
 
-        return new PlanetObject(planetObject, planet.planetCode);
+        return new PlanetObject(planetObject, planet.planetCode, planet);
     }
 
-    async RenderPlanet(radius, hexColor, planetPosition) {
+    RenderPlanet(radius, hexColor, planetPosition) {
         const planet = new THREE.Mesh(
             new THREE.SphereGeometry(radius, 32, 16),
             new THREE.MeshBasicMaterial({ color: hexColor }));
@@ -39,7 +39,7 @@ export class PlanetCreationSystem {
         return planet;
     }
 
-    async CalculatePlanetPosition(planetData) {
+    CalculatePlanetPosition(planetData) {
         const eccentricAnomaly = planetData.meanAnomaly + planetData.eccentricity * Math.sin(planetData.meanAnomaly);
         const trueAnomaly = 2 * Math.atan(Math.sqrt((1 + planetData.eccentricity) / (1 - planetData.eccentricity)) * Math.tan(eccentricAnomaly / 2));
         const distanceRadiusFromSun = planetData.semiMajorAxis * (1 - planetData.eccentricity * Math.cos(eccentricAnomaly));
@@ -51,7 +51,7 @@ export class PlanetCreationSystem {
         };
     }
 
-    async CalculatePlanetRadius(planetData) {
+    CalculatePlanetRadius(planetData) {
         return planetData.planetRadius * 0.00005; // TODO: Make this dynamicically scaled
     }
 }
