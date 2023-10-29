@@ -18,6 +18,7 @@ export class CreatePlanetPresenter {
             planetData.meanAnomaly,
             planetData.meanSolarDay,
             planetData.semiMajorAxis,
+            planetData.sideRealDayPeriod,
             planetData.planetRadius
         ));
     }

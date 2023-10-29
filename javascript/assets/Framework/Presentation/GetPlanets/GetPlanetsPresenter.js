@@ -12,7 +12,8 @@ export class GetPlanetsPresenter {
             planet.eccentricity,
             planet.meanAnomaly,
             planet.planetRadius,
-            planet.semiMajorAxis
+            planet.semiMajorAxis,
+            planet.sideRealDayPeriod
         ));
 
         this.result = new SuccessfulResult(new GetPlanetsViewModel(planetResult));

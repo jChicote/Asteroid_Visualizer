@@ -28,11 +28,7 @@ export class PlanetManager {
     }
 
     CalculatePlanetOrbitalPosition(planetState, planetData) {
-        /**
-         * Additional data needed:
-         * - Star mass
-         * - Orbital speed
-         */
+        // Constant values
         const starMass = 1.989e30 * 6.67430e-11; // central mass * gravitational constant
         const pi = 3.14159265;
 
@@ -40,7 +36,7 @@ export class PlanetManager {
         const orbitalPeriod = 2 * pi * Math.sqrt(Math.pow(planetData.semiMajorAxis, 3) / starMass);
 
         // Calculate time step
-        const timeStep = orbitalPeriod / 1000;
+        const timeStep = orbitalPeriod / (planetData.sideRealDayPeriod * 24 * 3600) * 100000;
 
         // Calculate the mean motion
         const meanMotion = 2 * pi / orbitalPeriod;

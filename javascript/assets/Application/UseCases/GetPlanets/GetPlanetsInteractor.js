@@ -21,6 +21,7 @@ export class GetPlanetsInteractor {
                 null,
                 element.planetRadius,
                 element.semiMajorAxis,
+                element.sideRealDayPeriod,
                 ""
             ));
         });

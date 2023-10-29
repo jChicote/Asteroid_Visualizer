@@ -21,14 +21,15 @@ export class CreatePlanetInteractor {
 
         const captureData = await this.ExtractCaptureData(inputPort.capture);
         const heliocentricData = await this.ExtractHeliocentricData(inputPort.heliocentric);
-        const physicalBodyData = await this.ExtractPhysicalBodyData(inputPort.physicalBody);
+        const physicalBodyData = await this.ExtractPhysicalBodyData(inputPort.planetCode, inputPort.physicalBody);
 
         const planet = new Planet(
             inputPort.planetCode,
             heliocentricData.eccentricity,
             heliocentricData.meanAnomaly,
             physicalBodyData.planetRadius,
-            heliocentricData.semiMajorAxis);
+            heliocentricData.semiMajorAxis,
+            physicalBodyData.sideRealDayPeriod);
 
         // Store planet domain entity
         await this.planetRepository.Add(planet);
@@ -43,6 +44,7 @@ export class CreatePlanetInteractor {
             physicalBodyData.orbitalSpeed,
             physicalBodyData.planetRadius,
             heliocentricData.semiMajorAxis,
+            physicalBodyData.sideRealDayPeriod,
             captureData.startDate
         ));
     }
@@ -107,12 +109,13 @@ export class CreatePlanetInteractor {
      * Extracts the physical information of the planet.
      * @param {*} physicalBodySection The section containing the data.
      */
-    async ExtractPhysicalBodyData(physicalBodySection) {
+    async ExtractPhysicalBodyData(planetCode, physicalBodySection) {
         const physicalBodyData = {
             obliquityToOrbit: "",
             orbitalSpeed: "",
             planetRadius: "",
-            meanSolarDay: ""
+            meanSolarDay: "",
+            sideRealDayPeriod: ""
         };
 
         for (const line of physicalBodySection) {
@@ -129,28 +132,48 @@ export class CreatePlanetInteractor {
                         // TODO: Create an options parameter in the future to contain the search options for the physical datapoints.
                         physicalBodyData.meanSolarDay =
                             physicalBodyData.meanSolarDay === ""
-                                ? this.ParseValidFloat(this.GetPhysicalBodyValue(data, ["Mean solar day"]))
+                                ? this.ParseValidFloat(this.GetPhysicalBodyValue(data, [{ key: "Mean solar day", searchUnitOfMeasure: false }]))
                                 : physicalBodyData.meanSolarDay;
 
                         physicalBodyData.obliquityToOrbit =
                             physicalBodyData.obliquityToOrbit === ""
-                                ? this.ParseValidFloat(this.GetPhysicalBodyValue(data, ["Obliquity to orbit"]))
+                                ? this.ParseValidFloat(this.GetPhysicalBodyValue(data, [{ key: "Obliquity to orbit", searchUnitOfMeasure: false }]))
                                 : physicalBodyData.obliquityToOrbit;
 
                         physicalBodyData.orbitalSpeed =
                             physicalBodyData.orbitalSpeed === ""
                                 ? this.ParseValidFloat(this.GetPhysicalBodyValue(data, [
-                                    "Orbital speed",
-                                    "Mean Orbit vel",
-                                    "Orbit speed",
-                                    "Mean orbit speed",
-                                    "Mean orbit velocity"
+                                    { key: "Orbital speed", searchUnitOfMeasure: false },
+                                    { key: "Mean Orbit vel", searchUnitOfMeasure: false },
+                                    { key: "Orbit speed", searchUnitOfMeasure: false },
+                                    { key: "Mean orbit speed", searchUnitOfMeasure: false },
+                                    { key: "Mean orbit velocity", searchUnitOfMeasure: false }
                                 ]))
                                 : physicalBodyData.orbitalSpeed;
                         physicalBodyData.planetRadius =
                             physicalBodyData.planetRadius === ""
-                                ? this.ParseValidInt(this.GetPhysicalBodyValue(data, ["Vol. Mean Radius"]))
+                                ? this.ParseValidInt(this.GetPhysicalBodyValue(data, [{ key: "Vol. Mean Radius", searchUnitOfMeasure: false }]))
                                 : physicalBodyData.planetRadius;
+                        physicalBodyData.sideRealDayPeriod =
+                            physicalBodyData.sideRealDayPeriod === ""
+                                ? this.ParseValidFloat(this.GetPhysicalBodyValue(data, [
+                                    { key: "Sidereal orb. per.", searchUnitOfMeasure: true },
+                                    { key: "Mean sidereal orb per", searchUnitOfMeasure: true },
+                                    { key: "Sidereal orb. per., d", searchUnitOfMeasure: false },
+                                    { key: "Sidereal orb period", searchUnitOfMeasure: true },
+                                    { key: "Sidereal orbit period", searchUnitOfMeasure: true }
+                                ], "d"))
+                                : physicalBodyData.sideRealDayPeriod;
+
+                        // TODO: In the future make the extraction of the values rules based. This is so that they can be flexible for the requirements of each planet.
+                        // Extract and translate certain items of data from
+                        if (planetCode === "999") {
+                            const sideRealOrbitPeriod = this.ParseValidFloat(this.GetPhysicalBodyValue(data, [{ key: "Sidereal orbit period", searchUnitOfMeasure: false }]));
+                            physicalBodyData.sideRealDayPeriod =
+                                physicalBodyData.sideRealDayPeriod === "" || physicalBodyData.sideRealDayPeriod === 0
+                                    ? sideRealOrbitPeriod * 365.25
+                                    : physicalBodyData.sideRealDayPeriod;
+                        }
                     }
                 });
             }
@@ -182,10 +205,14 @@ export class CreatePlanetInteractor {
         return parseInt(data);
     }
 
-    GetPhysicalBodyValue(dataPoint, keys) {
-        for (const key of keys) {
-            if (dataPoint.key.toLowerCase().includes(key.toLowerCase())) {
-                return dataPoint.value;
+    GetPhysicalBodyValue(dataPoint, searchQuery, unitOfMeasurement = "") {
+        for (const query of searchQuery) {
+            if (dataPoint.key.toLowerCase().includes(query.key.toLowerCase())) {
+                if (query.searchUnitOfMeasure === false) {
+                    return dataPoint.value;
+                } else if (query.searchUnitOfMeasure === true && dataPoint.value.includes(unitOfMeasurement)) {
+                    return dataPoint.value;
+                }
             }
         }
 
