@@ -129,7 +129,6 @@ export class CreatePlanetInteractor {
                     if (dataPoint.includes("=")) {
                         const data = this.CreateDictionaryFromData(dataPoint);
 
-                        // TODO: Create an options parameter in the future to contain the search options for the physical datapoints.
                         physicalBodyData.meanSolarDay =
                             physicalBodyData.meanSolarDay === ""
                                 ? this.ParseValidFloat(this.GetPhysicalBodyValue(data, [{ key: "Mean solar day", searchUnitOfMeasure: false }]))

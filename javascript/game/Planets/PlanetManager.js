@@ -9,15 +9,12 @@ export class PlanetManager {
     }
 
     SetupPlanets() {
-        (async () => {
-            await this.planetCreationSystem.CreateMainPlanets().then((planets) => {
-                this.planetObjects = planets;
-            });
-        })();
+        this.planetCreationSystem.CreateMainPlanets().then((planets) => {
+            this.planetObjects = planets;
+        });
     }
 
     UpdatePlanets() {
-        // TODO: Planets would be encapsulated with their own class to manage their own updates and orbits
         for (const planetObject of this.planetObjects) {
             const planetData = planetObject.planetData;
             const planetState = planetObject.planetState;
@@ -64,24 +61,24 @@ export class PlanetManager {
     }
 
     CalculateEccentricAnomaly(meanAnomaly, eccentricity) {
-        let E = meanAnomaly;
+        let eccentricAnomaly = meanAnomaly;
 
         // Iterate over the equation until the result converge
         while (true) {
-            const deltaE = (E - eccentricity * Math.sin(E) - meanAnomaly) / (1 - eccentricity * Math.cos(E));
-            E -= deltaE;
+            const deltaE = (eccentricAnomaly - eccentricity * Math.sin(eccentricAnomaly) - meanAnomaly) / (1 - eccentricity * Math.cos(eccentricAnomaly));
+            eccentricAnomaly -= deltaE;
 
             // Check if the result has converged within the tolerance
             if (Math.abs(deltaE) < 1e-6) {
                 break;
             }
 
-            if (isNaN(E)) {
+            if (isNaN(eccentricAnomaly)) {
                 console.log("Detected NaN during calculation of eccentric anomaly.");
                 break;
             }
         }
 
-        return E;
+        return eccentricAnomaly;
     }
 }
