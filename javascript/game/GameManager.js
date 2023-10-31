@@ -36,7 +36,12 @@ export class GameManager {
     }
 
     Update() {
+        // Update Controls
         this.controls.update();
+
+        // Update Planets
+        this.planetManager.UpdatePlanets();
+
         this.renderer.render(this.scene, this.camera);
     }
 

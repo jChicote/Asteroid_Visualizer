@@ -11,6 +11,7 @@ export class CreatePlanetViewModel {
         meanAnomaly,
         meanSolarDay,
         semiMajorAxis,
+        sideRealDayPeriod,
         planetRadius) {
         this.startDate = startDate;
         this.eccentricity = eccentricity;
@@ -20,6 +21,7 @@ export class CreatePlanetViewModel {
         this.meanAnomaly = meanAnomaly;
         this.meanSolarDay = meanSolarDay;
         this.semiMajorAxis = semiMajorAxis;
+        this.sideRealDayPeriod = sideRealDayPeriod;
         this.planetRadius = planetRadius;
     }
 }
