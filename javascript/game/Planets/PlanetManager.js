@@ -20,7 +20,7 @@ export class PlanetManager {
             const planetState = planetObject.planetState;
 
             const orbitalPosition = this.CalculatePlanetOrbitalPosition(planetState, planetData);
-            planetObject.gameObject.position.set(orbitalPosition.x, orbitalPosition.y, orbitalPosition.z);
+            planetObject.SetPosition(orbitalPosition);
         }
     }
 
