@@ -1,6 +1,6 @@
+import * as THREE from "../../../node_modules/three/build/three.module.js";
 import { PlanetsController } from "../../assets/Framework/Controllers/PlanetsController.js";
 import { SetVector } from "../../utils/math-library.js";
-import * as THREE from "../../../node_modules/three/build/three.module.js";
 import { Planet } from "../Entities/Planet.js";
 
 export class PlanetCreationSystem {
