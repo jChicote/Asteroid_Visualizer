@@ -52,6 +52,6 @@ export class PlanetCreationSystem {
     }
 
     CalculatePlanetRadius(planetData) {
-        return planetData.planetRadius * 0.00005; // TODO: Make this dynamicically scaled
+        return planetData.planetRadius * 0.00005; // TODO: ABstract this to make this dynamicically scaled
     }
 }

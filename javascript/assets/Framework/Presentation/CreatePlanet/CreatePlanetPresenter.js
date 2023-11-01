@@ -1,6 +1,6 @@
+import { PlanetCodes } from "../../Infrastructure/Gateways/HorizonsApiGateway.js";
 import { ErrorResult, SuccessfulResult } from "../Common/PresentationResult.js";
 import { CreatePlanetViewModel } from "./CreatePlanetViewModel.js";
-import { PlanetCodes } from "../../Infrastructure/Gateways/HorizonsApiGateway.js";
 
 export class CreatePlanetPresenter {
     constructor() {

@@ -15,5 +15,5 @@
     "javascript.format.insertSpaceAfterFunctionKeywordForAnonymousFunctions": false,
     "workbench.colorTheme": "Default Dark Modern",
     "workbench.iconTheme": "vscode-icons",
-    "metabob.backendSelection": "openai/chatgpt",
+    "metabob.backendSelection": "metabob",
 }

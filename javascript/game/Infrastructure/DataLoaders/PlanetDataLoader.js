@@ -1,6 +1,6 @@
-import { DataLoader } from "./DataLoader.js";
-import { HorizonsApiGateway, PlanetCodes } from "../../../assets/Framework/Infrastructure/Gateways/HorizonsApiGateway.js";
 import { PlanetsController } from "../../../assets/Framework/Controllers/PlanetsController.js";
+import { HorizonsApiGateway, PlanetCodes } from "../../../assets/Framework/Infrastructure/Gateways/HorizonsApiGateway.js";
+import { DataLoader } from "./DataLoader.js";
 
 export class PlanetDataLoader extends DataLoader {
     constructor(serviceProvider) {
@@ -19,6 +19,8 @@ export class PlanetDataLoader extends DataLoader {
         await this.CreatePlanetAsync(PlanetCodes.Uranus);
         await this.CreatePlanetAsync(PlanetCodes.Neptune);
         await this.CreatePlanetAsync(PlanetCodes.Pluto);
+
+        return 0;
     }
 
     async CreatePlanetAsync(planetCode) {
@@ -36,7 +38,6 @@ export class PlanetDataLoader extends DataLoader {
                 "The planet " +
                 Object.keys(PlanetCodes).find((key) => PlanetCodes[key] === planetCode) +
                 "'s " +
-                dataPointName +
                 " information was not found.", response.ErrorMessage);
         }
     }
