@@ -6,8 +6,8 @@ export class OrbitalMotionCalculator {
         this.STEPPINGRESOLUTION = 100000;
     }
 
-    GetOrbitalPeriodInDays() {
-        return 2 * this.PI * Math.sqrt(Math.pow(planetData.semiMajorAxis, 3) / this.STARMASS);
+    GetOrbitalPeriodInDays(semiMajorAxis) {
+        return 2 * this.PI * Math.sqrt(Math.pow(semiMajorAxis, 3) / this.STARMASS);
     }
 
     GetTimeStepInDays(orbitalPeriod, sideRealDayPeriod) {
