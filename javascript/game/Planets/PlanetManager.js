@@ -17,12 +17,6 @@ export class PlanetManager {
     UpdatePlanets() {
         for (const planet of this.planetObjects) {
             planet.Update();
-
-            // const planetData = planet.planetData;
-            // const planetState = planet.planetState;
-
-            // const orbitalPosition = this.CalculatePlanetOrbitalPosition(planetState, planetData);
-            // planet.SetPosition(orbitalPosition);
         }
     }
 

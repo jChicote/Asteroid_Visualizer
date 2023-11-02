@@ -1,9 +1,10 @@
+import { ServiceExtractor } from "../../../../shared/DependencyInjectionServices/ServiceExtractor.js";
 import { PlanetRepository } from "../../../Domain/Repositories/PlanetRepository.js";
 import { PlanetDto } from "../../Dtos/PlanetDto.js";
 
 export class GetPlanetsInteractor {
     constructor(serviceDependencies) {
-        this.planetRepository = serviceDependencies.find((dependency) => dependency.name === PlanetRepository.name).service;
+        this.planetRepository = ServiceExtractor.ExtractService(serviceDependencies, PlanetRepository);
     }
 
     async Handle(inputPort, presenter) {

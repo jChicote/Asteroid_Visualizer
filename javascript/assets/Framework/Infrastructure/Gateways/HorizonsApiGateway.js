@@ -1,3 +1,4 @@
+import { ServiceExtractor } from "../../../../shared/DependencyInjectionServices/ServiceExtractor.js";
 import { GetProxyServerUrl } from "../../Services/Providers/serverProxyUriProvider.js";
 import { GatewayViewModel } from "./Common/GatewayViewModels.js";
 import { textContentOptions } from "./Configuration/gateway-options.js";
@@ -24,7 +25,7 @@ const HTTPMethods = {
 
 export class HorizonsApiGateway {
     constructor(serviceDependencies) {
-        this.gatewayClient = serviceDependencies.find((dependency) => dependency.name === GatewayClient.name).service;
+        this.gatewayClient = ServiceExtractor.ExtractService(serviceDependencies, GatewayClient);
     }
 
     async GetPlanetEphemerisData(planetCode) {

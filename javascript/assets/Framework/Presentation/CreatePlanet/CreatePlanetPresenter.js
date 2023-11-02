@@ -36,5 +36,3 @@ export class CreatePlanetPresenter {
         this.result = new ErrorResult(errorMessage);
     }
 }
-
-// TODO: We need a base presenter class for holding the result to be then used by the controller
