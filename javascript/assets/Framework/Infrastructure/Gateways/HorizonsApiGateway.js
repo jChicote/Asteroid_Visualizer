@@ -1,4 +1,4 @@
-import { ServiceExtractor } from "../../../../shared/DependencyInjectionServices/ServiceExtractor.js";
+import { ServiceExtractor } from "../../../../shared/DependencyInjectionServices/Utilities/ServiceExtractor.js";
 import { GetProxyServerUrl } from "../../Services/Providers/serverProxyUriProvider.js";
 import { GatewayViewModel } from "./Common/GatewayViewModels.js";
 import { textContentOptions } from "./Configuration/gateway-options.js";

@@ -1,7 +1,7 @@
 import { Planet } from "../../../Domain/Entities/Planet.js";
 import { PlanetRepository } from "../../../Domain/Repositories/PlanetRepository.js";
 import { PlanetDto } from "../../Dtos/PlanetDto.js";
-import { ServiceExtractor } from "../../../../shared/DependencyInjectionServices/ServiceExtractor.js";
+import { ServiceExtractor } from "../../../../shared/DependencyInjectionServices/Utilities/ServiceExtractor.js";
 
 /**
  * The UseCase for getting a specified main planet.

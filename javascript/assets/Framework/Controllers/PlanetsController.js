@@ -4,7 +4,7 @@ import { CreatePlanetPresenter } from "../Presentation/CreatePlanet/CreatePlanet
 import { CreatePlanetInputPort } from "../../Application/UseCases/CreatePlanet/CreatePlanetInputPort.js";
 import { GetPlanetsInteractor } from "../../Application/UseCases/GetPlanets/GetPlanetsInteractor.js";
 import { GetPlanetsPresenter } from "../Presentation/GetPlanets/GetPlanetsPresenter.js";
-import { ServiceExtractor } from "../../../shared/DependencyInjectionServices/ServiceExtractor.js";
+import { ServiceExtractor } from "../../../shared/DependencyInjectionServices/Utilities/ServiceExtractor.js";
 
 export class PlanetsController {
     constructor(serviceDependencies) {

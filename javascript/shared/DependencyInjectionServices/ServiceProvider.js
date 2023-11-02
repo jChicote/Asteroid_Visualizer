@@ -1,5 +1,5 @@
 import { Container } from "../../../main.js";
-import { ServiceValidator } from "./ServiceValidator.js";
+import { ServiceValidator } from "./Utilities/ServiceValidator.js";
 
 /**
  * Responsible for providing services to the application.

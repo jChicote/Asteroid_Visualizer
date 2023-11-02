@@ -1,4 +1,4 @@
-import { ServiceExtractor } from "../../../../shared/DependencyInjectionServices/ServiceExtractor.js";
+import { ServiceExtractor } from "../../../../shared/DependencyInjectionServices/Utilities/ServiceExtractor.js";
 import { PlanetRepository } from "../../../Domain/Repositories/PlanetRepository.js";
 import { PlanetDto } from "../../Dtos/PlanetDto.js";
 
