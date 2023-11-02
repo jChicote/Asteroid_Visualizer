@@ -49,15 +49,15 @@ async function start() {
     VisualiserManager().Start();
 }
 
-function animate() {
-    if (!canUpdate) {
+async function animate() {
+    if (canUpdate === false) {
         return;
     }
 
-    requestAnimationFrame(animate);
-
     // Update the scene
     VisualiserManager().Update();
+
+    requestAnimationFrame(animate);
 }
 
 async function ProgramStarter() {
