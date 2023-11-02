@@ -1,7 +1,7 @@
+import { GameManager } from "./javascript/game/GameManager.js";
 import { Configuration } from "./javascript/shared/Configuration.js";
 import { ServiceContainer } from "./javascript/shared/DependencyInjectionServices/ServiceContainer.js";
 import { ServiceProvider } from "./javascript/shared/DependencyInjectionServices/ServiceProvider.js";
-import { GameManager } from "./javascript/game/GameManager.js";
 
 /**
  * Getter for the singleton instance of the service container.
