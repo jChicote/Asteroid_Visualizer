@@ -1,6 +1,6 @@
+import * as THREE from "../../../node_modules/three/build/three.module.js";
 import { PlanetsController } from "../../assets/Framework/Controllers/PlanetsController.js";
 import { SetVector } from "../../utils/math-library.js";
-import * as THREE from "../../../node_modules/three/build/three.module.js";
 import { Planet } from "../Entities/Planet.js";
 
 export class PlanetCreationSystem {
@@ -52,6 +52,6 @@ export class PlanetCreationSystem {
     }
 
     CalculatePlanetRadius(planetData) {
-        return planetData.planetRadius * 0.00005; // TODO: Make this dynamicically scaled
+        return planetData.planetRadius * 0.00005; // TODO: ABstract this to make this dynamicically scaled
     }
 }

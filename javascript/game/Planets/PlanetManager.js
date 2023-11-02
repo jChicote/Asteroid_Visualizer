@@ -5,7 +5,7 @@ export class PlanetManager {
         this.planetCreationSystem = new PlanetCreationSystem(serviceProvider, scene);
         this.planetObjects = [];
 
-        this.timeStep = 600;
+        this.timeStep = 4;
     }
 
     SetupPlanets() {
@@ -15,12 +15,14 @@ export class PlanetManager {
     }
 
     UpdatePlanets() {
-        for (const planetObject of this.planetObjects) {
-            const planetData = planetObject.planetData;
-            const planetState = planetObject.planetState;
+        for (const planet of this.planetObjects) {
+            planet.Update();
 
-            const orbitalPosition = this.CalculatePlanetOrbitalPosition(planetState, planetData);
-            planetObject.SetPosition(orbitalPosition);
+            // const planetData = planet.planetData;
+            // const planetState = planet.planetState;
+
+            // const orbitalPosition = this.CalculatePlanetOrbitalPosition(planetState, planetData);
+            // planet.SetPosition(orbitalPosition);
         }
     }
 
