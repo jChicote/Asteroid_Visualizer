@@ -25,7 +25,7 @@ const HTTPMethods = {
 
 export class HorizonsApiGateway {
     constructor(serviceDependencies) {
-        this.gatewayClient = ServiceExtractor.ExtractService(serviceDependencies, GatewayClient);
+        this.gatewayClient = ServiceExtractor.ObtainService(serviceDependencies, GatewayClient);
     }
 
     async GetPlanetEphemerisData(planetCode) {

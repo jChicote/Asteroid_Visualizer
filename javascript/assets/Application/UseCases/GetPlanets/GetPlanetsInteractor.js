@@ -4,7 +4,7 @@ import { PlanetDto } from "../../Dtos/PlanetDto.js";
 
 export class GetPlanetsInteractor {
     constructor(serviceDependencies) {
-        this.planetRepository = ServiceExtractor.ExtractService(serviceDependencies, PlanetRepository);
+        this.planetRepository = ServiceExtractor.ObtainService(serviceDependencies, PlanetRepository);
     }
 
     async Handle(inputPort, presenter) {

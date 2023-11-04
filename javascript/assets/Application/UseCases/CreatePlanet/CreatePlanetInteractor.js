@@ -8,7 +8,7 @@ import { ServiceExtractor } from "../../../../shared/DependencyInjectionServices
  */
 export class CreatePlanetInteractor {
     constructor(serviceDependencies) {
-        this.planetRepository = ServiceExtractor.ExtractService(serviceDependencies, PlanetRepository);
+        this.planetRepository = ServiceExtractor.ObtainService(serviceDependencies, PlanetRepository);
     }
 
     async Handle(inputPort, presenter) {

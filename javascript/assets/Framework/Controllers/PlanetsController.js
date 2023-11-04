@@ -8,7 +8,7 @@ import { ServiceExtractor } from "../../../shared/DependencyInjectionServices/Ut
 
 export class PlanetsController {
     constructor(serviceDependencies) {
-        this.serviceProvider = ServiceExtractor.ExtractService(serviceDependencies, ServiceProvider);
+        this.serviceProvider = ServiceExtractor.ObtainService(serviceDependencies, ServiceProvider);
     }
 
     async CreatePlanetAsync(query) {
