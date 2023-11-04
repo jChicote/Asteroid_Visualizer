@@ -1,13 +1,14 @@
 import { Planet } from "../../../Domain/Entities/Planet.js";
 import { PlanetRepository } from "../../../Domain/Repositories/PlanetRepository.js";
 import { PlanetDto } from "../../Dtos/PlanetDto.js";
+import { ServiceExtractor } from "../../../../shared/DependencyInjectionServices/Utilities/ServiceExtractor.js";
 
 /**
  * The UseCase for getting a specified main planet.
  */
 export class CreatePlanetInteractor {
     constructor(serviceDependencies) {
-        this.planetRepository = serviceDependencies.find((dependency) => dependency.name === PlanetRepository.name).service;
+        this.planetRepository = ServiceExtractor.ObtainService(serviceDependencies, PlanetRepository);
     }
 
     async Handle(inputPort, presenter) {

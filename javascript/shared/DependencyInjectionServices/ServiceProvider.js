@@ -1,4 +1,5 @@
 import { Container } from "../../../main.js";
+import { ServiceValidator } from "./Utilities/ServiceValidator.js";
 
 /**
  * Responsible for providing services to the application.
@@ -9,7 +10,7 @@ export class ServiceProvider {
     }
 
     GetService(ClassToResolve) {
-        return this.container.Resolve(ClassToResolve);
+        return ServiceValidator.ValidateService(this.container.Resolve(ClassToResolve));
     }
 }
 
