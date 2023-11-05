@@ -1,21 +1,21 @@
 import { ServiceProvider } from "../../../shared/DependencyInjectionServices/ServiceProvider.js";
-import { CreatePlanetInteractor } from "../../Application/UseCases/CreatePlanet/CreatePlanetInteractor.js";
 import { CreatePlanetPresenter } from "../Presentation/CreatePlanet/CreatePlanetPresenter.js";
 import { CreatePlanetInputPort } from "../../Application/UseCases/CreatePlanet/CreatePlanetInputPort.js";
-import { GetPlanetsInteractor } from "../../Application/UseCases/GetPlanets/GetPlanetsInteractor.js";
 import { GetPlanetsPresenter } from "../Presentation/GetPlanets/GetPlanetsPresenter.js";
 import { ServiceExtractor } from "../../../shared/DependencyInjectionServices/Utilities/ServiceExtractor.js";
+import { PlanetsAdapter } from "../../InterfaceAdapters/Controllers/PlanetsAdapter.js";
+import { GetPlanetsInputPort } from "../../Application/UseCases/GetPlanets/GetPlanetsInputPort.js";
 
 export class PlanetsController {
     constructor(serviceDependencies) {
         this.serviceProvider = ServiceExtractor.ObtainService(serviceDependencies, ServiceProvider);
+        this.planetAdapter = ServiceExtractor.ObtainService(serviceDependencies, PlanetsAdapter);
     }
 
     async CreatePlanetAsync(query) {
-        const interactor = this.serviceProvider.GetService(CreatePlanetInteractor);
         const presenter = this.serviceProvider.GetService(CreatePlanetPresenter);
 
-        await interactor.Handle(
+        await this.planetAdapter.CreatePlanetAsync(
             new CreatePlanetInputPort(query.planetCode, query.captureSection, query.heliocentricSection, query.physicalBodySection),
             presenter
         );
@@ -24,10 +24,9 @@ export class PlanetsController {
     }
 
     async GetPlanetsAsync() {
-        const interactor = this.serviceProvider.GetService(GetPlanetsInteractor);
         const presenter = this.serviceProvider.GetService(GetPlanetsPresenter);
 
-        await interactor.Handle(undefined, presenter);
+        await this.planetAdapter.GetPlanetsAsync(new GetPlanetsInputPort(), presenter);
 
         return presenter.result;
     }

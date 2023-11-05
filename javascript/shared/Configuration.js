@@ -2,6 +2,7 @@ import { Container } from "../../main.js";
 import { RegisterApplicationServices } from "../assets/Application/DependencyInjection/ApplicationServiceRegistration.js";
 import { RegisterDomainServices } from "../assets/Domain/DependencyInjection/DomainServiceRegistration.js";
 import { RegisterFrameworkServices } from "../assets/Framework/DependencyInjection/FrameworkServiceRegistration.js";
+import { RegisterInterfaceAdapterServices } from "../assets/InterfaceAdapters/DependencyInjection/InterfaceAdapterRegistration.js";
 import { ServiceScopes } from "./DependencyInjectionServices/ServiceContainer.js";
 import { ServiceProvider } from "./DependencyInjectionServices/ServiceProvider.js";
 
@@ -13,6 +14,7 @@ export class Configuration {
         // Register all services
         RegisterDomainServices(container);
         RegisterApplicationServices(container);
+        RegisterInterfaceAdapterServices(container);
         RegisterFrameworkServices(container);
 
         return 0;
