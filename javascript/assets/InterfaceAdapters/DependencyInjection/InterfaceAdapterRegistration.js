@@ -9,5 +9,5 @@ import { ServiceScopes } from "../../../shared/DependencyInjectionServices/Servi
  */
 export function RegisterInterfaceAdapterServices(container) {
     container.RegisterService(UseCaseMediator, {}, ServiceScopes.Singleton);
-    container.RegisterService(PlanetsAdapter, { UseCaseMediator, GetPlanetsInteractor, CreatePlanetInteractor });
+    container.RegisterService(PlanetsAdapter, { UseCaseMediator, GetPlanetsInteractor, CreatePlanetInteractor }, ServiceScopes.Singleton);
 }
