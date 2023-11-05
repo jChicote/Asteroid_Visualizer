@@ -4,6 +4,7 @@ import { GatewayClient } from "../Infrastructure/Gateways/GatewayClient.js";
 import { HorizonsApiGateway } from "../Infrastructure/Gateways/HorizonsApiGateway.js";
 import { CreatePlanetPresenter } from "../Presentation/CreatePlanet/CreatePlanetPresenter.js";
 import { GetPlanetsPresenter } from "../Presentation/GetPlanets/GetPlanetsPresenter.js";
+import { PlanetsAdapter } from "../../InterfaceAdapters/Controllers/PlanetsAdapter.js";
 
 /**
  * Registers all the dependencies from the backend application.
@@ -19,7 +20,7 @@ export function RegisterFrameworkServices(container) {
  * Register controllers for Dependency Injection.
  */
 function RegisterControllers(container) {
-    container.RegisterService(PlanetsController, { ServiceProvider });
+    container.RegisterService(PlanetsController, { ServiceProvider, PlanetsAdapter });
 }
 
 /**
