@@ -1,7 +1,7 @@
 import { Container } from "../../main.js";
 import { RegisterApplicationServices, ConfigureApplicationMapperConfigurations } from "../assets/Application/DependencyInjection/ApplicationServiceRegistration.js";
 import { RegisterDomainServices } from "../assets/Domain/DependencyInjection/DomainServiceRegistration.js";
-import { RegisterFrameworkServices } from "../assets/Framework/DependencyInjection/FrameworkServiceRegistration.js";
+import { RegisterFrameworkServices, ConfigureFrameworkMapperConfigurations } from "../assets/Framework/DependencyInjection/FrameworkServiceRegistration.js";
 import { RegisterInterfaceAdapterServices } from "../assets/InterfaceAdapters/DependencyInjection/InterfaceAdapterRegistration.js";
 import { ServiceScopes } from "./DependencyInjectionServices/ServiceContainer.js";
 import { ServiceProvider } from "./DependencyInjectionServices/ServiceProvider.js";
@@ -25,6 +25,7 @@ export class Configuration {
         // Configure mapper
         const mapper = serviceProvider.GetService(ObjectMapper);
         ConfigureApplicationMapperConfigurations(mapper);
+        ConfigureFrameworkMapperConfigurations(mapper);
 
         return 0;
     }

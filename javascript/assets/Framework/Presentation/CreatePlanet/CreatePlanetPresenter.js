@@ -1,26 +1,18 @@
 import { PlanetCodes } from "../../Infrastructure/Gateways/HorizonsApiGateway.js";
 import { ErrorResult, SuccessfulResult } from "../Common/PresentationResult.js";
 import { CreatePlanetViewModel } from "./CreatePlanetViewModel.js";
+import { ObjectMapper } from "../../../../shared/Infrastructure/Mapper/ObjectMapper.js";
+import { ServiceExtractor } from "../../../../shared/DependencyInjectionServices/Utilities/ServiceExtractor.js";
 
 export class CreatePlanetPresenter {
-    constructor() {
+    constructor(serviceDependencies) {
+        this.mapper = ServiceExtractor.ObtainService(serviceDependencies, ObjectMapper);
         this.result = {};
     }
 
     async PresentsPlanetDataAsync(planetData) {
         console.log("Encountered Success");
-        this.result = new SuccessfulResult(new CreatePlanetViewModel( // TODO: Create bindings for this
-            planetData.startDate,
-            planetData.eccentricity,
-            planetData.endDate,
-            planetData.obliquityToOrbit,
-            planetData.orbitalSpeed,
-            planetData.meanAnomaly,
-            planetData.meanSolarDay,
-            planetData.semiMajorAxis,
-            planetData.sideRealDayPeriod,
-            planetData.planetRadius
-        ));
+        this.result = new SuccessfulResult(this.mapper.Map(planetData, CreatePlanetViewModel));
     }
 
     async PresentPlanetDataNotFoundAsync(planetCode, dataPointName) {
