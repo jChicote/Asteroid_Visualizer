@@ -23,6 +23,12 @@ export class ObjectMapper {
      * @param {*} destinationType
      */
     Map(sourceObject, destinationType) {
+        if (sourceObject == null) {
+            throw new Error("Source objects must be defined.");
+        } else if (destinationType == null) {
+            throw new Error("Destination type must be defined.");
+        }
+
         const sourceType = sourceObject.constructor;
         const key = `${sourceType.name}-${destinationType.name}`;
         const mappingFunction = this.configurations.get(key);
