@@ -2,12 +2,15 @@ import { Planet } from "../../../Domain/Entities/Planet.js";
 import { PlanetRepository } from "../../../Domain/Repositories/PlanetRepository.js";
 import { PlanetDto } from "../../Dtos/PlanetDto.js";
 import { ServiceExtractor } from "../../../../shared/DependencyInjectionServices/Utilities/ServiceExtractor.js";
+import { ObjectMapper } from "../../../../shared/Infrastructure/Mapper/ObjectMapper.js";
+import { CreatePlanetDataContainer } from "./CreatePlanetMapperConfiguration.js";
 
 /**
  * The UseCase for getting a specified main planet.
  */
 export class CreatePlanetInteractor {
     constructor(serviceDependencies) {
+        this.mapper = ServiceExtractor.ObtainService(serviceDependencies, ObjectMapper);
         this.planetRepository = ServiceExtractor.ObtainService(serviceDependencies, PlanetRepository);
     }
 
@@ -24,30 +27,13 @@ export class CreatePlanetInteractor {
         const heliocentricData = await this.ExtractHeliocentricData(inputPort.heliocentric);
         const physicalBodyData = await this.ExtractPhysicalBodyData(inputPort.planetCode, inputPort.physicalBody);
 
-        const planet = new Planet(
-            inputPort.planetCode,
-            heliocentricData.eccentricity,
-            heliocentricData.meanAnomaly,
-            physicalBodyData.planetRadius,
-            heliocentricData.semiMajorAxis,
-            physicalBodyData.sideRealDayPeriod);
+        const dataContainer = new CreatePlanetDataContainer(captureData, heliocentricData, inputPort, physicalBodyData);
+        const planet = this.mapper.Map(dataContainer, Planet);
 
         // Store planet domain entity
         await this.planetRepository.Add(planet);
 
-        await presenter.PresentsPlanetDataAsync(new PlanetDto(
-            inputPort.planetCode,
-            heliocentricData.eccentricity,
-            captureData.endDate,
-            heliocentricData.meanAnomaly,
-            physicalBodyData.meanSolarDay,
-            physicalBodyData.obliquityToOrbit,
-            physicalBodyData.orbitalSpeed,
-            physicalBodyData.planetRadius,
-            heliocentricData.semiMajorAxis,
-            physicalBodyData.sideRealDayPeriod,
-            captureData.startDate
-        ));
+        await presenter.PresentsPlanetDataAsync(this.mapper.Map(dataContainer, PlanetDto));
     }
 
     /**

@@ -5,6 +5,9 @@ import { HorizonsApiGateway } from "../Infrastructure/Gateways/HorizonsApiGatewa
 import { CreatePlanetPresenter } from "../Presentation/CreatePlanet/CreatePlanetPresenter.js";
 import { GetPlanetsPresenter } from "../Presentation/GetPlanets/GetPlanetsPresenter.js";
 import { PlanetsAdapter } from "../../InterfaceAdapters/Controllers/PlanetsAdapter.js";
+import { CreatePlanetConfiguration } from "../Presentation/CreatePlanet/CreatePlanetConfiguration.js";
+import { GetPlanetsConfiguration } from "../Presentation/GetPlanets/GetPlanetsConfiguration.js";
+import { ObjectMapper } from "../../../shared/Infrastructure/Mapper/ObjectMapper.js";
 
 /**
  * Registers all the dependencies from the backend application.
@@ -27,8 +30,8 @@ function RegisterControllers(container) {
  * Register presenters for Dependency Injection.
  */
 function RegisterPresentation(container) {
-    container.RegisterService(CreatePlanetPresenter);
-    container.RegisterService(GetPlanetsPresenter);
+    container.RegisterService(CreatePlanetPresenter, { ObjectMapper });
+    container.RegisterService(GetPlanetsPresenter, { ObjectMapper });
 }
 
 /**
@@ -37,4 +40,12 @@ function RegisterPresentation(container) {
 function RegisterGateways(container) {
     container.RegisterService(GatewayClient);
     container.RegisterService(HorizonsApiGateway, { GatewayClient });
+}
+
+export function ConfigureFrameworkMapperConfigurations(mapper) {
+    const createPlanetConfiguration = new CreatePlanetConfiguration();
+    const getPlanetsConfiguration = new GetPlanetsConfiguration();
+
+    createPlanetConfiguration.RegisterConfigurations(mapper);
+    getPlanetsConfiguration.RegisterConfigurations(mapper);
 }
