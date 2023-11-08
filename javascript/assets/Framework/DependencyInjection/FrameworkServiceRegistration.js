@@ -8,6 +8,8 @@ import { PlanetsAdapter } from "../../InterfaceAdapters/Controllers/PlanetsAdapt
 import { CreatePlanetConfiguration } from "../Presentation/CreatePlanet/CreatePlanetConfiguration.js";
 import { GetPlanetsConfiguration } from "../Presentation/GetPlanets/GetPlanetsConfiguration.js";
 import { ObjectMapper } from "../../../shared/Infrastructure/Mapper/ObjectMapper.js";
+import { ProxyServerUrlProvider } from "../Infrastructure/Gateways/Providers/ProxyServerUrlProvider.js";
+import { HorizonsApiUriProvider } from "../Infrastructure/Gateways/Providers/HorizonsApiUriProvider.js";
 
 /**
  * Registers all the dependencies from the backend application.
@@ -38,8 +40,11 @@ function RegisterPresentation(container) {
  * Registers the API gateways used by the application.
  */
 function RegisterGateways(container) {
+    container.RegisterService(ProxyServerUrlProvider);
+    container.RegisterService(HorizonsApiUriProvider, { ProxyServerUrlProvider });
+
     container.RegisterService(GatewayClient);
-    container.RegisterService(HorizonsApiGateway, { GatewayClient });
+    container.RegisterService(HorizonsApiGateway, { GatewayClient, HorizonsApiUriProvider });
 }
 
 export function ConfigureFrameworkMapperConfigurations(mapper) {
