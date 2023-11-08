@@ -1,8 +1,8 @@
 import { ServiceExtractor } from "../../../../shared/DependencyInjectionServices/Utilities/ServiceExtractor.js";
-import { GetProxyServerUrl } from "../../Services/Providers/serverProxyUriProvider.js";
 import { GatewayViewModel } from "./Common/GatewayViewModels.js";
 import { textContentOptions } from "./Configuration/gateway-options.js";
 import { GatewayClient } from "./GatewayClient.js";
+import { HorizonsApiUriProvider } from "./Providers/HorizonsApiUriProvider.js";
 
 export const PlanetCodes = {
     Mercury: "199",
@@ -26,16 +26,12 @@ const HTTPMethods = {
 export class HorizonsApiGateway {
     constructor(serviceDependencies) {
         this.gatewayClient = ServiceExtractor.ObtainService(serviceDependencies, GatewayClient);
+        this.uriProvider = ServiceExtractor.ObtainService(serviceDependencies, HorizonsApiUriProvider);
     }
 
     async GetPlanetEphemerisData(planetCode) {
-        const contentType = "text";
-        const encodedUri = encodeURIComponent("https://ssd.jpl.nasa.gov/api/horizons.api?" +
-            "COMMAND=" + planetCode + "&OBJ_DATA=YES&MAKE_EPHEM=YES&EPHEM_TYPE=ELEMENTS&CENTER=500@10&format=" + contentType);
-        const apiUri = GetProxyServerUrl() + encodedUri; // TODO: Change this to a template literal
-
         try {
-            const response = await this.gatewayClient.SendAsync(HTTPMethods.GET, apiUri, textContentOptions, true);
+            const response = await this.gatewayClient.SendAsync(HTTPMethods.GET, this.uriProvider.Provide(planetCode), textContentOptions, true);
 
             if (response.status === 200) {
                 const planetData = {
