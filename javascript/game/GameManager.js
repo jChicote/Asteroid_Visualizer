@@ -1,7 +1,7 @@
-import { DataLoaderProvider } from "./Infrastructure/DataLoaders/DataLoaderProvider.js";
-import * as THREE from "../../node_modules/three/build/three.module.js";
 import { OrbitControls } from "../../addons/OrbitControls.js";
+import * as THREE from "../../node_modules/three/build/three.module.js";
 import { StarCreator } from "../star-creator.js";
+import { DataLoaderProvider } from "./Infrastructure/DataLoaders/DataLoaderProvider.js";
 import { PlanetManager } from "./Planets/PlanetManager.js";
 
 export class GameManager {
