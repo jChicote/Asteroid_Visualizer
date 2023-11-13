@@ -20,6 +20,9 @@ export class PlanetDataLoader extends DataLoader {
         await this.CreatePlanetAsync(PlanetCodes.Neptune);
         await this.CreatePlanetAsync(PlanetCodes.Pluto);
 
+        // Get all planets to trigger dispatch of observer
+        await this.planetController.GetPlanetsAsync();
+
         return 0;
     }
 

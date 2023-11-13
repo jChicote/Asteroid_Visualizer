@@ -5,11 +5,13 @@ import { GetPlanetsPresenter } from "../Presentation/GetPlanets/GetPlanetsPresen
 import { ServiceExtractor } from "../../../shared/DependencyInjectionServices/Utilities/ServiceExtractor.js";
 import { PlanetsAdapter } from "../../InterfaceAdapters/Controllers/PlanetsAdapter.js";
 import { GetPlanetsInputPort } from "../../Application/UseCases/GetPlanets/GetPlanetsInputPort.js";
+import { PlanetObserver } from "../../../shared/Observers/PlanetObserver.js";
 
 export class PlanetsController {
     constructor(serviceDependencies) {
         this.serviceProvider = ServiceExtractor.ObtainService(serviceDependencies, ServiceProvider);
         this.planetAdapter = ServiceExtractor.ObtainService(serviceDependencies, PlanetsAdapter);
+        this.planetObserver = ServiceExtractor.ObtainService(serviceDependencies, PlanetObserver);
     }
 
     async CreatePlanetAsync(query) {
@@ -27,6 +29,8 @@ export class PlanetsController {
         const presenter = this.serviceProvider.GetService(GetPlanetsPresenter);
 
         await this.planetAdapter.GetPlanetsAsync(new GetPlanetsInputPort(), presenter);
+
+        this.planetObserver.Dispatch("GetPlanets", presenter.result.result.planets);
 
         return presenter.result;
     }
