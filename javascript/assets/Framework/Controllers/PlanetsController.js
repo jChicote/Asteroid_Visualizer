@@ -29,7 +29,6 @@ export class PlanetsController {
         const presenter = this.serviceProvider.GetService(GetPlanetsPresenter);
 
         await this.planetAdapter.GetPlanetsAsync(new GetPlanetsInputPort(), presenter);
-
         this.planetObserver.Dispatch("GetPlanets", presenter.result.result.planets);
 
         return presenter.result;
