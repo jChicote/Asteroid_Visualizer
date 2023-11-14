@@ -15,19 +15,19 @@ export const PlanetCodes = {
 
 export class PlanetManager {
     constructor(serviceProvider, scene) {
-        this.planetObserver = serviceProvider.GetService(PlanetObserver);
-        this.planetObserver.Subscribe("GetPlanets", this.CreateMainPlanets);
-
         this.planets = [];
         this.timeStep = 4;
+
+        this.planetObserver = serviceProvider.GetService(PlanetObserver);
+        this.planetObserver.Subscribe("GetPlanets", this.CreateMainPlanets.bind(this));
     }
 
-    async CreateMainPlanets(planets) {
+    CreateMainPlanets(planets) {
         for (const planet of planets) {
-            this.planetObjects.push(new Planet(planet.planetCode, planet));
+            this.planets.push(new Planet(planet.planetCode, planet));
         }
 
-        return this.planetObjects;
+        return this.planets;
     }
 
     UpdatePlanets() {
