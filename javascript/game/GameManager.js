@@ -28,7 +28,6 @@ export class GameManager {
 
     Start() {
         this.SetupScene();
-        this.planetManager.SetupPlanets();
 
         // TODO: Move this to its own section
         const starCreator = new StarCreator(this.scene);

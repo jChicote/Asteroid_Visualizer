@@ -10,6 +10,7 @@ import { GetPlanetsConfiguration } from "../Presentation/GetPlanets/GetPlanetsCo
 import { ObjectMapper } from "../../../shared/Infrastructure/Mapper/ObjectMapper.js";
 import { ProxyServerUrlProvider } from "../Infrastructure/Gateways/Providers/ProxyServerUrlProvider.js";
 import { HorizonsApiUriProvider } from "../Infrastructure/Gateways/Providers/HorizonsApiUriProvider.js";
+import { PlanetObserver } from "../../../shared/Observers/PlanetObserver.js";
 
 /**
  * Registers all the dependencies from the backend application.
@@ -25,7 +26,7 @@ export function RegisterFrameworkServices(container) {
  * Register controllers for Dependency Injection.
  */
 function RegisterControllers(container) {
-    container.RegisterService(PlanetsController, { ServiceProvider, PlanetsAdapter });
+    container.RegisterService(PlanetsController, { ServiceProvider, PlanetsAdapter, PlanetObserver });
 }
 
 /**
