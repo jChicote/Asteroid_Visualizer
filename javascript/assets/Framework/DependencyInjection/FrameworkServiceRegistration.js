@@ -11,6 +11,7 @@ import { ObjectMapper } from "../../../shared/Infrastructure/Mapper/ObjectMapper
 import { ProxyServerUrlProvider } from "../Infrastructure/Gateways/Providers/ProxyServerUrlProvider.js";
 import { HorizonsApiUriProvider } from "../Infrastructure/Gateways/Providers/HorizonsApiUriProvider.js";
 import { PlanetObserver } from "../../../shared/Observers/PlanetObserver.js";
+import { SmallBodyApiGateway } from "../Infrastructure/Gateways/SmallBodyApiGateway.js";
 
 /**
  * Registers all the dependencies from the backend application.
@@ -46,6 +47,7 @@ function RegisterGateways(container) {
 
     container.RegisterService(GatewayClient);
     container.RegisterService(HorizonsApiGateway, { GatewayClient, HorizonsApiUriProvider });
+    container.RegisterService(SmallBodyApiGateway, { GatewayClient, ProxyServerUrlProvider });
 }
 
 export function ConfigureFrameworkMapperConfigurations(mapper) {

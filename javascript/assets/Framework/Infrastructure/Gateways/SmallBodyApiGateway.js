@@ -1,5 +1,5 @@
 import { ServiceExtractor } from "../../../../shared/DependencyInjectionServices/Utilities/ServiceExtractor.js";
-import { HTTPMethods } from './Configuration/gateway-options.js';
+import { HTTPMethods, textContentOptions } from "./Configuration/gateway-options.js";
 import { GatewayClient } from "./GatewayClient.js";
 import { ProxyServerUrlProvider } from "./Providers/ProxyServerUrlProvider.js";
 
@@ -17,21 +17,25 @@ export class SmallBodyApiGateway {
     constructor(serviceDependencies) {
         this.gatewayClient = ServiceExtractor.ObtainService(serviceDependencies, GatewayClient);
         this.serverUrlProvider = ServiceExtractor.ObtainService(serviceDependencies, ProxyServerUrlProvider);
+
+        this.sbdbApiUrl = "https://ssd-api.jpl.nasa.gov/sbdb_query.api?";
     }
 
     async GetAsteroids() {
-        const apiUrl = this.serverUrlProvider.Provide() + "";
+        const apiUrl = this.serverUrlProvider.Provide() + encodeURIComponent(this.sbdbApiUrl + "fields=spkid,full_name,kind,e,a,q,i,om,w,ma,tp,per,n,ad,GM,diameter,albedo,pole,rot_per&sb-kind=a&sb-class=IEO");
 
-        const response = this.GatewayClient.SendAsync(HTTPMethods.GET, apiUrl, true);
+        const response = await this.gatewayClient.SendAsync(HTTPMethods.GET, apiUrl, textContentOptions, true);
 
         if (response.status === 200) {
-
-        } else if (response.status === 400) {
-
-        } else {
-
+            const data = response.data;
+            console.log(data);
         }
 
+        // } else if (response.status === 400) {
+
+        // } else {
+
+        // }
     }
 
     async GetComets() {
