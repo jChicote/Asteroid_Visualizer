@@ -1,6 +1,7 @@
 import { ServiceExtractor } from "../../../../shared/DependencyInjectionServices/Utilities/ServiceExtractor.js";
-import { ProxyServerUrlProvider } from "./Providers/ProxyServerUrlProvider.js";
+import { HTTPMethods } from './Configuration/gateway-options.js';
 import { GatewayClient } from "./GatewayClient.js";
+import { ProxyServerUrlProvider } from "./Providers/ProxyServerUrlProvider.js";
 
 // TODO: Move the URL along with the content options into a configuration file for the application.
 const ServerProxyURL = "http://localhost:8080/proxy?url=";
@@ -19,6 +20,17 @@ export class SmallBodyApiGateway {
     }
 
     async GetAsteroids() {
+        const apiUrl = this.serverUrlProvider.Provide() + "";
+
+        const response = this.GatewayClient.SendAsync(HTTPMethods.GET, apiUrl, true);
+
+        if (response.status === 200) {
+
+        } else if (response.status === 400) {
+
+        } else {
+
+        }
 
     }
 
