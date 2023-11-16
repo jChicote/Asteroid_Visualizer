@@ -48,7 +48,7 @@ function RegisterGateways(container) {
 
     container.RegisterService(GatewayClient);
     container.RegisterService(HorizonsApiGateway, { GatewayClient, HorizonsApiUriProvider });
-    container.RegisterService(SmallBodyApiGateway, { GatewayClient, ProxyServerUrlProvider, SmallBodyApiGatewayMapperConfiguration });
+    container.RegisterService(SmallBodyApiGateway, { GatewayClient, ProxyServerUrlProvider, ObjectMapper });
 }
 
 export function ConfigureFrameworkMapperConfigurations(mapper) {

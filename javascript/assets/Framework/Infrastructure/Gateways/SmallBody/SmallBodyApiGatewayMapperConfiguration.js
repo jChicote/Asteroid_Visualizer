@@ -3,7 +3,7 @@ import { SmallCelestialBodyViewModel } from "./SmallCelestialBodyViewModel.js";
 
 export class SmallBodyApiGatewayMapperConfiguration extends BaseObjectMapperConfiguration {
     RegisterConfigurations(mapper) {
-        mapper.AddConfiguration(SmallBodyResponseContainer, SmallCelestialBodyViewModel, this.MapResponseToSmallCelestialBody);
+        mapper.AddConfiguration(SmallBodyResponseContainer, SmallCelestialBodyViewModel, this.MapResponseToSmallCelestialBodyViewModel);
     }
 
     MapResponseToSmallCelestialBodyViewModel(responseContent, smallBody) {
@@ -23,11 +23,13 @@ export class SmallBodyApiGatewayMapperConfiguration extends BaseObjectMapperConf
         smallBody.poleRotation = responseContent.data.pole;
         smallBody.semiMajorAxis = responseContent.data.a;
         smallBody.timeOfPerihelion = responseContent.data.tp;
+
+        return smallBody;
     }
 }
 
 export class SmallBodyResponseContainer {
     constructor(data) {
-        this.data = smallBodyData;
+        this.data = data;
     }
 }

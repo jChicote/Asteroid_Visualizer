@@ -1,8 +1,9 @@
 import { ServiceExtractor } from "../../../../../shared/DependencyInjectionServices/Utilities/ServiceExtractor.js";
+import { ObjectMapper } from "../../../../../shared/Infrastructure/Mapper/ObjectMapper.js";
 import { HTTPMethods, textContentOptions } from "../Configuration/gateway-options.js";
 import { GatewayClient } from "../GatewayClient.js";
 import { ProxyServerUrlProvider } from "../Providers/ProxyServerUrlProvider.js";
-import { SmallBodyApiGatewayMapperConfiguration, SmallBodyResponseContainer } from "./SmallBodyApiGatewayMapperConfiguration.js";
+import { SmallBodyResponseContainer } from "./SmallBodyApiGatewayMapperConfiguration.js";
 import { SmallCelestialBodyViewModel } from "./SmallCelestialBodyViewModel.js";
 
 // TODO: Move the URL along with the content options into a configuration file for the application.
@@ -19,7 +20,7 @@ export class SmallBodyApiGateway {
     constructor(serviceDependencies) {
         this.gatewayClient = ServiceExtractor.ObtainService(serviceDependencies, GatewayClient);
         this.serverUrlProvider = ServiceExtractor.ObtainService(serviceDependencies, ProxyServerUrlProvider);
-        this.mapper = ServiceExtractor.ObtainService(serviceDependencies, SmallBodyApiGatewayMapperConfiguration);
+        this.mapper = ServiceExtractor.ObtainService(serviceDependencies, ObjectMapper);
 
         this.sbdbApiUrl = "https://ssd-api.jpl.nasa.gov/sbdb_query.api?";
     }
@@ -32,24 +33,20 @@ export class SmallBodyApiGateway {
         if (response.status === 200) {
             const content = JSON.parse(response.content);
             const contentData = Array.from(content.data);
+            const smallCelestialBodies = [];
 
             for (const smallBody of contentData) {
                 const keyValueObject = {};
 
+                // TODO: Move this to be processed elsewhere
                 for (const key in content.fields) {
                     if (Object.prototype.hasOwnProperty.call(smallBody, key)) {
                         keyValueObject[content.fields[key]] = smallBody[key];
                     }
                 }
 
-                const finalObject = this.mapper.Map(new SmallBodyResponseContainer(keyValueObject), SmallCelestialBodyViewModel);
-                console.log(finalObject);
+                smallCelestialBodies.push(this.mapper.Map(new SmallBodyResponseContainer(keyValueObject), SmallCelestialBodyViewModel));
             }
-            // } else if (response.status === 400) {
-
-            // } else {
-
-            // }
         }
     }
 
