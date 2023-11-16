@@ -1,7 +1,7 @@
-import { ServiceExtractor } from "../../../../shared/DependencyInjectionServices/Utilities/ServiceExtractor.js";
-import { HTTPMethods, textContentOptions } from "./Configuration/gateway-options.js";
-import { GatewayClient } from "./GatewayClient.js";
-import { ProxyServerUrlProvider } from "./Providers/ProxyServerUrlProvider.js";
+import { ServiceExtractor } from "../../../../../shared/DependencyInjectionServices/Utilities/ServiceExtractor.js";
+import { HTTPMethods, textContentOptions } from "../Configuration/gateway-options.js";
+import { GatewayClient } from "../GatewayClient.js";
+import { ProxyServerUrlProvider } from "../Providers/ProxyServerUrlProvider.js";
 
 // TODO: Move the URL along with the content options into a configuration file for the application.
 const ServerProxyURL = "http://localhost:8080/proxy?url=";
@@ -27,10 +27,12 @@ export class SmallBodyApiGateway {
         const response = await this.gatewayClient.SendAsync(HTTPMethods.GET, apiUrl, textContentOptions, true);
 
         if (response.status === 200) {
-            const data = response.data;
-            console.log(data);
+            const content = JSON.parse(response.content);
+            const contentData = Array.from(content.data);
+            for (const smallBody in contentData) {
+                console.log(smallBody);
+            }
         }
-
         // } else if (response.status === 400) {
 
         // } else {

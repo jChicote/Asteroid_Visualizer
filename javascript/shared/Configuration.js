@@ -1,14 +1,14 @@
 import { Container } from "../../main.js";
-import { RegisterApplicationServices, ConfigureApplicationMapperConfigurations } from "../assets/Application/DependencyInjection/ApplicationServiceRegistration.js";
+import { ConfigureApplicationMapperConfigurations, RegisterApplicationServices } from "../assets/Application/DependencyInjection/ApplicationServiceRegistration.js";
 import { RegisterDomainServices } from "../assets/Domain/DependencyInjection/DomainServiceRegistration.js";
-import { RegisterFrameworkServices, ConfigureFrameworkMapperConfigurations } from "../assets/Framework/DependencyInjection/FrameworkServiceRegistration.js";
+import { ConfigureFrameworkMapperConfigurations, RegisterFrameworkServices } from "../assets/Framework/DependencyInjection/FrameworkServiceRegistration.js";
+import { SmallBodyApiGateway } from "../assets/Framework/Infrastructure/Gateways/SmallBody/SmallBodyApiGateway.js";
 import { RegisterInterfaceAdapterServices } from "../assets/InterfaceAdapters/DependencyInjection/InterfaceAdapterRegistration.js";
 import { ServiceScopes } from "./DependencyInjectionServices/ServiceContainer.js";
 import { ServiceProvider } from "./DependencyInjectionServices/ServiceProvider.js";
 import { RegisterSharedServices } from "./DependencyInjectionServices/SharedServiceRegistration.js";
 import { ObjectMapper } from "./Infrastructure/Mapper/ObjectMapper.js";
 import { PlanetObserver } from "./Observers/PlanetObserver.js";
-import { SmallBodyApiGateway } from "../assets/Framework/Infrastructure/Gateways/SmallBodyApiGateway.js";
 
 export class Configuration {
     ConfigureProject() {
