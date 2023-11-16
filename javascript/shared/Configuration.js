@@ -34,6 +34,7 @@ export class Configuration {
 
         const testGateway = serviceProvider.GetService(SmallBodyApiGateway);
         testGateway.GetAsteroids();
+        testGateway.GetComets();
 
         return 0;
     }

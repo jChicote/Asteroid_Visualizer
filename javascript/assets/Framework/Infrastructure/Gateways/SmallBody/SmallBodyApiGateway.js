@@ -1,5 +1,6 @@
 import { ServiceExtractor } from "../../../../../shared/DependencyInjectionServices/Utilities/ServiceExtractor.js";
 import { ObjectMapper } from "../../../../../shared/Infrastructure/Mapper/ObjectMapper.js";
+import { GatewayViewModel } from '../Common/GatewayViewModels.js';
 import { HTTPMethods, textContentOptions } from "../Configuration/gateway-options.js";
 import { GatewayClient } from "../GatewayClient.js";
 import { ProxyServerUrlProvider } from "../Providers/ProxyServerUrlProvider.js";
@@ -26,7 +27,9 @@ export class SmallBodyApiGateway {
     }
 
     async GetAsteroids() {
-        const apiUrl = this.serverUrlProvider.Provide() + encodeURIComponent(this.sbdbApiUrl + "fields=spkid,full_name,kind,e,a,q,i,om,w,ma,tp,per,n,ad,GM,diameter,pole,rot_per&sb-kind=a&sb-class=IEO");
+        const apiUrl = this.serverUrlProvider.Provide() + encodeURIComponent(this.sbdbApiUrl +
+            "fields=spkid,full_name,kind,e,a,q,i,om,w,ma,tp,per,n,ad,GM,diameter,pole,rot_per&" +
+            "sb-kind=a&sb-class=IEO"); // objects retrieved are from Atira class asteroids
 
         const response = await this.gatewayClient.SendAsync(HTTPMethods.GET, apiUrl, textContentOptions, true);
 
@@ -47,10 +50,43 @@ export class SmallBodyApiGateway {
 
                 smallCelestialBodies.push(this.mapper.Map(new SmallBodyResponseContainer(keyValueObject), SmallCelestialBodyViewModel));
             }
+            console.log(smallCelestialBodies);
+
+            return new GatewayViewModel(true, smallCelestialBodies, null);
+        } else {
+            return new GatewayViewModel(false, null, response);
         }
     }
 
     async GetComets() {
+        const apiUrl = this.serverUrlProvider.Provide() + encodeURIComponent(this.sbdbApiUrl +
+            "fields=spkid,full_name,kind,e,a,q,i,om,w,ma,tp,per,n,ad,GM,diameter,pole,rot_per&" +
+            "sb-kind=c&sb-class=HTC"); // objects retrieved are from Halley-type comets
 
+        const response = await this.gatewayClient.SendAsync(HTTPMethods.GET, apiUrl, textContentOptions, true);
+
+        if (response.status === 200) {
+            const content = JSON.parse(response.content);
+            const contentData = Array.from(content.data);
+            const smallCelestialBodies = [];
+
+            for (const smallBody of contentData) {
+                const keyValueObject = {};
+
+                // TODO: Move this to be processed elsewhere
+                for (const key in content.fields) {
+                    if (Object.prototype.hasOwnProperty.call(smallBody, key)) {
+                        keyValueObject[content.fields[key]] = smallBody[key];
+                    }
+                }
+
+                smallCelestialBodies.push(this.mapper.Map(new SmallBodyResponseContainer(keyValueObject), SmallCelestialBodyViewModel));
+            }
+            console.log(smallCelestialBodies);
+
+            return new GatewayViewModel(true, smallCelestialBodies, null);
+        } else {
+            return new GatewayViewModel(false, null, response);
+        }
     }
 }

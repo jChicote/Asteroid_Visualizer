@@ -26,6 +26,22 @@ export class SmallBodyApiGatewayMapperConfiguration extends BaseObjectMapperConf
 
         return smallBody;
     }
+
+    ParseValidFloat(data) {
+        if (data === "" || data === undefined) {
+            return "";
+        }
+
+        return parseFloat(data);
+    }
+
+    ParseValidInt(data) {
+        if (data === "" || data === undefined) {
+            return "";
+        }
+
+        return parseInt(data);
+    }
 }
 
 export class SmallBodyResponseContainer {
