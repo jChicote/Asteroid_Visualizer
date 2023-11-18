@@ -1,16 +1,18 @@
 import { ServiceProvider } from "../../../shared/DependencyInjectionServices/ServiceProvider.js";
+import { ObjectMapper } from "../../../shared/Infrastructure/Mapper/ObjectMapper.js";
+import { PlanetObserver } from "../../../shared/Observers/PlanetObserver.js";
+import { PlanetsAdapter } from "../../InterfaceAdapters/Controllers/PlanetsAdapter.js";
 import { PlanetsController } from "../Controllers/PlanetsController.js";
 import { GatewayClient } from "../Infrastructure/Gateways/GatewayClient.js";
 import { HorizonsApiGateway } from "../Infrastructure/Gateways/HorizonsApiGateway.js";
-import { CreatePlanetPresenter } from "../Presentation/CreatePlanet/CreatePlanetPresenter.js";
-import { GetPlanetsPresenter } from "../Presentation/GetPlanets/GetPlanetsPresenter.js";
-import { PlanetsAdapter } from "../../InterfaceAdapters/Controllers/PlanetsAdapter.js";
-import { CreatePlanetConfiguration } from "../Presentation/CreatePlanet/CreatePlanetConfiguration.js";
-import { GetPlanetsConfiguration } from "../Presentation/GetPlanets/GetPlanetsConfiguration.js";
-import { ObjectMapper } from "../../../shared/Infrastructure/Mapper/ObjectMapper.js";
-import { ProxyServerUrlProvider } from "../Infrastructure/Gateways/Providers/ProxyServerUrlProvider.js";
 import { HorizonsApiUriProvider } from "../Infrastructure/Gateways/Providers/HorizonsApiUriProvider.js";
-import { PlanetObserver } from "../../../shared/Observers/PlanetObserver.js";
+import { ProxyServerUrlProvider } from "../Infrastructure/Gateways/Providers/ProxyServerUrlProvider.js";
+import { SmallBodyApiGateway } from "../Infrastructure/Gateways/SmallBody/SmallBodyApiGateway.js";
+import { SmallBodyApiGatewayMapperConfiguration } from "../Infrastructure/Gateways/SmallBody/SmallBodyApiGatewayMapperConfiguration.js";
+import { CreatePlanetConfiguration } from "../Presentation/CreatePlanet/CreatePlanetConfiguration.js";
+import { CreatePlanetPresenter } from "../Presentation/CreatePlanet/CreatePlanetPresenter.js";
+import { GetPlanetsConfiguration } from "../Presentation/GetPlanets/GetPlanetsConfiguration.js";
+import { GetPlanetsPresenter } from "../Presentation/GetPlanets/GetPlanetsPresenter.js";
 
 /**
  * Registers all the dependencies from the backend application.
@@ -46,12 +48,15 @@ function RegisterGateways(container) {
 
     container.RegisterService(GatewayClient);
     container.RegisterService(HorizonsApiGateway, { GatewayClient, HorizonsApiUriProvider });
+    container.RegisterService(SmallBodyApiGateway, { GatewayClient, ProxyServerUrlProvider, ObjectMapper });
 }
 
 export function ConfigureFrameworkMapperConfigurations(mapper) {
     const createPlanetConfiguration = new CreatePlanetConfiguration();
     const getPlanetsConfiguration = new GetPlanetsConfiguration();
+    const smallBodyApiGatewayMapperConfiguration = new SmallBodyApiGatewayMapperConfiguration();
 
     createPlanetConfiguration.RegisterConfigurations(mapper);
     getPlanetsConfiguration.RegisterConfigurations(mapper);
+    smallBodyApiGatewayMapperConfiguration.RegisterConfigurations(mapper);
 }

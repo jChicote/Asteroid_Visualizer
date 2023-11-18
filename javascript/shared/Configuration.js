@@ -1,15 +1,16 @@
+import { ConfigureApplicationMapperConfigurations, RegisterApplicationServices } from "../assets/Application/DependencyInjection/ApplicationServiceRegistration.js";
+import { ConfigureFrameworkMapperConfigurations, RegisterFrameworkServices } from "../assets/Framework/DependencyInjection/FrameworkServiceRegistration.js";
 import { Container } from "../../main.js";
-import { RegisterApplicationServices, ConfigureApplicationMapperConfigurations } from "../assets/Application/DependencyInjection/ApplicationServiceRegistration.js";
-import { RegisterDomainServices } from "../assets/Domain/DependencyInjection/DomainServiceRegistration.js";
-import { RegisterFrameworkServices, ConfigureFrameworkMapperConfigurations } from "../assets/Framework/DependencyInjection/FrameworkServiceRegistration.js";
-import { RegisterInterfaceAdapterServices } from "../assets/InterfaceAdapters/DependencyInjection/InterfaceAdapterRegistration.js";
-import { ServiceScopes } from "./DependencyInjectionServices/ServiceContainer.js";
-import { ServiceProvider } from "./DependencyInjectionServices/ServiceProvider.js";
-import { RegisterSharedServices } from "./DependencyInjectionServices/SharedServiceRegistration.js";
 import { ObjectMapper } from "./Infrastructure/Mapper/ObjectMapper.js";
 import { PlanetObserver } from "./Observers/PlanetObserver.js";
+import { RegisterDomainServices } from "../assets/Domain/DependencyInjection/DomainServiceRegistration.js";
+import { RegisterInterfaceAdapterServices } from "../assets/InterfaceAdapters/DependencyInjection/InterfaceAdapterRegistration.js";
+import { RegisterSharedServices } from "./DependencyInjectionServices/SharedServiceRegistration.js";
+import { ServiceProvider } from "./DependencyInjectionServices/ServiceProvider.js";
+import { ServiceScopes } from "./DependencyInjectionServices/ServiceContainer.js";
+import { SmallBodyApiGateway } from "../assets/Framework/Infrastructure/Gateways/SmallBody/SmallBodyApiGateway.js";
 
-export class Configuration {
+class Configuration {
     ConfigureProject() {
         const container = Container();
         container.RegisterService(ServiceProvider, {}, ServiceScopes.Singleton);
@@ -31,6 +32,12 @@ export class Configuration {
         // Configure observers between game and web areas of concern
         container.RegisterService(PlanetObserver, {}, ServiceScopes.Singleton);
 
+        const testGateway = serviceProvider.GetService(SmallBodyApiGateway);
+        testGateway.GetAsteroidsAsync();
+        testGateway.GetCometsAsync();
+
         return 0;
     }
 }
+
+export { Configuration };
