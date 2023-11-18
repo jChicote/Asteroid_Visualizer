@@ -1,7 +1,7 @@
 import { ObjectMapper } from "../../../../shared/Infrastructure/Mapper/ObjectMapper.js";
 import { ServiceExtractor } from "../../../../shared/DependencyInjectionServices/Utilities/ServiceExtractor.js";
-import { SmallCelestialObject } from "../../../Domain/Entities/SmallCelestialBody";
-import { SmallCelestialObjectRepository } from "../../../Domain/Repositories/SmallCelestialObjectRepository";
+import { SmallCelestialObject } from "../../../Domain/Entities/SmallCelestialBody.js";
+import { SmallCelestialObjectRepository } from "../../../Domain/Repositories/SmallCelestialObjectRepository.js";
 
 class CreateSmallCelestialObjectInteractor {
     constructor(serviceDependencies) {
@@ -9,7 +9,7 @@ class CreateSmallCelestialObjectInteractor {
         this.repository = ServiceExtractor.ObtainService(serviceDependencies, SmallCelestialObjectRepository);
     }
 
-    async HandleAsync(inputPort, presenter) {
+    async Handle(inputPort, presenter) {
         const smallCelestialObject = this.mapper.Map(inputPort, SmallCelestialObject);
         await this.repository.Add(smallCelestialObject);
     }
