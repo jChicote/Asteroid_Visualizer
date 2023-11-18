@@ -21,7 +21,7 @@ class SmallBodyApiGateway {
             "fields=spkid,full_name,kind,e,a,q,i,om,w,ma,tp,per,n,ad,GM,diameter,pole,rot_per&" +
             "sb-kind=a&sb-class=IEO"); // objects retrieved are from Atira class asteroids
 
-        await this.InvokeGatewayAsync(asteroidsUri);
+        return await this.InvokeGatewayAsync(asteroidsUri);
     }
 
     async GetCometsAsync() {
@@ -29,7 +29,7 @@ class SmallBodyApiGateway {
             "fields=spkid,full_name,kind,e,a,q,i,om,w,ma,tp,per,n,ad,GM,diameter,pole,rot_per&" +
             "sb-kind=c&sb-class=HTC"); // objects retrieved are from Halley-type comets
 
-        await this.InvokeGatewayAsync(cometsUri);
+        return await this.InvokeGatewayAsync(cometsUri);
     }
 
     async InvokeGatewayAsync(uri) {

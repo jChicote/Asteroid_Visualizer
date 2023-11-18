@@ -1,6 +1,7 @@
 import { CreatePlanetInteractor } from "../UseCases/CreatePlanet/CreatePlanetInteractor.js";
 import { CreatePlanetMapperConfiguration } from "../UseCases/CreatePlanet/CreatePlanetMapperConfiguration.js";
 import { CreateSmallCelestialObjectInteractor } from "../UseCases/CreateSmallCelestialObject/CreateSmallCelestialObjectInteractor.js";
+import { CreateSmallCelestialObjectMapperConfiguration } from "../UseCases/CreateSmallCelestialObject/CreateSmallCelestialObjectMapperConfiguration.js";
 import { DtoMappingConfiguration } from "../Infrastructure/Mappings/DtoMappingConfiguration.js";
 import { GetPlanetsInteractor } from "../UseCases/GetPlanets/GetPlanetsInteractor.js";
 import { ObjectMapper } from "../../../shared/Infrastructure/Mapper/ObjectMapper.js";
@@ -22,8 +23,10 @@ export function RegisterApplicationServices(container) {
  */
 export function ConfigureApplicationMapperConfigurations(mapper) {
     const createPlanetConfiguration = new CreatePlanetMapperConfiguration();
+    const createSmallCelestialObjectConfiguration = new CreateSmallCelestialObjectMapperConfiguration();
     const dtoMappingConfiguration = new DtoMappingConfiguration();
 
     createPlanetConfiguration.RegisterConfigurations(mapper);
+    createSmallCelestialObjectConfiguration.RegisterConfigurations(mapper);
     dtoMappingConfiguration.RegisterConfigurations(mapper);
 }

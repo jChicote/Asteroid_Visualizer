@@ -24,6 +24,9 @@ export class GameManager {
         // Initialise data
         const planetDataLoader = await this.dataLoaderProvider.CreateDataLoader("Planets");
         await planetDataLoader.LoadAsync();
+
+        const asteroidDataLoader = await this.dataLoaderProvider.CreateDataLoader("Asteroids");
+        await asteroidDataLoader.LoadAsync();
     }
 
     Start() {
