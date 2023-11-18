@@ -7,15 +7,13 @@ import { SmallCelestialObjectsController } from "../../../assets/Framework/Contr
 class AsteroidsDataLoader extends DataLoader {
     constructor(serviceProvider) {
         super(serviceProvider);
+        this.mapper = this.serviceProvider.GetService(ObjectMapper);
         this.sbdbApiGateway = this.serviceProvider.GetService(SmallBodyApiGateway);
         this.smallCelestialObjectsController = this.serviceProvider.GetService(SmallCelestialObjectsController);
-        this.mapper = this.serviceProvider.GetService(ObjectMapper);
     }
 
     async LoadAsync() {
         await this.CreateAsteroidsAsync();
-
-        return 0;
     }
 
     async CreateAsteroidsAsync() {
