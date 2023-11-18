@@ -1,4 +1,4 @@
-class SmallCelestialBodyViewModel {
+class SmallCelestialObjectViewModel {
     constructor(
         id,
         fullName,
@@ -35,4 +35,4 @@ class SmallCelestialBodyViewModel {
     }
 }
 
-export { SmallCelestialBodyViewModel };
+export { SmallCelestialObjectViewModel };
