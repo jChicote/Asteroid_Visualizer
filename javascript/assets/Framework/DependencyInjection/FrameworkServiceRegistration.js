@@ -1,6 +1,7 @@
 import { CreatePlanetConfiguration } from "../Presentation/CreatePlanet/CreatePlanetConfiguration.js";
 import { CreatePlanetPresenter } from "../Presentation/CreatePlanet/CreatePlanetPresenter.js";
 import { CreateSmallCelestialObjectMapperConfiguration } from "../Presentation/CreateSmallCelestialObject/CreateSmallCelestialObjectMapperConfiguration.js";
+import { CreateSmallCelestialObjectPresenter } from "../Presentation/CreateSmallCelestialObject/CreateSmallCelestialObjectPresenter.js";
 import { GatewayClient } from "../Infrastructure/Gateways/GatewayClient.js";
 import { GetPlanetsConfiguration } from "../Presentation/GetPlanets/GetPlanetsConfiguration.js";
 import { GetPlanetsPresenter } from "../Presentation/GetPlanets/GetPlanetsPresenter.js";
@@ -16,7 +17,6 @@ import { SmallBodyApiGateway } from "../Infrastructure/Gateways/SmallBody/SmallB
 import { SmallBodyApiGatewayMapperConfiguration } from "../Infrastructure/Gateways/SmallBody/SmallBodyApiGatewayMapperConfiguration.js";
 import { SmallCelestialObjectAdapter } from "../../InterfaceAdapters/Controllers/SmallCelestialObjectAdapter.js";
 import { SmallCelestialObjectsController } from "../Controllers/SmallCelestialObjectsController.js";
-import { CreateSmallCelestialObjectPresenter } from '../Presentation/CreateSmallCelestialObject/CreateSmallCelestialObjectPresenter.js';
 
 /**
  * Registers all the dependencies from the backend application.
