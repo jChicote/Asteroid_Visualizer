@@ -5,48 +5,48 @@ import { SmallCelestialBodyViewModel } from "../../Infrastructure/Gateways/Small
 
 class CreateSmallCelestialObjectMapperConfiguration extends BaseObjectMapperConfiguration {
     RegisterConfigurations(mapper) {
-        mapper.AddConfiguration(SmallCelestialBodyViewModel, CreateSmallCelestialObjectCommand, this.MapResponseViewModelToCommand);
-        mapper.AddConfiguration(CreateSmallCelestialObjectCommand, CreateSmallCelestialObjectInputPort, this.MapCommandToInputPort);
+        mapper.AddConfiguration(SmallCelestialBodyViewModel, CreateSmallCelestialObjectCommand, this.MapResponseViewModelToCommand.bind(this));
+        mapper.AddConfiguration(CreateSmallCelestialObjectCommand, CreateSmallCelestialObjectInputPort, this.MapCommandToInputPort.bind(this));
     }
 
     MapResponseViewModelToCommand(responseViewModel, command) {
-        command.aphelionDistance = responseViewModel.ad;
-        command.argumentOfPerihelion = responseViewModel.w;
+        command.aphelionDistance = responseViewModel.aphelionDistance;
+        command.argumentOfPerihelion = responseViewModel.argumentOfPerihelion;
         command.diameter = responseViewModel.diameter;
-        command.eccentricity = responseViewModel.e;
-        command.fullName = responseViewModel.full_name;
-        command.gravitationMass = responseViewModel.GM;
-        command.id = responseViewModel.spkid;
+        command.eccentricity = responseViewModel.eccentricity;
+        command.fullName = responseViewModel.fullName;
+        command.gravitationMass = responseViewModel.gravitationMass;
+        command.id = responseViewModel.id;
         command.kind = responseViewModel.kind;
-        command.longitudeOfTheAscendingNode = responseViewModel.om;
-        command.meanAnomaly = responseViewModel.ma;
-        command.meanMotion = responseViewModel.n;
-        command.orbitalPeriod = responseViewModel.per;
-        command.perihelionDistance = responseViewModel.q;
-        command.poleRotation = responseViewModel.pole;
-        command.semiMajorAxis = responseViewModel.a;
-        command.timeOfPerihelion = responseViewModel.tp;
+        command.longitudeOfTheAscendingNode = responseViewModel.longitudeOfTheAscendingNode;
+        command.meanAnomaly = responseViewModel.meanAnomaly;
+        command.meanMotion = responseViewModel.meanMotion;
+        command.orbitalPeriod = responseViewModel.orbitalPeriod;
+        command.perihelionDistance = responseViewModel.perihelionDistance;
+        command.poleRotation = responseViewModel.poleRotation;
+        command.semiMajorAxis = responseViewModel.semiMajorAxis;
+        command.timeOfPerihelion = responseViewModel.timeOfPerihelion;
 
         return command;
     }
 
     MapCommandToInputPort(command, inputPort) {
-        inputPort.aphelionDistance = command.ad;
-        inputPort.argumentOfPerihelion = command.w;
+        inputPort.aphelionDistance = command.aphelionDistance;
+        inputPort.argumentOfPerihelion = command.argumentOfPerihelion;
         inputPort.diameter = command.diameter;
-        inputPort.eccentricity = command.e;
-        inputPort.fullName = command.full_name;
-        inputPort.gravitationMass = command.GM;
-        inputPort.id = command.spkid;
+        inputPort.eccentricity = command.eccentricity;
+        inputPort.fullName = command.fullName;
+        inputPort.gravitationMass = command.gravitationMass;
+        inputPort.id = command.id;
         inputPort.kind = command.kind;
-        inputPort.longitudeOfTheAscendingNode = command.om;
-        inputPort.meanAnomaly = command.ma;
-        inputPort.meanMotion = command.n;
-        inputPort.orbitalPeriod = command.per;
-        inputPort.perihelionDistance = command.q;
-        inputPort.poleRotation = command.pole;
-        inputPort.semiMajorAxis = command.a;
-        inputPort.timeOfPerihelion = command.tp;
+        inputPort.longitudeOfTheAscendingNode = command.longitudeOfTheAscendingNode;
+        inputPort.meanAnomaly = command.meanAnomaly;
+        inputPort.meanMotion = command.meanMotion;
+        inputPort.orbitalPeriod = command.orbitalPeriod;
+        inputPort.perihelionDistance = command.perihelionDistance;
+        inputPort.poleRotation = command.poleRotation;
+        inputPort.semiMajorAxis = command.semiMajorAxis;
+        inputPort.timeOfPerihelion = command.timeOfPerihelion;
 
         return inputPort;
     }

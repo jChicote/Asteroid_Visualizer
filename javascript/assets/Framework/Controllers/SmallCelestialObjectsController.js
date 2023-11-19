@@ -21,7 +21,7 @@ class SmallCelestialObjectsController {
         const presenter = this.serviceProvider.GetService(CreateSmallCelestialObjectPresenter);
 
         await this.smallCelestialObjectAdapter.CreateSmallCelestialObjectAsync(
-            new CreateSmallCelestialObjectInputPort(command.planetCode, command.captureSection, command.heliocentricSection, command.physicalBodySection),
+            this.mapper.Map(command, CreateSmallCelestialObjectInputPort),
             presenter
         );
 
@@ -35,9 +35,9 @@ class SmallCelestialObjectsController {
             this.getAsteroidsPresenter
         );
 
-        this.asteroidObserver.Dispatch("GetAsteroids", this.getAsteroidsPresenter.result.asteroids);
+        this.asteroidObserver.Dispatch("GetAsteroids", this.getAsteroidsPresenter.result.result.asteroids);
 
-        return presenter.result;
+        return this.getAsteroidsPresenter.result;
     }
 }
 

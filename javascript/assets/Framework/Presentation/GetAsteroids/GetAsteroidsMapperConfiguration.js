@@ -10,29 +10,30 @@ class GetAsteroidsMapperConfiguration extends BaseObjectMapperConfiguration {
     MapGetAsteroidsDtoToViewModel(asteroidsDto, asteroidsViewModel) {
         const mappedAsteroids = [];
 
-        for (const asteroid of asteroidsDto.data) {
+        for (const asteroid of asteroidsDto.asteroids) {
             mappedAsteroids.push(this.MapSmallCelestialObjectDtoToAsteroidViewModel(asteroid, new AsteroidViewModel()));
         }
 
         asteroidsViewModel.asteroids = mappedAsteroids;
+        return asteroidsViewModel;
     }
 
     MapSmallCelestialObjectDtoToAsteroidViewModel(smallCelestialObjectDto, asteroidViewModel) {
-        asteroidViewModel.aphelionDistance = smallCelestialObjectDto.ad;
-        asteroidViewModel.argumentOfPerihelion = smallCelestialObjectDto.w;
+        asteroidViewModel.aphelionDistance = smallCelestialObjectDto.aphelionDistance;
+        asteroidViewModel.argumentOfPerihelion = smallCelestialObjectDto.argumentOfPerihelion;
         asteroidViewModel.diameter = smallCelestialObjectDto.diameter;
-        asteroidViewModel.eccentricity = smallCelestialObjectDto.e;
-        asteroidViewModel.fullName = smallCelestialObjectDto.full_name;
-        asteroidViewModel.gravitationMass = smallCelestialObjectDto.GM;
-        asteroidViewModel.id = smallCelestialObjectDto.spkid;
-        asteroidViewModel.longitudeOfTheAscendingNode = smallCelestialObjectDto.om;
-        asteroidViewModel.meanAnomaly = smallCelestialObjectDto.ma;
-        asteroidViewModel.meanMotion = smallCelestialObjectDto.n;
-        asteroidViewModel.orbitalPeriod = smallCelestialObjectDto.per;
-        asteroidViewModel.perihelionDistance = smallCelestialObjectDto.q;
-        asteroidViewModel.poleRotation = smallCelestialObjectDto.pole;
-        asteroidViewModel.semiMajorAxis = smallCelestialObjectDto.a;
-        asteroidViewModel.timeOfPerihelion = smallCelestialObjectDto.tp;
+        asteroidViewModel.eccentricity = smallCelestialObjectDto.eccentricity;
+        asteroidViewModel.fullName = smallCelestialObjectDto.fullName;
+        asteroidViewModel.gravitationMass = smallCelestialObjectDto.gravitationMass;
+        asteroidViewModel.id = smallCelestialObjectDto.id;
+        asteroidViewModel.longitudeOfTheAscendingNode = smallCelestialObjectDto.longitudeOfTheAscendingNode;
+        asteroidViewModel.meanAnomaly = smallCelestialObjectDto.meanAnomaly;
+        asteroidViewModel.meanMotion = smallCelestialObjectDto.meanMotion;
+        asteroidViewModel.orbitalPeriod = smallCelestialObjectDto.orbitalPeriod;
+        asteroidViewModel.perihelionDistance = smallCelestialObjectDto.perihelionDistance;
+        asteroidViewModel.poleRotation = smallCelestialObjectDto.poleRotation;
+        asteroidViewModel.semiMajorAxis = smallCelestialObjectDto.semiMajorAxis;
+        asteroidViewModel.timeOfPerihelion = smallCelestialObjectDto.timeOfPerihelion;
 
         return asteroidViewModel;
     }

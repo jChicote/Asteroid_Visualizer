@@ -70,14 +70,14 @@ function RegisterGateways(container) {
 export function ConfigureFrameworkMapperConfigurations(mapper) {
     // Presentation
     const createPlanetConfiguration = new CreatePlanetConfiguration();
-    const getPlanetsConfiguration = new GetPlanetsConfiguration();
-    const getAsteroidsMapperConfiguration = new GetAsteroidsMapperConfiguration();
     const createSmallCelestialObjectConfiguration = new CreateSmallCelestialObjectMapperConfiguration();
+    const getAsteroidsMapperConfiguration = new GetAsteroidsMapperConfiguration();
+    const getPlanetsConfiguration = new GetPlanetsConfiguration();
 
     createPlanetConfiguration.RegisterConfigurations(mapper);
-    getPlanetsConfiguration.RegisterConfigurations(mapper);
-    getAsteroidsMapperConfiguration.RegisterConfigurations(mapper);
     createSmallCelestialObjectConfiguration.RegisterConfigurations(mapper);
+    getAsteroidsMapperConfiguration.RegisterConfigurations(mapper);
+    getPlanetsConfiguration.RegisterConfigurations(mapper);
 
     // Gateways
     const smallBodyApiGatewayMapperConfiguration = new SmallBodyApiGatewayMapperConfiguration();
