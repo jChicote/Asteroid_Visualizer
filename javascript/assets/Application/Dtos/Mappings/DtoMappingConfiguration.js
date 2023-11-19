@@ -6,8 +6,8 @@ import { SmallCelestialObjectDto } from "../../Dtos/SmallCelestialObjectDto.js";
 
 class DtoMappingConfiguration extends BaseObjectMapperConfiguration {
     RegisterConfigurations(mapper) {
-        mapper.AddConfiguration(SmallCelestialObject, SmallCelestialObjectDto, this.MapSmallCelestialObjectToDto.bind(this));
         mapper.AddConfiguration(Planet, PlanetDto, this.MapPlanetToPlanetDto.bind(this));
+        mapper.AddConfiguration(SmallCelestialObject, SmallCelestialObjectDto, this.MapSmallCelestialObjectToDto.bind(this));
     }
 
     MapPlanetToPlanetDto(planet, planetDto) {

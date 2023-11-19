@@ -5,6 +5,8 @@ import { CreateSmallCelestialObjectMapperConfiguration } from "../UseCases/Creat
 import { DtoMappingConfiguration } from "../Dtos/Mappings/DtoMappingConfiguration.js";
 import { GetAsteroidsInteractor } from "../UseCases/GetAsteroids/GetAsteroidsInteractor.js";
 import { GetAsteroidsMapperConfiguration } from "../UseCases/GetAsteroids/GetAsteroidsMapperConfiguration.js";
+import { GetCometsInteractor } from "../UseCases/GetComets/GetCometsInteractor.js";
+import { GetCometsMapperConfiguration } from "../UseCases/GetComets/GetCometsMapperConfiguration.js";
 import { GetPlanetsInteractor } from "../UseCases/GetPlanets/GetPlanetsInteractor.js";
 import { ObjectMapper } from "../../../shared/Infrastructure/Mapper/ObjectMapper.js";
 import { PlanetRepository } from "../../Domain/Repositories/PlanetRepository.js";
@@ -18,6 +20,7 @@ export function RegisterApplicationServices(container) {
     container.RegisterService(CreateSmallCelestialObjectInteractor, { ObjectMapper, SmallCelestialObjectRepository });
     container.RegisterService(GetPlanetsInteractor, { ObjectMapper, PlanetRepository });
     container.RegisterService(GetAsteroidsInteractor, { ObjectMapper, SmallCelestialObjectRepository });
+    container.RegisterService(GetCometsInteractor, { ObjectMapper, SmallCelestialObjectRepository });
 }
 
 /**
@@ -25,13 +28,15 @@ export function RegisterApplicationServices(container) {
  * @param {*} mapper Mapper service to configure mappings too
  */
 export function ConfigureApplicationMapperConfigurations(mapper) {
+    const getCometsMapperConfiguration = new GetCometsMapperConfiguration();
     const createPlanetConfiguration = new CreatePlanetMapperConfiguration();
     const createSmallCelestialObjectConfiguration = new CreateSmallCelestialObjectMapperConfiguration();
-    const getAsteroidsMapperConfiguration = new GetAsteroidsMapperConfiguration();
     const dtoMappingConfiguration = new DtoMappingConfiguration();
+    const getAsteroidsMapperConfiguration = new GetAsteroidsMapperConfiguration();
 
+    getCometsMapperConfiguration.RegisterConfigurations(mapper);
     createPlanetConfiguration.RegisterConfigurations(mapper);
     createSmallCelestialObjectConfiguration.RegisterConfigurations(mapper);
-    getAsteroidsMapperConfiguration.RegisterConfigurations(mapper);
     dtoMappingConfiguration.RegisterConfigurations(mapper);
+    getAsteroidsMapperConfiguration.RegisterConfigurations(mapper);
 }
