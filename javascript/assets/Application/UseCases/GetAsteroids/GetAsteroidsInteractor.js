@@ -12,14 +12,24 @@ class GetAsteroidsInteractor {
     }
 
     async Handle(inputPort, presenter) {
-        const asteroids = await this.repository.GetAsteroids();
+        const asteroids = await this.repository.GetEntities();
         const mappedAsteroids = [];
 
         for (const asteroid of asteroids) {
-            mappedAsteroids.push(this.mapper.Map(asteroid, SmallCelestialObjectDto));
+            if (this.IsAsteroid(asteroid)) {
+                mappedAsteroids.push(this.mapper.Map(asteroid, SmallCelestialObjectDto));
+            }
         }
 
         presenter.PresentAsteroidsAsync(this.mapper.Map(new AsteroidsCollectionContainer(mappedAsteroids), GetAsteroidsDto));
+    }
+
+    IsAsteroid(smallCelestialObject) {
+        if (smallCelestialObject.kind === "a" || smallCelestialObject.kind === "an") {
+            return true;
+        }
+
+        return false;
     }
 }
 

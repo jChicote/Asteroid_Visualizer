@@ -10,28 +10,28 @@ class GetAsteroidsMapperConfiguration extends BaseObjectMapperConfiguration {
     }
 
     MapDomainToDto(smallCelestialObject, smallCelestialObjectDto) {
-        smallCelestialObjectDto.aphelionDistance = smallCelestialObject.ad;
-        smallCelestialObjectDto.argumentOfPerihelion = smallCelestialObject.w;
+        smallCelestialObjectDto.aphelionDistance = smallCelestialObject.aphelionDistance;
+        smallCelestialObjectDto.argumentOfPerihelion = smallCelestialObject.argumentOfPerihelion;
         smallCelestialObjectDto.diameter = smallCelestialObject.diameter;
-        smallCelestialObjectDto.eccentricity = smallCelestialObject.e;
-        smallCelestialObjectDto.fullName = smallCelestialObject.full_name;
-        smallCelestialObjectDto.gravitationMass = smallCelestialObject.GM;
-        smallCelestialObjectDto.id = smallCelestialObject.spkid;
+        smallCelestialObjectDto.eccentricity = smallCelestialObject.eccentricity;
+        smallCelestialObjectDto.fullName = smallCelestialObject.fullName;
+        smallCelestialObjectDto.gravitationMass = smallCelestialObject.gravitationMass;
+        smallCelestialObjectDto.id = smallCelestialObject.id;
         smallCelestialObjectDto.kind = smallCelestialObject.kind;
-        smallCelestialObjectDto.longitudeOfTheAscendingNode = smallCelestialObject.om;
-        smallCelestialObjectDto.meanAnomaly = smallCelestialObject.ma;
-        smallCelestialObjectDto.meanMotion = smallCelestialObject.n;
-        smallCelestialObjectDto.orbitalPeriod = smallCelestialObject.per;
-        smallCelestialObjectDto.perihelionDistance = smallCelestialObject.q;
-        smallCelestialObjectDto.poleRotation = smallCelestialObject.pole;
-        smallCelestialObjectDto.semiMajorAxis = smallCelestialObject.a;
-        smallCelestialObjectDto.timeOfPerihelion = smallCelestialObject.tp;
+        smallCelestialObjectDto.longitudeOfTheAscendingNode = smallCelestialObject.longitudeOfTheAscendingNode;
+        smallCelestialObjectDto.meanAnomaly = smallCelestialObject.meanAnomaly;
+        smallCelestialObjectDto.meanMotion = smallCelestialObject.meanMotion;
+        smallCelestialObjectDto.orbitalPeriod = smallCelestialObject.orbitalPeriod;
+        smallCelestialObjectDto.perihelionDistance = smallCelestialObject.perihelionDistance;
+        smallCelestialObjectDto.poleRotation = smallCelestialObject.poleRotation;
+        smallCelestialObjectDto.semiMajorAxis = smallCelestialObject.semiMajorAxis;
+        smallCelestialObjectDto.timeOfPerihelion = smallCelestialObject.timeOfPerihelion;
 
         return smallCelestialObjectDto;
     }
 
     MapCollectionContainerToDto(collectionContainer, getAsteroidsDto) {
-        getAsteroidsDto.data = collectionContainer.data;
+        getAsteroidsDto.asteroids = collectionContainer.data;
 
         return getAsteroidsDto;
     }

@@ -3,6 +3,8 @@ import { CreatePlanetPresenter } from "../Presentation/CreatePlanet/CreatePlanet
 import { CreateSmallCelestialObjectMapperConfiguration } from "../Presentation/CreateSmallCelestialObject/CreateSmallCelestialObjectMapperConfiguration.js";
 import { CreateSmallCelestialObjectPresenter } from "../Presentation/CreateSmallCelestialObject/CreateSmallCelestialObjectPresenter.js";
 import { GatewayClient } from "../Infrastructure/Gateways/GatewayClient.js";
+import { GetAsteroidsMapperConfiguration } from "../Presentation/GetAsteroids/GetAsteroidsMapperConfiguration.js";
+import { GetAsteroidsPresenter } from "../Presentation/GetAsteroids/GetAsteroidsPresenter.js";
 import { GetPlanetsConfiguration } from "../Presentation/GetPlanets/GetPlanetsConfiguration.js";
 import { GetPlanetsPresenter } from "../Presentation/GetPlanets/GetPlanetsPresenter.js";
 import { HorizonsApiGateway } from "../Infrastructure/Gateways/HorizonsApiGateway.js";
@@ -17,6 +19,7 @@ import { SmallBodyApiGateway } from "../Infrastructure/Gateways/SmallBody/SmallB
 import { SmallBodyApiGatewayMapperConfiguration } from "../Infrastructure/Gateways/SmallBody/SmallBodyApiGatewayMapperConfiguration.js";
 import { SmallCelestialObjectAdapter } from "../../InterfaceAdapters/Controllers/SmallCelestialObjectAdapter.js";
 import { SmallCelestialObjectsController } from "../Controllers/SmallCelestialObjectsController.js";
+import { AsteroidObserver } from "../../../shared/Observers/AsteroidObserver.js";
 
 /**
  * Registers all the dependencies from the backend application.
@@ -33,7 +36,13 @@ export function RegisterFrameworkServices(container) {
  */
 function RegisterControllers(container) {
     container.RegisterService(PlanetsController, { ServiceProvider, PlanetsAdapter, PlanetObserver });
-    container.RegisterService(SmallCelestialObjectsController, { ObjectMapper, ServiceProvider, SmallCelestialObjectAdapter });
+    container.RegisterService(SmallCelestialObjectsController, {
+        AsteroidObserver,
+        GetAsteroidsPresenter,
+        ObjectMapper,
+        ServiceProvider,
+        SmallCelestialObjectAdapter
+    });
 }
 
 /**
@@ -41,8 +50,9 @@ function RegisterControllers(container) {
  */
 function RegisterPresentation(container) {
     container.RegisterService(CreatePlanetPresenter, { ObjectMapper });
-    container.RegisterService(GetPlanetsPresenter, { ObjectMapper });
     container.RegisterService(CreateSmallCelestialObjectPresenter);
+    container.RegisterService(GetAsteroidsPresenter, { ObjectMapper });
+    container.RegisterService(GetPlanetsPresenter, { ObjectMapper });
 }
 
 /**
@@ -60,12 +70,14 @@ function RegisterGateways(container) {
 export function ConfigureFrameworkMapperConfigurations(mapper) {
     // Presentation
     const createPlanetConfiguration = new CreatePlanetConfiguration();
-    const getPlanetsConfiguration = new GetPlanetsConfiguration();
     const createSmallCelestialObjectConfiguration = new CreateSmallCelestialObjectMapperConfiguration();
+    const getAsteroidsMapperConfiguration = new GetAsteroidsMapperConfiguration();
+    const getPlanetsConfiguration = new GetPlanetsConfiguration();
 
     createPlanetConfiguration.RegisterConfigurations(mapper);
-    getPlanetsConfiguration.RegisterConfigurations(mapper);
     createSmallCelestialObjectConfiguration.RegisterConfigurations(mapper);
+    getAsteroidsMapperConfiguration.RegisterConfigurations(mapper);
+    getPlanetsConfiguration.RegisterConfigurations(mapper);
 
     // Gateways
     const smallBodyApiGatewayMapperConfiguration = new SmallBodyApiGatewayMapperConfiguration();

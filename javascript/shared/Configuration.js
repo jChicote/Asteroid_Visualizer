@@ -9,6 +9,7 @@ import { RegisterSharedServices } from "./DependencyInjectionServices/SharedServ
 import { ServiceProvider } from "./DependencyInjectionServices/ServiceProvider.js";
 import { ServiceScopes } from "./DependencyInjectionServices/ServiceContainer.js";
 import { SmallBodyApiGateway } from "../assets/Framework/Infrastructure/Gateways/SmallBody/SmallBodyApiGateway.js";
+import { AsteroidObserver } from './Observers/AsteroidObserver.js';
 
 class Configuration {
     ConfigureProject() {
@@ -30,6 +31,7 @@ class Configuration {
         ConfigureFrameworkMapperConfigurations(mapper);
 
         // Configure observers between game and web areas of concern
+        container.RegisterService(AsteroidObserver, {}, ServiceScopes.Singleton);
         container.RegisterService(PlanetObserver, {}, ServiceScopes.Singleton);
 
         const testGateway = serviceProvider.GetService(SmallBodyApiGateway);

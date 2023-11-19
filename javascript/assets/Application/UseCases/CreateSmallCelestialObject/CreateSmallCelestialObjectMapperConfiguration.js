@@ -8,22 +8,22 @@ class CreateSmallCelestialObjectMapperConfiguration extends BaseObjectMapperConf
     }
 
     MapCreateSmallCelestialObjectInputPortToSmallCelestialObject(inputPort, smallCelestialObject) {
-        smallCelestialObject.aphelionDistance = inputPort.ad;
-        smallCelestialObject.argumentOfPerihelion = inputPort.w;
+        smallCelestialObject.aphelionDistance = inputPort.aphelionDistance;
+        smallCelestialObject.argumentOfPerihelion = inputPort.argumentOfPerihelion;
         smallCelestialObject.diameter = inputPort.diameter;
-        smallCelestialObject.eccentricity = inputPort.e;
-        smallCelestialObject.fullName = inputPort.full_name;
-        smallCelestialObject.gravitationMass = inputPort.GM;
-        smallCelestialObject.id = inputPort.spkid;
+        smallCelestialObject.eccentricity = inputPort.eccentricity;
+        smallCelestialObject.fullName = inputPort.fullName;
+        smallCelestialObject.gravitationMass = inputPort.gravitationMass;
+        smallCelestialObject.id = inputPort.id;
         smallCelestialObject.kind = inputPort.kind;
-        smallCelestialObject.longitudeOfTheAscendingNode = inputPort.om;
-        smallCelestialObject.meanAnomaly = inputPort.ma;
-        smallCelestialObject.meanMotion = inputPort.n;
-        smallCelestialObject.orbitalPeriod = inputPort.per;
-        smallCelestialObject.perihelionDistance = inputPort.q;
-        smallCelestialObject.poleRotation = inputPort.pole;
-        smallCelestialObject.semiMajorAxis = inputPort.a;
-        smallCelestialObject.timeOfPerihelion = inputPort.tp;
+        smallCelestialObject.longitudeOfTheAscendingNode = inputPort.longitudeOfTheAscendingNode;
+        smallCelestialObject.meanAnomaly = inputPort.meanAnomaly;
+        smallCelestialObject.meanMotion = inputPort.meanMotion;
+        smallCelestialObject.orbitalPeriod = inputPort.orbitalPeriod;
+        smallCelestialObject.perihelionDistance = inputPort.perihelionDistance;
+        smallCelestialObject.poleRotation = inputPort.poleRotation;
+        smallCelestialObject.semiMajorAxis = inputPort.semiMajorAxis;
+        smallCelestialObject.timeOfPerihelion = inputPort.timeOfPerihelion;
 
         return smallCelestialObject;
     }

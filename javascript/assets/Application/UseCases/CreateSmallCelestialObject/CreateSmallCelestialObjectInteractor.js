@@ -10,8 +10,7 @@ class CreateSmallCelestialObjectInteractor {
     }
 
     async Handle(inputPort, presenter) {
-        const smallCelestialObject = this.mapper.Map(inputPort, SmallCelestialObject);
-        await this.repository.Add(smallCelestialObject);
+        await this.repository.Add(this.mapper.Map(inputPort, SmallCelestialObject));
     }
 }
 
