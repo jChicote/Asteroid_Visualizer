@@ -35,7 +35,7 @@ export class DefaultPlanetColor {
             case DefaultPlanetColor.Pluto.code:
                 return DefaultPlanetColor.Pluto.hexCode;
             default:
-                return 0x000000;
+                return 0xffffff;
         }
     }
 }

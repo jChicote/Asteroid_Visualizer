@@ -3,7 +3,7 @@ import { DefaultPlanetColor } from "../../../shared/Enumerations/DefaultPlanetCo
 
 export class MaterialRenderer {
     constructor(planetCode) {
-        this.material = new THREE.MeshBasicMaterial({ color: DefaultPlanetColor.GetColorByIdentifier(planetCode) });
+        this.material = new THREE.MeshBasicMaterial({ color: DefaultPlanetColor.GetColorByIdentifier(planetCode) }); // TODO: Subclass this into its own material
     }
 
     GetMaterial() {
