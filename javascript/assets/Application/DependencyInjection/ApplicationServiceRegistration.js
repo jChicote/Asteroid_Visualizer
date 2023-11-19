@@ -18,9 +18,9 @@ import { SmallCelestialObjectRepository } from "../../Domain/Repositories/SmallC
 export function RegisterApplicationServices(container) {
     container.RegisterService(CreatePlanetInteractor, { ObjectMapper, PlanetRepository });
     container.RegisterService(CreateSmallCelestialObjectInteractor, { ObjectMapper, SmallCelestialObjectRepository });
-    container.RegisterService(GetPlanetsInteractor, { ObjectMapper, PlanetRepository });
     container.RegisterService(GetAsteroidsInteractor, { ObjectMapper, SmallCelestialObjectRepository });
     container.RegisterService(GetCometsInteractor, { ObjectMapper, SmallCelestialObjectRepository });
+    container.RegisterService(GetPlanetsInteractor, { ObjectMapper, PlanetRepository });
 }
 
 /**

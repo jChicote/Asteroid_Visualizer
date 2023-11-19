@@ -14,8 +14,7 @@ class CometsDataLoader extends DataLoader {
 
     async LoadAsync() {
         await this.CreateCometsAsync();
-
-        return 0;
+        await this.smallCelestialObjectsController.GetCometsAsync();
     }
 
     async CreateCometsAsync() {

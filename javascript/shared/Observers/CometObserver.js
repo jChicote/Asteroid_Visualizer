@@ -1,4 +1,4 @@
-class PlanetObserver {
+class CometObserver {
     constructor() {
         this.observers = [];
     }
@@ -26,4 +26,4 @@ class PlanetObserver {
     }
 }
 
-export { PlanetObserver };
+export { CometObserver };
