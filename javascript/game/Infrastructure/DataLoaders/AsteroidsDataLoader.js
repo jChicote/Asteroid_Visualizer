@@ -14,6 +14,8 @@ class AsteroidsDataLoader extends DataLoader {
 
     async LoadAsync() {
         await this.CreateAsteroidsAsync();
+
+        await this.smallCelestialObjectsController.GetAsteroidsAsync();
     }
 
     async CreateAsteroidsAsync() {
