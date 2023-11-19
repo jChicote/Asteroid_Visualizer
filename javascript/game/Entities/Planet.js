@@ -28,7 +28,8 @@ export class Planet extends GameObject {
         this.SetPosition(this.orbitalMotion.GetPlanetOrbitalPosition(
             this.planetState.meanAnomaly,
             this.planetData.eccentricity,
-            this.planetData.semiMajorAxis));
+            this.planetData.semiMajorAxis,
+            0.0000005));
     }
 
     RenderPlanet() {
@@ -39,7 +40,8 @@ export class Planet extends GameObject {
         SetVector(planet, this.orbitalMotion.GetPlanetOrbitalPosition(
             this.planetState.meanAnomaly,
             this.planetData.eccentricity,
-            this.planetData.semiMajorAxis));
+            this.planetData.semiMajorAxis,
+            0.0000005));
 
         VisualiserManager().scene.add(planet);
 

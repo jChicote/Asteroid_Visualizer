@@ -22,15 +22,15 @@ export class OrbitalMotionCalculator {
         return 2 * this.PI / orbitalPeriod;
     }
 
-    GetPlanetOrbitalPosition(meanAnomaly, eccentricity, semiMajorAxis) {
+    GetPlanetOrbitalPosition(meanAnomaly, eccentricity, semiMajorAxis, scale) {
         const eccentricAnomaly = this.CalculateEccentricAnomaly(meanAnomaly, eccentricity);
         const trueAnomaly = 2 * Math.atan(Math.sqrt((1 + eccentricity) / (1 - eccentricity)) * Math.tan(eccentricAnomaly / 2));
         const distanceRadiusFromSun = semiMajorAxis * (1 - eccentricity * Math.cos(eccentricAnomaly));
 
         return {
-            x: (distanceRadiusFromSun * Math.cos(trueAnomaly)) * 0.0000005,
+            x: (distanceRadiusFromSun * Math.cos(trueAnomaly)) * scale,
             y: 0,
-            z: (distanceRadiusFromSun * Math.sin(trueAnomaly)) * 0.0000005
+            z: (distanceRadiusFromSun * Math.sin(trueAnomaly)) * scale
         };
     }
 
