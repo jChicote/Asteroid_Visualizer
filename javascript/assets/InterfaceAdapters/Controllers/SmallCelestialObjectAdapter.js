@@ -14,6 +14,10 @@ class SmallCelestialObjectAdapter {
     async CreateSmallCelestialObjectAsync(inputPort, presenter) {
         this.mediator.Invoke(inputPort, presenter);
     }
+
+    async GetSmallCelestialObjectsAsync(inputPort, presenter) {
+        this.mediator.Invoke(inputPort, presenter);
+    }
 }
 
 export { SmallCelestialObjectAdapter };
