@@ -2,7 +2,7 @@ import { CreatePlanetInteractor } from "../UseCases/CreatePlanet/CreatePlanetInt
 import { CreatePlanetMapperConfiguration } from "../UseCases/CreatePlanet/CreatePlanetMapperConfiguration.js";
 import { CreateSmallCelestialObjectInteractor } from "../UseCases/CreateSmallCelestialObject/CreateSmallCelestialObjectInteractor.js";
 import { CreateSmallCelestialObjectMapperConfiguration } from "../UseCases/CreateSmallCelestialObject/CreateSmallCelestialObjectMapperConfiguration.js";
-import { DtoMappingConfiguration } from "../Infrastructure/Mappings/DtoMappingConfiguration.js";
+import { DtoMappingConfiguration } from "../Dtos/Mappings/DtoMappingConfiguration.js";
 import { GetAsteroidsInteractor } from "../UseCases/GetAsteroids/GetAsteroidsInteractor.js";
 import { GetAsteroidsMapperConfiguration } from "../UseCases/GetAsteroids/GetAsteroidsMapperConfiguration.js";
 import { GetPlanetsInteractor } from "../UseCases/GetPlanets/GetPlanetsInteractor.js";

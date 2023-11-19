@@ -1,0 +1,3 @@
+class GetCometsInputPort { }
+
+export { GetCometsInputPort };

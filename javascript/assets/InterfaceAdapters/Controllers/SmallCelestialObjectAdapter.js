@@ -25,6 +25,10 @@ class SmallCelestialObjectAdapter {
         this.mediator.Invoke(inputPort, presenter);
     }
 
+    async GetCometsAsync(inputPort, presenter) {
+        this.mediator.Invoke(inputPort, presenter);
+    }
+
     async GetAsteroidsAsync(inputPort, presenter) {
         this.mediator.Invoke(inputPort, presenter);
     }

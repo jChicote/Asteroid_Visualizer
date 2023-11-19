@@ -1,31 +1,31 @@
-import { AsteroidsCollectionContainer } from "./GetAsteroidsMapperConfiguration.js";
-import { GetAsteroidsDto } from "./GetAsteroidsDto.js";
+import { CometsCollectionContainer } from "./GetCometsMapperConfiguration.js";
+import { GetCometsDto } from "./GetCometsDto.js";
 import { ObjectMapper } from "../../../../shared/Infrastructure/Mapper/ObjectMapper.js";
 import { ServiceExtractor } from "../../../../shared/DependencyInjectionServices/Utilities/ServiceExtractor.js";
 import { SmallCelestialObjectDto } from "../../Dtos/SmallCelestialObjectDto.js";
 import { SmallCelestialObjectRepository } from "../../../Domain/Repositories/SmallCelestialObjectRepository.js";
 
-class GetAsteroidsInteractor {
+class GetCometsInteractor {
     constructor(serviceDependencies) {
         this.mapper = ServiceExtractor.ObtainService(serviceDependencies, ObjectMapper);
         this.repository = ServiceExtractor.ObtainService(serviceDependencies, SmallCelestialObjectRepository);
     }
 
     async Handle(inputPort, presenter) {
-        const asteroids = await this.repository.GetEntities();
-        const mappedAsteroids = [];
+        const smallCelestialObjects = await this.repository.GetEntities();
+        const mappedComets = [];
 
-        for (const asteroid of asteroids) {
-            if (this.IsAsteroid(asteroid)) {
-                mappedAsteroids.push(this.mapper.Map(asteroid, SmallCelestialObjectDto));
+        for (const celestialObject of smallCelestialObjects) {
+            if (this.IsComet(celestialObject)) {
+                mappedComets.push(this.mapper.Map(celestialObject, SmallCelestialObjectDto));
             }
         }
 
-        presenter.PresentAsteroidsAsync(this.mapper.Map(new AsteroidsCollectionContainer(mappedAsteroids), GetAsteroidsDto));
+        presenter.PresentCometsAsync(this.mapper.Map(new CometsCollectionContainer(mappedComets), GetCometsDto));
     }
 
-    IsAsteroid(smallCelestialObject) {
-        if (smallCelestialObject.kind === "a" || smallCelestialObject.kind === "an" || smallCelestialObject.kind === "au") {
+    IsComet(smallCelestialObject) {
+        if (smallCelestialObject.kind === "c" || smallCelestialObject.kind === "cn" || smallCelestialObject.kind === "cu") {
             return true;
         }
 
@@ -33,4 +33,4 @@ class GetAsteroidsInteractor {
     }
 }
 
-export { GetAsteroidsInteractor };
+export { GetCometsInteractor };
