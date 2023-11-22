@@ -1,9 +1,9 @@
 import { GameObject } from "./GameObject.js";
 import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
-import { OrbitalMotionCalculator } from "../Components/OrbitalMechanics/OrbitalMotionCalculator.js";
 import { VisualiserManager } from "../../../main.js";
 import { SetVector } from "../../utils/math-library.js";
 import * as THREE from "../../../node_modules/three/build/three.module.js";
+import { CelestialOrbitalMotionLogic } from "../Components/OrbitalMechanics/CelestialOrbitalMotionLogic.js";
 
 class Asteroid extends GameObject {
     constructor(asteroidData) {
@@ -15,7 +15,7 @@ class Asteroid extends GameObject {
         // Components
         this.asteroidState = new AsteroidState(asteroidData.meanAnomaly);
         this.materialRenderer = new MaterialRenderer();
-        this.orbitalMotion = new OrbitalMotionCalculator();
+        this.orbitalMotion = new CelestialOrbitalMotionLogic(); // As a temporory fix for visualisation
         this.renderedObject = this.RenderAsteroid();
     }
 
@@ -25,10 +25,16 @@ class Asteroid extends GameObject {
             this.materialRenderer.GetMaterial());
 
         // This is temporary until we have proper orbital calculations and scaling relative to the sun and positions of the planets.
-        SetVector(planet, this.orbitalMotion.GetPlanetOrbitalPosition(
-            this.asteroidState.meanAnomaly,
-            this.asteroidData.eccentricity,
+        SetVector(planet, this.orbitalMotion.CalculateOrbitalPosition(
             this.asteroidData.semiMajorAxis,
+            this.asteroidData.eccentricity,
+            this.asteroidData.inclination,
+            this.asteroidData.longitudeOfTheAscendingNode,
+            this.asteroidData.argumentOfPerihelion,
+            this.asteroidState.meanAnomaly,
+            this.asteroidData.meanMotion,
+            this.asteroidState.currentTime,
+            this.asteroidData.gravitationMass,
             100));
 
         VisualiserManager().scene.add(planet);

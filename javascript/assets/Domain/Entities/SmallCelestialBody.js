@@ -8,6 +8,7 @@ class SmallCelestialObject {
         diameter,
         eccentricity,
         gravitationMass,
+        inclination,
         longitudeOfTheAscendingNode,
         meanAnomaly,
         meanMotion,
@@ -24,6 +25,7 @@ class SmallCelestialObject {
         this.diameter = diameter;
         this.eccentricity = eccentricity;
         this.gravitationMass = gravitationMass;
+        this.inclination = inclination;
         this.longitudeOfTheAscendingNode = longitudeOfTheAscendingNode;
         this.meanAnomaly = meanAnomaly;
         this.meanMotion = meanMotion;

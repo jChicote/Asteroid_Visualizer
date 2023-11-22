@@ -30,6 +30,7 @@ class DtoMappingConfiguration extends BaseObjectMapperConfiguration {
         smallCelestialObjectDto.gravitationMass = smallCelestialObject.gravitationMass;
         smallCelestialObjectDto.id = smallCelestialObject.id;
         smallCelestialObjectDto.kind = smallCelestialObject.kind;
+        smallCelestialObjectDto.inclination = smallCelestialObject.inclination;
         smallCelestialObjectDto.longitudeOfTheAscendingNode = smallCelestialObject.longitudeOfTheAscendingNode;
         smallCelestialObjectDto.meanAnomaly = smallCelestialObject.meanAnomaly;
         smallCelestialObjectDto.meanMotion = smallCelestialObject.meanMotion;

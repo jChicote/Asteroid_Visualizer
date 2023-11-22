@@ -8,6 +8,7 @@ class CreateSmallCelestialObjectCommand {
         diameter,
         eccentricity,
         gravitationMass,
+        inclination,
         longitudeOfTheAscendingNode,
         meanAnomaly,
         meanMotion,
@@ -23,6 +24,7 @@ class CreateSmallCelestialObjectCommand {
         this.fullName = fullName;
         this.gravitationMass = gravitationMass;
         this.id = id;
+        this.inclination = inclination;
         this.kind = kind;
         this.longitudeOfTheAscendingNode = longitudeOfTheAscendingNode;
         this.meanAnomaly = meanAnomaly;

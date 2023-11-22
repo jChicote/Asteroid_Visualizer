@@ -18,6 +18,7 @@ class CreateSmallCelestialObjectMapperConfiguration extends BaseObjectMapperConf
         command.gravitationMass = responseViewModel.gravitationMass;
         command.id = responseViewModel.id;
         command.kind = responseViewModel.kind;
+        command.inclination = responseViewModel.inclination;
         command.longitudeOfTheAscendingNode = responseViewModel.longitudeOfTheAscendingNode;
         command.meanAnomaly = responseViewModel.meanAnomaly;
         command.meanMotion = responseViewModel.meanMotion;
@@ -39,6 +40,7 @@ class CreateSmallCelestialObjectMapperConfiguration extends BaseObjectMapperConf
         inputPort.gravitationMass = command.gravitationMass;
         inputPort.id = command.id;
         inputPort.kind = command.kind;
+        inputPort.inclination = command.inclination;
         inputPort.longitudeOfTheAscendingNode = command.longitudeOfTheAscendingNode;
         inputPort.meanAnomaly = command.meanAnomaly;
         inputPort.meanMotion = command.meanMotion;
