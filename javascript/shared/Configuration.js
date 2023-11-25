@@ -36,9 +36,9 @@ class Configuration {
         container.RegisterService(CometObserver, {}, ServiceScopes.Singleton);
         container.RegisterService(PlanetObserver, {}, ServiceScopes.Singleton);
 
-        const testGateway = serviceProvider.GetService(SmallBodyApiGateway);
-        testGateway.GetAsteroidsAsync();
-        testGateway.GetCometsAsync();
+        // const testGateway = serviceProvider.GetService(SmallBodyApiGateway);
+        // testGateway.GetAsteroidsAsync();
+        // testGateway.GetCometsAsync();
 
         return 0;
     }

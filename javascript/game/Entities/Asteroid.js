@@ -13,11 +13,17 @@ class Asteroid extends GameObject {
         this.asteroidData = asteroidData;
 
         // Components
-        this.asteroidState = new AsteroidState(asteroidData.meanAnomaly);
+        this.asteroidState = new AsteroidState(asteroidData.meanAnomaly, asteroidData.timeOfPerihelion);
         this.materialRenderer = new MaterialRenderer();
         this.orbitalMotion = new CelestialOrbitalMotionLogic(); // As a temporory fix for visualisation
 
-        this.timeStep = this.orbitalMotion.CalculateTimeStep(asteroidData.orbitalPeriod);
+        // const eccentricAnomaly = this.orbitalMotion.CalculateEccentricAnomaly(asteroidData.meanAnomaly, asteroidData.eccentricity);
+
+        this.orbitalPeriod = this.orbitalMotion.GetOrbitalPeriodInDays(asteroidData.semiMajorAxis);
+        // this.timeStep = this.orbitalMotion.CalculateDynamicTimeStep(asteroidData.semiMajorAxis, asteroidData.eccentricity, eccentricAnomaly);
+        this.meanMotion = this.orbitalMotion.ConvertDegreesToRadians(this.asteroidData.meanMotion);
+        // this.meanMotion = this.orbitalMotion.GetMeanMotion(this.orbitalPeriod);
+        this.timeStep = this.orbitalMotion.CalculateTimeStep(this.orbitalPeriod);
         this.renderedObject = this.RenderAsteroid();
     }
 
@@ -49,7 +55,7 @@ class Asteroid extends GameObject {
             this.asteroidState.meanAnomaly,
             this.asteroidState.currentVelocity,
             this.timeStep,
-            1);
+            100);
 
         SetVector(asteroid, orbitalComponents.position);
 
@@ -57,14 +63,18 @@ class Asteroid extends GameObject {
     }
 
     GetRadius() {
-        return 3; // Default radius as many object have a no default radius in the data
+        return 0.3; // Default radius as many object have a no default radius in the data
     }
 
     UpdateOrbitalState() {
+        // const eccentricAnomaly = this.orbitalMotion.CalculateEccentricAnomaly(this.asteroidState.meanAnomaly, this.asteroidData.eccentricity);
+        // this.timeStep = this.orbitalMotion.CalculateDynamicTimeStep(this.asteroidData.semiMajorAxis, this.asteroidData.eccentricity, eccentricAnomaly);
+        // console.log(this.asteroidState.currentTime - (this.asteroidState.currentTime + this.timeStep));
         this.asteroidState.currentTime += this.timeStep;
         this.asteroidState.meanAnomaly = this.orbitalMotion.CalculateMeanAnomaly(
-            this.asteroidState.meanAnomaly,
-            this.orbitalMotion.ConvertDegreesToRadians(this.asteroidData.meanMotion),
+            this.asteroidData.meanAnomaly,
+            this.meanMotion,
+            // meanMotion * 0.00000000005,
             this.asteroidState.currentTime,
             this.asteroidData.timeOfPerihelion);
     }
@@ -74,9 +84,9 @@ class Asteroid extends GameObject {
  * This holds the runtime metadata for the Asteroid.
  */
 class AsteroidState {
-    constructor(meanAnomaly) {
+    constructor(meanAnomaly, initialTime) {
         this.meanAnomaly = meanAnomaly;
-        this.currentTime = 0;
+        this.currentTime = initialTime;
         this.currentVelocity = { x: 0, y: 0, z: 0 };
     }
 }

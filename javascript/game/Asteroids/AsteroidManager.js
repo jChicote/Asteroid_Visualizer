@@ -10,11 +10,11 @@ class AsteroidManager {
     }
 
     CreateAsteroids(asteroids) {
-        this.asteroids.push(new Asteroid(asteroids.at(0)));
+        // this.asteroids.push(new Asteroid(asteroids.at(0)));
 
-        // for (const asteroid of asteroids) {
-        //     this.asteroids.push(new Asteroid(asteroid));
-        // }
+        for (const asteroid of asteroids) {
+            this.asteroids.push(new Asteroid(asteroid));
+        }
 
         return this.asteroids;
     }
