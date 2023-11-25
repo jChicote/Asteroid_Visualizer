@@ -16,9 +16,9 @@ class Asteroid extends GameObject {
         this.asteroidState = new AsteroidState(asteroidData.meanAnomaly);
         this.materialRenderer = new MaterialRenderer();
         this.orbitalMotion = new CelestialOrbitalMotionLogic(); // As a temporory fix for visualisation
-        this.renderedObject = this.RenderAsteroid();
 
         this.timeStep = this.orbitalMotion.CalculateTimeStep(asteroidData.orbitalPeriod);
+        this.renderedObject = this.RenderAsteroid();
     }
 
     Update() {
@@ -40,26 +40,33 @@ class Asteroid extends GameObject {
     }
 
     SetAsteroidPosition(asteroid) {
-        SetVector(asteroid, this.orbitalMotion.CalculateOrbitalPosition(
+        const orbitalComponents = this.orbitalMotion.CalculateOrbitalPosition(
             this.asteroidData.semiMajorAxis,
             this.asteroidData.eccentricity,
             this.asteroidData.inclination,
             this.asteroidData.longitudeOfTheAscendingNode,
             this.asteroidData.argumentOfPerihelion,
             this.asteroidState.meanAnomaly,
-            this.asteroidData.meanMotion,
-            this.asteroidState.currentTime,
-            this.asteroidData.gravitationMass,
-            100));
+            this.asteroidState.currentVelocity,
+            this.timeStep,
+            1);
+
+        SetVector(asteroid, orbitalComponents.position);
+
+        this.asteroidState.currentVelocity = orbitalComponents.velocity;
     }
 
     GetRadius() {
-        return 0.3; // Default radius as many object have a no default radius in the data
+        return 3; // Default radius as many object have a no default radius in the data
     }
 
     UpdateOrbitalState() {
-        this.asteroidState.meanAnomaly = this.orbitalMotion.CalculateMeanAnomaly(this.asteroidState.meanAnomaly, this.asteroidData.meanMotion, this.asteroidState.currentTime, this.asteroidData.timeOfPerihelion);
         this.asteroidState.currentTime += this.timeStep;
+        this.asteroidState.meanAnomaly = this.orbitalMotion.CalculateMeanAnomaly(
+            this.asteroidState.meanAnomaly,
+            this.orbitalMotion.ConvertDegreesToRadians(this.asteroidData.meanMotion),
+            this.asteroidState.currentTime,
+            this.asteroidData.timeOfPerihelion);
     }
 }
 
@@ -70,6 +77,7 @@ class AsteroidState {
     constructor(meanAnomaly) {
         this.meanAnomaly = meanAnomaly;
         this.currentTime = 0;
+        this.currentVelocity = { x: 0, y: 0, z: 0 };
     }
 }
 
