@@ -2,6 +2,15 @@ class CelestialOrbitalMotionLogic {
     constructor() {
         this.PI = 3.14159265;
         this.STARMASS = 1.989e30 * 6.67430e-11;
+        this.STEPPINGRESOLUTION = 100000;
+    }
+
+    CalculateTimeStep(orbitalPeriod) {
+        return orbitalPeriod / (orbitalPeriod) * this.STEPPINGRESOLUTION;
+    }
+
+    CalculateMeanAnomaly(meanAnomaly, meanMotion, time, timeSincePerihelion) {
+        return meanAnomaly + meanMotion * (time - timeSincePerihelion);
     }
 
     CalculateOrbitalPosition(
@@ -25,19 +34,6 @@ class CelestialOrbitalMotionLogic {
             x: radiusFromSun * Math.cos(trueAnomaly),
             y: radiusFromSun * Math.sin(trueAnomaly)
         };
-
-        console.log((positionWithinOrbitalPlane.x * (Math.cos(longitudeOfAscendingNode) * Math.cos(argumentOfPerihelion) -
-            Math.sin(longitudeOfAscendingNode) * Math.sin(argumentOfPerihelion) * Math.cos(inclination)) -
-            positionWithinOrbitalPlane.y * (Math.cos(longitudeOfAscendingNode) * Math.sin(argumentOfPerihelion) +
-                Math.sin(longitudeOfAscendingNode) * Math.cos(argumentOfPerihelion) * Math.cos(inclination))) * distanceScale);
-
-        // console.log(positionWithinOrbitalPlane.x * (Math.sin(longitudeOfAscendingNode) * Math.cos(argumentOfPerihelion) +
-        //     Math.cos(longitudeOfAscendingNode) * Math.sin(argumentOfPerihelion) * Math.cos(inclination)) +
-        //     positionWithinOrbitalPlane.y * (Math.sin(longitudeOfAscendingNode) * Math.sin(argumentOfPerihelion) -
-        //         Math.cos(longitudeOfAscendingNode) * Math.cos(argumentOfPerihelion) * Math.cos(inclination)));
-
-        // console.log(positionWithinOrbitalPlane.x * Math.sin(argumentOfPerihelion) * Math.sin(inclination) +
-        //     positionWithinOrbitalPlane.y * Math.cos(argumentOfPerihelion) * Math.sin(inclination));
 
         // convert to 3D space coordinates
         const positionIn3DSpace = {

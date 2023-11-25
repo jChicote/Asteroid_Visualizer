@@ -21,7 +21,7 @@ class SmallBodyApiGatewayMapperConfiguration extends BaseObjectMapperConfigurati
         smallBody.meanMotion = this.ParseValidFloat(responseContent.data.n);
         smallBody.orbitalPeriod = this.ParseValidFloat(responseContent.data.per);
         smallBody.perihelionDistance = this.ParseValidFloat(responseContent.data.q);
-        smallBody.poleRotation = this.ParseValidFloat(responseContent.data.pole);
+        smallBody.poleRotation = this.ParseValidFloat(responseContent.data.rot_per);
         smallBody.semiMajorAxis = this.ParseValidFloat(responseContent.data.a);
         smallBody.timeOfPerihelion = this.ParseValidFloat(responseContent.data.tp);
 

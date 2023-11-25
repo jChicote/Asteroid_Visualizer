@@ -1,9 +1,9 @@
+import { OrbitControls } from "../../addons/OrbitControls.js";
 import * as THREE from "../../node_modules/three/build/three.module.js";
+import { StarCreator } from "../star-creator.js";
 import { AsteroidManager } from "./Asteroids/AsteroidManager.js";
 import { DataLoaderProvider } from "./Infrastructure/DataLoaders/DataLoaderProvider.js";
-import { OrbitControls } from "../../addons/OrbitControls.js";
 import { PlanetManager } from "./Planets/PlanetManager.js";
-import { StarCreator } from "../star-creator.js";
 
 export class GameManager {
     static scene;
@@ -48,6 +48,7 @@ export class GameManager {
 
         // Update Planets
         this.planetManager.UpdatePlanets();
+        this.asteroidManager.UpdateAsteroids();
 
         this.renderer.render(this.scene, this.camera);
     }
