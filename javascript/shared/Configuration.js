@@ -2,7 +2,6 @@ import { Container } from "../../main.js";
 import { ConfigureApplicationMapperConfigurations, RegisterApplicationServices } from "../assets/Application/DependencyInjection/ApplicationServiceRegistration.js";
 import { RegisterDomainServices } from "../assets/Domain/DependencyInjection/DomainServiceRegistration.js";
 import { ConfigureFrameworkMapperConfigurations, RegisterFrameworkServices } from "../assets/Framework/DependencyInjection/FrameworkServiceRegistration.js";
-import { SmallBodyApiGateway } from "../assets/Framework/Infrastructure/Gateways/SmallBody/SmallBodyApiGateway.js";
 import { RegisterInterfaceAdapterServices } from "../assets/InterfaceAdapters/DependencyInjection/InterfaceAdapterRegistration.js";
 import { ServiceScopes } from "./DependencyInjectionServices/ServiceContainer.js";
 import { ServiceProvider } from "./DependencyInjectionServices/ServiceProvider.js";
@@ -35,10 +34,6 @@ class Configuration {
         container.RegisterService(AsteroidObserver, {}, ServiceScopes.Singleton);
         container.RegisterService(CometObserver, {}, ServiceScopes.Singleton);
         container.RegisterService(PlanetObserver, {}, ServiceScopes.Singleton);
-
-        // const testGateway = serviceProvider.GetService(SmallBodyApiGateway);
-        // testGateway.GetAsteroidsAsync();
-        // testGateway.GetCometsAsync();
 
         return 0;
     }
