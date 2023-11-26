@@ -26,6 +26,7 @@ class GetCometsMapperConfiguration extends BaseObjectMapperConfiguration {
         cometViewModel.fullName = smallCelestialObjectDto.fullName;
         cometViewModel.gravitationMass = smallCelestialObjectDto.gravitationMass;
         cometViewModel.id = smallCelestialObjectDto.id;
+        cometViewModel.inclination = smallCelestialObjectDto.inclination;
         cometViewModel.longitudeOfTheAscendingNode = smallCelestialObjectDto.longitudeOfTheAscendingNode;
         cometViewModel.meanAnomaly = smallCelestialObjectDto.meanAnomaly;
         cometViewModel.meanMotion = smallCelestialObjectDto.meanMotion;
