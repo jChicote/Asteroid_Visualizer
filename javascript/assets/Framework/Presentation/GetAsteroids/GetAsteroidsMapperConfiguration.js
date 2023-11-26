@@ -26,6 +26,7 @@ class GetAsteroidsMapperConfiguration extends BaseObjectMapperConfiguration {
         asteroidViewModel.fullName = smallCelestialObjectDto.fullName;
         asteroidViewModel.gravitationMass = smallCelestialObjectDto.gravitationMass;
         asteroidViewModel.id = smallCelestialObjectDto.id;
+        asteroidViewModel.inclination = smallCelestialObjectDto.inclination;
         asteroidViewModel.longitudeOfTheAscendingNode = smallCelestialObjectDto.longitudeOfTheAscendingNode;
         asteroidViewModel.meanAnomaly = smallCelestialObjectDto.meanAnomaly;
         asteroidViewModel.meanMotion = smallCelestialObjectDto.meanMotion;

@@ -13,6 +13,7 @@ class AsteroidViewModel {
         diameter,
         eccentricity,
         gravitationMass,
+        inclination,
         longitudeOfTheAscendingNode,
         meanAnomaly,
         meanMotion,
@@ -28,6 +29,7 @@ class AsteroidViewModel {
         this.fullName = fullName;
         this.gravitationMass = gravitationMass;
         this.id = id;
+        this.inclination = inclination;
         this.longitudeOfTheAscendingNode = longitudeOfTheAscendingNode;
         this.meanAnomaly = meanAnomaly;
         this.meanMotion = meanMotion;

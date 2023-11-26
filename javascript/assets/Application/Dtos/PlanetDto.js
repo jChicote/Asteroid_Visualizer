@@ -1,5 +1,16 @@
 export class PlanetDto {
-    constructor(planetCode, eccentricity, endDate, meanAnomaly, meanSolarDay, obliquityToOrbit, orbitalSpeed, planetRadius, semiMajorAxis, sideRealDayPeriod, startDate) {
+    constructor(
+        planetCode,
+        eccentricity,
+        endDate,
+        meanAnomaly,
+        meanSolarDay,
+        obliquityToOrbit,
+        orbitalSpeed,
+        planetRadius,
+        semiMajorAxis,
+        sideRealDayPeriod,
+        startDate) {
         this.planetCode = planetCode;
         this.eccentricity = eccentricity;
         this.endDate = endDate;
