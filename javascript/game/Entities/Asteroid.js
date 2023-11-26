@@ -49,13 +49,9 @@ class Asteroid extends GameObject {
             this.asteroidData.longitudeOfTheAscendingNode,
             this.asteroidData.argumentOfPerihelion,
             this.asteroidState.meanAnomaly,
-            this.asteroidState.currentVelocity,
-            this.timeStep,
             100);
 
         SetVector(asteroid, position);
-
-        this.asteroidState.currentVelocity = orbitalComponents.velocity;
     }
 
     GetRadius() {
@@ -79,7 +75,6 @@ class AsteroidState {
     constructor(meanAnomaly, initialTime) {
         this.meanAnomaly = meanAnomaly;
         this.currentTime = initialTime;
-        this.currentVelocity = { x: 0, y: 0, z: 0 };
     }
 }
 

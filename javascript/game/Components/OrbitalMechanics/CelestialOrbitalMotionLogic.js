@@ -9,15 +9,13 @@ class CelestialOrbitalMotionLogic {
     }
 
     GetOrbitalPeriodInDays(semiMajorAxis) {
+        // Source for calculating the orbital period from: https://en.wikipedia.org/wiki/Orbital_period
         return 2 * this.PI * Math.sqrt(Math.pow(semiMajorAxis, 3) / this.GRAVITATIONALMASS);
     }
 
     CalculateTimeStep(orbitalPeriod) {
+        // Calculates the time step assuming synchronous sidereal rotation. Orbital Period = Sidereal Day Period.
         return orbitalPeriod / (orbitalPeriod * 24 * 3600) * this.STEPPINGRESOLUTION;
-    }
-
-    GetMeanMotion(orbitalPeriod) {
-        return 360 / orbitalPeriod;
     }
 
     ConvertDegreesToRadians(degrees) {
@@ -25,11 +23,8 @@ class CelestialOrbitalMotionLogic {
     }
 
     CalculateMeanAnomaly(meanAnomaly, meanMotion, time, timeOfPerihelionPassage) {
+        // Source for defining the mean anomaly from: https://en.wikipedia.org/wiki/Mean_anomaly
         return meanAnomaly + meanMotion * (time - timeOfPerihelionPassage);
-    }
-
-    CalculateTrueAnomaly(meanAnomaly, eccentricity) {
-        return 2 * Math.atan(Math.sqrt((1 + eccentricity) / (1 - eccentricity)) * Math.tan(eccentricAnomaly / 2));
     }
 
     CalculateOrbitalPosition(
@@ -39,11 +34,15 @@ class CelestialOrbitalMotionLogic {
         longitudeOfAscendingNode,
         argumentOfPerihelion,
         meanAnomaly,
-        velocity,
-        timeStep,
         distanceScale) {
         const eccentricAnomaly = this.CalculateEccentricAnomaly(meanAnomaly, eccentricity);
+
+        // Calculates the angular parameter representing the position of the body along a Keplerian Orbit.
+        // Source: https://en.wikipedia.org/wiki/True_anomaly
+        //      See 'From the eccentric anomaly' section.
         const trueAnomaly = 2 * Math.atan(Math.sqrt((1 + eccentricity) / (1 - eccentricity)) * Math.tan(eccentricAnomaly / 2));
+
+        // Calculates the radius from the sun in astronomical units.
         const distanceRadiusFromSun = semiMajorAxis * (1 - eccentricity * Math.cos(eccentricAnomaly));
 
         const positionWithinOrbitalPlane = {
@@ -52,7 +51,7 @@ class CelestialOrbitalMotionLogic {
             z: 0
         };
 
-        // convert to 3D space coordinates
+        // Convert to 3D space coordinates
         const positionIn3DSpace = {
             // x' * (cos(Ω) * cos(ω) - sin(Ω) * sin(ω) * cos(i)) - y' * (cos(Ω) * sin(ω) + sin(Ω) * cos(ω) * cos(i))
             x: (positionWithinOrbitalPlane.x * (Math.cos(longitudeOfAscendingNode) * Math.cos(argumentOfPerihelion) -
@@ -77,10 +76,19 @@ class CelestialOrbitalMotionLogic {
     }
 
     CalculateEccentricAnomaly(meanAnomaly, eccentricity) {
+        /**
+         * Calculation is based on numerical analysis to find better approximations of the eccentric anomaly.
+         * A root finding algorithm is applied to produce successive iterations of the initial eccentric anomaly.
+         * Iterations solve to produce a value below the tolerance of 1e-12. Indicating a convergence to an accurate value.
+         *
+         * Calculation is based on the Newton-Raphson method:
+         *      See 'From Mean Anomaly' section: https://en.wikipedia.org/wiki/Eccentric_anomaly
+         *      See 'Newton's method' for approximate calculations: https://en.wikipedia.org/wiki/Newton%27s_method
+         */
+
         let eccentricAnomaly = meanAnomaly;
         let deltaE = 1; // Initialize deltaE to a non-zero value.
 
-        // Set a maximum iteration limit to avoid infinite loops.
         const maxIterations = 1000;
         let iterations = 0;
 
