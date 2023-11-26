@@ -2,7 +2,7 @@ class CelestialOrbitalMotionLogic {
     constructor() {
         this.PI = 3.14159265;
         this.STARMASS = 1.989e30 * 6.67430e-11;
-        this.STEPPINGRESOLUTION = 100000;
+        this.STEPPINGRESOLUTION = 10000;
         this.GRAVITATIONALCONSTANT = 6.67430e-11;
         this.STARMASS = 1.989e30;
         this.GRAVITATIONALMASS = 1.989e30 * 6.67430e-11;
@@ -18,6 +18,7 @@ class CelestialOrbitalMotionLogic {
         return orbitalPeriod / (orbitalPeriod * 24 * 3600) * this.STEPPINGRESOLUTION;
     }
 
+    // TODO: Move this a custom math library
     ConvertDegreesToRadians(degrees) {
         return degrees * this.PI / 180;
     }

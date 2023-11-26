@@ -1,22 +1,21 @@
-import { VisualiserManager } from "../../../main.js";
 import * as THREE from "../../../node_modules/three/build/three.module.js";
-import { SetVector } from "../../utils/math-library.js";
 import { CelestialOrbitalMotionLogic } from "../Components/OrbitalMechanics/CelestialOrbitalMotionLogic.js";
-import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
 import { GameObject } from "./GameObject.js";
+import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
+import { SetVector } from "../../utils/math-library.js";
+import { VisualiserManager } from "../../../main.js";
 
 class Asteroid extends GameObject {
     constructor(asteroidData) {
         super();
-
-        // Fields
-        this.asteroidData = asteroidData;
 
         // Components
         this.asteroidState = new AsteroidState(asteroidData.meanAnomaly, asteroidData.timeOfPerihelion);
         this.materialRenderer = new MaterialRenderer();
         this.orbitalMotion = new CelestialOrbitalMotionLogic(); // As a temporory fix for visualisation
 
+        // Fields
+        this.asteroidData = asteroidData;
         this.orbitalPeriod = this.orbitalMotion.GetOrbitalPeriodInDays(asteroidData.semiMajorAxis);
         this.meanMotion = this.orbitalMotion.ConvertDegreesToRadians(this.asteroidData.meanMotion);
         this.timeStep = this.orbitalMotion.CalculateTimeStep(this.orbitalPeriod);
