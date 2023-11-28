@@ -1,4 +1,5 @@
 import { BaseObjectMapperConfiguration } from "../../../../shared/Infrastructure/Mapper/BaseObjectMapperConfiguration.js";
+import { CollectionContainer } from "../Common/Containers/CollectionContainer.js";
 import { GetNearEarthAsteroidsDto } from "./GetNearEarthAsteroidsDto.js";
 
 class GetNearEarthAsteroidsMapperConfiguration extends BaseObjectMapperConfiguration {
@@ -11,10 +12,4 @@ class GetNearEarthAsteroidsMapperConfiguration extends BaseObjectMapperConfigura
     }
 }
 
-class CollectionContainer {
-    constructor(data) {
-        this.data = data;
-    }
-}
-
-export { CollectionContainer, GetNearEarthAsteroidsMapperConfiguration };
+export { GetNearEarthAsteroidsMapperConfiguration };

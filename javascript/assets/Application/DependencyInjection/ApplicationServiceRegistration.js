@@ -13,6 +13,7 @@ import { GetCometsMapperConfiguration } from "../UseCases/GetComets/GetCometsMap
 import { GetNearEarthAsteroidsInteractor } from "../UseCases/GetNearEarthAsteroids/GetNearEarthAsteroidsInteractor.js";
 import { GetNearEarthAsteroidsMapperConfiguration } from "../UseCases/GetNearEarthAsteroids/GetNearEarthAsteroidsMapperConfiguration.js";
 import { GetPlanetsInteractor } from "../UseCases/GetPlanets/GetPlanetsInteractor.js";
+import { GetPotentiallyHazardousAsteroidsInteractor } from "../UseCases/GetPotentiallyHazardousAsteroids/GetPotentiallyHazardousAsteroidsInteractor.js";
 
 /**
  * Registers all the dependencies from the application backend.
@@ -24,6 +25,7 @@ export function RegisterApplicationServices(container) {
     container.RegisterService(GetCometsInteractor, { ObjectMapper, SmallCelestialObjectRepository });
     container.RegisterService(GetPlanetsInteractor, { ObjectMapper, PlanetRepository });
     container.RegisterService(GetNearEarthAsteroidsInteractor, { ObjectMapper, SmallCelestialObjectRepository });
+    container.RegisterService(GetPotentiallyHazardousAsteroidsInteractor, { ObjectMapper, SmallCelestialObjectRepository });
 }
 
 /**
@@ -37,6 +39,7 @@ export function ConfigureApplicationMapperConfigurations(mapper) {
     const dtoMappingConfiguration = new DtoMappingConfiguration();
     const getAsteroidsMapperConfiguration = new GetAsteroidsMapperConfiguration();
     const getNearEarthAsteroidsConfiguration = new GetNearEarthAsteroidsMapperConfiguration();
+    const GetPotentiallyHazardousAsteroidsConfiguration = new GetPotentiallyHazardousAsteroidsMapperConfiguration();
 
     getCometsMapperConfiguration.RegisterConfigurations(mapper);
     createPlanetConfiguration.RegisterConfigurations(mapper);
@@ -44,4 +47,5 @@ export function ConfigureApplicationMapperConfigurations(mapper) {
     dtoMappingConfiguration.RegisterConfigurations(mapper);
     getAsteroidsMapperConfiguration.RegisterConfigurations(mapper);
     getNearEarthAsteroidsConfiguration.RegisterConfigurations(mapper);
+    GetPotentiallyHazardousAsteroidsConfiguration.RegisterConfigurations(mapper);
 }
