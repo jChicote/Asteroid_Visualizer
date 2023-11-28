@@ -3,6 +3,7 @@ import { ObjectMapper } from "../../../../shared/Infrastructure/Mapper/ObjectMap
 import { SmallCelestialObjectRepository } from "../../../Domain/Repositories/SmallCelestialObjectRepository.js";
 import { SmallCelestialObjectDto } from "../../Dtos/SmallCelestialObjectDto.js";
 import { GetNearEarthAsteroidsDto } from "./GetNearEarthAsteroidsDto.js";
+import { CollectionContainer } from "./GetNearEarthAsteroidsMapperConfiguration.js";
 
 class GetNearEarthAsteroidsInteractor {
     constructor(serviceDependencies) {
@@ -19,15 +20,11 @@ class GetNearEarthAsteroidsInteractor {
             }
         }
 
-        presenter.PresentAsteroidsAsync(this.mapper.Map(new AsteroidsCollectionContainer(mappedAsteroids), GetNearEarthAsteroidsDto));
+        presenter.PresentAsteroidsAsync(this.mapper.Map(new CollectionContainer(mappedAsteroids), GetNearEarthAsteroidsDto));
     }
 
     IsNearEarthAsteroid(smallCelestialObject) {
-        if (smallCelestialObject.kind === "a" || smallCelestialObject.kind === "an" || smallCelestialObject.kind === "au") {
-            return true;
-        }
-
-        return false;
+        return smallCelestialObject.nearEarthObject;
     }
 }
 
