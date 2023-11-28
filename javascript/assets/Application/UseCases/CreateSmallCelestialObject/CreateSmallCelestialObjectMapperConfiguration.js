@@ -1,6 +1,6 @@
 import { BaseObjectMapperConfiguration } from "../../../../shared/Infrastructure/Mapper/BaseObjectMapperConfiguration.js";
-import { CreateSmallCelestialObjectInputPort } from "./CreateSmallCelestialObjectInputPort.js";
 import { SmallCelestialObject } from "../../../Domain/Entities/SmallCelestialBody.js";
+import { CreateSmallCelestialObjectInputPort } from "./CreateSmallCelestialObjectInputPort.js";
 
 class CreateSmallCelestialObjectMapperConfiguration extends BaseObjectMapperConfiguration {
     RegisterConfigurations(mapper) {
@@ -20,6 +20,7 @@ class CreateSmallCelestialObjectMapperConfiguration extends BaseObjectMapperConf
         smallCelestialObject.longitudeOfTheAscendingNode = inputPort.longitudeOfTheAscendingNode;
         smallCelestialObject.meanAnomaly = inputPort.meanAnomaly;
         smallCelestialObject.meanMotion = inputPort.meanMotion;
+        smallCelestialObject.nearEarthObject = inputPort.nearEarthObject;
         smallCelestialObject.orbitalPeriod = inputPort.orbitalPeriod;
         smallCelestialObject.perihelionDistance = inputPort.perihelionDistance;
         smallCelestialObject.poleRotation = inputPort.poleRotation;

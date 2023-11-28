@@ -1,7 +1,7 @@
 import { BaseObjectMapperConfiguration } from "../../../../shared/Infrastructure/Mapper/BaseObjectMapperConfiguration.js";
-import { CreateSmallCelestialObjectCommand } from "./CreateSmallCelestialObjectCommand.js";
 import { CreateSmallCelestialObjectInputPort } from "../../../Application/UseCases/CreateSmallCelestialObject/CreateSmallCelestialObjectInputPort.js";
 import { SmallCelestialBodyViewModel } from "../../Infrastructure/Gateways/SmallBody/SmallCelestialBodyViewModel.js";
+import { CreateSmallCelestialObjectCommand } from "./CreateSmallCelestialObjectCommand.js";
 
 class CreateSmallCelestialObjectMapperConfiguration extends BaseObjectMapperConfiguration {
     RegisterConfigurations(mapper) {
@@ -22,6 +22,7 @@ class CreateSmallCelestialObjectMapperConfiguration extends BaseObjectMapperConf
         command.longitudeOfTheAscendingNode = responseViewModel.longitudeOfTheAscendingNode;
         command.meanAnomaly = responseViewModel.meanAnomaly;
         command.meanMotion = responseViewModel.meanMotion;
+        command.nearEarthObject = responseViewModel.nearEarthObject;
         command.orbitalPeriod = responseViewModel.orbitalPeriod;
         command.perihelionDistance = responseViewModel.perihelionDistance;
         command.poleRotation = responseViewModel.poleRotation;
