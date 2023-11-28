@@ -8,17 +8,19 @@ class SmallBodyApiGatewayMapperConfiguration extends BaseObjectMapperConfigurati
 
     MapResponseToSmallCelestialBodyViewModel(responseContent, smallBody) {
         smallBody.id = responseContent.data.spkid;
-        smallBody.fullName = responseContent.data.full_name;
-        smallBody.kind = responseContent.data.kind;
         smallBody.aphelionDistance = this.ParseValidFloat(responseContent.data.ad);
         smallBody.argumentOfPerihelion = this.ParseValidFloat(responseContent.data.w);
         smallBody.diameter = this.ParseValidFloat(responseContent.data.diameter);
         smallBody.eccentricity = this.ParseValidFloat(responseContent.data.e);
+        smallBody.fullName = responseContent.data.full_name;
         smallBody.gravitationMass = this.ParseValidFloat(responseContent.data.GM);
         smallBody.inclination = this.ParseValidFloat(responseContent.data.i);
+        smallBody.kind = responseContent.data.kind;
+        smallBody.isPotentiallyHazardousAsteroid = this.ParseValidBoolean(responseContent.data.pha);
         smallBody.longitudeOfTheAscendingNode = this.ParseValidFloat(responseContent.data.om);
         smallBody.meanAnomaly = this.ParseValidFloat(responseContent.data.ma);
         smallBody.meanMotion = this.ParseValidFloat(responseContent.data.n);
+        smallBody.nearEarthObject = this.ParseValidBoolean(responseContent.data.neo);
         smallBody.orbitalPeriod = this.ParseValidFloat(responseContent.data.per);
         smallBody.perihelionDistance = this.ParseValidFloat(responseContent.data.q);
         smallBody.poleRotation = this.ParseValidFloat(responseContent.data.rot_per);
@@ -34,6 +36,14 @@ class SmallBodyApiGatewayMapperConfiguration extends BaseObjectMapperConfigurati
         }
 
         return parseFloat(data);
+    }
+
+    ParseValidBoolean(data) {
+        if (data === "Y") {
+            return true;
+        }
+
+        return false;
     }
 }
 

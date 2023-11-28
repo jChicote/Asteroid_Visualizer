@@ -1,9 +1,9 @@
-import { GatewayClient } from "../GatewayClient.js";
+import { ServiceExtractor } from "../../../../../shared/DependencyInjectionServices/Utilities/ServiceExtractor.js";
+import { ObjectMapper } from "../../../../../shared/Infrastructure/Mapper/ObjectMapper.js";
 import { GatewayViewModel } from "../Common/GatewayViewModels.js";
 import { HTTPMethods, textContentOptions } from "../Configuration/gateway-options.js";
-import { ObjectMapper } from "../../../../../shared/Infrastructure/Mapper/ObjectMapper.js";
+import { GatewayClient } from "../GatewayClient.js";
 import { ProxyServerUrlProvider } from "../Providers/ProxyServerUrlProvider.js";
-import { ServiceExtractor } from "../../../../../shared/DependencyInjectionServices/Utilities/ServiceExtractor.js";
 import { SmallBodyResponseContainer } from "./SmallBodyApiGatewayMapperConfiguration.js";
 import { SmallCelestialBodyViewModel } from "./SmallCelestialBodyViewModel.js";
 
@@ -18,7 +18,7 @@ class SmallBodyApiGateway {
 
     async GetAsteroidsAsync() {
         const asteroidsUri = this.serverUrlProvider.Provide() + encodeURIComponent(this.sbdbApiUrl +
-            "fields=spkid,full_name,kind,e,a,q,i,om,w,ma,tp,per,n,ad,GM,diameter,pole,rot_per&" +
+            "fields=spkid,full_name,kind,neo,pha,e,a,q,i,om,w,ma,tp,per,n,ad,GM,diameter,pole,rot_per&" +
             "sb-kind=a&sb-class=IEO"); // objects retrieved are from Atira class asteroids
 
         return await this.InvokeGatewayAsync(asteroidsUri);

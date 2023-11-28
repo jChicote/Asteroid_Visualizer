@@ -9,9 +9,11 @@ class CreateSmallCelestialObjectInputPort {
         eccentricity,
         gravitationMass,
         inclination,
+        isPotentiallyHazardousAsteroid,
         longitudeOfTheAscendingNode,
         meanAnomaly,
         meanMotion,
+        nearEarthObject,
         orbitalPeriod,
         perihelionDistance,
         poleRotation,
@@ -26,9 +28,11 @@ class CreateSmallCelestialObjectInputPort {
         this.id = id;
         this.kind = kind;
         this.inclination = inclination;
+        this.isPotentiallyHazardousAsteroid = isPotentiallyHazardousAsteroid;
         this.longitudeOfTheAscendingNode = longitudeOfTheAscendingNode;
         this.meanAnomaly = meanAnomaly;
         this.meanMotion = meanMotion;
+        this.nearEarthObject = nearEarthObject;
         this.orbitalPeriod = orbitalPeriod;
         this.perihelionDistance = perihelionDistance;
         this.poleRotation = poleRotation;

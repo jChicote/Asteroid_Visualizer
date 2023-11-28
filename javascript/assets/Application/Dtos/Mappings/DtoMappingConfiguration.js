@@ -1,7 +1,7 @@
 import { BaseObjectMapperConfiguration } from "../../../../shared/Infrastructure/Mapper/BaseObjectMapperConfiguration.js";
 import { Planet } from "../../../Domain/Entities/Planet.js";
-import { PlanetDto } from "../../Dtos/PlanetDto.js";
 import { SmallCelestialObject } from "../../../Domain/Entities/SmallCelestialBody.js";
+import { PlanetDto } from "../../Dtos/PlanetDto.js";
 import { SmallCelestialObjectDto } from "../../Dtos/SmallCelestialObjectDto.js";
 
 class DtoMappingConfiguration extends BaseObjectMapperConfiguration {
@@ -31,9 +31,11 @@ class DtoMappingConfiguration extends BaseObjectMapperConfiguration {
         smallCelestialObjectDto.id = smallCelestialObject.id;
         smallCelestialObjectDto.kind = smallCelestialObject.kind;
         smallCelestialObjectDto.inclination = smallCelestialObject.inclination;
+        smallCelestialObjectDto.isPotentiallyHazardousAsteroid = smallCelestialObject.isPotentiallyHazardousAsteroid;
         smallCelestialObjectDto.longitudeOfTheAscendingNode = smallCelestialObject.longitudeOfTheAscendingNode;
         smallCelestialObjectDto.meanAnomaly = smallCelestialObject.meanAnomaly;
         smallCelestialObjectDto.meanMotion = smallCelestialObject.meanMotion;
+        smallCelestialObjectDto.nearEarthObject = smallCelestialObject.nearEarthObject;
         smallCelestialObjectDto.orbitalPeriod = smallCelestialObject.orbitalPeriod;
         smallCelestialObjectDto.perihelionDistance = smallCelestialObject.perihelionDistance;
         smallCelestialObjectDto.poleRotation = smallCelestialObject.poleRotation;

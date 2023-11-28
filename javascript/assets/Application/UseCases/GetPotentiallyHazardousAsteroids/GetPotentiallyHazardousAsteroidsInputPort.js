@@ -1,0 +1,3 @@
+class GetPotentiallyHazardousAsteroidsInputPort { }
+
+export { GetPotentiallyHazardousAsteroidsInputPort };

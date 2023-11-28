@@ -1,7 +1,7 @@
 import { BaseObjectMapperConfiguration } from "../../../../shared/Infrastructure/Mapper/BaseObjectMapperConfiguration.js";
-import { CreateSmallCelestialObjectCommand } from "./CreateSmallCelestialObjectCommand.js";
 import { CreateSmallCelestialObjectInputPort } from "../../../Application/UseCases/CreateSmallCelestialObject/CreateSmallCelestialObjectInputPort.js";
 import { SmallCelestialBodyViewModel } from "../../Infrastructure/Gateways/SmallBody/SmallCelestialBodyViewModel.js";
+import { CreateSmallCelestialObjectCommand } from "./CreateSmallCelestialObjectCommand.js";
 
 class CreateSmallCelestialObjectMapperConfiguration extends BaseObjectMapperConfiguration {
     RegisterConfigurations(mapper) {
@@ -19,9 +19,11 @@ class CreateSmallCelestialObjectMapperConfiguration extends BaseObjectMapperConf
         command.id = responseViewModel.id;
         command.kind = responseViewModel.kind;
         command.inclination = responseViewModel.inclination;
+        command.isPotentiallyHazardousAsteroid = responseViewModel.isPotentiallyHazardousAsteroid;
         command.longitudeOfTheAscendingNode = responseViewModel.longitudeOfTheAscendingNode;
         command.meanAnomaly = responseViewModel.meanAnomaly;
         command.meanMotion = responseViewModel.meanMotion;
+        command.nearEarthObject = responseViewModel.nearEarthObject;
         command.orbitalPeriod = responseViewModel.orbitalPeriod;
         command.perihelionDistance = responseViewModel.perihelionDistance;
         command.poleRotation = responseViewModel.poleRotation;
@@ -41,9 +43,11 @@ class CreateSmallCelestialObjectMapperConfiguration extends BaseObjectMapperConf
         inputPort.id = command.id;
         inputPort.kind = command.kind;
         inputPort.inclination = command.inclination;
+        inputPort.isPotentiallyHazardousAsteroid = command.isPotentiallyHazardousAsteroid;
         inputPort.longitudeOfTheAscendingNode = command.longitudeOfTheAscendingNode;
         inputPort.meanAnomaly = command.meanAnomaly;
         inputPort.meanMotion = command.meanMotion;
+        inputPort.nearEarthObject = command.nearEarthObject;
         inputPort.orbitalPeriod = command.orbitalPeriod;
         inputPort.perihelionDistance = command.perihelionDistance;
         inputPort.poleRotation = command.poleRotation;
