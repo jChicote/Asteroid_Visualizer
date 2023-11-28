@@ -19,6 +19,7 @@ class CreateSmallCelestialObjectMapperConfiguration extends BaseObjectMapperConf
         command.id = responseViewModel.id;
         command.kind = responseViewModel.kind;
         command.inclination = responseViewModel.inclination;
+        command.isPotentiallyHazardousAsteroid = responseViewModel.isPotentiallyHazardousAsteroid;
         command.longitudeOfTheAscendingNode = responseViewModel.longitudeOfTheAscendingNode;
         command.meanAnomaly = responseViewModel.meanAnomaly;
         command.meanMotion = responseViewModel.meanMotion;
@@ -42,9 +43,11 @@ class CreateSmallCelestialObjectMapperConfiguration extends BaseObjectMapperConf
         inputPort.id = command.id;
         inputPort.kind = command.kind;
         inputPort.inclination = command.inclination;
+        inputPort.isPotentiallyHazardousAsteroid = command.isPotentiallyHazardousAsteroid;
         inputPort.longitudeOfTheAscendingNode = command.longitudeOfTheAscendingNode;
         inputPort.meanAnomaly = command.meanAnomaly;
         inputPort.meanMotion = command.meanMotion;
+        inputPort.nearEarthObject = command.nearEarthObject;
         inputPort.orbitalPeriod = command.orbitalPeriod;
         inputPort.perihelionDistance = command.perihelionDistance;
         inputPort.poleRotation = command.poleRotation;

@@ -9,6 +9,7 @@ export class SmallCelestialBodyViewModel {
         gravitationMass,
         inclination,
         kind,
+        isPotentiallyHazardousAsteroid,
         longitudeOfTheAscendingNode,
         meanAnomaly,
         meanMotion,
@@ -27,6 +28,7 @@ export class SmallCelestialBodyViewModel {
         this.gravitationMass = gravitationMass;
         this.inclination = inclination;
         this.kind = kind;
+        this.isPotentiallyHazardousAsteroid = isPotentiallyHazardousAsteroid;
         this.longitudeOfTheAscendingNode = longitudeOfTheAscendingNode;
         this.meanAnomaly = meanAnomaly;
         this.meanMotion = meanMotion;

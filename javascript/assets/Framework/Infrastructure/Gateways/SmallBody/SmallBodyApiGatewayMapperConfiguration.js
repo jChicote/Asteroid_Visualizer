@@ -16,6 +16,7 @@ class SmallBodyApiGatewayMapperConfiguration extends BaseObjectMapperConfigurati
         smallBody.gravitationMass = this.ParseValidFloat(responseContent.data.GM);
         smallBody.inclination = this.ParseValidFloat(responseContent.data.i);
         smallBody.kind = responseContent.data.kind;
+        smallBody.isPotentiallyHazardousAsteroid = this.ParseValidBoolean(responseContent.data.pha);
         smallBody.longitudeOfTheAscendingNode = this.ParseValidFloat(responseContent.data.om);
         smallBody.meanAnomaly = this.ParseValidFloat(responseContent.data.ma);
         smallBody.meanMotion = this.ParseValidFloat(responseContent.data.n);

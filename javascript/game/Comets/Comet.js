@@ -1,9 +1,9 @@
-import * as THREE from "../../../node_modules/three/build/three.module.js";
-import { CelestialOrbitalMotionLogic } from "../Components/OrbitalMechanics/CelestialOrbitalMotionLogic.js";
-import { GameObject } from "../Entities/GameObject.js";
-import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
-import { SetVector } from "../../utils/math-library.js";
 import { VisualiserManager } from "../../../main.js";
+import * as THREE from "../../../node_modules/three/build/three.module.js";
+import { SetVector } from "../../utils/math-library.js";
+import { CelestialOrbitalMotionLogic } from "../Components/OrbitalMechanics/CelestialOrbitalMotionLogic.js";
+import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
+import { GameObject } from "../Entities/GameObject.js";
 
 class Comet extends GameObject {
     constructor(cometData) {
@@ -41,15 +41,6 @@ class Comet extends GameObject {
     }
 
     SetAsteroidPosition(comet) {
-        console.log(this.orbitalMotion.CalculateOrbitalPosition(
-            this.cometData.semiMajorAxis,
-            this.cometData.eccentricity,
-            this.cometData.inclination,
-            this.cometData.longitudeOfTheAscendingNode,
-            this.cometData.argumentOfPerihelion,
-            this.cometState.meanAnomaly,
-            100));
-
         const position = this.orbitalMotion.CalculateOrbitalPosition(
             this.cometData.semiMajorAxis,
             this.cometData.eccentricity,

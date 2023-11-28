@@ -18,7 +18,7 @@ class SmallBodyApiGateway {
 
     async GetAsteroidsAsync() {
         const asteroidsUri = this.serverUrlProvider.Provide() + encodeURIComponent(this.sbdbApiUrl +
-            "fields=spkid,full_name,kind,neo,e,a,q,i,om,w,ma,tp,per,n,ad,GM,diameter,pole,rot_per&" +
+            "fields=spkid,full_name,kind,neo,pha,e,a,q,i,om,w,ma,tp,per,n,ad,GM,diameter,pole,rot_per&" +
             "sb-kind=a&sb-class=IEO"); // objects retrieved are from Atira class asteroids
 
         return await this.InvokeGatewayAsync(asteroidsUri);

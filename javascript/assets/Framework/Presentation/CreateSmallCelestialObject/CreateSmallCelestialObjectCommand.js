@@ -9,6 +9,7 @@ class CreateSmallCelestialObjectCommand {
         eccentricity,
         gravitationMass,
         inclination,
+        isPotentiallyHazardousAsteroid,
         longitudeOfTheAscendingNode,
         meanAnomaly,
         meanMotion,
@@ -27,6 +28,7 @@ class CreateSmallCelestialObjectCommand {
         this.id = id;
         this.inclination = inclination;
         this.kind = kind;
+        this.isPotentiallyHazardousAsteroid = isPotentiallyHazardousAsteroid;
         this.longitudeOfTheAscendingNode = longitudeOfTheAscendingNode;
         this.meanAnomaly = meanAnomaly;
         this.meanMotion = meanMotion;

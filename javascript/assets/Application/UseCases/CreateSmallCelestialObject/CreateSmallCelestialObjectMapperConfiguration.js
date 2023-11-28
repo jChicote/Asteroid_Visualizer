@@ -17,6 +17,7 @@ class CreateSmallCelestialObjectMapperConfiguration extends BaseObjectMapperConf
         smallCelestialObject.id = inputPort.id;
         smallCelestialObject.kind = inputPort.kind;
         smallCelestialObject.inclination = inputPort.inclination;
+        smallCelestialObject.isPotentiallyHazardousAsteroid = inputPort.isPotentiallyHazardousAsteroid;
         smallCelestialObject.longitudeOfTheAscendingNode = inputPort.longitudeOfTheAscendingNode;
         smallCelestialObject.meanAnomaly = inputPort.meanAnomaly;
         smallCelestialObject.meanMotion = inputPort.meanMotion;
