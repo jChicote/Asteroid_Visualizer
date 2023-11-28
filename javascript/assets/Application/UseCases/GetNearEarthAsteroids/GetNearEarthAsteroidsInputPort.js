@@ -1,0 +1,3 @@
+class GetNearEarthAsteroidsInputPort { }
+
+export { GetNearEarthAsteroidsInputPort };
