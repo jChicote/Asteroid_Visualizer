@@ -1,6 +1,7 @@
-import { AsteroidViewModel, GetAsteroidsViewModel } from "./GetAsteroidsViewModel.js";
 import { BaseObjectMapperConfiguration } from "../../../../shared/Infrastructure/Mapper/BaseObjectMapperConfiguration.js";
 import { GetAsteroidsDto } from "../../../Application/UseCases/GetAsteroids/GetAsteroidsDto.js";
+import { AsteroidViewModel } from "../Common/AsteroidViewModel.js";
+import { GetAsteroidsViewModel } from "./GetAsteroidsViewModel.js";
 
 class GetAsteroidsMapperConfiguration extends BaseObjectMapperConfiguration {
     RegisterConfigurations(mapper) {
