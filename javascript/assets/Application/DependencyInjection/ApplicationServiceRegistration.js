@@ -14,6 +14,7 @@ import { GetNearEarthAsteroidsInteractor } from "../UseCases/GetNearEarthAsteroi
 import { GetNearEarthAsteroidsMapperConfiguration } from "../UseCases/GetNearEarthAsteroids/GetNearEarthAsteroidsMapperConfiguration.js";
 import { GetPlanetsInteractor } from "../UseCases/GetPlanets/GetPlanetsInteractor.js";
 import { GetPotentiallyHazardousAsteroidsInteractor } from "../UseCases/GetPotentiallyHazardousAsteroids/GetPotentiallyHazardousAsteroidsInteractor.js";
+import { GetPotentiallyHazardousAsteroidsMapperConfiguration } from "../UseCases/GetPotentiallyHazardousAsteroids/GetPotentiallyHazardousAsteroidsMapperConfiguration.js";
 
 /**
  * Registers all the dependencies from the application backend.
