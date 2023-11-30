@@ -1,7 +1,7 @@
-class GetNearEarthAsteroidViewModel {
+class GetNearEarthAsteroidsViewModel {
     constructor(asteroids) {
         this.asteroids = asteroids;
     }
 }
 
-export { GetNearEarthAsteroidViewModel };
+export { GetNearEarthAsteroidsViewModel };

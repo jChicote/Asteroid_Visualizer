@@ -1,17 +1,17 @@
 import { ServiceExtractor } from "../../../../shared/DependencyInjectionServices/Utilities/ServiceExtractor.js";
 import { ObjectMapper } from "../../../../shared/Infrastructure/Mapper/ObjectMapper.js";
 import { SuccessfulResult } from "../Common/PresentationResult.js";
-import { GetNearEarthAsteroidsViewModel } from "./GetNearEarthAsteroidViewModel.js";
+import { GetPotentiallyHazardousAsteroidsViewModel } from "./GetPotentiallyHazardousAsteroidsViewModel.js";
 
-class GetNearEarthAsteroidsPresenter {
+class GetPotentiallyHazardousAsteroidsPresenter {
     constructor(serviceDependencies) {
         this.mapper = ServiceExtractor.ObtainService(serviceDependencies, ObjectMapper);
         this.result = {};
     }
 
-    async PresentNearEarthAsteroidsAsync(asteroids) {
-        this.result = new SuccessfulResult(this.mapper.Map(asteroids, GetNearEarthAsteroidsViewModel));
+    PresentPotentiallyHazardousAsteroidsAsync(asteroids) {
+        this.result = new SuccessfulResult(this.mapper.Map(asteroids, GetPotentiallyHazardousAsteroidsViewModel));
     }
 }
 
-export { GetNearEarthAsteroidsPresenter };
+export { GetPotentiallyHazardousAsteroidsPresenter };

@@ -1,13 +1,19 @@
+import { ServiceExtractor } from "../../../shared/DependencyInjectionServices/Utilities/ServiceExtractor.js";
 import { CreateSmallCelestialObjectInputPort } from "../../Application/UseCases/CreateSmallCelestialObject/CreateSmallCelestialObjectInputPort.js";
 import { CreateSmallCelestialObjectInteractor } from "../../Application/UseCases/CreateSmallCelestialObject/CreateSmallCelestialObjectInteractor.js";
-import { CreateSmallCelestialObjectPresenter } from "../../Framework/Presentation/CreateSmallCelestialObject/CreateSmallCelestialObjectPresenter.js";
 import { GetAsteroidsInputPort } from "../../Application/UseCases/GetAsteroids/GetAsteroidsInputPort.js";
 import { GetAsteroidsInteractor } from "../../Application/UseCases/GetAsteroids/GetAsteroidsInteractor.js";
-import { GetAsteroidsPresenter } from "../../Framework/Presentation/GetAsteroids/GetAsteroidsPresenter.js";
 import { GetCometsInputPort } from "../../Application/UseCases/GetComets/GetCometsInputPort.js";
 import { GetCometsInteractor } from "../../Application/UseCases/GetComets/GetCometsInteractor.js";
+import { GetNearEarthAsteroidsInputPort } from "../../Application/UseCases/GetNearEarthAsteroids/GetNearEarthAsteroidsInputPort.js";
+import { GetNearEarthAsteroidsInteractor } from "../../Application/UseCases/GetNearEarthAsteroids/GetNearEarthAsteroidsInteractor.js";
+import { GetPotentiallyHazardousAsteroidsInputPort } from "../../Application/UseCases/GetPotentiallyHazardousAsteroids/GetPotentiallyHazardousAsteroidsInputPort.js";
+import { GetPotentiallyHazardousAsteroidsInteractor } from "../../Application/UseCases/GetPotentiallyHazardousAsteroids/GetPotentiallyHazardousAsteroidsInteractor.js";
+import { CreateSmallCelestialObjectPresenter } from "../../Framework/Presentation/CreateSmallCelestialObject/CreateSmallCelestialObjectPresenter.js";
+import { GetAsteroidsPresenter } from "../../Framework/Presentation/GetAsteroids/GetAsteroidsPresenter.js";
 import { GetCometsPresenter } from "../../Framework/Presentation/GetComets/GetCometsPresenter.js";
-import { ServiceExtractor } from "../../../shared/DependencyInjectionServices/Utilities/ServiceExtractor.js";
+import { GetNearEarthAsteroidsPresenter } from "../../Framework/Presentation/GetNearEarthAsteroids/GetNearEarthAsteroidsPresenter.js";
+import { GetPotentiallyHazardousAsteroidsPresenter } from "../../Framework/Presentation/GetPotentiallyHazardousAsteroids/GetPotentiallyHazardousAsteroidsPresenter.js";
 import { UseCaseMediator } from "../Infrastructure/UseCaseMediator.js";
 
 class SmallCelestialObjectAdapter {
@@ -26,6 +32,14 @@ class SmallCelestialObjectAdapter {
             GetAsteroidsInputPort,
             GetAsteroidsPresenter,
             ServiceExtractor.ObtainService(serviceDependencies, GetAsteroidsInteractor));
+        this.mediator.RegisterUseCase(
+            GetNearEarthAsteroidsInputPort,
+            GetNearEarthAsteroidsPresenter,
+            ServiceExtractor.ObtainService(serviceDependencies, GetNearEarthAsteroidsInteractor));
+        this.mediator.RegisterUseCase(
+            GetPotentiallyHazardousAsteroidsInputPort,
+            GetPotentiallyHazardousAsteroidsPresenter,
+            ServiceExtractor.ObtainService(serviceDependencies, GetPotentiallyHazardousAsteroidsInteractor));
     }
 
     async CreateSmallCelestialObjectAsync(inputPort, presenter) {
