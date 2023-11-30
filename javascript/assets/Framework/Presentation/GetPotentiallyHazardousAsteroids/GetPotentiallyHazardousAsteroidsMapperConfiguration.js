@@ -1,11 +1,11 @@
 import { BaseObjectMapperConfiguration } from "../../../../shared/Infrastructure/Mapper/BaseObjectMapperConfiguration.js";
-import { GetAsteroidsDto } from "../../../Application/UseCases/GetAsteroids/GetAsteroidsDto.js";
+import { GetPotentiallyHazardousAsteroidsDto } from "../../../Application/UseCases/GetPotentiallyHazardousAsteroids/GetPotentiallyHazardousAsteroidsDto.js";
 import { AsteroidViewModel } from "../Common/AsteroidViewModel.js";
-import { GetAsteroidsViewModel } from "./GetAsteroidsViewModel.js";
+import { GetPotentiallyHazardousAsteroidsViewModel } from "./GetPotentiallyHazardousAsteroidsViewModel.js";
 
-class GetAsteroidsMapperConfiguration extends BaseObjectMapperConfiguration {
+class GetPotentiallyHazardousAsteroidsMapperConfiguration extends BaseObjectMapperConfiguration {
     RegisterConfigurations(mapper) {
-        mapper.AddConfiguration(GetAsteroidsDto, GetAsteroidsViewModel, this.MapGetAsteroidsDtoToViewModel.bind(this));
+        mapper.AddConfiguration(GetPotentiallyHazardousAsteroidsDto, GetPotentiallyHazardousAsteroidsViewModel, this.MapGetAsteroidsDtoToViewModel.bind(this));
     }
 
     MapGetAsteroidsDtoToViewModel(asteroidsDto, asteroidsViewModel) {
@@ -41,4 +41,4 @@ class GetAsteroidsMapperConfiguration extends BaseObjectMapperConfiguration {
     }
 }
 
-export { GetAsteroidsMapperConfiguration };
+export { GetPotentiallyHazardousAsteroidsMapperConfiguration };

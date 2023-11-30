@@ -20,7 +20,7 @@ class GetNearEarthAsteroidsInteractor {
             }
         }
 
-        presenter.PresentAsteroidsAsync(this.mapper.Map(new CollectionContainer(mappedAsteroids), GetNearEarthAsteroidsDto));
+        presenter.PresentNearEarthAsteroidsAsync(this.mapper.Map(new CollectionContainer(mappedAsteroids), GetNearEarthAsteroidsDto));
     }
 
     IsNearEarthAsteroid(smallCelestialObject) {

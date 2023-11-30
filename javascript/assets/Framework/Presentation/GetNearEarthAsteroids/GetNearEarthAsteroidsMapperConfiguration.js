@@ -1,11 +1,11 @@
 import { BaseObjectMapperConfiguration } from "../../../../shared/Infrastructure/Mapper/BaseObjectMapperConfiguration.js";
-import { GetAsteroidsDto } from "../../../Application/UseCases/GetAsteroids/GetAsteroidsDto.js";
+import { GetNearEarthAsteroidsDto } from "../../../Application/UseCases/GetNearEarthAsteroids/GetNearEarthAsteroidsDto.js";
 import { AsteroidViewModel } from "../Common/AsteroidViewModel.js";
-import { GetAsteroidsViewModel } from "./GetAsteroidsViewModel.js";
+import { GetNearEarthAsteroidsViewModel } from "./GetNearEarthAsteroidViewModel.js";
 
-class GetAsteroidsMapperConfiguration extends BaseObjectMapperConfiguration {
+class GetNearEarthAsteroidsMapperConfiguration extends BaseObjectMapperConfiguration {
     RegisterConfigurations(mapper) {
-        mapper.AddConfiguration(GetAsteroidsDto, GetAsteroidsViewModel, this.MapGetAsteroidsDtoToViewModel.bind(this));
+        mapper.AddConfiguration(GetNearEarthAsteroidsDto, GetNearEarthAsteroidsViewModel, this.MapGetAsteroidsDtoToViewModel.bind(this));
     }
 
     MapGetAsteroidsDtoToViewModel(asteroidsDto, asteroidsViewModel) {
@@ -41,4 +41,4 @@ class GetAsteroidsMapperConfiguration extends BaseObjectMapperConfiguration {
     }
 }
 
-export { GetAsteroidsMapperConfiguration };
+export { GetNearEarthAsteroidsMapperConfiguration };
