@@ -2,7 +2,9 @@
 // This is especially useful for UI as it allows modification of the scene through these variables.
 class GlobalState {
     constructor() {
-        this.timeMultiplier = 0;
+        // Time Manipulator
+        this.timeStepResolution = 100000;
+        this.timeMultiplier = 1;
         this.isPaused = false;
     }
 }

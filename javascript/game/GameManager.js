@@ -26,10 +26,8 @@ export class GameManager {
             document.querySelector("#gui").append(this.gui.domElement);
         }
 
-        // Fields
-
         // Components
-        this.globalState = new GlobalState();
+        this.gameState = new GlobalState();
         this.dataLoaderProvider = new DataLoaderProvider(serviceProvider);
         this.planetManager = new PlanetManager(serviceProvider, this.scene);
         this.asteroidManager = new AsteroidManager(serviceProvider);
@@ -81,5 +79,21 @@ export class GameManager {
         // Setup controls
         this.controls = new OrbitControls(this.camera, this.renderer.domElement);
         this.controls.update();
+
+        // Setup Debug GUI
+        this.SetupDebugGUI();
+    }
+
+    SetupDebugGUI() {
+        const orbitalMechanicsFolder = this.gui.addFolder("Orbital Mechanics");
+        orbitalMechanicsFolder.add(this.gameState, "timeMultiplier", 0, 30, 0.1);
+        orbitalMechanicsFolder.add(this.gameState, "timeStepResolution", 1000, 100000, 100); // TODO: For this to work it will need to recalculate the orbital period.
+        orbitalMechanicsFolder.add(this.gameState, "isPaused").onChange(isPaused => {
+            if (isPaused) {
+                this.gameState.timeMultiplier = 0;
+            } else {
+                this.gameState.timeMultiplier = 1;
+            }
+        });
     }
 }

@@ -70,7 +70,7 @@ export class Planet extends GameObject {
 
     UpdateOrbitalState() {
         const meanMotion = this.orbitalMotion.GetMeanMotion(this.orbitalPeriod);
-        this.planetState.currentTime += this.timeStep;
+        this.planetState.currentTime += this.timeStep * VisualiserManager().gameState.timeMultiplier;
         this.planetState.meanAnomaly = this.orbitalMotion.GetCurrentMeanAnomaly(this.planetData.meanAnomaly, meanMotion, this.planetState.currentTime);
     }
 }

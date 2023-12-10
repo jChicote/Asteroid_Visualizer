@@ -1,9 +1,10 @@
+import { VisualiserManager } from "../../../../main.js";
+
 export class OrbitalMotionCalculator {
     constructor() {
         this.PI = 3.14159265;
         this.SCALINGFACTOR = 0.0000005;
         this.STARMASS = 1.989e30 * 6.67430e-11;
-        this.STEPPINGRESOLUTION = 100000;
     }
 
     GetOrbitalPeriodInDays(semiMajorAxis) {
@@ -11,7 +12,7 @@ export class OrbitalMotionCalculator {
     }
 
     GetTimeStepInDays(orbitalPeriod, sideRealDayPeriod) {
-        return orbitalPeriod / (sideRealDayPeriod * 24 * 3600) * this.STEPPINGRESOLUTION;
+        return orbitalPeriod / (sideRealDayPeriod * 24 * 3600) * VisualiserManager().gameState.timeStepResolution;
     }
 
     GetCurrentMeanAnomaly(meanAnomaly, meanMotion, currentTime) {

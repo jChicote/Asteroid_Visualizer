@@ -1,3 +1,4 @@
+import { VisualiserManager } from '../../../main.js';
 import { AsteroidObserver } from "../../shared/Observers/AsteroidObserver.js";
 import { Asteroid } from "../Entities/Asteroid.js";
 
@@ -18,8 +19,10 @@ class AsteroidManager {
     }
 
     UpdateAsteroids() {
-        for (const asteroid of this.asteroids) {
-            asteroid.Update();
+        if (!VisualiserManager().gameState.isPaused) {
+            for (const asteroid of this.asteroids) {
+                asteroid.Update();
+            }
         }
     }
 }

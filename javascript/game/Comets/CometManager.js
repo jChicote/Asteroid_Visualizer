@@ -1,5 +1,6 @@
 import { Comet } from "./Comet.js";
 import { CometObserver } from "../../shared/Observers/CometObserver.js";
+import { VisualiserManager } from "../../../main.js";
 
 class CometManager {
     constructor(serviceProvider) {
@@ -18,8 +19,10 @@ class CometManager {
     }
 
     UpdateComets() {
-        for (const comet of this.comets) {
-            comet.Update();
+        if (!VisualiserManager().gameState.isPaused) {
+            for (const comet of this.comets) {
+                comet.Update();
+            }
         }
     }
 }
