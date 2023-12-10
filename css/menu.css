@@ -70,3 +70,11 @@
     background-color: #950101 !important;
     border-color: #3D0000 !important;
 }
+
+/* DEBUG GUI */
+
+#gui {
+  position: absolute;
+  top: 60px;
+  right: 2rem;
+}

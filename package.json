@@ -12,6 +12,7 @@
     "three": "^0.155.0"
   },
   "devDependencies": {
+    "dat.gui": "^0.7.9",
     "eslint": "^8.51.0",
     "eslint-config-semistandard": "^17.0.0",
     "eslint-config-standard": "^17.1.0",
