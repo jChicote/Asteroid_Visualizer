@@ -1,4 +1,4 @@
-import { VisualiserManager } from '../../../main.js';
+import { VisualiserManager } from "../../../main.js";
 import { AsteroidObserver } from "../../shared/Observers/AsteroidObserver.js";
 import { Asteroid } from "../Entities/Asteroid.js";
 
