@@ -1,8 +1,9 @@
+import { VisualiserManager } from "../../../../main.js";
+
 class CelestialOrbitalMotionLogic {
     constructor() {
         this.PI = 3.14159265;
         this.STARMASS = 1.989e30 * 6.67430e-11;
-        this.STEPPINGRESOLUTION = 100000;
         this.GRAVITATIONALCONSTANT = 6.67430e-11;
         this.STARMASS = 1.989e30;
         this.GRAVITATIONALMASS = 1.989e30 * 6.67430e-11;
@@ -15,7 +16,7 @@ class CelestialOrbitalMotionLogic {
 
     CalculateTimeStep(orbitalPeriod) {
         // Calculates the time step assuming synchronous sidereal rotation. Orbital Period = Sidereal Day Period.
-        return orbitalPeriod / (orbitalPeriod * 24 * 3600) * this.STEPPINGRESOLUTION;
+        return orbitalPeriod / (orbitalPeriod * 24 * 3600) * VisualiserManager().gameState.timeStepResolution;
     }
 
     // TODO: Move this a custom math library

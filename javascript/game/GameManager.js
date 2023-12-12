@@ -1,13 +1,16 @@
+import { OrbitControls } from "../../addons/OrbitControls.js";
+import { GUI } from "../../node_modules/dat.gui/build/dat.gui.module.js";
 import * as THREE from "../../node_modules/three/build/three.module.js";
+import { StarCreator } from "../star-creator.js";
 import { AsteroidManager } from "./Asteroids/AsteroidManager.js";
 import { CometManager } from "./Comets/CometManager.js";
+import { GlobalState } from "./GlobalState.js";
 import { DataLoaderProvider } from "./Infrastructure/DataLoaders/DataLoaderProvider.js";
-import { OrbitControls } from "../../addons/OrbitControls.js";
 import { PlanetManager } from "./Planets/PlanetManager.js";
-import { StarCreator } from "../star-creator.js";
 
 export class GameManager {
     static scene;
+    static debugGui;
 
     constructor(serviceProvider) {
         this.camera = "";
@@ -18,6 +21,13 @@ export class GameManager {
             this.scene = new THREE.Scene();
         }
 
+        if (this.debugGui == null) {
+            this.debugGui = new GUI({ autoPlace: false });
+            document.querySelector("#gui").append(this.debugGui.domElement);
+        }
+
+        // Components
+        this.gameState = new GlobalState();
         this.dataLoaderProvider = new DataLoaderProvider(serviceProvider);
         this.planetManager = new PlanetManager(serviceProvider, this.scene);
         this.asteroidManager = new AsteroidManager(serviceProvider);
@@ -69,5 +79,21 @@ export class GameManager {
         // Setup controls
         this.controls = new OrbitControls(this.camera, this.renderer.domElement);
         this.controls.update();
+
+        // Setup Debug GUI
+        this.SetupDebugGUI();
+    }
+
+    SetupDebugGUI() {
+        const orbitalMechanicsFolder = this.debugGui.addFolder("Orbital Mechanics");
+        orbitalMechanicsFolder.add(this.gameState, "timeMultiplier", 0, 30, 0.1);
+        orbitalMechanicsFolder.add(this.gameState, "timeStepResolution", 1000, 100000, 100); // TODO: For this to work it will need to recalculate the orbital period.
+        orbitalMechanicsFolder.add(this.gameState, "isPaused").onChange(isPaused => {
+            if (isPaused) {
+                this.gameState.timeMultiplier = 0;
+            } else {
+                this.gameState.timeMultiplier = 1;
+            }
+        });
     }
 }

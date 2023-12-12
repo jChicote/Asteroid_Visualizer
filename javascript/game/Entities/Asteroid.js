@@ -58,7 +58,7 @@ class Asteroid extends GameObject {
     }
 
     UpdateOrbitalState() {
-        this.asteroidState.currentTime += this.timeStep;
+        this.asteroidState.currentTime += this.timeStep * VisualiserManager().gameState.timeMultiplier;
         this.asteroidState.meanAnomaly = this.orbitalMotion.CalculateMeanAnomaly(
             this.asteroidData.meanAnomaly,
             this.meanMotion,

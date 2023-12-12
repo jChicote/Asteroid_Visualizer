@@ -1,9 +1,9 @@
-import { VisualiserManager } from "../../../main.js";
 import * as THREE from "../../../node_modules/three/build/three.module.js";
-import { SetVector } from "../../utils/math-library.js";
 import { CelestialOrbitalMotionLogic } from "../Components/OrbitalMechanics/CelestialOrbitalMotionLogic.js";
-import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
 import { GameObject } from "../Entities/GameObject.js";
+import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
+import { SetVector } from "../../utils/math-library.js";
+import { VisualiserManager } from "../../../main.js";
 
 class Comet extends GameObject {
     constructor(cometData) {
@@ -58,7 +58,7 @@ class Comet extends GameObject {
     }
 
     UpdateOrbitalState() {
-        this.cometState.currentTime += this.timeStep;
+        this.cometState.currentTime += this.timeStep * VisualiserManager().gameState.timeMultiplier;
         this.cometState.meanAnomaly = this.orbitalMotion.CalculateMeanAnomaly(
             this.cometData.meanAnomaly,
             this.meanMotion,
