@@ -95,5 +95,9 @@ export class GameManager {
                 this.gameState.timeMultiplier = 1;
             }
         });
+
+        const globalPhysicalProperties = this.debugGui.addFolder("Global Physical Properties");
+        globalPhysicalProperties.add(this.gameState, "physicalRadiusMultiplier", 1, 25, 0.1);
+        globalPhysicalProperties.add(this.gameState, "distanceToSunMultiplier", 1, 20, 0.1);
     }
 }

@@ -6,6 +6,10 @@ class GlobalState {
         this.timeStepResolution = 100000;
         this.timeMultiplier = 1;
         this.isPaused = false;
+
+        // Celestial Objects
+        this.physicalRadiusMultiplier = 1;
+        this.distanceToSunMultiplier = 1;
     }
 }
 
