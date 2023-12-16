@@ -1,7 +1,7 @@
 import { VisualiserManager } from "../../../main.js";
 import * as THREE from "../../../node_modules/three/build/three.module.js";
 import { SetVector } from "../../utils/math-library.js";
-import { OrbitalMotionCalculator } from "../Components/OrbitalMechanics/OrbitalMotionCalculator.js";
+import { CelestialOrbitalMotionLogic } from "../Components/OrbitalMechanics/CelestialOrbitalMotionLogic.js";
 import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
 import { GameObject } from "./GameObject.js";
 
@@ -10,8 +10,8 @@ export class Planet extends GameObject {
         super();
 
         // Components
-        this.orbitalMotion = new OrbitalMotionCalculator();
         this.materialRenderer = new MaterialRenderer(planetCode);
+        this.orbitalMotion = new CelestialOrbitalMotionLogic();
 
         // Fields
         this.planetCode = planetCode;
@@ -25,11 +25,15 @@ export class Planet extends GameObject {
     // Updates the planet. Used during runtime.
     Update() {
         this.UpdateOrbitalState();
-        this.SetPosition(this.orbitalMotion.GetPlanetOrbitalPosition(
-            this.planetState.meanAnomaly,
-            this.planetData.eccentricity,
+        this.SetPosition(this.orbitalMotion.CalculateOrbitalPosition(
             this.planetData.semiMajorAxis,
+            this.planetData.eccentricity,
+            1,
+            1,
+            this.planetState.meanAnomaly,
             0.0000005));
+
+        console.log(this.renderedObject.position);
     }
 
     RenderPlanet() {
@@ -37,10 +41,12 @@ export class Planet extends GameObject {
             new THREE.SphereGeometry(this.GetPlanetRadius(), 32, 16),
             this.materialRenderer.GetMaterial());
 
-        SetVector(planet, this.orbitalMotion.GetPlanetOrbitalPosition(
-            this.planetState.meanAnomaly,
-            this.planetData.eccentricity,
+        SetVector(planet, this.orbitalMotion.CalculateOrbitalPosition(
             this.planetData.semiMajorAxis,
+            this.planetData.eccentricity,
+            1,
+            1,
+            this.planetState.meanAnomaly,
             0.0000005));
 
         VisualiserManager().scene.add(planet);
@@ -61,7 +67,7 @@ export class Planet extends GameObject {
     }
 
     GetPlanetRadius() {
-        return this.planetData.planetRadius * 0.00005; // TODO: ABstract this to make this dynamicically scaled
+        return this.planetData.planetRadius * 0.01; // TODO: ABstract this to make this dynamicically scaled
     }
 
     SetPosition(position) {

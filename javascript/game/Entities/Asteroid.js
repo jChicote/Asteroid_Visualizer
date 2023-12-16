@@ -1,9 +1,9 @@
-import * as THREE from "../../../node_modules/three/build/three.module.js";
-import { CelestialOrbitalMotionLogic } from "../Components/OrbitalMechanics/CelestialOrbitalMotionLogic.js";
-import { GameObject } from "./GameObject.js";
-import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
-import { SetVector } from "../../utils/math-library.js";
 import { VisualiserManager } from "../../../main.js";
+import * as THREE from "../../../node_modules/three/build/three.module.js";
+import { SetVector } from "../../utils/math-library.js";
+import { CelestialOrbitalMotionLogic } from "../Components/OrbitalMechanics/CelestialOrbitalMotionLogic.js";
+import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
+import { GameObject } from "./GameObject.js";
 
 class Asteroid extends GameObject {
     constructor(asteroidData) {
@@ -64,6 +64,7 @@ class Asteroid extends GameObject {
             this.meanMotion,
             this.asteroidState.currentTime,
             this.asteroidData.timeOfPerihelion);
+        // console.log(this.asteroidState.meanAnomaly);
     }
 }
 

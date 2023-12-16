@@ -19,14 +19,26 @@ class CelestialOrbitalMotionLogic {
         return orbitalPeriod / (orbitalPeriod * 24 * 3600) * VisualiserManager().gameState.timeStepResolution;
     }
 
+    GetTimeStepInDays(orbitalPeriod, sideRealDayPeriod) {
+        return orbitalPeriod / (sideRealDayPeriod * 24 * 3600) * VisualiserManager().gameState.timeStepResolution;
+    }
+
     // TODO: Move this a custom math library
     ConvertDegreesToRadians(degrees) {
         return degrees * this.PI / 180;
     }
 
+    GetMeanMotion(orbitalPeriod) {
+        return 2 * this.PI / orbitalPeriod;
+    }
+
     CalculateMeanAnomaly(meanAnomaly, meanMotion, time, timeOfPerihelionPassage) {
         // Source for defining the mean anomaly from: https://en.wikipedia.org/wiki/Mean_anomaly
         return meanAnomaly + meanMotion * (time - timeOfPerihelionPassage);
+    }
+
+    GetCurrentMeanAnomaly(meanAnomaly, meanMotion, currentTime) {
+        return meanAnomaly + meanMotion * currentTime;
     }
 
     CalculateOrbitalPosition(
