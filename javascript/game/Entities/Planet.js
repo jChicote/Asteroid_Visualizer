@@ -5,6 +5,14 @@ import { CelestialOrbitalMotionLogic } from "../Components/OrbitalMechanics/Cele
 import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
 import { GameObject } from "./GameObject.js";
 
+// Things that need to happen for this class
+//  - The data needs to be parsed within the mappings to the Dto
+//  - The calculation of the orbital elements needs to be exclusively the small body class as it manages for most celestial types
+//  - The planets class has to be rewritten to be near identical to the asteroids class
+
+// Tech Debt:
+//  - The state should be grouped with every other celestial object as the requirements for physical and ephemeris properties are near identical.
+
 export class Planet extends GameObject {
     constructor(planetCode, planetData) {
         super();
@@ -12,30 +20,22 @@ export class Planet extends GameObject {
         // Components
         this.materialRenderer = new MaterialRenderer(planetCode);
         this.orbitalMotion = new CelestialOrbitalMotionLogic();
+        this.planetState = new PlanetState(planetData.meanAnomaly, parseFloat(2459595.467857229989));
 
         // Fields
         this.planetCode = planetCode;
         this.planetData = planetData;
-        this.planetState = new PlanetState(planetData.meanAnomaly);
+        this.orbitalPeriod = this.orbitalMotion.GetOrbitalPeriodInDays(planetData.semiMajorAxis);
+        this.meanMotion = this.orbitalMotion.ConvertDegreesToRadians(parseFloat(1.139195266666463E-05));
+        this.timeStep = this.orbitalMotion.GetTimeStepInDays(this.orbitalPeriod, planetData.sideRealDayPeriod);
+        console.log("Planet time is: " + this.timeStep);
         this.renderedObject = this.RenderPlanet();
-        this.orbitalPeriod = this.orbitalMotion.GetOrbitalPeriodInDays(this.planetData.semiMajorAxis);
-        this.meanMotion = this.orbitalMotion.ConvertDegreesToRadians(Number(1.139195266666463E-05));
-        this.timeStep = this.orbitalMotion.GetTimeStepInDays(this.orbitalPeriod, this.planetData.sideRealDayPeriod);
     }
 
     // Updates the planet. Used during runtime.
     Update() {
         this.UpdateOrbitalState();
-        this.SetPosition(this.orbitalMotion.CalculateOrbitalPosition(
-            Number(1.497340666845410E+08),
-            Number(1.755283730575185E-02),
-            Number(3.874617050653719E-03),
-            Number(1.434962181455701E+02),
-            Number(3.190781940967865E+02),
-            this.planetState.meanAnomaly,
-            0.0000005));
-
-        console.log(this.renderedObject.position);
+        this.SetPlanetPosition(this.renderedObject);
     }
 
     RenderPlanet() {
@@ -52,11 +52,11 @@ export class Planet extends GameObject {
 
     SetPlanetPosition(planet) {
         const position = this.orbitalMotion.CalculateOrbitalPosition(
-            Number(1.497340666845410E+08),
-            Number(1.755283730575185E-02),
-            Number(3.874617050653719E-03),
-            Number(1.434962181455701E+02),
-            Number(3.190781940967865E+02),
+            parseFloat(1.497340666845410E+08),
+            parseFloat(1.755283730575185E-02),
+            parseFloat(3.874617050653719E-03),
+            parseFloat(1.434962181455701E+02),
+            parseFloat(3.190781940967865E+02),
             this.planetState.meanAnomaly,
             0.0000005);
 
@@ -79,22 +79,20 @@ export class Planet extends GameObject {
         return this.planetData.planetRadius * 0.0001; // TODO: ABstract this to make this dynamicically scaled
     }
 
-    SetPosition(position) {
-        this.renderedObject.position.set(position.x, position.y, position.z);
-    }
-
     UpdateOrbitalState() {
         this.planetState.currentTime += this.timeStep * VisualiserManager().gameState.timeMultiplier;
-        this.planetState.meanAnomaly = this.orbitalMotion.CalculateMeanAnomaly(
-            Number(3.004515994723365E+02),
-            this.meanMotion,
-            this.planetState.currentTime,
-            2459595.467857229989);
+        this.planetState.meanAnomaly = this.orbitalMotion.GetCurrentMeanAnomaly(
+            parseFloat(3.004515994723365E+02),
+            parseFloat(this.meanMotion),
+            this.planetState.currentTime);
+
+        // console.log("Current Time: " + this.planetState.currentTime + ", time of perihelion: " + "2459595.467857229989");
+        // console.log("MeanAnomaly: " + this.planetState.meanAnomaly + ", Mean Motion: " + this.meanMotion + ", CurrentTime: " + this.planetState.currentTime);
     }
 }
 
 export class PlanetState {
-    constructor(meanAnomaly) {
+    constructor(meanAnomaly, initialTime) {
         this.meanAnomaly = meanAnomaly;
         this.currentTime = 0;
     }

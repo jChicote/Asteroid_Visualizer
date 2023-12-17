@@ -56,7 +56,7 @@ class CelestialOrbitalMotionLogic {
         //      See 'From the eccentric anomaly' section.
         const trueAnomaly = 2 * Math.atan(Math.sqrt((1 + eccentricity) / (1 - eccentricity)) * Math.tan(eccentricAnomaly / 2));
 
-        // Calculates the radius from the sun in astronomical units.
+        // Calculates the radius from the sun in astronomical units (au).
         const distanceRadiusFromSun = semiMajorAxis * (1 - eccentricity * Math.cos(eccentricAnomaly));
 
         const positionWithinOrbitalPlane = {
@@ -65,7 +65,7 @@ class CelestialOrbitalMotionLogic {
             z: (distanceRadiusFromSun * Math.sin(trueAnomaly))
         };
 
-        // Convert to 3D space coordinates
+        // Convert to 3D space coordinates - modified to use x and z as the orbital plane
         const positionIn3DSpace = {
             // x' * (cos(Ω) * cos(ω) - sin(Ω) * sin(ω) * cos(i)) - y' * (cos(Ω) * sin(ω) + sin(Ω) * cos(ω) * cos(i))
             x: (positionWithinOrbitalPlane.x * (Math.cos(longitudeOfAscendingNode) * Math.cos(argumentOfPerihelion) -

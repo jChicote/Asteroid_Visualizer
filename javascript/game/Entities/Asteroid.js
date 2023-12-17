@@ -19,6 +19,7 @@ class Asteroid extends GameObject {
         this.orbitalPeriod = this.orbitalMotion.GetOrbitalPeriodInDays(asteroidData.semiMajorAxis);
         this.meanMotion = this.orbitalMotion.ConvertDegreesToRadians(this.asteroidData.meanMotion);
         this.timeStep = this.orbitalMotion.CalculateTimeStep(this.orbitalPeriod);
+        console.log("Asteroid time is: " + this.timeStep);
         this.renderedObject = this.RenderAsteroid();
     }
 
@@ -64,6 +65,8 @@ class Asteroid extends GameObject {
             this.meanMotion,
             this.asteroidState.currentTime,
             this.asteroidData.timeOfPerihelion);
+
+        console.log("MeanAnomaly: " + this.asteroidState.meanAnomaly + ", Mean Motion: " + this.meanMotion + ", CurrentTime: " + this.asteroidState.currentTime);
     }
 }
 
