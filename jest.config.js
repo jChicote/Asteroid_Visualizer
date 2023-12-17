@@ -1,5 +1,4 @@
-
-export default { 
-    transform: {} ,
-    transformIgnorePatterns: ['<rootDir>/node_modules/']
-}
+export default {
+    testEnvironment: "jest-environment-node",
+    transform: {}
+};
