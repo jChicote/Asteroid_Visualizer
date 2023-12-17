@@ -19,6 +19,7 @@ export class Planet extends GameObject {
         this.planetState = new PlanetState(planetData.meanAnomaly);
         this.renderedObject = this.RenderPlanet();
         this.orbitalPeriod = this.orbitalMotion.GetOrbitalPeriodInDays(this.planetData.semiMajorAxis);
+        this.meanMotion = this.orbitalMotion.ConvertDegreesToRadians(Number(1.139195266666463E-05));
         this.timeStep = this.orbitalMotion.GetTimeStepInDays(this.orbitalPeriod, this.planetData.sideRealDayPeriod);
     }
 
@@ -26,10 +27,11 @@ export class Planet extends GameObject {
     Update() {
         this.UpdateOrbitalState();
         this.SetPosition(this.orbitalMotion.CalculateOrbitalPosition(
-            this.planetData.semiMajorAxis,
-            this.planetData.eccentricity,
-            1,
-            1,
+            Number(1.497340666845410E+08),
+            Number(1.755283730575185E-02),
+            Number(3.874617050653719E-03),
+            Number(1.434962181455701E+02),
+            Number(3.190781940967865E+02),
             this.planetState.meanAnomaly,
             0.0000005));
 
@@ -41,17 +43,24 @@ export class Planet extends GameObject {
             new THREE.SphereGeometry(this.GetPlanetRadius(), 32, 16),
             this.materialRenderer.GetMaterial());
 
-        SetVector(planet, this.orbitalMotion.CalculateOrbitalPosition(
-            this.planetData.semiMajorAxis,
-            this.planetData.eccentricity,
-            1,
-            1,
-            this.planetState.meanAnomaly,
-            0.0000005));
+        this.SetPlanetPosition(planet);
 
         VisualiserManager().scene.add(planet);
 
         return planet;
+    }
+
+    SetPlanetPosition(planet) {
+        const position = this.orbitalMotion.CalculateOrbitalPosition(
+            Number(1.497340666845410E+08),
+            Number(1.755283730575185E-02),
+            Number(3.874617050653719E-03),
+            Number(1.434962181455701E+02),
+            Number(3.190781940967865E+02),
+            this.planetState.meanAnomaly,
+            0.0000005);
+
+        SetVector(planet, position);
     }
 
     GetState() {
@@ -67,7 +76,7 @@ export class Planet extends GameObject {
     }
 
     GetPlanetRadius() {
-        return this.planetData.planetRadius * 0.01; // TODO: ABstract this to make this dynamicically scaled
+        return this.planetData.planetRadius * 0.0001; // TODO: ABstract this to make this dynamicically scaled
     }
 
     SetPosition(position) {
@@ -75,9 +84,12 @@ export class Planet extends GameObject {
     }
 
     UpdateOrbitalState() {
-        const meanMotion = this.orbitalMotion.GetMeanMotion(this.orbitalPeriod);
         this.planetState.currentTime += this.timeStep * VisualiserManager().gameState.timeMultiplier;
-        this.planetState.meanAnomaly = this.orbitalMotion.GetCurrentMeanAnomaly(this.planetData.meanAnomaly, meanMotion, this.planetState.currentTime);
+        this.planetState.meanAnomaly = this.orbitalMotion.CalculateMeanAnomaly(
+            Number(3.004515994723365E+02),
+            this.meanMotion,
+            this.planetState.currentTime,
+            2459595.467857229989);
     }
 }
 

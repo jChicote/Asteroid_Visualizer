@@ -61,8 +61,8 @@ class CelestialOrbitalMotionLogic {
 
         const positionWithinOrbitalPlane = {
             x: (distanceRadiusFromSun * Math.cos(trueAnomaly)),
-            y: (distanceRadiusFromSun * Math.sin(trueAnomaly)),
-            z: 0
+            y: 0,
+            z: (distanceRadiusFromSun * Math.sin(trueAnomaly))
         };
 
         // Convert to 3D space coordinates
@@ -70,16 +70,16 @@ class CelestialOrbitalMotionLogic {
             // x' * (cos(Ω) * cos(ω) - sin(Ω) * sin(ω) * cos(i)) - y' * (cos(Ω) * sin(ω) + sin(Ω) * cos(ω) * cos(i))
             x: (positionWithinOrbitalPlane.x * (Math.cos(longitudeOfAscendingNode) * Math.cos(argumentOfPerihelion) -
                 Math.sin(longitudeOfAscendingNode) * Math.sin(argumentOfPerihelion) * Math.cos(inclination)) -
-                positionWithinOrbitalPlane.y * (Math.cos(longitudeOfAscendingNode) * Math.sin(argumentOfPerihelion) +
+                positionWithinOrbitalPlane.z * (Math.cos(longitudeOfAscendingNode) * Math.sin(argumentOfPerihelion) +
                     Math.sin(longitudeOfAscendingNode) * Math.cos(argumentOfPerihelion) * Math.cos(inclination))),
-            // x' * (sin(Ω) * cos(ω) + cos(Ω) * sin(ω) * cos(i)) + y' * (sin(Ω) * sin(ω) - cos(Ω) * cos(ω) * cos(i))
-            y: (positionWithinOrbitalPlane.x * (Math.sin(longitudeOfAscendingNode) * Math.cos(argumentOfPerihelion) +
-                Math.cos(longitudeOfAscendingNode) * Math.sin(argumentOfPerihelion) * Math.cos(inclination)) +
-                positionWithinOrbitalPlane.y * (Math.sin(longitudeOfAscendingNode) * Math.sin(argumentOfPerihelion) -
-                    Math.cos(longitudeOfAscendingNode) * Math.cos(argumentOfPerihelion) * Math.cos(inclination))),
             // x' * sin(ω) * sin(i) + y' * cos(ω) * sin(i)
-            z: (positionWithinOrbitalPlane.x * Math.sin(argumentOfPerihelion) * Math.sin(inclination) +
-                positionWithinOrbitalPlane.y * Math.cos(argumentOfPerihelion) * Math.sin(inclination))
+            y: (positionWithinOrbitalPlane.x * Math.sin(argumentOfPerihelion) * Math.sin(inclination) +
+                positionWithinOrbitalPlane.z * Math.cos(argumentOfPerihelion) * Math.sin(inclination)),
+            // x' * (sin(Ω) * cos(ω) + cos(Ω) * sin(ω) * cos(i)) + y' * (sin(Ω) * sin(ω) - cos(Ω) * cos(ω) * cos(i))
+            z: (positionWithinOrbitalPlane.x * (Math.sin(longitudeOfAscendingNode) * Math.cos(argumentOfPerihelion) +
+                Math.cos(longitudeOfAscendingNode) * Math.sin(argumentOfPerihelion) * Math.cos(inclination)) +
+                positionWithinOrbitalPlane.z * (Math.sin(longitudeOfAscendingNode) * Math.sin(argumentOfPerihelion) -
+                    Math.cos(longitudeOfAscendingNode) * Math.cos(argumentOfPerihelion) * Math.cos(inclination)))
         };
 
         positionIn3DSpace.x *= distanceScale;
