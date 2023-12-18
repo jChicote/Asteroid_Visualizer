@@ -1,5 +1,5 @@
-import { Planet } from "../../../Domain/Entities/Planet.js";
 import { BaseObjectMapperConfiguration } from "../../../../shared/Infrastructure/Mapper/BaseObjectMapperConfiguration.js";
+import { Planet } from "../../../Domain/Entities/Planet.js";
 import { PlanetDto } from "../../Dtos/PlanetDto.js";
 
 export class CreatePlanetMapperConfiguration extends BaseObjectMapperConfiguration {
@@ -9,9 +9,12 @@ export class CreatePlanetMapperConfiguration extends BaseObjectMapperConfigurati
     }
 
     MapDataContainerToPlanet(dataContainer, planet) {
-        planet.planetCode = dataContainer.inputPort.planetCode;
+        planet.argumentOfPerihelion = dataContainer.heliocentricData.argumentOfPerihelion;
         planet.eccentricity = dataContainer.heliocentricData.eccentricity;
+        planet.inclination = dataContainer.heliocentricData.inclination;
+        planet.longitudeOfAscendingNode = dataContainer.heliocentricData.longitudeOfAscendingNode;
         planet.meanAnomaly = dataContainer.heliocentricData.meanAnomaly;
+        planet.planetCode = dataContainer.inputPort.planetCode;
         planet.planetRadius = dataContainer.physicalBodyData.planetRadius;
         planet.semiMajorAxis = dataContainer.heliocentricData.semiMajorAxis;
         planet.sideRealDayPeriod = dataContainer.physicalBodyData.sideRealDayPeriod;
@@ -20,13 +23,16 @@ export class CreatePlanetMapperConfiguration extends BaseObjectMapperConfigurati
     }
 
     MapDataContainerToPlanetDto(dataContainer, planetDto) {
-        planetDto.planetCode = dataContainer.inputPort.planetCode;
+        planetDto.argumentOfPerihelion = dataContainer.heliocentricData.argumentOfPerihelion;
         planetDto.eccentricity = dataContainer.heliocentricData.eccentricity;
         planetDto.endDate = dataContainer.captureData.endDate;
+        planetDto.inclination = dataContainer.heliocentricData.inclination;
+        planetDto.longitudeOfAscendingNode = dataContainer.heliocentricData.longitudeOfAscendingNode;
         planetDto.meanAnomaly = dataContainer.heliocentricData.meanAnomaly;
         planetDto.meanSolarDay = dataContainer.physicalBodyData.meanSolarDay;
         planetDto.obliquityToOrbit = dataContainer.physicalBodyData.obliquityToOrbit;
         planetDto.orbitalSpeed = dataContainer.physicalBodyData.orbitalSpeed;
+        planetDto.planetCode = dataContainer.inputPort.planetCode;
         planetDto.planetRadius = dataContainer.physicalBodyData.planetRadius;
         planetDto.semiMajorAxis = dataContainer.heliocentricData.semiMajorAxis;
         planetDto.sideRealDayPeriod = dataContainer.physicalBodyData.sideRealDayPeriod;

@@ -11,9 +11,12 @@ class DtoMappingConfiguration extends BaseObjectMapperConfiguration {
     }
 
     MapPlanetToPlanetDto(planet, planetDto) {
-        planetDto.planetCode = planet.planetCode;
+        planetDto.argumentOfPerihelion = planet.argumentOfPerihelion;
         planetDto.eccentricity = planet.eccentricity;
+        planetDto.inclination = planet.inclination;
+        planetDto.longitudeOfTheAscendingNode = planet.longitudeOfTheAscendingNode;
         planetDto.meanAnomaly = planet.meanAnomaly;
+        planetDto.planetCode = planet.planetCode;
         planetDto.planetRadius = planet.planetRadius;
         planetDto.semiMajorAxis = planet.semiMajorAxis;
         planetDto.sideRealDayPeriod = planet.sideRealDayPeriod;
