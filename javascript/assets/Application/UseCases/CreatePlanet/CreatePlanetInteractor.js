@@ -66,7 +66,10 @@ export class CreatePlanetInteractor {
         const heliocentricData = {
             eccentricity: "",
             meanAnomaly: "",
-            semiMajorAxis: ""
+            semiMajorAxis: "",
+            inclination: "",
+            longitudeOfAscendingNode: "",
+            argumentOfPerihelion: ""
         };
 
         // Process heliocentric data and set values in heliocentricData object
@@ -83,6 +86,12 @@ export class CreatePlanetInteractor {
                             heliocentricData.meanAnomaly = this.ParseValidFloat(data.value);
                         } else if (data.key === "A") {
                             heliocentricData.semiMajorAxis = this.ParseValidFloat(data.value);
+                        } else if (data.key === "IN") {
+                            heliocentricData.inclination = this.ParseValidFloat(data.value);
+                        } else if (data.key === "OM") {
+                            heliocentricData.longitudeOfAscendingNode = this.ParseValidFloat(data.value);
+                        } else if (data.key === "W") {
+                            heliocentricData.argumentOfPerihelion = this.ParseValidFloat(data.value);
                         }
                     });
                 }
