@@ -6,15 +6,21 @@ export class GetPlanetsViewModel {
 
 export class PlanetViewModel {
     constructor(
-        planetCode,
+        argumentOfPerihelion,
         eccentricity,
+        inclination,
+        longitudeOfAscendingNode,
         meanAnomaly,
+        planetCode,
         planetRadius,
         semiMajorAxis,
         sideRealDayPeriod) {
-        this.planetCode = planetCode;
+        this.argumentOfPerihelion = argumentOfPerihelion;
         this.eccentricity = eccentricity;
+        this.inclination = inclination;
+        this.longitudeOfAscendingNode = longitudeOfAscendingNode;
         this.meanAnomaly = meanAnomaly;
+        this.planetCode = planetCode;
         this.planetRadius = planetRadius;
         this.semiMajorAxis = semiMajorAxis;
         this.sideRealDayPeriod = sideRealDayPeriod;
