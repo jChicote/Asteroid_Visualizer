@@ -1,8 +1,8 @@
+import { ServiceExtractor } from "../../../../shared/DependencyInjectionServices/Utilities/ServiceExtractor.js";
+import { ObjectMapper } from "../../../../shared/Infrastructure/Mapper/ObjectMapper.js";
 import { Planet } from "../../../Domain/Entities/Planet.js";
 import { PlanetRepository } from "../../../Domain/Repositories/PlanetRepository.js";
 import { PlanetDto } from "../../Dtos/PlanetDto.js";
-import { ServiceExtractor } from "../../../../shared/DependencyInjectionServices/Utilities/ServiceExtractor.js";
-import { ObjectMapper } from "../../../../shared/Infrastructure/Mapper/ObjectMapper.js";
 import { CreatePlanetDataContainer } from "./CreatePlanetMapperConfiguration.js";
 
 /**
@@ -33,7 +33,7 @@ export class CreatePlanetInteractor {
         // Store planet domain entity
         await this.planetRepository.Add(planet);
 
-        await presenter.PresentsPlanetDataAsync(this.mapper.Map(dataContainer, PlanetDto));
+        await presenter.PresentsPlanetDataAsync(this.mapper.Map(planet, PlanetDto));
     }
 
     /**

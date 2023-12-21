@@ -52,11 +52,11 @@ export class Planet extends GameObject {
 
     SetPlanetPosition(planet) {
         const position = this.orbitalMotion.CalculateOrbitalPosition(
-            parseFloat(1.497340666845410E+08),
-            parseFloat(1.755283730575185E-02),
-            parseFloat(3.874617050653719E-03),
-            parseFloat(1.434962181455701E+02),
-            parseFloat(3.190781940967865E+02),
+            this.planetData.semiMajorAxis,
+            this.planetData.eccentricity,
+            this.planetData.inclination,
+            this.planetData.longitudeOfAscendingNode,
+            this.planetData.argumentOfPerihelion,
             this.planetState.meanAnomaly,
             0.0000005);
 
@@ -82,12 +82,13 @@ export class Planet extends GameObject {
     UpdateOrbitalState() {
         this.planetState.currentTime += this.timeStep * VisualiserManager().gameState.timeMultiplier;
         this.planetState.meanAnomaly = this.orbitalMotion.GetCurrentMeanAnomaly(
-            parseFloat(3.004515994723365E+02),
-            parseFloat(this.meanMotion),
+            this.planetData.meanAnomaly,
+            this.meanMotion,
             this.planetState.currentTime);
 
         // console.log("Current Time: " + this.planetState.currentTime + ", time of perihelion: " + "2459595.467857229989");
-        // console.log("MeanAnomaly: " + this.planetState.meanAnomaly + ", Mean Motion: " + this.meanMotion + ", CurrentTime: " + this.planetState.currentTime);
+        console.log("MeanAnomaly: " + this.planetState.meanAnomaly + ", Mean Motion: " + this.meanMotion + ", CurrentTime: " + this.planetState.currentTime);
+        console.log("CurrentPosition: x = " + this.renderedObject.position.x + ", y = " + this.renderedObject.position.y + ", z = " + this.renderedObject.position.z);
     }
 }
 

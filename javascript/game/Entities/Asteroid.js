@@ -65,8 +65,6 @@ class Asteroid extends GameObject {
             this.meanMotion,
             this.asteroidState.currentTime,
             this.asteroidData.timeOfPerihelion);
-
-        console.log("MeanAnomaly: " + this.asteroidState.meanAnomaly + ", Mean Motion: " + this.meanMotion + ", CurrentTime: " + this.asteroidState.currentTime);
     }
 }
 
