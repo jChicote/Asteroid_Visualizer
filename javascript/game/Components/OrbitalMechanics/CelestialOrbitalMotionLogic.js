@@ -76,8 +76,8 @@ class CelestialOrbitalMotionLogic {
                 positionWithinOrbitalPlane.z * (Math.cos(longitudeOfAscendingNode) * Math.sin(argumentOfPerihelion) +
                     Math.sin(longitudeOfAscendingNode) * Math.cos(argumentOfPerihelion) * Math.cos(inclination))),
             // x' * sin(ω) * sin(i) + y' * cos(ω) * sin(i)
-            y: (positionWithinOrbitalPlane.x * Math.sin(argumentOfPerihelion) * Math.sin(inclination) +
-                positionWithinOrbitalPlane.z * Math.cos(argumentOfPerihelion) * Math.sin(inclination)),
+            y: positionWithinOrbitalPlane.x * Math.sin(argumentOfPerihelion) * Math.sin(inclination) +
+                positionWithinOrbitalPlane.z * Math.cos(argumentOfPerihelion) * Math.sin(inclination),
             // x' * (sin(Ω) * cos(ω) + cos(Ω) * sin(ω) * cos(i)) + y' * (sin(Ω) * sin(ω) - cos(Ω) * cos(ω) * cos(i))
             z: (positionWithinOrbitalPlane.x * (Math.sin(longitudeOfAscendingNode) * Math.cos(argumentOfPerihelion) +
                 Math.cos(longitudeOfAscendingNode) * Math.sin(argumentOfPerihelion) * Math.cos(inclination)) +
@@ -89,10 +89,42 @@ class CelestialOrbitalMotionLogic {
         positionIn3DSpace.y *= distanceScale;
         positionIn3DSpace.z *= distanceScale;
 
-        positionWithinOrbitalPlane.x *= distanceScale; // Temp
-        positionWithinOrbitalPlane.z *= distanceScale; // Temp
-
         return positionIn3DSpace;
+    }
+
+    CalculateOrbitalMotionForPlanets(
+        semiMajorAxis,
+        eccentricity,
+        inclination,
+        longitudeOfAscendingNode,
+        argumentOfPerihelion,
+        meanAnomaly,
+        distanceScale) {
+        const eccentricAnomaly = this.CalculateEccentricAnomaly(meanAnomaly, eccentricity);
+
+        // Calculates the angular parameter representing the position of the body along a Keplerian Orbit.
+        // Source: https://en.wikipedia.org/wiki/True_anomaly
+        //      See 'From the eccentric anomaly' sec tion.
+        const trueAnomaly = 2 * Math.atan(Math.sqrt((1 + eccentricity) / (1 - eccentricity)) * Math.tan(eccentricAnomaly / 2));
+        const trueAnomalyInDegrees = (180 / Math.PI) * trueAnomaly;
+        // Calculates the radius from the sun in astronomical units (au).
+        const distanceRadiusFromSun = semiMajorAxis * (1 - eccentricity * Math.cos(eccentricAnomaly));
+
+        const newPosition = {
+            x: distanceRadiusFromSun * (Math.cos(longitudeOfAscendingNode) * Math.cos(argumentOfPerihelion + trueAnomalyInDegrees) -
+                Math.sin(longitudeOfAscendingNode) * Math.sin(argumentOfPerihelion + trueAnomalyInDegrees) * Math.cos(inclination)),
+            y: distanceRadiusFromSun * (Math.sin(argumentOfPerihelion + trueAnomalyInDegrees) * Math.sin(inclination)),
+            z: distanceRadiusFromSun * (Math.sin(longitudeOfAscendingNode) * Math.cos(argumentOfPerihelion + trueAnomalyInDegrees) +
+                Math.cos(longitudeOfAscendingNode) * Math.sin(argumentOfPerihelion + trueAnomalyInDegrees) * Math.cos(inclination))
+        };
+
+        console.log("Inclination is: " + inclination + ", y position is: " + newPosition.y);
+
+        newPosition.x *= distanceScale;
+        newPosition.y *= distanceScale;
+        newPosition.z *= distanceScale;
+
+        return newPosition;
     }
 
     CalculateEccentricAnomaly(meanAnomaly, eccentricity) {

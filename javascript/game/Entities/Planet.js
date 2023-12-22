@@ -19,7 +19,8 @@ export class Planet extends GameObject {
         this.planetData = planetData;
         this.orbitalPeriod = this.orbitalMotion.GetOrbitalPeriodInDays(planetData.semiMajorAxis);
         this.meanMotion = this.orbitalMotion.ConvertDegreesToRadians(this.orbitalMotion.GetMeanMotion(this.orbitalPeriod));
-        this.timeStep = this.orbitalMotion.CalculateTimeStep(this.orbitalPeriod);
+        // this.timeStep = this.orbitalMotion.CalculateTimeStep(this.orbitalPeriod);
+        this.timeStep = 0.005;
         this.renderedObject = this.RenderPlanet();
     }
 
@@ -42,7 +43,7 @@ export class Planet extends GameObject {
     }
 
     SetPlanetPosition(planet) {
-        const position = this.orbitalMotion.CalculateOrbitalPosition(
+        const position = this.orbitalMotion.CalculateOrbitalMotionForPlanets(
             this.planetData.semiMajorAxis,
             this.planetData.eccentricity,
             this.planetData.inclination, // Try alternative method is the inclination of a given planet is less than 1 degree
@@ -50,6 +51,15 @@ export class Planet extends GameObject {
             this.planetData.argumentOfPerihelion,
             this.planetState.meanAnomaly,
             0.0000005);
+
+        // const position = this.orbitalMotion.CalculateOrbitalMotionForPlanets(
+        //     5.790913844411527E+07,
+        //     2.056221646194238E-01,
+        //     7.003602377484754E+00, // Try alternative method is the inclination of a given planet is less than 1 degree
+        //     4.830273917477709E+01,
+        //     2.919068100445978E+01,
+        //     this.planetState.meanAnomaly,
+        //     0.0000005);
 
         SetVector(planet, position);
     }
@@ -67,18 +77,18 @@ export class Planet extends GameObject {
     }
 
     GetPlanetRadius() {
-        return this.planetData.planetRadius * 0.0001; // TODO: ABstract this to make this dynamicically scaled
+        return this.planetData.planetRadius * 0.0001; // TODO: ABstract this to make this dynamically scaled
     }
 
     UpdateOrbitalState() {
-        this.planetState.currentTime += this.timeStep * VisualiserManager().gameState.timeMultiplier + 100;
+        this.planetState.currentTime += this.timeStep * VisualiserManager().gameState.timeMultiplier + 10;
         this.planetState.meanAnomaly = this.orbitalMotion.GetCurrentMeanAnomaly(
-            this.planetData.meanAnomaly,
-            this.meanMotion,
+            3.004515994723365E+02,
+            4.736503145221769E-05,
             this.planetState.currentTime);
 
-        console.log("MeanAnomaly: " + this.planetState.meanAnomaly + ", Mean Motion: " + this.meanMotion + ", CurrentTime: " + this.planetState.currentTime);
-        console.log("CurrentPosition: x = " + this.renderedObject.position.x + ", y = " + this.renderedObject.position.y + ", z = " + this.renderedObject.position.z);
+        // console.log("MeanAnomaly: " + this.planetState.meanAnomaly + ", Mean Motion: " + this.meanMotion + ", CurrentTime: " + this.planetState.currentTime);
+        // console.log("CurrentPosition: x = " + this.renderedObject.position.x + ", y = " + this.renderedObject.position.y + ", z = " + this.renderedObject.position.z);
     }
 }
 

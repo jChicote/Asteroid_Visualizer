@@ -50,6 +50,8 @@ export class GameManager {
         // TODO: Move this to its own section
         const starCreator = new StarCreator(this.scene);
         starCreator.CreateStar(5, 0xFFFFFF, new THREE.Vector3(0, 0, 0));
+
+        this.SetupDebugHelpers();
     }
 
     Update() {
@@ -82,9 +84,14 @@ export class GameManager {
         this.SetupDebugGUI();
     }
 
+    SetupDebugHelpers() {
+        const axesHelper = new THREE.AxesHelper(30);
+        this.scene.add(axesHelper);
+    }
+
     SetupDebugGUI() {
         const orbitalMechanicsFolder = this.debugGui.addFolder("Orbital Mechanics");
-        orbitalMechanicsFolder.add(this.gameState, "timeMultiplier", 0, 30, 0.1);
+        orbitalMechanicsFolder.add(this.gameState, "timeMultiplier", 0, 30, 0.01);
         orbitalMechanicsFolder.add(this.gameState, "timeStepResolution", 1000, 100000, 100); // TODO: For this to work it will need to recalculate the orbital period.
         orbitalMechanicsFolder.add(this.gameState, "isPaused").onChange(isPaused => {
             if (isPaused) {

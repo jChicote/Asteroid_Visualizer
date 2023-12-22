@@ -42,10 +42,10 @@ class Asteroid extends GameObject {
     }
 
     SetAsteroidPosition(asteroid) {
-        const position = this.orbitalMotion.CalculateOrbitalPosition(
+        const position = this.orbitalMotion.CalculateOrbitalMotionForPlanets(
             this.asteroidData.semiMajorAxis,
             this.asteroidData.eccentricity,
-            this.asteroidData.inclination,
+            0.01 * this.asteroidData.inclination,
             this.asteroidData.longitudeOfTheAscendingNode,
             this.asteroidData.argumentOfPerihelion,
             this.asteroidState.meanAnomaly,

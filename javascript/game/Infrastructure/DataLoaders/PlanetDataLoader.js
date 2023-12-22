@@ -12,7 +12,7 @@ export class PlanetDataLoader extends DataLoader {
     async LoadAsync() {
         await this.CreatePlanetAsync(PlanetCodes.Mercury);
         // await this.CreatePlanetAsync(PlanetCodes.Venus);
-        // await this.CreatePlanetAsync(PlanetCodes.Earth);
+        await this.CreatePlanetAsync(PlanetCodes.Earth);
         // await this.CreatePlanetAsync(PlanetCodes.Mars);
         // await this.CreatePlanetAsync(PlanetCodes.Jupiter);
         // await this.CreatePlanetAsync(PlanetCodes.Saturn);
