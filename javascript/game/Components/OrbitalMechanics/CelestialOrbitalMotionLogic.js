@@ -71,7 +71,7 @@ class CelestialOrbitalMotionLogic {
             x: (positionWithinOrbitalPlane.x * (Math.cos(longitudeOfAscendingNode) * Math.cos(argumentOfPerihelion) -
                 Math.sin(longitudeOfAscendingNode) * Math.sin(argumentOfPerihelion) * Math.cos(inclination)) -
                 positionWithinOrbitalPlane.z * (Math.cos(longitudeOfAscendingNode) * Math.sin(argumentOfPerihelion) +
-                    Math.sin(longitudeOfAscendingNode) * Math.cos(argumentOfPerihelion) * Math.cos(inclination))),
+                    Math.sin(longitudeOfAscendingNode) * Math.cos(argumentOfPerihelion))), // * Math.cos(inclination))),
             // x' * sin(ω) * sin(i) + y' * cos(ω) * sin(i)
             y: (positionWithinOrbitalPlane.x * Math.sin(argumentOfPerihelion) * Math.sin(inclination) +
                 positionWithinOrbitalPlane.z * Math.cos(argumentOfPerihelion) * Math.sin(inclination)),
@@ -79,12 +79,15 @@ class CelestialOrbitalMotionLogic {
             z: (positionWithinOrbitalPlane.x * (Math.sin(longitudeOfAscendingNode) * Math.cos(argumentOfPerihelion) +
                 Math.cos(longitudeOfAscendingNode) * Math.sin(argumentOfPerihelion) * Math.cos(inclination)) +
                 positionWithinOrbitalPlane.z * (Math.sin(longitudeOfAscendingNode) * Math.sin(argumentOfPerihelion) -
-                    Math.cos(longitudeOfAscendingNode) * Math.cos(argumentOfPerihelion) * Math.cos(inclination)))
+                    Math.cos(longitudeOfAscendingNode) * Math.cos(argumentOfPerihelion))) // * Math.cos(inclination)))
         };
 
         positionIn3DSpace.x *= distanceScale;
         positionIn3DSpace.y *= distanceScale;
         positionIn3DSpace.z *= distanceScale;
+
+        positionWithinOrbitalPlane.x *= distanceScale;
+        positionWithinOrbitalPlane.z *= distanceScale;
 
         return positionIn3DSpace;
     }

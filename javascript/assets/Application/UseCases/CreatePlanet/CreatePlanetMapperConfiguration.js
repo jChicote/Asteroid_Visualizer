@@ -4,7 +4,6 @@ import { Planet } from "../../../Domain/Entities/Planet.js";
 export class CreatePlanetMapperConfiguration extends BaseObjectMapperConfiguration {
     RegisterConfigurations(mapper) {
         mapper.AddConfiguration(CreatePlanetDataContainer, Planet, this.MapDataContainerToPlanet);
-        // mapper.AddConfiguration(CreatePlanetDataContainer, PlanetDto, this.MapDataContainerToPlanetDto);
     }
 
     MapDataContainerToPlanet(dataContainer, planet) {
@@ -24,25 +23,6 @@ export class CreatePlanetMapperConfiguration extends BaseObjectMapperConfigurati
 
         return planet;
     }
-
-    // MapDataContainerToPlanetDto(dataContainer, planetDto) {
-    //     planetDto.argumentOfPerihelion = dataContainer.heliocentricData.argumentOfPerihelion;
-    //     planetDto.eccentricity = dataContainer.heliocentricData.eccentricity;
-    //     planetDto.endDate = dataContainer.captureData.endDate;
-    //     planetDto.inclination = dataContainer.heliocentricData.inclination;
-    //     planetDto.longitudeOfAscendingNode = dataContainer.heliocentricData.longitudeOfAscendingNode;
-    //     planetDto.meanAnomaly = dataContainer.heliocentricData.meanAnomaly;
-    //     planetDto.meanSolarDay = dataContainer.physicalBodyData.meanSolarDay;
-    //     planetDto.obliquityToOrbit = dataContainer.physicalBodyData.obliquityToOrbit;
-    //     planetDto.orbitalSpeed = dataContainer.physicalBodyData.orbitalSpeed;
-    //     planetDto.planetCode = dataContainer.inputPort.planetCode;
-    //     planetDto.planetRadius = dataContainer.physicalBodyData.planetRadius;
-    //     planetDto.semiMajorAxis = dataContainer.heliocentricData.semiMajorAxis;
-    //     planetDto.sideRealDayPeriod = dataContainer.physicalBodyData.sideRealDayPeriod;
-    //     planetDto.startDate = dataContainer.captureData.startDate;
-
-    //     return planetDto;
-    // }
 }
 
 export class CreatePlanetDataContainer {

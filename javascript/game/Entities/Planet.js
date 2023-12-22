@@ -23,13 +23,26 @@ export class Planet extends GameObject {
         this.planetState = new PlanetState(planetData.meanAnomaly, parseFloat(2459595.467857229989));
 
         // Fields
+        // this.planetCode = planetCode;
+        // this.planetData = planetData;
+        // this.orbitalPeriod = this.orbitalMotion.GetOrbitalPeriodInDays(planetData.semiMajorAxis);
+        // this.meanMotion = this.orbitalMotion.ConvertDegreesToRadians(parseFloat(1.139195266666463E-05));
+        // this.timeStep = this.orbitalMotion.GetTimeStepInDays(this.orbitalPeriod, planetData.sideRealDayPeriod);
+        // this.renderedObject = this.RenderPlanet();
+
         this.planetCode = planetCode;
         this.planetData = planetData;
         this.orbitalPeriod = this.orbitalMotion.GetOrbitalPeriodInDays(planetData.semiMajorAxis);
-        this.meanMotion = this.orbitalMotion.ConvertDegreesToRadians(parseFloat(1.139195266666463E-05));
-        this.timeStep = this.orbitalMotion.GetTimeStepInDays(this.orbitalPeriod, planetData.sideRealDayPeriod);
-        console.log("Planet time is: " + this.timeStep);
+        this.meanMotion = this.orbitalMotion.ConvertDegreesToRadians(this.orbitalMotion.GetMeanMotion(this.orbitalPeriod));
+        this.timeStep = this.orbitalMotion.CalculateTimeStep(this.orbitalPeriod);
         this.renderedObject = this.RenderPlanet();
+
+        // this.asteroidData = asteroidData;
+        // this.orbitalPeriod = this.orbitalMotion.GetOrbitalPeriodInDays(asteroidData.semiMajorAxis);
+        // this.meanMotion = this.orbitalMotion.ConvertDegreesToRadians(this.asteroidData.meanMotion);
+        // this.timeStep = this.orbitalMotion.CalculateTimeStep(this.orbitalPeriod);
+        // console.log("Asteroid time is: " + this.timeStep);
+        // this.renderedObject = this.RenderAsteroid();
     }
 
     // Updates the planet. Used during runtime.
@@ -54,7 +67,8 @@ export class Planet extends GameObject {
         const position = this.orbitalMotion.CalculateOrbitalPosition(
             this.planetData.semiMajorAxis,
             this.planetData.eccentricity,
-            this.planetData.inclination,
+            // this.planetData.inclination,
+            0.03,
             this.planetData.longitudeOfAscendingNode,
             this.planetData.argumentOfPerihelion,
             this.planetState.meanAnomaly,
@@ -80,7 +94,7 @@ export class Planet extends GameObject {
     }
 
     UpdateOrbitalState() {
-        this.planetState.currentTime += this.timeStep * VisualiserManager().gameState.timeMultiplier;
+        this.planetState.currentTime += this.timeStep * VisualiserManager().gameState.timeMultiplier + 100;
         this.planetState.meanAnomaly = this.orbitalMotion.GetCurrentMeanAnomaly(
             this.planetData.meanAnomaly,
             this.meanMotion,
