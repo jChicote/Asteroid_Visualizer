@@ -12,7 +12,7 @@ export class Planet extends GameObject {
         // Components
         this.materialRenderer = new MaterialRenderer(planetCode);
         this.orbitalMotion = new PlanataryOrbitalMotionLogic();
-        this.planetState = new PlanetState(planetData.meanAnomaly, parseFloat(2459595.467857229989));
+        this.planetState = new PlanetState(planetData.meanAnomaly, 0);
 
         // Fields
         this.planetCode = planetCode;
@@ -77,15 +77,12 @@ export class Planet extends GameObject {
             this.planetData.meanAnomaly,
             this.meanMotion,
             this.planetState.currentTime);
-
-        // console.log("MeanAnomaly: " + this.planetState.meanAnomaly + ", Mean Motion: " + this.meanMotion + ", CurrentTime: " + this.planetState.currentTime);
-        console.log("CurrentPosition: x = " + this.renderedObject.position.x + ", y = " + this.renderedObject.position.y + ", z = " + this.renderedObject.position.z);
     }
 }
 
 export class PlanetState {
     constructor(meanAnomaly, initialTime) {
         this.meanAnomaly = meanAnomaly;
-        this.currentTime = 0;
+        this.currentTime = initialTime;
     }
 }

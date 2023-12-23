@@ -1,10 +1,11 @@
-import { OrbitControls } from "../../addons/OrbitControls.js";
-import { GUI } from "../../node_modules/dat.gui/build/dat.gui.module.js";
 import * as THREE from "../../node_modules/three/build/three.module.js";
-import { StarCreator } from "../star-creator.js";
-import { GlobalState } from "./GlobalState.js";
+import { AsteroidManager } from "./Asteroids/AsteroidManager.js";
 import { DataLoaderProvider } from "./Infrastructure/DataLoaders/DataLoaderProvider.js";
+import { GUI } from "../../node_modules/dat.gui/build/dat.gui.module.js";
+import { GlobalState } from "./GlobalState.js";
+import { OrbitControls } from "../../addons/OrbitControls.js";
 import { PlanetManager } from "./Planets/PlanetManager.js";
+import { StarCreator } from "../star-creator.js";
 
 export class GameManager {
     static scene;
@@ -28,14 +29,14 @@ export class GameManager {
         this.gameState = new GlobalState();
         this.dataLoaderProvider = new DataLoaderProvider(serviceProvider);
         this.planetManager = new PlanetManager(serviceProvider, this.scene);
-        // this.asteroidManager = new AsteroidManager(serviceProvider);
+        this.asteroidManager = new AsteroidManager(serviceProvider);
         // this.cometManager = new CometManager(serviceProvider);
     }
 
     async Initialise() {
         // Initialise data
-        // const asteroidDataLoader = await this.dataLoaderProvider.CreateDataLoader("Asteroids");
-        // await asteroidDataLoader.LoadAsync();
+        const asteroidDataLoader = await this.dataLoaderProvider.CreateDataLoader("Asteroids");
+        await asteroidDataLoader.LoadAsync();
 
         // const cometsDataLoader = await this.dataLoaderProvider.CreateDataLoader("Comets");
         // await cometsDataLoader.LoadAsync();
@@ -60,7 +61,7 @@ export class GameManager {
 
         // Update Planets
         this.planetManager.UpdatePlanets();
-        // this.asteroidManager.UpdateAsteroids();
+        this.asteroidManager.UpdateAsteroids();
         // this.cometManager.UpdateComets();
 
         this.renderer.render(this.scene, this.camera);
