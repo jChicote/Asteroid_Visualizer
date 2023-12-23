@@ -15,6 +15,7 @@ export class CreatePlanetMapperConfiguration extends BaseObjectMapperConfigurati
         planet.meanAnomaly = dataContainer.heliocentricData.meanAnomaly;
         planet.meanSolarDay = dataContainer.physicalBodyData.meanSolarDay;
         planet.obliquityToOrbit = dataContainer.physicalBodyData.obliquityToOrbit;
+        planet.perihelionDistance = dataContainer.heliocentricData.perihelionDistance;
         planet.planetCode = dataContainer.inputPort.planetCode;
         planet.planetRadius = dataContainer.physicalBodyData.planetRadius;
         planet.semiMajorAxis = dataContainer.heliocentricData.semiMajorAxis;

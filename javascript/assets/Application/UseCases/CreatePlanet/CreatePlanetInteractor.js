@@ -69,7 +69,8 @@ export class CreatePlanetInteractor {
             semiMajorAxis: "",
             inclination: "",
             longitudeOfAscendingNode: "",
-            argumentOfPerihelion: ""
+            argumentOfPerihelion: "",
+            perihelionDistance: ""
         };
 
         // Process heliocentric data and set values in heliocentricData object
@@ -92,6 +93,8 @@ export class CreatePlanetInteractor {
                             heliocentricData.longitudeOfAscendingNode = this.ParseValidFloat(data.value);
                         } else if (data.key === "W") {
                             heliocentricData.argumentOfPerihelion = this.ParseValidFloat(data.value);
+                        } else if (data.key === "QR") {
+                            heliocentricData.perihelionDistance = this.ParseValidFloat(data.value);
                         }
                     });
                 }

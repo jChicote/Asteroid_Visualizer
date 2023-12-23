@@ -9,6 +9,7 @@ export class PlanetDto {
         meanSolarDay,
         obliquityToOrbit,
         orbitalSpeed,
+        perihelionDistance,
         planetCode,
         planetRadius,
         semiMajorAxis,
@@ -23,6 +24,7 @@ export class PlanetDto {
         this.meanSolarDay = meanSolarDay;
         this.obliquityToOrbit = obliquityToOrbit;
         this.orbitalSpeed = orbitalSpeed;
+        this.perihelionDistance = perihelionDistance;
         this.planetCode = planetCode;
         this.planetRadius = planetRadius;
         this.semiMajorAxis = semiMajorAxis;
