@@ -6,6 +6,7 @@ export class Planet {
         inclination,
         longitudeOfAscendingNode,
         meanAnomaly,
+        meanMotion,
         meanSolarDay,
         obliquityToOrbit,
         orbitalSpeed,
@@ -21,6 +22,7 @@ export class Planet {
         this.inclination = inclination;
         this.longitudeOfAscendingNode = longitudeOfAscendingNode;
         this.meanAnomaly = meanAnomaly;
+        this.meanMotion = meanMotion;
         this.meanSolarDay = meanSolarDay;
         this.obliquityToOrbit = obliquityToOrbit;
         this.orbitalSpeed = orbitalSpeed;

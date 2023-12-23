@@ -64,13 +64,14 @@ export class CreatePlanetInteractor {
      */
     async ExtractHeliocentricData(heliocentricSection) {
         const heliocentricData = {
+            argumentOfPerihelion: "",
             eccentricity: "",
-            meanAnomaly: "",
-            semiMajorAxis: "",
             inclination: "",
             longitudeOfAscendingNode: "",
-            argumentOfPerihelion: "",
-            perihelionDistance: ""
+            meanAnomaly: "",
+            meanMotion: "",
+            perihelionDistance: "",
+            semiMajorAxis: ""
         };
 
         // Process heliocentric data and set values in heliocentricData object
@@ -95,6 +96,9 @@ export class CreatePlanetInteractor {
                             heliocentricData.argumentOfPerihelion = this.ParseValidFloat(data.value);
                         } else if (data.key === "QR") {
                             heliocentricData.perihelionDistance = this.ParseValidFloat(data.value);
+                        } else if (data.key === "N") {
+                            const originalMeanMotion = this.ParseValidFloat(data.value);
+                            heliocentricData.meanMotion = originalMeanMotion * 86400; // Converts from radians per second to radians per day
                         }
                     });
                 }

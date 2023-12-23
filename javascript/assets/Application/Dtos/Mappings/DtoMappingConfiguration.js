@@ -16,6 +16,7 @@ class DtoMappingConfiguration extends BaseObjectMapperConfiguration {
         planetDto.inclination = planet.inclination;
         planetDto.longitudeOfAscendingNode = planet.longitudeOfAscendingNode;
         planetDto.meanAnomaly = planet.meanAnomaly;
+        planetDto.meanMotion = planet.meanMotion;
         planetDto.perihelionDistance = planet.perihelionDistance;
         planetDto.planetCode = planet.planetCode;
         planetDto.planetRadius = planet.planetRadius;

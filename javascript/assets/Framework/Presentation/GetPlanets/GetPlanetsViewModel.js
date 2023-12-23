@@ -11,6 +11,7 @@ export class PlanetViewModel {
         inclination,
         longitudeOfAscendingNode,
         meanAnomaly,
+        meanMotion,
         perihelionDistance,
         planetCode,
         planetRadius,
@@ -21,6 +22,7 @@ export class PlanetViewModel {
         this.inclination = inclination;
         this.longitudeOfAscendingNode = longitudeOfAscendingNode;
         this.meanAnomaly = meanAnomaly;
+        this.meanMotion = meanMotion;
         this.perihelionDistance = perihelionDistance;
         this.planetCode = planetCode;
         this.planetRadius = planetRadius;

@@ -13,6 +13,7 @@ export class CreatePlanetMapperConfiguration extends BaseObjectMapperConfigurati
         planet.inclination = dataContainer.heliocentricData.inclination;
         planet.longitudeOfAscendingNode = dataContainer.heliocentricData.longitudeOfAscendingNode;
         planet.meanAnomaly = dataContainer.heliocentricData.meanAnomaly;
+        planet.meanMotion = dataContainer.heliocentricData.meanMotion;
         planet.meanSolarDay = dataContainer.physicalBodyData.meanSolarDay;
         planet.obliquityToOrbit = dataContainer.physicalBodyData.obliquityToOrbit;
         planet.perihelionDistance = dataContainer.heliocentricData.perihelionDistance;
