@@ -1,7 +1,7 @@
 import { VisualiserManager } from "../../../main.js";
 import * as THREE from "../../../node_modules/three/build/three.module.js";
 import { SetVector } from "../../utils/math-library.js";
-import { PlanataryOrbitalMotionLogic } from "../Components/OrbitalMechanics/PlanataryOrbitalMotionLogic.js";
+import { CelestialOrbitalMotionLogic } from "../Components/OrbitalMechanics/CelestialOrbitalMotionLogic.js";
 import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
 import { GameObject } from "./GameObject.js";
 
@@ -11,7 +11,7 @@ export class Planet extends GameObject {
 
         // Components
         this.materialRenderer = new MaterialRenderer(planetCode);
-        this.orbitalMotion = new PlanataryOrbitalMotionLogic();
+        this.orbitalMotion = new CelestialOrbitalMotionLogic();
         this.planetState = new PlanetState(planetData.meanAnomaly, 0);
 
         // Fields
@@ -42,10 +42,10 @@ export class Planet extends GameObject {
     }
 
     SetPlanetPosition(planet) {
-        const position = this.orbitalMotion.CalculateOrbitalMotionForPlanets(
-            this.planetData.semiMajorAxis,
+        const position = this.orbitalMotion.CalculateOrbitalPosition(
+            this.planetData.semiMajorAxis / 1.496e+8,
             this.planetData.eccentricity,
-            this.orbitalMotion.ConvertDegreesToRadians(this.planetData.inclination) * -1, // Try alternative method is the inclination of a given planet is less than 1 degree
+            this.orbitalMotion.ConvertDegreesToRadians(this.planetData.inclination) * -1,
             this.orbitalMotion.ConvertDegreesToRadians(this.planetData.longitudeOfAscendingNode) * -1,
             this.orbitalMotion.ConvertDegreesToRadians(this.planetData.argumentOfPerihelion) * -1,
             this.planetData.perihelionDistance,

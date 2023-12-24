@@ -56,18 +56,21 @@ class CelestialOrbitalMotionLogic {
         // Source: https://en.wikipedia.org/wiki/True_anomaly
         //      See 'From the eccentric anomaly' section.
         const trueAnomaly = 2 * Math.atan(Math.sqrt((1 + eccentricity) / (1 - eccentricity)) * Math.tan(eccentricAnomaly / 2));
+        const invertedTrueAnomaly = trueAnomaly * -1;
 
+        // Finds the radial distance of the object within an ellipse in astronomical units.
         const distanceFromSun = (semiMajorAxis * (1 - eccentricity * eccentricity)) / (1 + eccentricity * Math.cos(trueAnomaly));
 
-        const adjustedTrueAnomaly = trueAnomaly * -1;
-        const adjustedInclination = inclination; //* -1;
-
+        // Convert to 3D space coordinates - modified to use x and z as the orbital plane.
+        //      - This relies on the cartesian coordinate system, which this converts from the originate 'orbital plane coordinate system'
+        // Source: https://en.wikipedia.org/wiki/Orbital_elements
+        //      See 'Euler angle transformation'
         const orbitalPosition = {
-            x: distanceFromSun * (Math.cos(longitudeOfAscendingNode) * Math.cos(argumentOfPerihelion + adjustedTrueAnomaly) -
-                Math.sin(longitudeOfAscendingNode) * Math.sin(argumentOfPerihelion + adjustedTrueAnomaly) * Math.cos(adjustedInclination)),
-            y: distanceFromSun * (Math.sin(argumentOfPerihelion + adjustedTrueAnomaly) * Math.sin(adjustedInclination)),
-            z: distanceFromSun * (Math.sin(longitudeOfAscendingNode) * Math.cos(argumentOfPerihelion + adjustedTrueAnomaly) +
-                Math.cos(longitudeOfAscendingNode) * Math.sin(argumentOfPerihelion + adjustedTrueAnomaly) * Math.cos(adjustedInclination))
+            x: distanceFromSun * (Math.cos(longitudeOfAscendingNode) * Math.cos(argumentOfPerihelion + invertedTrueAnomaly) -
+                Math.sin(longitudeOfAscendingNode) * Math.sin(argumentOfPerihelion + invertedTrueAnomaly) * Math.cos(inclination)),
+            y: distanceFromSun * (Math.sin(argumentOfPerihelion + invertedTrueAnomaly) * Math.sin(inclination)),
+            z: distanceFromSun * (Math.sin(longitudeOfAscendingNode) * Math.cos(argumentOfPerihelion + invertedTrueAnomaly) +
+                Math.cos(longitudeOfAscendingNode) * Math.sin(argumentOfPerihelion + invertedTrueAnomaly) * Math.cos(inclination))
         };
 
         orbitalPosition.x *= distanceScale;
