@@ -51,8 +51,6 @@ class Asteroid extends GameObject {
             this.asteroidState.meanAnomaly,
             100);
 
-        console.log(position);
-
         SetVector(asteroid, position);
     }
 

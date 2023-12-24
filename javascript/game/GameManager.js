@@ -1,11 +1,11 @@
-import * as THREE from "../../node_modules/three/build/three.module.js";
-import { AsteroidManager } from "./Asteroids/AsteroidManager.js";
-import { DataLoaderProvider } from "./Infrastructure/DataLoaders/DataLoaderProvider.js";
-import { GUI } from "../../node_modules/dat.gui/build/dat.gui.module.js";
-import { GlobalState } from "./GlobalState.js";
 import { OrbitControls } from "../../addons/OrbitControls.js";
-import { PlanetManager } from "./Planets/PlanetManager.js";
+import { GUI } from "../../node_modules/dat.gui/build/dat.gui.module.js";
+import * as THREE from "../../node_modules/three/build/three.module.js";
 import { StarCreator } from "../star-creator.js";
+import { AsteroidManager } from "./Asteroids/AsteroidManager.js";
+import { GlobalState } from "./GlobalState.js";
+import { DataLoaderProvider } from "./Infrastructure/DataLoaders/DataLoaderProvider.js";
+import { PlanetManager } from "./Planets/PlanetManager.js";
 
 export class GameManager {
     static scene;
@@ -70,6 +70,7 @@ export class GameManager {
     SetupScene() {
         // Setup camera + rendering
         this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 4000);
+        // this.camera = new THREE.OrthographicCamera(window.innerWidth / -2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / -2, 1, 1000);
         this.renderer = new THREE.WebGLRenderer();
 
         this.renderer.setSize(window.innerWidth, window.innerHeight);

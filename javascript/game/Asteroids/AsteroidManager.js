@@ -13,7 +13,7 @@ class AsteroidManager {
     CreateAsteroids(asteroids) {
         for (const asteroid of asteroids) {
             this.asteroids.push(new Asteroid(asteroid));
-            break;
+            // break;
         }
 
         return this.asteroids;

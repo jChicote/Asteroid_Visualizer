@@ -57,14 +57,16 @@ class CelestialOrbitalMotionLogic {
         //      See 'From the eccentric anomaly' section.
         const trueAnomaly = 2 * Math.atan(Math.sqrt((1 + eccentricity) / (1 - eccentricity)) * Math.tan(eccentricAnomaly / 2));
 
+        const distanceFromSun = (semiMajorAxis * (1 - eccentricity * eccentricity)) / (1 + eccentricity * Math.cos(trueAnomaly));
+
         const adjustedTrueAnomaly = trueAnomaly * -1;
         const adjustedInclination = inclination; //* -1;
 
         const orbitalPosition = {
-            x: perihelionDistance * (Math.cos(longitudeOfAscendingNode) * Math.cos(argumentOfPerihelion + adjustedTrueAnomaly) -
+            x: distanceFromSun * (Math.cos(longitudeOfAscendingNode) * Math.cos(argumentOfPerihelion + adjustedTrueAnomaly) -
                 Math.sin(longitudeOfAscendingNode) * Math.sin(argumentOfPerihelion + adjustedTrueAnomaly) * Math.cos(adjustedInclination)),
-            y: perihelionDistance * (Math.sin(argumentOfPerihelion + adjustedTrueAnomaly) * Math.sin(adjustedInclination)),
-            z: perihelionDistance * (Math.sin(longitudeOfAscendingNode) * Math.cos(argumentOfPerihelion + adjustedTrueAnomaly) +
+            y: distanceFromSun * (Math.sin(argumentOfPerihelion + adjustedTrueAnomaly) * Math.sin(adjustedInclination)),
+            z: distanceFromSun * (Math.sin(longitudeOfAscendingNode) * Math.cos(argumentOfPerihelion + adjustedTrueAnomaly) +
                 Math.cos(longitudeOfAscendingNode) * Math.sin(argumentOfPerihelion + adjustedTrueAnomaly) * Math.cos(adjustedInclination))
         };
 
