@@ -1,6 +1,6 @@
 import { VisualiserManager } from "../../../main.js";
 import * as THREE from "../../../node_modules/three/build/three.module.js";
-import { SetVector } from "../../utils/math-library.js";
+import { MathHelper, SetVector } from "../../utils/math-library.js";
 import { CelestialOrbitalMotionLogic } from "../Components/OrbitalMechanics/CelestialOrbitalMotionLogic.js";
 import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
 import { GameObject } from "./GameObject.js";
@@ -18,7 +18,7 @@ export class Planet extends GameObject {
         this.planetCode = planetCode;
         this.planetData = planetData;
         this.orbitalPeriod = this.orbitalMotion.GetOrbitalPeriodInDays(planetData.semiMajorAxis);
-        this.meanMotion = this.orbitalMotion.ConvertDegreesToRadians(planetData.meanMotion);
+        this.meanMotion = MathHelper.ConvertDegreesToRadians(planetData.meanMotion);
         this.timeStep = this.orbitalMotion.CalculateTimeStep(this.orbitalPeriod);
         this.renderedObject = this.RenderPlanet();
     }
@@ -43,11 +43,11 @@ export class Planet extends GameObject {
 
     SetPlanetPosition(planet) {
         const position = this.orbitalMotion.CalculateOrbitalPosition(
-            this.planetData.semiMajorAxis / 1.496e+8,
+            MathHelper.ConvertKilometersToAstronomicalUnits(this.planetData.semiMajorAxis),
             this.planetData.eccentricity,
-            this.orbitalMotion.ConvertDegreesToRadians(this.planetData.inclination) * -1,
-            this.orbitalMotion.ConvertDegreesToRadians(this.planetData.longitudeOfAscendingNode) * -1,
-            this.orbitalMotion.ConvertDegreesToRadians(this.planetData.argumentOfPerihelion) * -1,
+            MathHelper.ConvertDegreesToRadians(this.planetData.inclination) * -1,
+            MathHelper.ConvertDegreesToRadians(this.planetData.longitudeOfAscendingNode) * -1,
+            MathHelper.ConvertDegreesToRadians(this.planetData.argumentOfPerihelion) * -1,
             this.planetData.perihelionDistance,
             this.planetState.meanAnomaly,
             100);
