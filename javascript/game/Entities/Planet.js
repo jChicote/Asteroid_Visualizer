@@ -1,9 +1,9 @@
+import { CelestialOrbitalMotionLogic } from "../Components/OrbitalMechanics/CelestialOrbitalMotionLogic.js";
+import { GameObject } from "./GameObject.js";
+import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
+import { MathHelper, SetVector } from "../../utils/math-library.js";
 import { VisualiserManager } from "../../../main.js";
 import * as THREE from "../../../node_modules/three/build/three.module.js";
-import { MathHelper, SetVector } from "../../utils/math-library.js";
-import { CelestialOrbitalMotionLogic } from "../Components/OrbitalMechanics/CelestialOrbitalMotionLogic.js";
-import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
-import { GameObject } from "./GameObject.js";
 
 export class Planet extends GameObject {
     constructor(planetCode, planetData) {
@@ -48,7 +48,6 @@ export class Planet extends GameObject {
             MathHelper.ConvertDegreesToRadians(this.planetData.inclination) * -1,
             MathHelper.ConvertDegreesToRadians(this.planetData.longitudeOfAscendingNode) * -1,
             MathHelper.ConvertDegreesToRadians(this.planetData.argumentOfPerihelion) * -1,
-            this.planetData.perihelionDistance,
             this.planetState.meanAnomaly,
             100);
 

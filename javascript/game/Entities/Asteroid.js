@@ -1,9 +1,9 @@
+import { CelestialOrbitalMotionLogic } from "../Components/OrbitalMechanics/CelestialOrbitalMotionLogic.js";
+import { GameObject } from "./GameObject.js";
+import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
+import { SetVector, MathHelper } from "../../utils/math-library.js";
 import { VisualiserManager } from "../../../main.js";
 import * as THREE from "../../../node_modules/three/build/three.module.js";
-import { SetVector } from "../../utils/math-library.js";
-import { CelestialOrbitalMotionLogic } from "../Components/OrbitalMechanics/CelestialOrbitalMotionLogic.js";
-import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
-import { GameObject } from "./GameObject.js";
 
 class Asteroid extends GameObject {
     constructor(asteroidData) {
@@ -12,12 +12,12 @@ class Asteroid extends GameObject {
         // Components
         this.asteroidState = new AsteroidState(asteroidData.meanAnomaly, 0);
         this.materialRenderer = new MaterialRenderer();
-        this.orbitalMotion = new CelestialOrbitalMotionLogic(); // As a temporory fix for visualisation
+        this.orbitalMotion = new CelestialOrbitalMotionLogic();
 
         // Fields
         this.asteroidData = asteroidData;
         this.orbitalPeriod = this.orbitalMotion.GetOrbitalPeriodInDays(asteroidData.semiMajorAxis);
-        this.meanMotion = this.orbitalMotion.ConvertDegreesToRadians(this.asteroidData.meanMotion);
+        this.meanMotion = MathHelper.ConvertDegreesToRadians(this.asteroidData.meanMotion);
         this.timeStep = this.orbitalMotion.CalculateTimeStep(this.asteroidData.orbitalPeriod);
         this.renderedObject = this.RenderAsteroid();
     }
@@ -44,10 +44,9 @@ class Asteroid extends GameObject {
         const position = this.orbitalMotion.CalculateOrbitalPosition(
             this.asteroidData.semiMajorAxis,
             this.asteroidData.eccentricity,
-            this.orbitalMotion.ConvertDegreesToRadians(this.asteroidData.inclination),
-            this.orbitalMotion.ConvertDegreesToRadians(this.asteroidData.longitudeOfTheAscendingNode),
-            this.orbitalMotion.ConvertDegreesToRadians(this.asteroidData.argumentOfPerihelion),
-            this.asteroidData.perihelionDistance,
+            MathHelper.ConvertDegreesToRadians(this.asteroidData.inclination),
+            MathHelper.ConvertDegreesToRadians(this.asteroidData.longitudeOfTheAscendingNode),
+            MathHelper.ConvertDegreesToRadians(this.asteroidData.argumentOfPerihelion),
             this.asteroidState.meanAnomaly,
             100);
 

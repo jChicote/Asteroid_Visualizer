@@ -23,11 +23,6 @@ class CelestialOrbitalMotionLogic {
         return orbitalPeriod / (sideRealDayPeriod * 24 * 3600) * VisualiserManager().gameState.timeStepResolution;
     }
 
-    // TODO: Move this a custom math library
-    ConvertDegreesToRadians(degrees) {
-        return degrees * this.PI / 180;
-    }
-
     GetMeanMotion(orbitalPeriod) {
         return 2 * this.PI / orbitalPeriod;
     }
@@ -47,7 +42,6 @@ class CelestialOrbitalMotionLogic {
         inclination,
         longitudeOfAscendingNode,
         argumentOfPerihelion,
-        perihelionDistance,
         meanAnomaly,
         distanceScale) {
         const eccentricAnomaly = this.CalculateEccentricAnomaly(meanAnomaly, eccentricity);

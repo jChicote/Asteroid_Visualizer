@@ -2,7 +2,7 @@ import * as THREE from "../../../node_modules/three/build/three.module.js";
 import { CelestialOrbitalMotionLogic } from "../Components/OrbitalMechanics/CelestialOrbitalMotionLogic.js";
 import { GameObject } from "../Entities/GameObject.js";
 import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
-import { SetVector } from "../../utils/math-library.js";
+import { SetVector, MathHelper } from "../../utils/math-library.js";
 import { VisualiserManager } from "../../../main.js";
 
 class Comet extends GameObject {
@@ -17,7 +17,7 @@ class Comet extends GameObject {
         // Fields
         this.cometData = cometData;
         this.orbitalPeriod = this.orbitalMotion.GetOrbitalPeriodInDays(cometData.semiMajorAxis);
-        this.meanMotion = this.orbitalMotion.ConvertDegreesToRadians(this.cometData.meanMotion);
+        this.meanMotion = MathHelper.ConvertDegreesToRadians(this.cometData.meanMotion);
         this.timeStep = this.orbitalMotion.CalculateTimeStep(this.orbitalPeriod);
         this.renderedObject = this.Render();
     }
@@ -44,9 +44,9 @@ class Comet extends GameObject {
         const position = this.orbitalMotion.CalculateOrbitalPosition(
             this.cometData.semiMajorAxis,
             this.cometData.eccentricity,
-            this.cometData.inclination,
-            this.cometData.longitudeOfTheAscendingNode,
-            this.cometData.argumentOfPerihelion,
+            MathHelper.ConvertDegreesToRadians(this.cometData.inclination),
+            MathHelper.ConvertDegreesToRadians(this.cometData.longitudeOfTheAscendingNode),
+            MathHelper.ConvertDegreesToRadians(this.cometData.argumentOfPerihelion),
             this.cometState.meanAnomaly,
             100);
 

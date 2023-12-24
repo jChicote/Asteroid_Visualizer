@@ -1,11 +1,12 @@
-import { OrbitControls } from "../../addons/OrbitControls.js";
-import { GUI } from "../../node_modules/dat.gui/build/dat.gui.module.js";
-import * as THREE from "../../node_modules/three/build/three.module.js";
-import { StarCreator } from "../star-creator.js";
 import { AsteroidManager } from "./Asteroids/AsteroidManager.js";
-import { GlobalState } from "./GlobalState.js";
+import { CometManager } from "./Comets/CometManager.js";
 import { DataLoaderProvider } from "./Infrastructure/DataLoaders/DataLoaderProvider.js";
+import { GlobalState } from "./GlobalState.js";
+import { GUI } from "../../node_modules/dat.gui/build/dat.gui.module.js";
+import { OrbitControls } from "../../addons/OrbitControls.js";
 import { PlanetManager } from "./Planets/PlanetManager.js";
+import { StarCreator } from "../star-creator.js";
+import * as THREE from "../../node_modules/three/build/three.module.js";
 
 export class GameManager {
     static scene;
@@ -30,7 +31,7 @@ export class GameManager {
         this.dataLoaderProvider = new DataLoaderProvider(serviceProvider);
         this.planetManager = new PlanetManager(serviceProvider, this.scene);
         this.asteroidManager = new AsteroidManager(serviceProvider);
-        // this.cometManager = new CometManager(serviceProvider);
+        this.cometManager = new CometManager(serviceProvider);
     }
 
     async Initialise() {
@@ -38,8 +39,8 @@ export class GameManager {
         const asteroidDataLoader = await this.dataLoaderProvider.CreateDataLoader("Asteroids");
         await asteroidDataLoader.LoadAsync();
 
-        // const cometsDataLoader = await this.dataLoaderProvider.CreateDataLoader("Comets");
-        // await cometsDataLoader.LoadAsync();
+        const cometsDataLoader = await this.dataLoaderProvider.CreateDataLoader("Comets");
+        await cometsDataLoader.LoadAsync();
 
         const planetDataLoader = await this.dataLoaderProvider.CreateDataLoader("Planets");
         await planetDataLoader.LoadAsync();
@@ -62,7 +63,7 @@ export class GameManager {
         // Update Planets
         this.planetManager.UpdatePlanets();
         this.asteroidManager.UpdateAsteroids();
-        // this.cometManager.UpdateComets();
+        this.cometManager.UpdateComets();
 
         this.renderer.render(this.scene, this.camera);
     }
