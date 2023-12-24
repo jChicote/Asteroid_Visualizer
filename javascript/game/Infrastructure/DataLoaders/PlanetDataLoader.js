@@ -11,14 +11,14 @@ export class PlanetDataLoader extends DataLoader {
 
     async LoadAsync() {
         await this.CreatePlanetAsync(PlanetCodes.Mercury);
-        await this.CreatePlanetAsync(PlanetCodes.Venus);
+        // await this.CreatePlanetAsync(PlanetCodes.Venus);
         await this.CreatePlanetAsync(PlanetCodes.Earth);
-        await this.CreatePlanetAsync(PlanetCodes.Mars);
-        await this.CreatePlanetAsync(PlanetCodes.Jupiter);
-        await this.CreatePlanetAsync(PlanetCodes.Saturn);
-        await this.CreatePlanetAsync(PlanetCodes.Uranus);
-        await this.CreatePlanetAsync(PlanetCodes.Neptune);
-        await this.CreatePlanetAsync(PlanetCodes.Pluto);
+        // await this.CreatePlanetAsync(PlanetCodes.Mars);
+        // await this.CreatePlanetAsync(PlanetCodes.Jupiter);
+        // await this.CreatePlanetAsync(PlanetCodes.Saturn);
+        // await this.CreatePlanetAsync(PlanetCodes.Uranus);
+        // await this.CreatePlanetAsync(PlanetCodes.Neptune);
+        // await this.CreatePlanetAsync(PlanetCodes.Pluto);
 
         // Get all planets to trigger dispatch of observer
         await this.planetController.GetPlanetsAsync();

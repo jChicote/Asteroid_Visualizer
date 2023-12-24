@@ -98,7 +98,7 @@ export class CreatePlanetInteractor {
                             heliocentricData.perihelionDistance = this.ParseValidFloat(data.value);
                         } else if (data.key === "N") {
                             const originalMeanMotion = this.ParseValidFloat(data.value);
-                            heliocentricData.meanMotion = originalMeanMotion * 86400; // Converts from radians per second to radians per day
+                            heliocentricData.meanMotion = originalMeanMotion * 86400; // Converts from degrees per second to degrees per day
                         }
                     });
                 }

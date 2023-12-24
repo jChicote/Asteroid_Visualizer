@@ -18,7 +18,7 @@ export class Planet extends GameObject {
         this.planetCode = planetCode;
         this.planetData = planetData;
         this.orbitalPeriod = this.orbitalMotion.GetOrbitalPeriodInDays(planetData.semiMajorAxis);
-        this.meanMotion = this.orbitalMotion.ConvertDegreesToRadians(this.orbitalMotion.GetMeanMotion(this.orbitalPeriod));
+        this.meanMotion = this.orbitalMotion.ConvertDegreesToRadians(planetData.meanMotion);
         this.timeStep = this.orbitalMotion.CalculateTimeStep(this.orbitalPeriod);
         this.renderedObject = this.RenderPlanet();
     }
@@ -45,9 +45,9 @@ export class Planet extends GameObject {
         const position = this.orbitalMotion.CalculateOrbitalMotionForPlanets(
             this.planetData.semiMajorAxis,
             this.planetData.eccentricity,
-            this.orbitalMotion.ConvertDegreesToRadians(this.planetData.inclination), // Try alternative method is the inclination of a given planet is less than 1 degree
-            this.orbitalMotion.ConvertDegreesToRadians(this.planetData.longitudeOfAscendingNode),
-            this.orbitalMotion.ConvertDegreesToRadians(this.planetData.argumentOfPerihelion),
+            this.orbitalMotion.ConvertDegreesToRadians(this.planetData.inclination) * -1, // Try alternative method is the inclination of a given planet is less than 1 degree
+            this.orbitalMotion.ConvertDegreesToRadians(this.planetData.longitudeOfAscendingNode) * -1,
+            this.orbitalMotion.ConvertDegreesToRadians(this.planetData.argumentOfPerihelion) * -1,
             this.planetData.perihelionDistance,
             this.planetState.meanAnomaly,
             100);

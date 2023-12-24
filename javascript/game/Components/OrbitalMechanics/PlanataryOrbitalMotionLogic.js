@@ -29,7 +29,7 @@ class PlanataryOrbitalMotionLogic extends CelestialOrbitalMotionLogic {
 
         // Invert the the values to make the planets orbit in the correct direction and inclination to the ecliptic.
         const adjustedTrueAnomaly = trueAnomaly * -1;
-        const adjustedInclination = inclination * -1;
+        const adjustedInclination = inclination;
 
         // Calculates the radius from the sun in astronomical units (au).
         const distanceRadiusFromSun = (perihelionDistance / 1.496e+8); //* (1 + eccentricity * Math.cos(trueAnomaly));
@@ -41,7 +41,7 @@ class PlanataryOrbitalMotionLogic extends CelestialOrbitalMotionLogic {
         const orbitalPosition = {
             x: distanceRadiusFromSun * (Math.cos(longitudeOfAscendingNode) * Math.cos(argumentOfPerihelion + adjustedTrueAnomaly) -
                 Math.sin(longitudeOfAscendingNode) * Math.sin(argumentOfPerihelion + adjustedTrueAnomaly) * Math.cos(adjustedInclination)),
-            y: distanceRadiusFromSun * (Math.sin(argumentOfPerihelion + adjustedTrueAnomaly) * Math.sin(adjustedInclination)),
+            y: (distanceRadiusFromSun * (Math.sin(argumentOfPerihelion + adjustedTrueAnomaly) * Math.sin(adjustedInclination))),
             z: distanceRadiusFromSun * (Math.sin(longitudeOfAscendingNode) * Math.cos(argumentOfPerihelion + adjustedTrueAnomaly) +
                 Math.cos(longitudeOfAscendingNode) * Math.sin(argumentOfPerihelion + adjustedTrueAnomaly) * Math.cos(adjustedInclination))
         };

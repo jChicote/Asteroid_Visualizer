@@ -58,7 +58,7 @@ class CelestialOrbitalMotionLogic {
         const trueAnomaly = 2 * Math.atan(Math.sqrt((1 + eccentricity) / (1 - eccentricity)) * Math.tan(eccentricAnomaly / 2));
 
         const adjustedTrueAnomaly = trueAnomaly * -1;
-        const adjustedInclination = inclination * -1;
+        const adjustedInclination = inclination; //* -1;
 
         const orbitalPosition = {
             x: perihelionDistance * (Math.cos(longitudeOfAscendingNode) * Math.cos(argumentOfPerihelion + adjustedTrueAnomaly) -
