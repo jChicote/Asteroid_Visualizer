@@ -1,12 +1,12 @@
-import { OrbitControls } from "../../addons/OrbitControls.js";
-import { GUI } from "../../node_modules/dat.gui/build/dat.gui.module.js";
-import * as THREE from "../../node_modules/three/build/three.module.js";
-import { StarCreator } from "../star-creator.js";
 import { AsteroidManager } from "./Asteroids/AsteroidManager.js";
 import { CometManager } from "./Comets/CometManager.js";
-import { GlobalState } from "./GlobalState.js";
 import { DataLoaderProvider } from "./Infrastructure/DataLoaders/DataLoaderProvider.js";
+import { GlobalState } from "./GlobalState.js";
+import { GUI } from "../../node_modules/dat.gui/build/dat.gui.module.js";
+import { OrbitControls } from "../../addons/OrbitControls.js";
 import { PlanetManager } from "./Planets/PlanetManager.js";
+import { StarCreator } from "../star-creator.js";
+import * as THREE from "../../node_modules/three/build/three.module.js";
 
 export class GameManager {
     static scene;
@@ -52,6 +52,8 @@ export class GameManager {
         // TODO: Move this to its own section
         const starCreator = new StarCreator(this.scene);
         starCreator.CreateStar(5, 0xFFFFFF, new THREE.Vector3(0, 0, 0));
+
+        this.SetupDebugHelpers();
     }
 
     Update() {
@@ -69,6 +71,7 @@ export class GameManager {
     SetupScene() {
         // Setup camera + rendering
         this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 4000);
+        // this.camera = new THREE.OrthographicCamera(window.innerWidth / -2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / -2, 1, 1000);
         this.renderer = new THREE.WebGLRenderer();
 
         this.renderer.setSize(window.innerWidth, window.innerHeight);
@@ -84,9 +87,14 @@ export class GameManager {
         this.SetupDebugGUI();
     }
 
+    SetupDebugHelpers() {
+        const axesHelper = new THREE.AxesHelper(30);
+        this.scene.add(axesHelper);
+    }
+
     SetupDebugGUI() {
         const orbitalMechanicsFolder = this.debugGui.addFolder("Orbital Mechanics");
-        orbitalMechanicsFolder.add(this.gameState, "timeMultiplier", 0, 30, 0.1);
+        orbitalMechanicsFolder.add(this.gameState, "timeMultiplier", 0, 500, 0.01);
         orbitalMechanicsFolder.add(this.gameState, "timeStepResolution", 1000, 100000, 100); // TODO: For this to work it will need to recalculate the orbital period.
         orbitalMechanicsFolder.add(this.gameState, "isPaused").onChange(isPaused => {
             if (isPaused) {
@@ -95,5 +103,9 @@ export class GameManager {
                 this.gameState.timeMultiplier = 1;
             }
         });
+
+        const globalPhysicalProperties = this.debugGui.addFolder("Global Physical Properties");
+        globalPhysicalProperties.add(this.gameState, "physicalRadiusMultiplier", 1, 25, 0.1);
+        globalPhysicalProperties.add(this.gameState, "distanceToSunMultiplier", 1, 20, 0.1);
     }
 }

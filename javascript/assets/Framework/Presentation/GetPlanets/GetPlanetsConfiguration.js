@@ -8,9 +8,14 @@ export class GetPlanetsConfiguration extends BaseObjectMapperConfiguration {
     }
 
     MapPlanetDtoToPlanetViewMode(planetDto, planetViewModel) {
-        planetViewModel.planetCode = planetDto.planetCode;
+        planetViewModel.argumentOfPerihelion = planetDto.argumentOfPerihelion;
         planetViewModel.eccentricity = planetDto.eccentricity;
+        planetViewModel.inclination = planetDto.inclination;
+        planetViewModel.longitudeOfAscendingNode = planetDto.longitudeOfAscendingNode;
         planetViewModel.meanAnomaly = planetDto.meanAnomaly;
+        planetViewModel.meanMotion = planetDto.meanMotion;
+        planetViewModel.perihelionDistance = planetDto.perihelionDistance;
+        planetViewModel.planetCode = planetDto.planetCode;
         planetViewModel.planetRadius = planetDto.planetRadius;
         planetViewModel.semiMajorAxis = planetDto.semiMajorAxis;
         planetViewModel.sideRealDayPeriod = planetDto.sideRealDayPeriod;

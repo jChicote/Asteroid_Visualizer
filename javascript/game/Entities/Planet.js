@@ -1,35 +1,32 @@
+import { CelestialOrbitalMotionLogic } from "../Components/OrbitalMechanics/CelestialOrbitalMotionLogic.js";
+import { GameObject } from "./GameObject.js";
+import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
+import { MathHelper, SetVector } from "../../utils/math-library.js";
 import { VisualiserManager } from "../../../main.js";
 import * as THREE from "../../../node_modules/three/build/three.module.js";
-import { SetVector } from "../../utils/math-library.js";
-import { OrbitalMotionCalculator } from "../Components/OrbitalMechanics/OrbitalMotionCalculator.js";
-import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
-import { GameObject } from "./GameObject.js";
 
 export class Planet extends GameObject {
     constructor(planetCode, planetData) {
         super();
 
         // Components
-        this.orbitalMotion = new OrbitalMotionCalculator();
         this.materialRenderer = new MaterialRenderer(planetCode);
+        this.orbitalMotion = new CelestialOrbitalMotionLogic();
+        this.planetState = new PlanetState(planetData.meanAnomaly, 0);
 
         // Fields
         this.planetCode = planetCode;
         this.planetData = planetData;
-        this.planetState = new PlanetState(planetData.meanAnomaly);
+        this.orbitalPeriod = this.orbitalMotion.GetOrbitalPeriodInDays(planetData.semiMajorAxis);
+        this.meanMotion = MathHelper.ConvertDegreesToRadians(planetData.meanMotion);
+        this.timeStep = this.orbitalMotion.CalculateTimeStep(this.orbitalPeriod);
         this.renderedObject = this.RenderPlanet();
-        this.orbitalPeriod = this.orbitalMotion.GetOrbitalPeriodInDays(this.planetData.semiMajorAxis);
-        this.timeStep = this.orbitalMotion.GetTimeStepInDays(this.orbitalPeriod, this.planetData.sideRealDayPeriod);
     }
 
     // Updates the planet. Used during runtime.
     Update() {
         this.UpdateOrbitalState();
-        this.SetPosition(this.orbitalMotion.GetPlanetOrbitalPosition(
-            this.planetState.meanAnomaly,
-            this.planetData.eccentricity,
-            this.planetData.semiMajorAxis,
-            0.0000005));
+        this.SetPlanetPosition(this.renderedObject);
     }
 
     RenderPlanet() {
@@ -37,15 +34,24 @@ export class Planet extends GameObject {
             new THREE.SphereGeometry(this.GetPlanetRadius(), 32, 16),
             this.materialRenderer.GetMaterial());
 
-        SetVector(planet, this.orbitalMotion.GetPlanetOrbitalPosition(
-            this.planetState.meanAnomaly,
-            this.planetData.eccentricity,
-            this.planetData.semiMajorAxis,
-            0.0000005));
+        this.SetPlanetPosition(planet);
 
         VisualiserManager().scene.add(planet);
 
         return planet;
+    }
+
+    SetPlanetPosition(planet) {
+        const position = this.orbitalMotion.CalculateOrbitalPosition(
+            MathHelper.ConvertKilometersToAstronomicalUnits(this.planetData.semiMajorAxis),
+            this.planetData.eccentricity,
+            MathHelper.ConvertDegreesToRadians(this.planetData.inclination) * -1,
+            MathHelper.ConvertDegreesToRadians(this.planetData.longitudeOfAscendingNode) * -1,
+            MathHelper.ConvertDegreesToRadians(this.planetData.argumentOfPerihelion) * -1,
+            this.planetState.meanAnomaly,
+            100);
+
+        SetVector(planet, position);
     }
 
     GetState() {
@@ -61,23 +67,21 @@ export class Planet extends GameObject {
     }
 
     GetPlanetRadius() {
-        return this.planetData.planetRadius * 0.00005; // TODO: ABstract this to make this dynamicically scaled
-    }
-
-    SetPosition(position) {
-        this.renderedObject.position.set(position.x, position.y, position.z);
+        return this.planetData.planetRadius * 0.0001; // TODO: ABstract this to make this dynamically scaled
     }
 
     UpdateOrbitalState() {
-        const meanMotion = this.orbitalMotion.GetMeanMotion(this.orbitalPeriod);
         this.planetState.currentTime += this.timeStep * VisualiserManager().gameState.timeMultiplier;
-        this.planetState.meanAnomaly = this.orbitalMotion.GetCurrentMeanAnomaly(this.planetData.meanAnomaly, meanMotion, this.planetState.currentTime);
+        this.planetState.meanAnomaly = this.orbitalMotion.GetCurrentMeanAnomaly(
+            this.planetData.meanAnomaly,
+            this.meanMotion,
+            this.planetState.currentTime);
     }
 }
 
 export class PlanetState {
-    constructor(meanAnomaly) {
+    constructor(meanAnomaly, initialTime) {
         this.meanAnomaly = meanAnomaly;
-        this.currentTime = 0;
+        this.currentTime = initialTime;
     }
 }

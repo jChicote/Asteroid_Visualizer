@@ -1,5 +1,5 @@
-import { GameManager } from "./javascript/game/GameManager.js";
 import { Configuration } from "./javascript/shared/Configuration.js";
+import { GameManager } from "./javascript/game/GameManager.js";
 import { ServiceContainer } from "./javascript/shared/DependencyInjectionServices/ServiceContainer.js";
 import { ServiceProvider } from "./javascript/shared/DependencyInjectionServices/ServiceProvider.js";
 

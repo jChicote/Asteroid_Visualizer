@@ -19,14 +19,21 @@ class CelestialOrbitalMotionLogic {
         return orbitalPeriod / (orbitalPeriod * 24 * 3600) * VisualiserManager().gameState.timeStepResolution;
     }
 
-    // TODO: Move this a custom math library
-    ConvertDegreesToRadians(degrees) {
-        return degrees * this.PI / 180;
+    GetTimeStepInDays(orbitalPeriod, sideRealDayPeriod) {
+        return orbitalPeriod / (sideRealDayPeriod * 24 * 3600) * VisualiserManager().gameState.timeStepResolution;
+    }
+
+    GetMeanMotion(orbitalPeriod) {
+        return 2 * this.PI / orbitalPeriod;
     }
 
     CalculateMeanAnomaly(meanAnomaly, meanMotion, time, timeOfPerihelionPassage) {
         // Source for defining the mean anomaly from: https://en.wikipedia.org/wiki/Mean_anomaly
         return meanAnomaly + meanMotion * (time - timeOfPerihelionPassage);
+    }
+
+    GetCurrentMeanAnomaly(meanAnomaly, meanMotion, currentTime) {
+        return meanAnomaly + meanMotion * currentTime;
     }
 
     CalculateOrbitalPosition(
@@ -43,38 +50,28 @@ class CelestialOrbitalMotionLogic {
         // Source: https://en.wikipedia.org/wiki/True_anomaly
         //      See 'From the eccentric anomaly' section.
         const trueAnomaly = 2 * Math.atan(Math.sqrt((1 + eccentricity) / (1 - eccentricity)) * Math.tan(eccentricAnomaly / 2));
+        const invertedTrueAnomaly = trueAnomaly * -1;
 
-        // Calculates the radius from the sun in astronomical units.
-        const distanceRadiusFromSun = semiMajorAxis * (1 - eccentricity * Math.cos(eccentricAnomaly));
+        // Finds the radial distance of the object within an ellipse in astronomical units.
+        const distanceFromSun = (semiMajorAxis * (1 - eccentricity * eccentricity)) / (1 + eccentricity * Math.cos(trueAnomaly));
 
-        const positionWithinOrbitalPlane = {
-            x: (distanceRadiusFromSun * Math.cos(trueAnomaly)),
-            y: (distanceRadiusFromSun * Math.sin(trueAnomaly)),
-            z: 0
+        // Convert to 3D space coordinates - modified to use x and z as the orbital plane.
+        //      - This relies on the cartesian coordinate system, which this converts from the originate 'orbital plane coordinate system'
+        // Source: https://en.wikipedia.org/wiki/Orbital_elements
+        //      See 'Euler angle transformation'
+        const orbitalPosition = {
+            x: distanceFromSun * (Math.cos(longitudeOfAscendingNode) * Math.cos(argumentOfPerihelion + invertedTrueAnomaly) -
+                Math.sin(longitudeOfAscendingNode) * Math.sin(argumentOfPerihelion + invertedTrueAnomaly) * Math.cos(inclination)),
+            y: distanceFromSun * (Math.sin(argumentOfPerihelion + invertedTrueAnomaly) * Math.sin(inclination)),
+            z: distanceFromSun * (Math.sin(longitudeOfAscendingNode) * Math.cos(argumentOfPerihelion + invertedTrueAnomaly) +
+                Math.cos(longitudeOfAscendingNode) * Math.sin(argumentOfPerihelion + invertedTrueAnomaly) * Math.cos(inclination))
         };
 
-        // Convert to 3D space coordinates
-        const positionIn3DSpace = {
-            // x' * (cos(Ω) * cos(ω) - sin(Ω) * sin(ω) * cos(i)) - y' * (cos(Ω) * sin(ω) + sin(Ω) * cos(ω) * cos(i))
-            x: (positionWithinOrbitalPlane.x * (Math.cos(longitudeOfAscendingNode) * Math.cos(argumentOfPerihelion) -
-                Math.sin(longitudeOfAscendingNode) * Math.sin(argumentOfPerihelion) * Math.cos(inclination)) -
-                positionWithinOrbitalPlane.y * (Math.cos(longitudeOfAscendingNode) * Math.sin(argumentOfPerihelion) +
-                    Math.sin(longitudeOfAscendingNode) * Math.cos(argumentOfPerihelion) * Math.cos(inclination))),
-            // x' * (sin(Ω) * cos(ω) + cos(Ω) * sin(ω) * cos(i)) + y' * (sin(Ω) * sin(ω) - cos(Ω) * cos(ω) * cos(i))
-            y: (positionWithinOrbitalPlane.x * (Math.sin(longitudeOfAscendingNode) * Math.cos(argumentOfPerihelion) +
-                Math.cos(longitudeOfAscendingNode) * Math.sin(argumentOfPerihelion) * Math.cos(inclination)) +
-                positionWithinOrbitalPlane.y * (Math.sin(longitudeOfAscendingNode) * Math.sin(argumentOfPerihelion) -
-                    Math.cos(longitudeOfAscendingNode) * Math.cos(argumentOfPerihelion) * Math.cos(inclination))),
-            // x' * sin(ω) * sin(i) + y' * cos(ω) * sin(i)
-            z: (positionWithinOrbitalPlane.x * Math.sin(argumentOfPerihelion) * Math.sin(inclination) +
-                positionWithinOrbitalPlane.y * Math.cos(argumentOfPerihelion) * Math.sin(inclination))
-        };
+        orbitalPosition.x *= distanceScale;
+        orbitalPosition.y *= distanceScale;
+        orbitalPosition.z *= distanceScale;
 
-        positionIn3DSpace.x *= distanceScale;
-        positionIn3DSpace.y *= distanceScale;
-        positionIn3DSpace.z *= distanceScale;
-
-        return positionIn3DSpace;
+        return orbitalPosition;
     }
 
     CalculateEccentricAnomaly(meanAnomaly, eccentricity) {
