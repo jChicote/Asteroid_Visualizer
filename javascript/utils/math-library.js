@@ -1,7 +1,3 @@
-function SetVector(object, vector) {
-    object.position.set(vector.x, vector.y, vector.z);
-}
-
 class MathHelper {
     static ConvertDegreesToRadians(degrees) {
         return degrees * Math.PI / 180;
@@ -13,5 +9,5 @@ class MathHelper {
 }
 
 export {
-    MathHelper, SetVector
+    MathHelper
 };
