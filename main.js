@@ -2,6 +2,10 @@ import { Configuration } from "./javascript/shared/Configuration.js";
 import { GameManager } from "./javascript/game/GameManager.js";
 import { ServiceContainer } from "./javascript/shared/DependencyInjectionServices/ServiceContainer.js";
 import { ServiceProvider } from "./javascript/shared/DependencyInjectionServices/ServiceProvider.js";
+import * as THREE from "./node_modules/three/build/three.module.js";
+
+// Enables caching of textures
+THREE.Cache.enabled = true;
 
 /**
  * Getter for the singleton instance of the service container.
