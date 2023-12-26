@@ -1,7 +1,7 @@
 import { CelestialOrbitalMotionLogic } from "../Components/OrbitalMechanics/CelestialOrbitalMotionLogic.js";
 import { GameObject } from "./GameObject.js";
 import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
-import { SetVector, MathHelper } from "../../utils/math-library.js";
+import { MathHelper } from "../../utils/math-library.js";
 import { VisualiserManager } from "../../../main.js";
 import * as THREE from "../../../node_modules/three/build/three.module.js";
 
@@ -50,7 +50,7 @@ class Asteroid extends GameObject {
             this.asteroidState.meanAnomaly,
             100);
 
-        SetVector(asteroid, position);
+        this.SetVector(asteroid, position);
     }
 
     GetRadius() {

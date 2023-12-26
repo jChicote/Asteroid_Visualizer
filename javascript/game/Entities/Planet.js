@@ -1,7 +1,7 @@
 import { CelestialOrbitalMotionLogic } from "../Components/OrbitalMechanics/CelestialOrbitalMotionLogic.js";
 import { GameObject } from "./GameObject.js";
 import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
-import { MathHelper, SetVector } from "../../utils/math-library.js";
+import { MathHelper } from "../../utils/math-library.js";
 import { VisualiserManager } from "../../../main.js";
 import * as THREE from "../../../node_modules/three/build/three.module.js";
 
@@ -51,7 +51,7 @@ export class Planet extends GameObject {
             this.planetState.meanAnomaly,
             100);
 
-        SetVector(planet, position);
+        this.SetVector(planet, position);
     }
 
     GetState() {

@@ -5,7 +5,6 @@ import { GlobalState } from "./GlobalState.js";
 import { GUI } from "../../node_modules/dat.gui/build/dat.gui.module.js";
 import { OrbitControls } from "../../addons/OrbitControls.js";
 import { PlanetManager } from "./Planets/PlanetManager.js";
-import { StarCreator } from "../star-creator.js";
 import * as THREE from "../../node_modules/three/build/three.module.js";
 
 export class GameManager {
@@ -50,8 +49,8 @@ export class GameManager {
         this.SetupScene();
 
         // TODO: Move this to its own section
-        const starCreator = new StarCreator(this.scene);
-        starCreator.CreateStar(5, 0xFFFFFF, new THREE.Vector3(0, 0, 0));
+        // const starCreator = new StarCreator(this.scene);
+        // starCreator.CreateStar(5, 0xFFFFFF, new THREE.Vector3(0, 0, 0));
 
         this.SetupDebugHelpers();
     }
