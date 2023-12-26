@@ -7,9 +7,7 @@ import { ServiceScopes } from "./DependencyInjectionServices/ServiceContainer.js
 import { ServiceProvider } from "./DependencyInjectionServices/ServiceProvider.js";
 import { RegisterSharedServices } from "./DependencyInjectionServices/SharedServiceRegistration.js";
 import { ObjectMapper } from "./Infrastructure/Mapper/ObjectMapper.js";
-import { AsteroidObserver } from "./Observers/AsteroidObserver.js";
-import { CometObserver } from "./Observers/CometObserver.js";
-import { PlanetObserver } from "./Observers/PlanetObserver.js";
+import { RegisterGameServices } from "../game/Infrastructure/DependencyInjection/GameServiceRegistration.js";
 
 class Configuration {
     ConfigureProject() {
@@ -24,16 +22,12 @@ class Configuration {
         RegisterApplicationServices(container);
         RegisterInterfaceAdapterServices(container);
         RegisterFrameworkServices(container);
+        RegisterGameServices(container);
 
         // Configure mapper
         const mapper = serviceProvider.GetService(ObjectMapper);
         ConfigureApplicationMapperConfigurations(mapper);
         ConfigureFrameworkMapperConfigurations(mapper);
-
-        // Configure observers between game and web areas of concern
-        container.RegisterService(AsteroidObserver, {}, ServiceScopes.Singleton);
-        container.RegisterService(CometObserver, {}, ServiceScopes.Singleton);
-        container.RegisterService(PlanetObserver, {}, ServiceScopes.Singleton);
 
         return 0;
     }

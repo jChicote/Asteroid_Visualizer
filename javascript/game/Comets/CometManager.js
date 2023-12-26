@@ -1,5 +1,5 @@
 import { VisualiserManager } from "../../../main.js";
-import { CometObserver } from "../../shared/Observers/CometObserver.js";
+import { CometObserver } from "../Observers/CometObserver.js";
 import { Comet } from "./Comet.js";
 
 class CometManager {

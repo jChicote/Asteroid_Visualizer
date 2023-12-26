@@ -1,8 +1,8 @@
 import { ServiceProvider } from "../../../shared/DependencyInjectionServices/ServiceProvider.js";
 import { ServiceExtractor } from "../../../shared/DependencyInjectionServices/Utilities/ServiceExtractor.js";
 import { ObjectMapper } from "../../../shared/Infrastructure/Mapper/ObjectMapper.js";
-import { AsteroidObserver } from "../../../shared/Observers/AsteroidObserver.js";
-import { CometObserver } from "../../../shared/Observers/CometObserver.js";
+import { AsteroidObserver } from "../../../game/Observers/AsteroidObserver.js";
+import { CometObserver } from "../../../game/Observers/CometObserver.js";
 import { CreateSmallCelestialObjectInputPort } from "../../Application/UseCases/CreateSmallCelestialObject/CreateSmallCelestialObjectInputPort.js";
 import { GetAsteroidsInputPort } from "../../Application/UseCases/GetAsteroids/GetAsteroidsInputPort.js";
 import { GetCometsInputPort } from "../../Application/UseCases/GetComets/GetCometsInputPort.js";

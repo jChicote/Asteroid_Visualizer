@@ -1,6 +1,6 @@
 import { VisualiserManager } from "../../../main.js";
-import { PlanetObserver } from "../../shared/Observers/PlanetObserver.js";
-import { Planet } from "../Entities/Planet.js";
+import { PlanetObserver } from "../Observers/PlanetObserver.js";
+import { Planet } from "./Planet.js";
 
 export const PlanetCodes = {
     Mercury: "199",

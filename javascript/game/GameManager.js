@@ -7,6 +7,7 @@ import { GlobalState } from "./GlobalState.js";
 import { OrbitControls } from "../../addons/OrbitControls.js";
 import { PlanetManager } from "./Planets/PlanetManager.js";
 import { Sun } from "./Entities/Sun.js";
+import { TimeControl } from "./Components/Time/TimeControl.js";
 
 export class GameManager {
     static scene;
@@ -34,6 +35,7 @@ export class GameManager {
         this.planetManager = new PlanetManager(serviceProvider, this.scene);
         this.asteroidManager = new AsteroidManager(serviceProvider);
         this.cometManager = new CometManager(serviceProvider);
+        this.timeControl = new TimeControl(this.gameState, serviceProvider);
     }
 
     async Initialise() {
@@ -94,8 +96,8 @@ export class GameManager {
 
     SetupDebugGUI() {
         const orbitalMechanicsFolder = this.debugGui.addFolder("Orbital Mechanics");
-        orbitalMechanicsFolder.add(this.gameState, "timeMultiplier", 0, 500, 0.01);
-        orbitalMechanicsFolder.add(this.gameState, "timeStepResolution", 1000, 100000, 100); // TODO: For this to work it will need to recalculate the orbital period.
+        orbitalMechanicsFolder.add(this.gameState, "timeMultiplier", -20, 20, 0.01);
+        orbitalMechanicsFolder.add(this.gameState, "timeStepResolution", 1000, 100000, 100);
         orbitalMechanicsFolder.add(this.gameState, "isPaused").onChange(isPaused => {
             if (isPaused) {
                 this.gameState.timeMultiplier = 0;

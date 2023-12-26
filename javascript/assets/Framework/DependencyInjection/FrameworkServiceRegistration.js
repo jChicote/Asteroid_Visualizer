@@ -1,8 +1,8 @@
 import { ServiceProvider } from "../../../shared/DependencyInjectionServices/ServiceProvider.js";
 import { ObjectMapper } from "../../../shared/Infrastructure/Mapper/ObjectMapper.js";
-import { AsteroidObserver } from "../../../shared/Observers/AsteroidObserver.js";
-import { CometObserver } from "../../../shared/Observers/CometObserver.js";
-import { PlanetObserver } from "../../../shared/Observers/PlanetObserver.js";
+import { AsteroidObserver } from "../../../game/Observers/AsteroidObserver.js";
+import { CometObserver } from "../../../game/Observers/CometObserver.js";
+import { PlanetObserver } from "../../../game/Observers/PlanetObserver.js";
 import { PlanetsAdapter } from "../../InterfaceAdapters/Controllers/PlanetsAdapter.js";
 import { SmallCelestialObjectAdapter } from "../../InterfaceAdapters/Controllers/SmallCelestialObjectAdapter.js";
 import { PlanetsController } from "../Controllers/PlanetsController.js";
