@@ -1,6 +1,6 @@
 import { VisualiserManager } from "../../../main.js";
-import { AsteroidObserver } from "../../shared/Observers/AsteroidObserver.js";
-import { Asteroid } from "../Entities/Asteroid.js";
+import { AsteroidObserver } from "../Observers/AsteroidObserver.js";
+import { Asteroid } from "./Asteroid.js";
 
 class AsteroidManager {
     constructor(serviceProvider) {

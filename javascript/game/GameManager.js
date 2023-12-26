@@ -94,8 +94,8 @@ export class GameManager {
 
     SetupDebugGUI() {
         const orbitalMechanicsFolder = this.debugGui.addFolder("Orbital Mechanics");
-        orbitalMechanicsFolder.add(this.gameState, "timeMultiplier", 0, 500, 0.01);
-        orbitalMechanicsFolder.add(this.gameState, "timeStepResolution", 1000, 100000, 100); // TODO: For this to work it will need to recalculate the orbital period.
+        orbitalMechanicsFolder.add(this.gameState, "timeMultiplier", -20, 20, 0.01);
+        orbitalMechanicsFolder.add(this.gameState, "timeStepResolution", 1000, 100000, 100);
         orbitalMechanicsFolder.add(this.gameState, "isPaused").onChange(isPaused => {
             if (isPaused) {
                 this.gameState.timeMultiplier = 0;

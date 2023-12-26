@@ -7,9 +7,9 @@ import { ServiceScopes } from "./DependencyInjectionServices/ServiceContainer.js
 import { ServiceProvider } from "./DependencyInjectionServices/ServiceProvider.js";
 import { RegisterSharedServices } from "./DependencyInjectionServices/SharedServiceRegistration.js";
 import { ObjectMapper } from "./Infrastructure/Mapper/ObjectMapper.js";
-import { AsteroidObserver } from "./Observers/AsteroidObserver.js";
-import { CometObserver } from "./Observers/CometObserver.js";
-import { PlanetObserver } from "./Observers/PlanetObserver.js";
+import { AsteroidObserver } from "../game/Observers/AsteroidObserver.js";
+import { CometObserver } from "../game/Observers/CometObserver.js";
+import { PlanetObserver } from "../game/Observers/PlanetObserver.js";
 
 class Configuration {
     ConfigureProject() {
