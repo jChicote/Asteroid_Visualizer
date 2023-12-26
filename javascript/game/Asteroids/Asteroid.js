@@ -3,7 +3,7 @@ import { GameObject } from "../Entities/GameObject.js";
 import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
 import { MathHelper } from "../../utils/math-library.js";
 import { VisualiserManager } from "../../../main.js";
-import * as THREE from "three/build/three.module.js";
+import * as THREE from "../../../node_modules/three/build/three.module.js";
 
 class Asteroid extends GameObject {
     constructor(asteroidData) {

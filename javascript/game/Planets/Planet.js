@@ -1,4 +1,4 @@
-import * as THREE from "three/build/three.module.js";
+import * as THREE from "../../../node_modules/three/build/three.module.js";
 import { CelestialOrbitalMotionLogic } from "../Components/OrbitalMechanics/CelestialOrbitalMotionLogic.js";
 import { DefaultPlanetColor } from "../../shared/Enumerations/DefaultPlanetColor.js";
 import { GameObject } from "../Entities/GameObject.js";
