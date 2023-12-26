@@ -1,9 +1,10 @@
+import * as THREE from "../../../node_modules/three/build/three.module.js";
 import { CelestialOrbitalMotionLogic } from "../Components/OrbitalMechanics/CelestialOrbitalMotionLogic.js";
+import { DefaultPlanetColor } from "../../shared/Enumerations/DefaultPlanetColor.js";
 import { GameObject } from "./GameObject.js";
 import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
 import { MathHelper } from "../../utils/math-library.js";
 import { VisualiserManager } from "../../../main.js";
-import * as THREE from "../../../node_modules/three/build/three.module.js";
 
 export class Planet extends GameObject {
     constructor(planetCode, planetData) {
@@ -15,11 +16,17 @@ export class Planet extends GameObject {
         this.planetState = new PlanetState(planetData.meanAnomaly, 0);
 
         // Fields
+        this.meanMotion = "";
+        this.orbitalPeriod = "";
         this.planetCode = planetCode;
         this.planetData = planetData;
+        this.renderedObject = "";
+        this.timeStep = "";
+
         this.orbitalPeriod = this.orbitalMotion.GetOrbitalPeriodInDays(planetData.semiMajorAxis);
         this.meanMotion = MathHelper.ConvertDegreesToRadians(planetData.meanMotion);
         this.timeStep = this.orbitalMotion.CalculateTimeStep(this.orbitalPeriod);
+        this.materialRenderer.material = new THREE.MeshStandardMaterial({ color: DefaultPlanetColor.GetColorByIdentifier(planetCode) });
         this.renderedObject = this.RenderPlanet();
     }
 

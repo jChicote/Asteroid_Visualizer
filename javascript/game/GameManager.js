@@ -1,20 +1,23 @@
+import * as THREE from "../../node_modules/three/build/three.module.js";
 import { AsteroidManager } from "./Asteroids/AsteroidManager.js";
 import { CometManager } from "./Comets/CometManager.js";
 import { DataLoaderProvider } from "./Infrastructure/DataLoaders/DataLoaderProvider.js";
-import { GlobalState } from "./GlobalState.js";
 import { GUI } from "../../node_modules/dat.gui/build/dat.gui.module.js";
+import { GlobalState } from "./GlobalState.js";
 import { OrbitControls } from "../../addons/OrbitControls.js";
 import { PlanetManager } from "./Planets/PlanetManager.js";
-import * as THREE from "../../node_modules/three/build/three.module.js";
+import { Sun } from "./Entities/Sun.js";
 
 export class GameManager {
     static scene;
     static debugGui;
 
     constructor(serviceProvider) {
+        // Fields
         this.camera = "";
         this.renderer = "";
         this.controls = "";
+        this.sun = "";
 
         if (this.scene == null) {
             this.scene = new THREE.Scene();
@@ -48,9 +51,7 @@ export class GameManager {
     Start() {
         this.SetupScene();
 
-        // TODO: Move this to its own section
-        // const starCreator = new StarCreator(this.scene);
-        // starCreator.CreateStar(5, 0xFFFFFF, new THREE.Vector3(0, 0, 0));
+        this.sun = new Sun();
 
         this.SetupDebugHelpers();
     }
