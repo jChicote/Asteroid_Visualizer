@@ -1,17 +1,17 @@
-import { CelestialOrbitalMotionLogic } from "../Components/OrbitalMechanics/CelestialOrbitalMotionLogic.js";
-import { GameObject } from "../Entities/GameObject.js";
-import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
-import { MathHelper } from "../../utils/math-library.js";
 import { VisualiserManager } from "../../../main.js";
 import * as THREE from "../../../node_modules/three/build/three.module.js";
+import { MathHelper } from "../../utils/math-library.js";
+import { CelestialOrbitalMotionLogic } from "../Components/OrbitalMechanics/CelestialOrbitalMotionLogic.js";
+import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
+import { GameObject } from "../Entities/GameObject.js";
 
 class Asteroid extends GameObject {
-    constructor(asteroidData) {
+    constructor(asteroidData, materialConfigurationProvider) {
         super();
 
         // Components
         this.asteroidState = new AsteroidState(asteroidData.meanAnomaly, 0);
-        this.materialRenderer = new MaterialRenderer();
+        this.materialRenderer = {};
         this.orbitalMotion = new CelestialOrbitalMotionLogic();
 
         // Fields
@@ -19,6 +19,11 @@ class Asteroid extends GameObject {
         this.orbitalPeriod = this.orbitalMotion.GetOrbitalPeriodInDays(asteroidData.semiMajorAxis);
         this.meanMotion = MathHelper.ConvertDegreesToRadians(this.asteroidData.meanMotion);
         this.timeStep = this.orbitalMotion.CalculateTimeStep(this.asteroidData.orbitalPeriod);
+        this.renderedObject = {};
+
+        const asteroidMaterialConfiguration = materialConfigurationProvider.GetMaterialConfiguration("GeneralAsteroid");
+
+        this.materialRenderer = new MaterialRenderer(asteroidMaterialConfiguration);
         this.renderedObject = this.RenderAsteroid();
     }
 

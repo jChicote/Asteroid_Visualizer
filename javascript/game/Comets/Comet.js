@@ -1,24 +1,29 @@
-import * as THREE from "../../../node_modules/three/build/three.module.js";
-import { CelestialOrbitalMotionLogic } from "../Components/OrbitalMechanics/CelestialOrbitalMotionLogic.js";
-import { GameObject } from "../Entities/GameObject.js";
-import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
-import { MathHelper } from "../../utils/math-library.js";
 import { VisualiserManager } from "../../../main.js";
+import * as THREE from "../../../node_modules/three/build/three.module.js";
+import { MathHelper } from "../../utils/math-library.js";
+import { CelestialOrbitalMotionLogic } from "../Components/OrbitalMechanics/CelestialOrbitalMotionLogic.js";
+import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
+import { GameObject } from "../Entities/GameObject.js";
 
 class Comet extends GameObject {
-    constructor(cometData) {
+    constructor(cometData, materialConfigurationProvider) {
         super();
 
         // Components
         this.cometState = new CometState(cometData.meanAnomaly, cometData.timeOfPerihelion);
-        this.materialRenderer = new MaterialRenderer();
-        this.orbitalMotion = new CelestialOrbitalMotionLogic(); // As a temporory fix for visualisation
+        this.materialRenderer = {};
+        this.orbitalMotion = new CelestialOrbitalMotionLogic();
 
         // Fields
         this.cometData = cometData;
         this.orbitalPeriod = this.orbitalMotion.GetOrbitalPeriodInDays(cometData.semiMajorAxis);
         this.meanMotion = MathHelper.ConvertDegreesToRadians(this.cometData.meanMotion);
         this.timeStep = this.orbitalMotion.CalculateTimeStep(this.orbitalPeriod);
+        this.renderedObject = {};
+
+        const cometMaterialConfiguration = materialConfigurationProvider.GetMaterialConfiguration("GeneralComet");
+
+        this.materialRenderer = new MaterialRenderer(cometMaterialConfiguration);
         this.renderedObject = this.Render();
     }
 

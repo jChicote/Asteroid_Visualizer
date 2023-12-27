@@ -1,14 +1,14 @@
+import { OrbitControls } from "../../addons/OrbitControls.js";
+import { GUI } from "../../node_modules/dat.gui/build/dat.gui.module.js";
 import * as THREE from "../../node_modules/three/build/three.module.js";
 import { AsteroidManager } from "./Asteroids/AsteroidManager.js";
 import { CometManager } from "./Comets/CometManager.js";
-import { DataLoaderProvider } from "./Infrastructure/DataLoaders/DataLoaderProvider.js";
-import { GUI } from "../../node_modules/dat.gui/build/dat.gui.module.js";
+import { TimeControl } from "./Components/Time/TimeControl.js";
 import { GlobalState } from "./GlobalState.js";
-import { OrbitControls } from "../../addons/OrbitControls.js";
+import { DataLoaderProvider } from "./Infrastructure/DataLoaders/DataLoaderProvider.js";
+import { ShaderManager } from "./Managers/ShaderManager/ShaderManager.js";
 import { PlanetManager } from "./Planets/PlanetManager.js";
 import { Sun } from "./Sun/Sun.js";
-import { TimeControl } from "./Components/Time/TimeControl.js";
-import { ShaderManager } from "./Managers/ShaderManager/ShaderManager.js";
 
 export class GameManager {
     static scene;
@@ -41,11 +41,11 @@ export class GameManager {
     }
 
     async Initialise() {
-        // const asteroidDataLoader = await this.dataLoaderProvider.CreateDataLoader("Asteroids");
-        // await asteroidDataLoader.LoadAsync();
+        const asteroidDataLoader = await this.dataLoaderProvider.CreateDataLoader("Asteroids");
+        await asteroidDataLoader.LoadAsync();
 
-        // const cometsDataLoader = await this.dataLoaderProvider.CreateDataLoader("Comets");
-        // await cometsDataLoader.LoadAsync();
+        const cometsDataLoader = await this.dataLoaderProvider.CreateDataLoader("Comets");
+        await cometsDataLoader.LoadAsync();
 
         const planetDataLoader = await this.dataLoaderProvider.CreateDataLoader("Planets");
         await planetDataLoader.LoadAsync();
