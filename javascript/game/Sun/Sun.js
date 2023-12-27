@@ -1,5 +1,5 @@
-import * as THREE from "../../../node_modules/three/build/three.module.js";
-import { GameObject } from "./GameObject.js";
+import * as THREE from "../../../../node_modules/three/build/three.module.js";
+import { GameObject } from "../Entities/GameObject.js";
 import { VisualiserManager } from "../../../main.js";
 import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
 

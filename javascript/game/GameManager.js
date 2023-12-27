@@ -6,8 +6,9 @@ import { GUI } from "../../node_modules/dat.gui/build/dat.gui.module.js";
 import { GlobalState } from "./GlobalState.js";
 import { OrbitControls } from "../../addons/OrbitControls.js";
 import { PlanetManager } from "./Planets/PlanetManager.js";
-import { Sun } from "./Entities/Sun.js";
+import { Sun } from "./Sun/Sun.js";
 import { TimeControl } from "./Components/Time/TimeControl.js";
+import { ShaderManager } from "./Managers/ShaderManager/ShaderManager.js";
 
 export class GameManager {
     static scene;
@@ -36,10 +37,10 @@ export class GameManager {
         this.asteroidManager = new AsteroidManager(serviceProvider);
         this.cometManager = new CometManager(serviceProvider);
         this.timeControl = new TimeControl(this.gameState, serviceProvider);
+        this.shaderManager = new ShaderManager(serviceProvider);
     }
 
     async Initialise() {
-        // Initialise data
         const asteroidDataLoader = await this.dataLoaderProvider.CreateDataLoader("Asteroids");
         await asteroidDataLoader.LoadAsync();
 
