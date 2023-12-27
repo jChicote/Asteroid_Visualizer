@@ -47,8 +47,8 @@ export class GameManager {
         // const cometsDataLoader = await this.dataLoaderProvider.CreateDataLoader("Comets");
         // await cometsDataLoader.LoadAsync();
 
-        // const planetDataLoader = await this.dataLoaderProvider.CreateDataLoader("Planets");
-        // await planetDataLoader.LoadAsync();
+        const planetDataLoader = await this.dataLoaderProvider.CreateDataLoader("Planets");
+        await planetDataLoader.LoadAsync();
     }
 
     Start() {

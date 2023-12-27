@@ -20,7 +20,7 @@ class AssetManager {
     // TODO: Refactor this to a specific loader for material shaders.
     async MaterialShaderLoader(materialConfiguration) {
         const shaderConfiguration = materialConfiguration.shaderConfiguration;
-        if (shaderConfiguration.fragmentShaderUrl != null && shaderConfiguration.vertexShaderUrl != null) {
+        if (shaderConfiguration != null && shaderConfiguration.fragmentShaderUrl != null && shaderConfiguration.vertexShaderUrl != null) {
             // Provided shader URL path is relative to the AssetManager class file.
             await this.LoadShaderAsset(
                 materialConfiguration.key,

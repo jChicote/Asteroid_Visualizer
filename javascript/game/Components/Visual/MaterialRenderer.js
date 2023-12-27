@@ -7,7 +7,9 @@ export class MaterialRenderer {
     }
 
     LoadMaterial(materialConfiguration) {
-        if (materialConfiguration.shaderConfiguration.fragmentShaderUrl != null || materialConfiguration.shaderConfiguration.vertexShaderUrl != null) {
+        if (materialConfiguration.shaderConfiguration != null &&
+            materialConfiguration.shaderConfiguration.fragmentShaderUrl != null &&
+            materialConfiguration.shaderConfiguration.vertexShaderUrl != null) {
             const shaders = VisualiserManager().shaderManager.GetShader(materialConfiguration.shaderConfiguration.key);
 
             if (shaders !== undefined) {

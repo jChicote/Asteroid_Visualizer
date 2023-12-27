@@ -7,11 +7,11 @@ import { MathHelper } from "../../utils/math-library.js";
 import { VisualiserManager } from "../../../main.js";
 
 export class Planet extends GameObject {
-    constructor(planetCode, planetData) {
+    constructor(planetCode, planetData, materialConfigurationProvider) {
         super();
 
         // Components
-        this.materialRenderer = new MaterialRenderer(planetCode);
+        this.materialRenderer = {};
         this.orbitalMotion = new CelestialOrbitalMotionLogic();
         this.planetState = new PlanetState(planetData.meanAnomaly, 0);
 
@@ -22,6 +22,10 @@ export class Planet extends GameObject {
         this.planetData = planetData;
         this.renderedObject = "";
         this.timeStep = "";
+
+        const planetMaterialConfiguration = materialConfigurationProvider.GetMaterialConfiguration(planetCode);
+
+        this.materialRenderer = new MaterialRenderer(planetMaterialConfiguration);
 
         this.orbitalPeriod = this.orbitalMotion.GetOrbitalPeriodInDays(planetData.semiMajorAxis);
         this.meanMotion = MathHelper.ConvertDegreesToRadians(planetData.meanMotion);

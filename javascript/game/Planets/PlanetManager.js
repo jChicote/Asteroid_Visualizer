@@ -1,4 +1,5 @@
 import { VisualiserManager } from "../../../main.js";
+import { MaterialConfigurationProvider } from "../Infrastructure/Providers/MaterialConfigurationProvider.js";
 import { PlanetObserver } from "../Observers/PlanetObserver.js";
 import { Planet } from "./Planet.js";
 
@@ -18,14 +19,17 @@ export class PlanetManager {
     constructor(serviceProvider, scene) {
         this.planets = [];
         this.timeStep = 4;
+        this.serviceProvider = serviceProvider;
 
         this.planetObserver = serviceProvider.GetService(PlanetObserver);
         this.planetObserver.Subscribe("GetPlanets", this.CreateMainPlanets.bind(this));
     }
 
     CreateMainPlanets(planets) {
+        const materialConfigurationProvider = this.serviceProvider.GetService(MaterialConfigurationProvider);
+
         for (const planet of planets) {
-            this.planets.push(new Planet(planet.planetCode, planet));
+            this.planets.push(new Planet(planet.planetCode, planet, materialConfigurationProvider));
         }
 
         return this.planets;
