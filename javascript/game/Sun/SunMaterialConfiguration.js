@@ -7,8 +7,8 @@ class SunMaterialConfiguration {
         this.defaultMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
         this.shaderConfiguration = new ShaderConfiguration(
             this.key,
-            "../../../Shaders/Sun/Sun.fragment.glsl",
-            "../../../Shaders/Sun/Sun.vertex.glsl",
+            "../../../../Shaders/Sun/Sun.fragment.glsl",
+            "../../../../Shaders/Sun/Sun.vertex.glsl",
             {
                 color: { value: new THREE.Color(0xff0000) }
             }

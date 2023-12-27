@@ -1,7 +1,8 @@
 import * as THREE from "../../../../node_modules/three/build/three.module.js";
 import { GameObject } from "../Entities/GameObject.js";
-import { VisualiserManager } from "../../../main.js";
 import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
+import { SunMaterialConfiguration } from "./SunMaterialConfiguration.js";
+import { VisualiserManager } from "../../../main.js";
 
 class Sun extends GameObject {
     constructor() {
@@ -12,7 +13,7 @@ class Sun extends GameObject {
         this.renderedObject = "";
 
         // Components
-        this.materialRenderer = new MaterialRenderer();
+        this.materialRenderer = new MaterialRenderer(new SunMaterialConfiguration());
         this.renderedObject = this.CreateRenderedObject(5, 0xFFFFFF, new THREE.Vector3(0, 0, 0));
 
         // Debug
@@ -23,29 +24,13 @@ class Sun extends GameObject {
     }
 
     CreateRenderedObject(radius, hexColor, position) {
-        const star = "";
-
-        this.materialRenderer.LoadMaterialFromShader(
-            "../../../Shaders/Sun/Sun.fragment.glsl",
-            "../../../Shaders/Sun/Sun.vertex.glsl",
-            {
-                color: { value: new THREE.Color(0xff0000) }
-            },
-            (material) => {
-                const star = new THREE.Mesh(
-                    new THREE.SphereGeometry(radius, 48, 16),
-                    material
-                );
-                this.SetVector(star, position);
-
-                VisualiserManager().scene.add(star);
-
-                return star;
-            },
-            (error) => {
-                console.log(error);
-            }
+        const star = new THREE.Mesh(
+            new THREE.SphereGeometry(radius, 48, 16),
+            this.materialRenderer.GetMaterial()
         );
+        this.SetVector(star, position);
+
+        VisualiserManager().scene.add(star);
 
         return star;
     }

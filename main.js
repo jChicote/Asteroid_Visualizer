@@ -67,7 +67,7 @@ async function init() {
         const serviceProvider = Container().Resolve(ServiceProvider);
 
         const preLoadManager = serviceProvider.GetService(AssetManager);
-        preLoadManager.PreLoadAssets();
+        await preLoadManager.PreLoadAssets();
     };
 
     // Initialisation

@@ -1,5 +1,5 @@
 class ShaderResource {
-    constructor(fragmentShader, vertexShader) {
+    constructor(key, fragmentShader, vertexShader) {
         this.key = key;
         this.fragmentShader = fragmentShader;
         this.vertexShader = vertexShader;
