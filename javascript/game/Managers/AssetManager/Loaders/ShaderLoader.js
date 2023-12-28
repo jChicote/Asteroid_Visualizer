@@ -1,10 +1,13 @@
 import * as THREE from "../../../../../node_modules/three/build/three.module.js";
+import { ObjectValidator } from "../../../../utils/ObjectValidator.js";
 import { ShaderResource } from "../ShaderResource.js";
 
 class ShaderLoader {
     async LoadMaterialShader(materialConfiguration) {
         const shaderConfiguration = materialConfiguration.shaderConfiguration;
-        if (shaderConfiguration != null && shaderConfiguration.fragmentShaderUrl != null && shaderConfiguration.vertexShaderUrl != null) {
+        if (ObjectValidator.IsValid(shaderConfiguration) &&
+            ObjectValidator.IsValid(shaderConfiguration.fragmentShaderUrl) &&
+            ObjectValidator.IsValid(shaderConfiguration.vertexShaderUrl)) {
             // Provided shader URL path is relative to the AssetManager class file.
             await this.GenerateShaderAsset(
                 materialConfiguration.key,
