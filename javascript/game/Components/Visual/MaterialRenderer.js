@@ -1,5 +1,6 @@
 import * as THREE from "../../../../node_modules/three/build/three.module.js";
 import { VisualiserManager } from "../../../../main.js";
+import { ObjectValidator } from "../../../utils/ObjectValidator.js";
 
 export class MaterialRenderer {
     constructor(materialConfiguration) {
@@ -12,7 +13,7 @@ export class MaterialRenderer {
             materialConfiguration.shaderConfiguration.vertexShaderUrl != null) {
             const shaders = VisualiserManager().shaderManager.GetShader(materialConfiguration.shaderConfiguration.key);
 
-            if (shaders !== undefined) {
+            if (ObjectValidator.IsValid(shaders)) {
                 const shaderMaterial = new THREE.ShaderMaterial({
                     uniforms: materialConfiguration.shaderConfiguration.uniforms,
                     vertexShader: shaders.vertexShader,

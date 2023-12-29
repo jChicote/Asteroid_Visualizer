@@ -9,13 +9,11 @@ class ShaderLoader {
             ObjectValidator.IsValid(shaderConfiguration.fragmentShaderUrl) &&
             ObjectValidator.IsValid(shaderConfiguration.vertexShaderUrl)) {
             // Provided shader URL path is relative to the AssetManager class file.
-            await this.GenerateShaderAsset(
+            return await this.GenerateShaderAsset(
                 materialConfiguration.key,
                 shaderConfiguration.fragmentShaderUrl,
                 shaderConfiguration.vertexShaderUrl
-            ).then((shaderAsset) => {
-                return shaderAsset;
-            });
+            );
         }
     }
 
