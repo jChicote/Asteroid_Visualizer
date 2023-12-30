@@ -1,14 +1,16 @@
-import { OrbitControls } from "../../addons/OrbitControls.js";
-import { GUI } from "../../node_modules/dat.gui/build/dat.gui.module.js";
 import * as THREE from "../../node_modules/three/build/three.module.js";
 import { AsteroidManager } from "./Asteroids/AsteroidManager.js";
+import { Background } from "./Scene/Background/Background.js";
 import { CometManager } from "./Comets/CometManager.js";
-import { TimeControl } from "./Components/Time/TimeControl.js";
-import { GlobalState } from "./GlobalState.js";
 import { DataLoaderProvider } from "./Infrastructure/DataLoaders/DataLoaderProvider.js";
-import { ShaderManager } from "./Managers/ShaderManager/ShaderManager.js";
+import { GUI } from "../../node_modules/dat.gui/build/dat.gui.module.js";
+import { GlobalState } from "./GlobalState.js";
+import { MaterialConfigurationProvider } from "./Infrastructure/Providers/MaterialConfigurationProvider.js";
+import { OrbitControls } from "../../addons/OrbitControls.js";
 import { PlanetManager } from "./Planets/PlanetManager.js";
+import { ShaderManager } from "./Managers/ShaderManager/ShaderManager.js";
 import { Sun } from "./Sun/Sun.js";
+import { TimeControl } from "./Components/Time/TimeControl.js";
 
 export class GameManager {
     static scene;
@@ -38,6 +40,7 @@ export class GameManager {
         this.cometManager = new CometManager(serviceProvider);
         this.timeControl = new TimeControl(this.gameState, serviceProvider);
         this.shaderManager = new ShaderManager(serviceProvider);
+        this.background = new Background(this.scene, serviceProvider.GetService(MaterialConfigurationProvider));
     }
 
     async Initialise() {
@@ -75,7 +78,7 @@ export class GameManager {
 
     SetupScene() {
         // Setup camera + rendering
-        this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 4000);
+        this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 6000);
         // this.camera = new THREE.OrthographicCamera(window.innerWidth / -2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / -2, 1, 1000);
         this.renderer = new THREE.WebGLRenderer();
 
@@ -83,6 +86,12 @@ export class GameManager {
         document.getElementById("canvas-container").appendChild(this.renderer.domElement);
 
         this.camera.position.set(0, 20, 100);
+
+        const renderer = new THREE.WebGLRenderer();
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 0.5;
+
+        this.background.Start();
 
         // Setup controls
         this.controls = new OrbitControls(this.camera, this.renderer.domElement);
