@@ -18,9 +18,18 @@ class Sun extends GameObject {
 
         // Debug
         this.DrawDebug();
+
+        this.currentTime = performance.now() / 1000;
+        this.lastTime = performance.now();
+        this.deltaTime = 0.01;
     }
 
     Update() {
+        // const elapsedTime = performance.now() / 1000; // TODO: Each component should subscribe to a an Update and Start event. Coupling components to the GameObject is not ideal.
+        this.currentTime += this.deltaTime;
+        this.materialRenderer.material.uniforms.time.value = this.currentTime;
+
+        console.log(this.currentTime);
     }
 
     CreateRenderedObject(radius, hexColor, position) {

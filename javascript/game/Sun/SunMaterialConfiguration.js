@@ -10,7 +10,8 @@ class SunMaterialConfiguration {
             "../../../../Shaders/Sun/Sun.fragment.glsl",
             "../../../../Shaders/Sun/Sun.vertex.glsl",
             {
-                color: { value: new THREE.Color(0xff0000) }
+                color: { value: new THREE.Color(0xff0000) },
+                time: { value: 0.0 }
             }
         );
     }

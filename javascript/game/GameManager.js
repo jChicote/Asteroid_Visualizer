@@ -68,6 +68,8 @@ export class GameManager {
         this.asteroidManager.UpdateAsteroids();
         this.cometManager.UpdateComets();
 
+        this.sun.Update();
+
         this.renderer.render(this.scene, this.camera);
     }
 
