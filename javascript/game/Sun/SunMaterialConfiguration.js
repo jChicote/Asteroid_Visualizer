@@ -11,6 +11,13 @@ class SunMaterialConfiguration {
             "../../../../Shaders/Sun/Sun.vertex.glsl",
             {
                 color: { value: new THREE.Color(0xff0000) },
+                fresnelBias: { value: 0.1 },
+                fresnelPower: { value: 2.0 },
+                fresnelScale: { value: 1.0 },
+                gridSize: { value: 2.0 },
+                lacunarity: { value: 2.0 },
+                octaves: { value: 6 },
+                persistence: { value: 0.8 },
                 time: { value: 0.0 }
             }
         );
