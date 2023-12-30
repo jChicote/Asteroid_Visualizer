@@ -2,6 +2,12 @@ import { Configuration } from "./javascript/shared/Configuration.js";
 import { GameManager } from "./javascript/game/GameManager.js";
 import { ServiceContainer } from "./javascript/shared/DependencyInjectionServices/ServiceContainer.js";
 import { ServiceProvider } from "./javascript/shared/DependencyInjectionServices/ServiceProvider.js";
+import * as THREE from "./node_modules/three/build/three.module.js";
+import { AssetManager } from "./javascript/game/Managers/AssetManager/AssetManager.js";
+import { GameConfiguration } from "./javascript/game/GameConfiguration.js";
+
+// Enables caching of textures
+THREE.Cache.enabled = true;
 
 /**
  * Getter for the singleton instance of the service container.
@@ -14,6 +20,20 @@ export const Container = function() {
         }
 
         return serviceContainer;
+    })();
+};
+
+/**
+ * The global read-only configurations for the visualisation.
+ */
+let gameConfiguration;
+export const VisualiserConfiguration = function() {
+    return (function() {
+        if (gameConfiguration == null) {
+            gameConfiguration = new GameConfiguration();
+        }
+
+        return gameConfiguration;
     })();
 };
 
@@ -34,14 +54,31 @@ export const VisualiserManager = function() {
 let canUpdate = false;
 
 // Initializes scene
+// This will run different hooks for stages of initialisation
 async function init() {
-    // Backend Initialisation
-    const configuration = new Configuration();
-    configuration.ConfigureProject();
+    // Construction
+    const construction = async () => {
+        const configuration = new Configuration();
+        configuration.ConfigureProject();
+    };
 
-    // Game / Visualiser Initialisation
-    const visualiserManager = VisualiserManager();
-    await visualiserManager.Initialise();
+    // Pre-initialisation
+    const preInitialisation = async () => {
+        const serviceProvider = Container().Resolve(ServiceProvider);
+
+        const preLoadManager = serviceProvider.GetService(AssetManager);
+        await preLoadManager.PreLoadAssets();
+    };
+
+    // Initialisation
+    const initialisation = async () => {
+        const visualiserManager = VisualiserManager();
+        await visualiserManager.Initialise();
+    };
+
+    await construction();
+    await preInitialisation();
+    await initialisation();
 }
 
 async function start() {

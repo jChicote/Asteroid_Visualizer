@@ -1,5 +1,7 @@
-import * as THREE from "../../../node_modules/three/build/three.module.js";
-import { GameObject } from "./GameObject.js";
+import * as THREE from "../../../../node_modules/three/build/three.module.js";
+import { GameObject } from "../Entities/GameObject.js";
+import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
+import { SunMaterialConfiguration } from "./SunMaterialConfiguration.js";
 import { VisualiserManager } from "../../../main.js";
 
 class Sun extends GameObject {
@@ -8,18 +10,31 @@ class Sun extends GameObject {
 
         // Fields
         this.pointLight = this.CreateLightSource();
+        this.renderedObject = "";
+
+        // Components
+        this.materialRenderer = new MaterialRenderer(new SunMaterialConfiguration());
         this.renderedObject = this.CreateRenderedObject(5, 0xFFFFFF, new THREE.Vector3(0, 0, 0));
 
+        // Debug
         this.DrawDebug();
+
+        this.currentTime = performance.now() / 1000;
+        this.lastTime = performance.now();
+        this.deltaTime = 0.01;
     }
 
     Update() {
+        // const elapsedTime = performance.now() / 1000; // TODO: Each component should subscribe to a an Update and Start event. Coupling components to the GameObject is not ideal.
+        this.currentTime += this.deltaTime;
+        this.materialRenderer.material.uniforms.time.value = this.currentTime;
     }
 
     CreateRenderedObject(radius, hexColor, position) {
         const star = new THREE.Mesh(
             new THREE.SphereGeometry(radius, 48, 16),
-            new THREE.MeshBasicMaterial(hexColor));
+            this.materialRenderer.GetMaterial()
+        );
         this.SetVector(star, position);
 
         VisualiserManager().scene.add(star);
