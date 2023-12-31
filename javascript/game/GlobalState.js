@@ -4,7 +4,7 @@ class GlobalState {
     constructor() {
         // Time Manipulator
         this.timeStepResolution = 100000;
-        this.timeMultiplier = 1;
+        this.timeMultiplier = 0.01;
         this.isPaused = false;
 
         // Celestial Objects

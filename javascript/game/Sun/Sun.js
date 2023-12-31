@@ -43,7 +43,7 @@ class Sun extends GameObject {
     }
 
     CreateLightSource() {
-        const pointLight = new THREE.PointLight(0xFFFFFF, 100000, 0);
+        const pointLight = new THREE.PointLight(0xFFFFFF, 50000, 0);
         this.SetVector(pointLight, new THREE.Vector3(0, 0, 0));
 
         VisualiserManager().scene.add(pointLight);

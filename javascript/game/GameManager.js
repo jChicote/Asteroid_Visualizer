@@ -5,12 +5,12 @@ import { CometManager } from "./Comets/CometManager.js";
 import { DataLoaderProvider } from "./Infrastructure/DataLoaders/DataLoaderProvider.js";
 import { GUI } from "../../node_modules/dat.gui/build/dat.gui.module.js";
 import { GlobalState } from "./GlobalState.js";
-import { MaterialConfigurationProvider } from "./Infrastructure/Providers/MaterialConfigurationProvider.js";
 import { OrbitControls } from "../../addons/OrbitControls.js";
 import { PlanetManager } from "./Planets/PlanetManager.js";
 import { ShaderManager } from "./Managers/ShaderManager/ShaderManager.js";
 import { Sun } from "./Sun/Sun.js";
 import { TimeControl } from "./Components/Time/TimeControl.js";
+import { TextureManager } from "./Managers/TextureManager/TextureManager.js";
 
 export class GameManager {
     static scene;
@@ -40,15 +40,16 @@ export class GameManager {
         this.cometManager = new CometManager(serviceProvider);
         this.timeControl = new TimeControl(this.gameState, serviceProvider);
         this.shaderManager = new ShaderManager(serviceProvider);
+        this.textureManager = new TextureManager(serviceProvider);
         this.background = new Background(this.scene);
     }
 
     async Initialise() {
-        const asteroidDataLoader = await this.dataLoaderProvider.CreateDataLoader("Asteroids");
-        await asteroidDataLoader.LoadAsync();
+        // const asteroidDataLoader = await this.dataLoaderProvider.CreateDataLoader("Asteroids");
+        // await asteroidDataLoader.LoadAsync();
 
-        const cometsDataLoader = await this.dataLoaderProvider.CreateDataLoader("Comets");
-        await cometsDataLoader.LoadAsync();
+        // const cometsDataLoader = await this.dataLoaderProvider.CreateDataLoader("Comets");
+        // await cometsDataLoader.LoadAsync();
 
         const planetDataLoader = await this.dataLoaderProvider.CreateDataLoader("Planets");
         await planetDataLoader.LoadAsync();
@@ -86,10 +87,6 @@ export class GameManager {
         document.getElementById("canvas-container").appendChild(this.renderer.domElement);
 
         this.camera.position.set(0, 20, 100);
-
-        const renderer = new THREE.WebGLRenderer();
-        renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        renderer.toneMappingExposure = 0.5;
 
         this.background.Start();
 
