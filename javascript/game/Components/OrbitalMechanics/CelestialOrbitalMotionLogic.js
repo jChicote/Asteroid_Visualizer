@@ -19,6 +19,10 @@ class CelestialOrbitalMotionLogic {
         return orbitalPeriod / (orbitalPeriod * 24 * 3600) * VisualiserManager().gameState.timeStepResolution;
     }
 
+    GetAngularVelocity(rotationalPeriod) {
+        return 2 * this.PI / rotationalPeriod;
+    }
+
     GetTimeStepInDays(orbitalPeriod, sideRealDayPeriod) {
         return orbitalPeriod / (sideRealDayPeriod * 24 * 3600) * VisualiserManager().gameState.timeStepResolution;
     }
