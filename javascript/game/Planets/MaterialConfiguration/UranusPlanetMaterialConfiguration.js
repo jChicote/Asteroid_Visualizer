@@ -1,6 +1,6 @@
 import * as THREE from "../../../../node_modules/three/build/three.module.js";
 import { DefaultPlanetColor } from "../../../shared/Enumerations/DefaultPlanetColor.js";
-import { MaterialConfiguration } from "../../Base/MaterialConfiguration.js";
+import { MaterialConfiguration, TextureMaps } from "../../Base/MaterialConfiguration.js";
 
 class UranusPlanetMaterialConfiguration extends MaterialConfiguration {
     constructor() {
@@ -8,6 +8,11 @@ class UranusPlanetMaterialConfiguration extends MaterialConfiguration {
 
         this.key = "799";
         this.defaultMaterial = new THREE.MeshStandardMaterial({ color: DefaultPlanetColor.Uranus });
+        this.textureConfiguration = {
+            textureMaps: new TextureMaps({
+                albedoPath: "../../../../../images/Planets/Uranus/uranus-albedo.jpg"
+            })
+        };
     }
 }
 

@@ -43,8 +43,8 @@ export class MaterialRenderer {
                 map: ObjectValidator.IsValid(textureAsset.albedo) ? textureAsset.albedo : null,
                 normalMap: ObjectValidator.IsValid(textureAsset.normal) ? textureAsset.normal : null,
                 metalnessMap: ObjectValidator.IsValid(textureAsset.specular) ? textureAsset.specular : null,
-                metalness: materialConfiguration.textureConfiguration.metalness,
-                roughness: materialConfiguration.textureConfiguration.roughness
+                metalness: ObjectValidator.IsValid(materialConfiguration.textureConfiguration.metalness) ? materialConfiguration.textureConfiguration.metalness : 0.5,
+                roughness: ObjectValidator.IsValid(materialConfiguration.textureConfiguration.roughness) ? materialConfiguration.textureConfiguration.roughness : 0.7
             });
             return standardMaterial;
         }

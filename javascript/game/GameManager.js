@@ -10,7 +10,7 @@ import { PlanetManager } from "./Planets/PlanetManager.js";
 import { ShaderManager } from "./Managers/ShaderManager/ShaderManager.js";
 import { Sun } from "./Sun/Sun.js";
 import { TimeControl } from "./Components/Time/TimeControl.js";
-import { TextureManager } from './Managers/ShaderManager/TextureManager.js';
+import { TextureManager } from "./Managers/TextureManager/TextureManager.js";
 
 export class GameManager {
     static scene;
