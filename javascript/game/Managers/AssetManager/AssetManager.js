@@ -26,7 +26,7 @@ class AssetManager {
                 }
             });
 
-            await this.textureLoader.LoadTextures(configuration).then((textureAsset) => {
+            await this.textureLoader.LoadTextureMaps(configuration).then((textureAsset) => {
                 if (ObjectValidator.IsValid(textureAsset)) {
                     this.textureAssets.push(textureAsset);
                 }
@@ -36,8 +36,8 @@ class AssetManager {
 
     GetResources() {
         return {
-            shaders: this.shaderAssets,
-            textures: this.textureAssets
+            shaderAssets: this.shaderAssets,
+            textureAssets: this.textureAssets
         };
     }
 }

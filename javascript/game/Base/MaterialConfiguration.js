@@ -3,11 +3,11 @@ class MaterialConfiguration {
         this.key = "";
         this.defaultMaterial = null;
         this.shaderConfiguration = null;
-        this.textureSource = null;
+        this.textureConfiguration = null;
     }
 }
 
-class MaterialTextures {
+class TextureMaps {
     constructor(parameters) {
         this.albedoPath = parameters.albedoPath;
         this.normalPath = parameters.normalPath;
@@ -15,4 +15,4 @@ class MaterialTextures {
     }
 }
 
-export { MaterialConfiguration, MaterialTextures };
+export { MaterialConfiguration, TextureMaps };

@@ -6,7 +6,7 @@ class ShaderManager {
         this.shaderAssets = [];
 
         const assetManager = serviceProvider.GetService(AssetManager);
-        this.shaderAssets = assetManager.GetResources().shaders;
+        this.shaderAssets = assetManager.GetResources().shaderAssets;
     }
 
     GetShader(key) {

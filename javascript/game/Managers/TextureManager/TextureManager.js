@@ -6,7 +6,7 @@ class TextureManager {
         this.textureAssets = [];
 
         const assetManager = serviceProvider.GetService(AssetManager);
-        this.textureAssets = assetManager.GetResources().textures;
+        this.textureAssets = assetManager.GetResources().textureAssets;
     }
 
     GetTextureAsset(key) {

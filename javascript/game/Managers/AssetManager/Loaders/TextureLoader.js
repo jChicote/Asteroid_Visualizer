@@ -7,22 +7,22 @@ class TextureLoader {
         this.textureLoader = new THREE.TextureLoader();
     }
 
-    async LoadTextures(materialConfiguration) {
-        const textureSource = materialConfiguration.textureSource;
-
-        if (ObjectValidator.IsValid(textureSource)) {
+    async LoadTextureMaps(materialConfiguration) {
+        if (ObjectValidator.IsValid(materialConfiguration.textureConfiguration) &&
+            ObjectValidator.IsValid(materialConfiguration.textureConfiguration.textureMaps)) {
+            const textureMapSource = materialConfiguration.textureConfiguration.textureMaps;
             const textureResource = new TextureResource(
                 materialConfiguration.key,
-                await this.LoadTextureFromPath(textureSource.albedoPath),
-                await this.LoadTextureFromPath(textureSource.normalPath),
-                await this.LoadTextureFromPath(textureSource.specularPath)
+                await this.LoadTextureMapsFromPath(textureMapSource.albedoPath),
+                await this.LoadTextureMapsFromPath(textureMapSource.normalPath),
+                await this.LoadTextureMapsFromPath(textureMapSource.specularPath)
             );
 
             return textureResource;
         }
     }
 
-    async LoadTextureFromPath(path) {
+    async LoadTextureMapsFromPath(path) {
         if (!ObjectValidator.IsValid(path)) {
             return;
         }
@@ -30,7 +30,7 @@ class TextureLoader {
         try {
             return this.textureLoader.load(path);
         } catch (error) {
-            console.error("Cannot load textrue asset with ID: " + materialConfiguration.key);
+            console.error("Cannot load texture asset from path: '" + path + "'");
         }
     }
 }

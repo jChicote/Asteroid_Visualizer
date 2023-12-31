@@ -14,8 +14,7 @@ export class MaterialRenderer {
             return this.GetShaderMaterial(materialConfiguration);
         }
 
-        // Get standard material from textures.
-        if (ObjectValidator.IsValid(materialConfiguration.textureSource)) {
+        if (ObjectValidator.IsValid(materialConfiguration.textureConfiguration)) {
             return this.GetStandardMaterial(materialConfiguration);
         }
 

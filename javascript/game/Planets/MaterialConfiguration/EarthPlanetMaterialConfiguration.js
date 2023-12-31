@@ -1,6 +1,6 @@
 import * as THREE from "../../../../node_modules/three/build/three.module.js";
 import { DefaultPlanetColor } from "../../../shared/Enumerations/DefaultPlanetColor.js";
-import { MaterialConfiguration, MaterialTextures } from "../../Base/MaterialConfiguration.js";
+import { MaterialConfiguration, TextureMaps } from "../../Base/MaterialConfiguration.js";
 
 class EarthPlanetMaterialConfiguration extends MaterialConfiguration {
     constructor() {
@@ -9,11 +9,11 @@ class EarthPlanetMaterialConfiguration extends MaterialConfiguration {
         this.key = "399";
         this.defaultMaterial = new THREE.MeshStandardMaterial({ color: DefaultPlanetColor.Earth });
         this.shaderConfiguration = null;
-        this.textureSource = new MaterialTextures({
-            albedoPath: "../../../../../images/Planets/Earth/earth-albedo.jpg", // TODO: Create custom shader for clouds.
-            specularPath: "../../../../../images/Planets/Earth/earth-specular.tif"
-        });
         this.textureConfiguration = {
+            textureMaps: new TextureMaps({
+                albedoPath: "../../../../../images/Planets/Earth/earth-albedo.jpg",
+                specularPath: "../../../../../images/Planets/Earth/earth-specular.tif"
+            }),
             metalness: 0.5,
             roughness: 0.7
         };
