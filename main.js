@@ -8,6 +8,7 @@ import { GameConfiguration } from "./javascript/game/GameConfiguration.js";
 
 // Enables caching of textures
 THREE.Cache.enabled = true;
+THREE.ColorManagement.enabled = true;
 
 /**
  * Getter for the singleton instance of the service container.
