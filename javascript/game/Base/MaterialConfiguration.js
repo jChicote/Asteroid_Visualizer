@@ -3,7 +3,15 @@ class MaterialConfiguration {
         this.key = "";
         this.defaultMaterial = null;
         this.shaderConfiguration = null;
+        this.textures = null;
     }
 }
 
-export { MaterialConfiguration };
+class MaterialTextures {
+    constructor(albedoPath, normalPath) {
+        this.albedoPath = albedoPath;
+        this.normalPath = normalPath;
+    }
+}
+
+export { MaterialConfiguration, MaterialTextures };

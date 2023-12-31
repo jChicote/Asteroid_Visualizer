@@ -1,6 +1,7 @@
-import { VisualiserConfiguration } from "../../../../main.js";
 import { ObjectValidator } from "../../../utils/ObjectValidator.js";
 import { ShaderLoader } from "./Loaders/ShaderLoader.js";
+import { TextureLoader } from "three/build/three.module.js";
+import { VisualiserConfiguration } from "../../../../main.js";
 
 class AssetManager {
     constructor() {
@@ -9,9 +10,11 @@ class AssetManager {
 
         // Components
         this.shaderLoader = new ShaderLoader();
+        this.textureLoader = new TextureLoader();
 
         // Resources
         this.shaderAssets = [];
+        this.textureAssets = [];
     }
 
     async PreLoadAssets() {
@@ -22,12 +25,19 @@ class AssetManager {
                     this.shaderAssets.push(shaderAsset);
                 }
             });
+
+            await this.textureLoader.LoadTextures(configuration).then((textureAsset) => {
+                if (ObjectValidator.IsValid(textureAsset)) {
+                    this.textureAssets.push(textureAsset);
+                }
+            });
         }
     }
 
     GetResources() {
         return {
-            shaders: this.shaderAssets
+            shaders: this.shaderAssets,
+            textures: this.textureAssets
         };
     }
 }
