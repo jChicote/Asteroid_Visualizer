@@ -7,7 +7,7 @@ class MercuryPlanetMaterialConfiguration extends MaterialConfiguration {
         super();
 
         this.key = "199";
-        this.defaultMaterial = new THREE.MeshBasicMaterial({ color: DefaultPlanetColor.Mercury });
+        this.defaultMaterial = new THREE.MeshStandardMaterial({ color: DefaultPlanetColor.Mercury });
     }
 }
 

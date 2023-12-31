@@ -88,10 +88,6 @@ export class GameManager {
 
         this.camera.position.set(0, 20, 100);
 
-        // const renderer = new THREE.WebGLRenderer();
-        // renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        // renderer.toneMappingExposure = 0.5;
-
         this.background.Start();
 
         // Setup controls

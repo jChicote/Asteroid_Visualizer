@@ -7,7 +7,7 @@ class UranusPlanetMaterialConfiguration extends MaterialConfiguration {
         super();
 
         this.key = "799";
-        this.defaultMaterial = new THREE.MeshBasicMaterial({ color: DefaultPlanetColor.Uranus });
+        this.defaultMaterial = new THREE.MeshStandardMaterial({ color: DefaultPlanetColor.Uranus });
     }
 }
 

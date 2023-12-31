@@ -3,14 +3,15 @@ class MaterialConfiguration {
         this.key = "";
         this.defaultMaterial = null;
         this.shaderConfiguration = null;
-        this.textures = null;
+        this.textureSource = null;
     }
 }
 
 class MaterialTextures {
-    constructor(albedoPath, normalPath) {
-        this.albedoPath = albedoPath;
-        this.normalPath = normalPath;
+    constructor(parameters) {
+        this.albedoPath = parameters.albedoPath;
+        this.normalPath = parameters.normalPath;
+        this.specularPath = parameters.specularPath;
     }
 }
 

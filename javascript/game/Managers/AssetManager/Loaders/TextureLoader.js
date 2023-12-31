@@ -1,5 +1,6 @@
 import * as THREE from "../../../../../node_modules/three/build/three.module.js";
 import { TextureResource } from "../../../Entities/TextureResource.js";
+import { ObjectValidator } from "../../../../utils/ObjectValidator.js";
 
 class TextureLoader {
     constructor() {
@@ -7,16 +8,29 @@ class TextureLoader {
     }
 
     async LoadTextures(materialConfiguration) {
-        const textures = materialConfiguration.textures;
+        const textureSource = materialConfiguration.textureSource;
 
-        if (ObjectValidator.IsValid(textures)) {
+        if (ObjectValidator.IsValid(textureSource)) {
             const textureResource = new TextureResource(
-                this.materialConfiguration.key,
-                this.textureLoader.load(textures.albedo),
-                this.textureLoader.load(textures.normal)
+                materialConfiguration.key,
+                await this.LoadTextureFromPath(textureSource.albedoPath),
+                await this.LoadTextureFromPath(textureSource.normalPath),
+                await this.LoadTextureFromPath(textureSource.specularPath)
             );
 
             return textureResource;
+        }
+    }
+
+    async LoadTextureFromPath(path) {
+        if (!ObjectValidator.IsValid(path)) {
+            return;
+        }
+
+        try {
+            return this.textureLoader.load(path);
+        } catch (error) {
+            console.error("Cannot load textrue asset with ID: " + materialConfiguration.key);
         }
     }
 }
