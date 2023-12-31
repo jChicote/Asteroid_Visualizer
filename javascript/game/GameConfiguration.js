@@ -1,5 +1,4 @@
 import { AsteroidMaterialConfiguration } from "./Asteroids/MaterialConfiguration/AsteroidMaterialConfiguration.js";
-import { BackgroundMaterialConfiguration } from "./Scene/Background/BackgroundMaterialConfiguration.js";
 import { CometMaterialConfiguration } from "./Comets/MaterialConfiguration/CometMaterialConfiguration.js";
 import { DefaultMaterialConfiguration } from "./Entities/GameObject.js";
 import { EarthPlanetMaterialConfiguration } from "./Planets/MaterialConfiguration/EarthPlanetMaterialConfiguration.js";
@@ -24,7 +23,6 @@ class GameConfiguration {
         const materialConfigurations = [];
 
         materialConfigurations.push(new DefaultMaterialConfiguration());
-        materialConfigurations.push(new BackgroundMaterialConfiguration());
 
         materialConfigurations.push(new SunMaterialConfiguration());
         materialConfigurations.push(new MercuryPlanetMaterialConfiguration());

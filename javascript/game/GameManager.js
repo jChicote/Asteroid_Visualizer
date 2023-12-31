@@ -40,7 +40,7 @@ export class GameManager {
         this.cometManager = new CometManager(serviceProvider);
         this.timeControl = new TimeControl(this.gameState, serviceProvider);
         this.shaderManager = new ShaderManager(serviceProvider);
-        this.background = new Background(this.scene, serviceProvider.GetService(MaterialConfigurationProvider));
+        this.background = new Background(this.scene);
     }
 
     async Initialise() {
