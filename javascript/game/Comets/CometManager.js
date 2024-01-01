@@ -1,4 +1,4 @@
-import { VisualiserManager } from "../../../main.js";
+import { SolarSystemVisualizer } from "../../../main.js";
 import { MaterialConfigurationProvider } from "../Infrastructure/Providers/MaterialConfigurationProvider.js";
 import { CometObserver } from "../Observers/CometObserver.js";
 import { Comet } from "./Comet.js";
@@ -24,7 +24,7 @@ class CometManager {
     }
 
     UpdateComets() {
-        if (!VisualiserManager().gameState.isPaused) {
+        if (!SolarSystemVisualizer.gameManager.gameState.isPaused) {
             for (const comet of this.comets) {
                 comet.Update();
             }

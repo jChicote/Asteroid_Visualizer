@@ -12,6 +12,9 @@ import { ShaderManager } from "./Managers/ShaderManager/ShaderManager.js";
 import { Sun } from "./Sun/Sun.js";
 import { TextureManager } from "./Managers/TextureManager/TextureManager.js";
 import { TimeControl } from "./Components/Time/TimeControl.js";
+import { GameObserver } from "./Observers/GameObserver.js";
+import { GameObjectManager } from "./Managers/GameObjectManager/GameObjectManager.js";
+import { ObjectValidator } from "../utils/ObjectValidator.js";
 
 export class GameManager {
     static scene;
@@ -25,28 +28,46 @@ export class GameManager {
         this.controls = "";
         this.sun = "";
 
-        if (this.scene == null) {
-            this.scene = new THREE.Scene();
+        if (!ObjectValidator.IsValid(GameManager.scene)) {
+            GameManager.scene = new THREE.Scene();
         }
 
-        if (this.debugGui == null) {
-            this.debugGui = new GUI({ autoPlace: false });
-            document.querySelector("#gui").append(this.debugGui.domElement);
+        if (!ObjectValidator.IsValid(GameManager.debugGui)) {
+            GameManager.debugGui = new GUI({ autoPlace: false });
+            document.querySelector("#gui").append(GameManager.debugGui.domElement);
+        }
+
+        if (!ObjectValidator.IsValid(GameManager.gameObserver)) {
+            GameManager.gameObserver = new GameObserver();
         }
 
         // Components
-        this.gameState = new GlobalState();
-        this.dataLoaderProvider = new DataLoaderProvider(serviceProvider);
-        this.planetManager = new PlanetManager(serviceProvider, this.scene);
-        this.asteroidManager = new AsteroidManager(serviceProvider);
-        this.cometManager = new CometManager(serviceProvider);
-        this.timeControl = new TimeControl(this.gameState, serviceProvider);
-        this.shaderManager = new ShaderManager(serviceProvider);
-        this.textureManager = new TextureManager(serviceProvider);
-        this.background = new Background(this.scene);
+        this.gameObjectManager = {};
+        this.gameState = {};
+        this.dataLoaderProvider = {};
+        this.planetManager = {};
+        this.asteroidManager = {};
+        this.cometManager = {};
+        this.timeControl = {};
+        this.shaderManager = {};
+        this.textureManager = {};
+        this.background = {};
+
+        this.serviceProvider = serviceProvider;
     }
 
     async Initialise() {
+        this.gameObjectManager = new GameObjectManager();
+        this.gameState = new GlobalState();
+        this.dataLoaderProvider = new DataLoaderProvider(this.serviceProvider);
+        this.planetManager = new PlanetManager(this.serviceProvider, this.scene);
+        this.asteroidManager = new AsteroidManager(this.serviceProvider);
+        this.cometManager = new CometManager(this.serviceProvider);
+        this.timeControl = new TimeControl(this.gameState, this.serviceProvider);
+        this.shaderManager = new ShaderManager(this.serviceProvider);
+        this.textureManager = new TextureManager(this.serviceProvider);
+        this.background = new Background(this.scene);
+
         const asteroidDataLoader = await this.dataLoaderProvider.CreateDataLoader("Asteroids");
         await asteroidDataLoader.LoadAsync();
 
@@ -60,28 +81,26 @@ export class GameManager {
     Start() {
         this.SetupScene();
 
-        this.sun = new Sun();
+        // Setup Debug GUI
+        this.SetupDebugGUI();
 
-        this.SetupDebugHelpers();
+        this.sun = new Sun();
     }
 
     Update() {
-        // Update Controls
-        this.controls.update();
-
         // Update Planets
+        this.gameObjectManager.UpdateGameObjects();
+
         this.planetManager.UpdatePlanets();
         this.asteroidManager.UpdateAsteroids();
         this.cometManager.UpdateComets();
 
         this.sun.Update();
 
-        this.renderer.render(this.scene, this.camera);
+        // this.renderer.render(this.scene, this.camera.GetControlledCamera());
     }
 
     SetupScene() {
-        // Setup camera + rendering
-        // this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 6000);
         // this.camera = new THREE.OrthographicCamera(window.innerWidth / -2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / -2, 1, 1000);
         this.renderer = new THREE.WebGLRenderer();
 
@@ -90,14 +109,7 @@ export class GameManager {
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         document.getElementById("canvas-container").appendChild(this.renderer.domElement);
 
-        this.background.Start();
-
-        // Setup controls
-        // this.controls = new OrbitControls(this.camera, this.renderer.domElement);
-        // this.controls.update();
-
-        // Setup Debug GUI
-        this.SetupDebugGUI();
+        this.background.Start(); // TODO: Move to game observer
     }
 
     SetupCamera() {
@@ -109,11 +121,12 @@ export class GameManager {
 
     SetupDebugHelpers() {
         const axesHelper = new THREE.AxesHelper(30);
-        this.scene.add(axesHelper);
+        GameManager.scene.add(axesHelper);
     }
 
     SetupDebugGUI() {
-        const orbitalMechanicsFolder = this.debugGui.addFolder("Orbital Mechanics");
+        // Orbital mechanics section
+        const orbitalMechanicsFolder = GameManager.debugGui.addFolder("Orbital Mechanics");
         orbitalMechanicsFolder.add(this.gameState, "timeMultiplier", -20, 20, 0.01);
         orbitalMechanicsFolder.add(this.gameState, "timeStepResolution", 1000, 100000, 100);
         orbitalMechanicsFolder.add(this.gameState, "isPaused").onChange(isPaused => {
@@ -124,8 +137,11 @@ export class GameManager {
             }
         });
 
-        const globalPhysicalProperties = this.debugGui.addFolder("Global Physical Properties");
+        // Physical section
+        const globalPhysicalProperties = GameManager.debugGui.addFolder("Global Physical Properties");
         globalPhysicalProperties.add(this.gameState, "physicalRadiusMultiplier", 1, 25, 0.1);
         globalPhysicalProperties.add(this.gameState, "distanceToSunMultiplier", 1, 20, 0.1);
+
+        this.SetupDebugHelpers();
     }
 }

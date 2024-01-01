@@ -1,6 +1,6 @@
 import * as THREE from "../../../../node_modules/three/build/three.module.js";
-import { VisualiserManager } from "../../../../main.js";
 import { ObjectValidator } from "../../../utils/ObjectValidator.js";
+import { SolarSystemVisualizer } from "../../../../main.js";
 
 export class MaterialRenderer {
     constructor(materialConfiguration) {
@@ -22,7 +22,7 @@ export class MaterialRenderer {
     }
 
     GetShaderMaterial(materialConfiguration) {
-        const shaders = VisualiserManager().shaderManager.GetShader(materialConfiguration.shaderConfiguration.key);
+        const shaders = SolarSystemVisualizer.gameManager.shaderManager.GetShader(materialConfiguration.shaderConfiguration.key);
 
         if (ObjectValidator.IsValid(shaders)) {
             const shaderMaterial = new THREE.ShaderMaterial({
@@ -36,7 +36,7 @@ export class MaterialRenderer {
     }
 
     GetStandardMaterial(materialConfiguration) {
-        const textureAsset = VisualiserManager().textureManager.GetTextureAsset(materialConfiguration.key);
+        const textureAsset = SolarSystemVisualizer.gameManager.textureManager.GetTextureAsset(materialConfiguration.key);
 
         if (ObjectValidator.IsValid(textureAsset)) {
             const standardMaterial = new THREE.MeshStandardMaterial({

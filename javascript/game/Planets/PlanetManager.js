@@ -1,7 +1,7 @@
-import { VisualiserManager } from "../../../main.js";
 import { MaterialConfigurationProvider } from "../Infrastructure/Providers/MaterialConfigurationProvider.js";
-import { PlanetObserver } from "../Observers/PlanetObserver.js";
 import { Planet } from "./Planet.js";
+import { PlanetObserver } from "../Observers/PlanetObserver.js";
+import { SolarSystemVisualizer } from "../../../main.js";
 
 export const PlanetCodes = {
     Mercury: "199",
@@ -36,7 +36,7 @@ export class PlanetManager {
     }
 
     UpdatePlanets() {
-        if (!VisualiserManager().gameState.isPaused) {
+        if (!SolarSystemVisualizer.gameManager.gameState.isPaused) {
             for (const planet of this.planets) {
                 planet.Update();
             }

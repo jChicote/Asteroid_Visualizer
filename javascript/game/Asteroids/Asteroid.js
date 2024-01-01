@@ -1,9 +1,10 @@
-import { VisualiserManager } from "../../../main.js";
 import * as THREE from "../../../node_modules/three/build/three.module.js";
-import { MathHelper } from "../../utils/math-library.js";
 import { CelestialOrbitalMotionLogic } from "../Components/OrbitalMechanics/CelestialOrbitalMotionLogic.js";
-import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
+import { GameManager } from "../GameManager.js";
 import { GameObject } from "../Entities/GameObject.js";
+import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
+import { MathHelper } from "../../utils/math-library.js";
+import { SolarSystemVisualizer } from "../../../main.js";
 
 class Asteroid extends GameObject {
     constructor(asteroidData, materialConfigurationProvider) {
@@ -40,7 +41,7 @@ class Asteroid extends GameObject {
         // This is temporary until we have proper orbital calculations and scaling relative to the sun and positions of the planets.
         this.SetAsteroidPosition(asteroid);
 
-        VisualiserManager().scene.add(asteroid);
+        GameManager.scene.add(asteroid);
 
         return asteroid;
     }
@@ -63,7 +64,7 @@ class Asteroid extends GameObject {
     }
 
     UpdateOrbitalState() {
-        this.asteroidState.currentTime += this.timeStep * VisualiserManager().gameState.timeMultiplier;
+        this.asteroidState.currentTime += this.timeStep * SolarSystemVisualizer.gameManager.gameState.timeMultiplier;
         this.asteroidState.meanAnomaly = this.orbitalMotion.GetCurrentMeanAnomaly(
             this.asteroidData.meanAnomaly,
             this.meanMotion,

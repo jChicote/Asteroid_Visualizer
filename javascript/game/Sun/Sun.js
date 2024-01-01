@@ -2,7 +2,7 @@ import * as THREE from "../../../../node_modules/three/build/three.module.js";
 import { GameObject } from "../Entities/GameObject.js";
 import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
 import { SunMaterialConfiguration } from "./SunMaterialConfiguration.js";
-import { VisualiserManager } from "../../../main.js";
+import { GameManager } from "../GameManager.js";
 
 class Sun extends GameObject {
     constructor() {
@@ -37,7 +37,7 @@ class Sun extends GameObject {
         );
         this.SetVector(star, position);
 
-        VisualiserManager().scene.add(star);
+        GameManager.scene.add(star);
 
         return star;
     }
@@ -46,7 +46,7 @@ class Sun extends GameObject {
         const pointLight = new THREE.PointLight(0xFFFFFF, 50000, 0);
         this.SetVector(pointLight, new THREE.Vector3(0, 0, 0));
 
-        VisualiserManager().scene.add(pointLight);
+        GameManager.scene.add(pointLight);
 
         return pointLight;
     }
@@ -54,7 +54,7 @@ class Sun extends GameObject {
     DrawDebug() {
         // Create light helper
         const pointLightHelper = new THREE.PointLightHelper(this.pointLight, 10);
-        VisualiserManager().scene.add(pointLightHelper);
+        GameManager.scene.add(pointLightHelper);
     }
 }
 
