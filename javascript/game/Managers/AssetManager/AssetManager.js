@@ -1,13 +1,10 @@
 import { ObjectValidator } from "../../../utils/ObjectValidator.js";
 import { ShaderLoader } from "./Loaders/ShaderLoader.js";
 import { TextureLoader } from "./Loaders/TextureLoader.js";
-import { VisualiserConfiguration } from "../../../../main.js";
+import { SolarSystemVisualizer } from "../../../../main.js";
 
 class AssetManager {
     constructor() {
-        // Fields
-        this.gameConfiguration = VisualiserConfiguration();
-
         // Components
         this.shaderLoader = new ShaderLoader();
         this.textureLoader = new TextureLoader();
@@ -18,7 +15,7 @@ class AssetManager {
     }
 
     async PreLoadAssets() {
-        const materialConfigurations = this.gameConfiguration.materialConfigurations;
+        const materialConfigurations = SolarSystemVisualizer.gameConfiguration.materialConfigurations;
         for (const configuration of materialConfigurations) {
             await this.shaderLoader.LoadMaterialShader(configuration).then((shaderAsset) => {
                 if (ObjectValidator.IsValid(shaderAsset)) {

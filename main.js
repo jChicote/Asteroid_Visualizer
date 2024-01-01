@@ -25,22 +25,9 @@ export const Container = function() {
     })();
 };
 
-/**
- * The global read-only configurations for the visualisation.
- */
-let gameConfiguration;
-export const VisualiserConfiguration = function() {
-    return (function() {
-        if (gameConfiguration == null) {
-            gameConfiguration = new GameConfiguration();
-        }
-
-        return gameConfiguration;
-    })();
-};
-
 class SolarSystemVisualizer {
     static gameManager = null;
+    static gameConfiguration = null;
 
     constructor() {
         this.canUpdate = false;
@@ -53,6 +40,10 @@ class SolarSystemVisualizer {
         const construction = async () => {
             const configuration = new Configuration();
             configuration.ConfigureProject();
+
+            if (!ObjectValidator.IsValid(SolarSystemVisualizer.gameConfiguration)) {
+                SolarSystemVisualizer.gameConfiguration = new GameConfiguration();
+            }
 
             if (!ObjectValidator.IsValid(SolarSystemVisualizer.gameManager)) {
                 SolarSystemVisualizer.gameManager = new GameManager(Container().Resolve(ServiceProvider));
