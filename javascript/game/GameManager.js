@@ -1,16 +1,17 @@
-import { OrbitControls } from "../../addons/OrbitControls.js";
-import { GUI } from "../../node_modules/dat.gui/build/dat.gui.module.js";
 import * as THREE from "../../node_modules/three/build/three.module.js";
 import { AsteroidManager } from "./Asteroids/AsteroidManager.js";
-import { CometManager } from "./Comets/CometManager.js";
-import { TimeControl } from "./Components/Time/TimeControl.js";
-import { GlobalState } from "./GlobalState.js";
-import { DataLoaderProvider } from "./Infrastructure/DataLoaders/DataLoaderProvider.js";
-import { ShaderManager } from "./Managers/ShaderManager/ShaderManager.js";
-import { TextureManager } from "./Managers/TextureManager/TextureManager.js";
-import { PlanetManager } from "./Planets/PlanetManager.js";
 import { Background } from "./Scene/Background/Background.js";
+import { Camera } from "./Camera/Camera.js";
+import { CameraController } from "./Camera/CameraController.js";
+import { CometManager } from "./Comets/CometManager.js";
+import { DataLoaderProvider } from "./Infrastructure/DataLoaders/DataLoaderProvider.js";
+import { GUI } from "../../node_modules/dat.gui/build/dat.gui.module.js";
+import { GlobalState } from "./GlobalState.js";
+import { PlanetManager } from "./Planets/PlanetManager.js";
+import { ShaderManager } from "./Managers/ShaderManager/ShaderManager.js";
 import { Sun } from "./Sun/Sun.js";
+import { TextureManager } from "./Managers/TextureManager/TextureManager.js";
+import { TimeControl } from "./Components/Time/TimeControl.js";
 
 export class GameManager {
     static scene;
@@ -18,7 +19,8 @@ export class GameManager {
 
     constructor(serviceProvider) {
         // Fields
-        this.camera = "";
+        this.camera = {};
+        this.cameraController = {};
         this.renderer = "";
         this.controls = "";
         this.sun = "";
@@ -79,23 +81,30 @@ export class GameManager {
 
     SetupScene() {
         // Setup camera + rendering
-        this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 6000);
+        // this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 6000);
         // this.camera = new THREE.OrthographicCamera(window.innerWidth / -2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / -2, 1, 1000);
         this.renderer = new THREE.WebGLRenderer();
+
+        this.SetupCamera();
 
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         document.getElementById("canvas-container").appendChild(this.renderer.domElement);
 
-        this.camera.position.set(0, 20, 100);
-
         this.background.Start();
 
         // Setup controls
-        this.controls = new OrbitControls(this.camera, this.renderer.domElement);
-        this.controls.update();
+        // this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+        // this.controls.update();
 
         // Setup Debug GUI
         this.SetupDebugGUI();
+    }
+
+    SetupCamera() {
+        this.camera = new Camera();
+        this.cameraController = new CameraController(this.camera, this.renderer);
+
+        this.camera.SetPosition(new THREE.Vector3(0, 20, 100));
     }
 
     SetupDebugHelpers() {

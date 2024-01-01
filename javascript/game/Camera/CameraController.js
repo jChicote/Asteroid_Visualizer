@@ -1,7 +1,15 @@
+import * as THREE from "../../../node_modules/three/build/three.module.js";
+import { OrbitControls } from "../../../addons/OrbitControls.js";
+
 class CameraController {
-    constructor(camera) {
-        this.camera = camera;
+    constructor(camera, renderer) {
+        this.mainCamera = camera;
+        this.cameraSpeed = 0.1;
         this.viewTargetPosition = new THREE.Vector3(0, 0, 0); // Default the sun as the origin.
+
+        this.orbitControls = new OrbitControls(this.mainCamera.GetControlledCamera(), renderer.domElement);
+        this.orbitControls.enableDamping = true;
+        this.orbitControls.update();
     }
 
     SetViewTargetPosition(targetPosition) {
@@ -9,17 +17,19 @@ class CameraController {
     }
 
     InterpolateToTargetPosition() {
-        const cameraPosition = this.camera.position;
+        const cameraPosition = this.mainCamera.position;
         const targetPosition = this.viewTargetPosition;
 
         const distanceToTarget = cameraPosition.distanceTo(targetPosition);
-        const cameraSpeed = 0.1;
 
         if (distanceToTarget > 0.1) {
-            const directionToTarget = targetPosition.clone().sub(cameraPosition).normalize();
-            const distanceToMove = distanceToTarget * cameraSpeed;
+            const directionToTarget = targetPosition
+                .clone()
+                .sub(cameraPosition)
+                .normalize();
+            const distanceToMove = distanceToTarget * this.cameraSpeed;
 
-            this.camera.position.add(directionToTarget.multiplyScalar(distanceToMove));
+            this.mainCamera.position.add(directionToTarget.multiplyScalar(distanceToMove));
         }
     }
 }
