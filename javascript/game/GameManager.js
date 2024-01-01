@@ -6,15 +6,15 @@ import { CameraController } from "./Camera/CameraController.js";
 import { CometManager } from "./Comets/CometManager.js";
 import { DataLoaderProvider } from "./Infrastructure/DataLoaders/DataLoaderProvider.js";
 import { GUI } from "../../node_modules/dat.gui/build/dat.gui.module.js";
+import { GameObjectManager } from "./Managers/GameObjectManager/GameObjectManager.js";
+import { GameObserver } from "./Observers/GameObserver.js";
 import { GlobalState } from "./GlobalState.js";
+import { ObjectValidator } from "../utils/ObjectValidator.js";
 import { PlanetManager } from "./Planets/PlanetManager.js";
 import { ShaderManager } from "./Managers/ShaderManager/ShaderManager.js";
 import { Sun } from "./Sun/Sun.js";
 import { TextureManager } from "./Managers/TextureManager/TextureManager.js";
 import { TimeControl } from "./Components/Time/TimeControl.js";
-import { GameObserver } from "./Observers/GameObserver.js";
-import { GameObjectManager } from "./Managers/GameObjectManager/GameObjectManager.js";
-import { ObjectValidator } from "../utils/ObjectValidator.js";
 
 export class GameManager {
     static scene;
@@ -28,6 +28,7 @@ export class GameManager {
         this.controls = "";
         this.sun = "";
 
+        // Static Fields
         if (!ObjectValidator.IsValid(GameManager.scene)) {
             GameManager.scene = new THREE.Scene();
         }

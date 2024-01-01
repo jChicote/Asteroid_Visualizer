@@ -1,16 +1,14 @@
-import { Container } from "../../../main.js";
 import { ServiceValidator } from "./Utilities/ServiceValidator.js";
+import { SolarSystemVisualizer } from "../../../main.js";
 
 /**
  * Responsible for providing services to the application.
  */
 export class ServiceProvider {
-    constructor() {
-        this.container = Container();
-    }
-
     GetService(ClassToResolve) {
-        return ServiceValidator.ValidateService(this.container.Resolve(ClassToResolve));
+        return ServiceValidator.ValidateService(
+            SolarSystemVisualizer.serviceContainer
+                .Resolve(ClassToResolve));
     }
 }
 

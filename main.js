@@ -7,27 +7,10 @@ import { AssetManager } from "./javascript/game/Managers/AssetManager/AssetManag
 import { GameConfiguration } from "./javascript/game/GameConfiguration.js";
 import { ObjectValidator } from "./javascript/utils/ObjectValidator.js";
 
-// Enables caching of textures
-THREE.Cache.enabled = true;
-THREE.ColorManagement.enabled = true;
-
-/**
- * Getter for the singleton instance of the service container.
- */
-let serviceContainer;
-export const Container = function() {
-    return (function() {
-        if (!ObjectValidator.IsValid(serviceContainer)) {
-            serviceContainer = new ServiceContainer();
-        }
-
-        return serviceContainer;
-    })();
-};
-
 class SolarSystemVisualizer {
     static gameManager = null;
     static gameConfiguration = null;
+    static serviceContainer = null;
 
     constructor() {
         this.canUpdate = false;
@@ -38,6 +21,9 @@ class SolarSystemVisualizer {
     async Init() {
         // Construction
         const construction = async () => {
+            if (!ObjectValidator.IsValid(SolarSystemVisualizer.serviceContainer)) {
+                SolarSystemVisualizer.serviceContainer = new ServiceContainer();
+            }
             const configuration = new Configuration();
             configuration.ConfigureProject();
 
@@ -46,13 +32,17 @@ class SolarSystemVisualizer {
             }
 
             if (!ObjectValidator.IsValid(SolarSystemVisualizer.gameManager)) {
-                SolarSystemVisualizer.gameManager = new GameManager(Container().Resolve(ServiceProvider));
+                SolarSystemVisualizer.gameManager =
+                    new GameManager(
+                        SolarSystemVisualizer.serviceContainer
+                            .Resolve(ServiceProvider));
             }
         };
 
         // Pre-initialisation
         const preInitialisation = async () => {
-            const serviceProvider = Container().Resolve(ServiceProvider);
+            const serviceProvider = SolarSystemVisualizer.serviceContainer
+                .Resolve(ServiceProvider);
 
             const preLoadManager = serviceProvider.GetService(AssetManager);
             await preLoadManager.PreLoadAssets();
@@ -83,6 +73,10 @@ class SolarSystemVisualizer {
 }
 
 const solarSystemVisualizer = new SolarSystemVisualizer();
+
+// Enables caching of textures
+THREE.Cache.enabled = true;
+THREE.ColorManagement.enabled = true;
 
 // animate function used by Three.js
 async function animate() {
