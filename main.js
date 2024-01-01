@@ -39,26 +39,16 @@ export const VisualiserConfiguration = function() {
     })();
 };
 
-/**
- * Getter for the singleton instance of the root game / visualiser management.
- */
-// let gameManager;
-// export const VisualiserManager = function() {
-//     return (function() {
-//         if (!ObjectValidator.IsValid(gameManager)) {
-//             gameManager = new GameManager(Container().Resolve(ServiceProvider));
-//         }
-
-//         return gameManager;
-//     })();
-// };
-
 class SolarSystemVisualizer {
     static gameManager = null;
 
+    constructor() {
+        this.canUpdate = false;
+    }
+
     // Initializes scene
     // This will run different hooks for stages of initialisation
-    async init() {
+    async Init() {
         // Construction
         const construction = async () => {
             const configuration = new Configuration();
@@ -86,49 +76,26 @@ class SolarSystemVisualizer {
         await preInitialisation();
         await initialisation();
     }
+
+    async Start() {
+        // Start the game
+        SolarSystemVisualizer.gameManager.Start();
+    }
+
+    async ProgramStarter() {
+        await this.Init();
+        await this.Start();
+
+        this.canUpdate = true;
+        console.log("Program can now start");
+    }
 }
 
 const solarSystemVisualizer = new SolarSystemVisualizer();
 
-let canUpdate = false;
-
-// Initializes scene
-// This will run different hooks for stages of initialisation
-// async function init() {
-//     // Construction
-//     const construction = async () => {
-//         const configuration = new Configuration();
-//         configuration.ConfigureProject();
-
-//         solarSystemVisualizer
-//     };
-
-//     // Pre-initialisation
-//     const preInitialisation = async () => {
-//         const serviceProvider = Container().Resolve(ServiceProvider);
-
-//         const preLoadManager = serviceProvider.GetService(AssetManager);
-//         await preLoadManager.PreLoadAssets();
-//     };
-
-//     // Initialisation
-//     const initialisation = async () => {
-//         const visualiserManager = VisualiserManager();
-//         await visualiserManager.Initialise();
-//     };
-
-//     await construction();
-//     await preInitialisation();
-//     await initialisation();
-// }
-
-async function start() {
-    // Start the game
-    SolarSystemVisualizer.gameManager.Start();
-}
-
+// animate function used by Three.js
 async function animate() {
-    if (canUpdate === false) {
+    if (solarSystemVisualizer.canUpdate === false) {
         return;
     }
 
@@ -138,15 +105,8 @@ async function animate() {
     requestAnimationFrame(animate);
 }
 
-async function ProgramStarter() {
-    await solarSystemVisualizer.init();
-    await start();
-
-    canUpdate = true;
-    console.log("Program can now start");
-}
-
-await ProgramStarter();
+// Run application
+await solarSystemVisualizer.ProgramStarter();
 animate();
 
 export { SolarSystemVisualizer };
