@@ -1,6 +1,7 @@
 import * as THREE from "../../../node_modules/three/build/three.module.js";
 import { OrbitControls } from "../../../addons/OrbitControls.js";
 import { GameObject } from "../Entities/GameObject.js";
+import { CameraRaycaster } from "./CameraRaycaster.js";
 
 class CameraController extends GameObject {
     constructor(camera, renderer) {
@@ -9,20 +10,23 @@ class CameraController extends GameObject {
 
     InitialiseFields(parameters) {
         super.InitialiseFields(parameters);
-        this.mainCamera = parameters.camera;
-        this.renderer = parameters.renderer;
+        this.cameraRaycaser = {};
         this.cameraSpeed = 0.1;
-        this.viewTargetPosition = new THREE.Vector3(0, 0, 0); // Default the sun as the origin.
+        this.mainCamera = parameters.camera;
         this.orbitControls = {};
+        this.renderer = parameters.renderer;
+        this.viewTargetPosition = new THREE.Vector3(); // Default the sun as the origin.
     }
 
     Start() {
+        this.cameraRaycaster = new CameraRaycaster(this.mainCamera);
+        this.mainCamera.SetPosition(new THREE.Vector3(0, 20, 100));
+
         // Setup default controls
         this.orbitControls = new OrbitControls(this.mainCamera.GetControlledCamera(), this.renderer.domElement);
         this.orbitControls.enableDamping = true;
+        this.orbitControls.target = this.viewTargetPosition;
         this.orbitControls.update();
-
-        this.mainCamera.SetPosition(new THREE.Vector3(0, 20, 100));
     }
 
     Update() {
