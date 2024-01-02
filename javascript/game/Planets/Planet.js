@@ -8,33 +8,40 @@ import { SolarSystemVisualizer } from "../../../main.js";
 
 export class Planet extends GameObject {
     constructor(planetCode, planetData, materialConfigurationProvider) {
-        super();
+        super({ planetCode, planetData, materialConfigurationProvider });
+    }
+
+    InitialiseFields(parameters) {
+        // Fields
+        this.materialConfiguration = parameters.materialConfigurationProvider.GetMaterialConfiguration(parameters.planetCode);
+        this.meanMotion = "";
+        this.orbitalPeriod = "";
+        this.planetCode = parameters.planetCode;
+        this.planetData = parameters.planetData;
+        this.renderedObject = "";
+        this.timeStep = "";
 
         // Components
         this.materialRenderer = {};
         this.orbitalMotion = new CelestialOrbitalMotionLogic();
-        this.planetState = new PlanetState(planetData.meanAnomaly, 0);
+        this.planetState = new PlanetState(parameters.planetData.meanAnomaly, 0);
+    }
 
-        // Fields
-        this.meanMotion = "";
-        this.orbitalPeriod = "";
-        this.planetCode = planetCode;
-        this.planetData = planetData;
-        this.renderedObject = "";
-        this.timeStep = "";
+    Start() {
+        this.materialRenderer = new MaterialRenderer(this.materialConfiguration);
 
-        const planetMaterialConfiguration = materialConfigurationProvider.GetMaterialConfiguration(planetCode);
-
-        this.materialRenderer = new MaterialRenderer(planetMaterialConfiguration);
-
-        this.orbitalPeriod = this.orbitalMotion.GetOrbitalPeriodInDays(planetData.semiMajorAxis);
-        this.meanMotion = MathHelper.ConvertDegreesToRadians(planetData.meanMotion);
+        this.orbitalPeriod = this.orbitalMotion.GetOrbitalPeriodInDays(this.planetData.semiMajorAxis);
+        this.meanMotion = MathHelper.ConvertDegreesToRadians(this.planetData.meanMotion);
         this.timeStep = this.orbitalMotion.CalculateTimeStep(this.orbitalPeriod);
         this.renderedObject = this.RenderPlanet();
     }
 
     // Updates the planet. Used during runtime.
     Update() {
+        if (SolarSystemVisualizer.gameManager.gameState.isPaused) {
+            return;
+        }
+
         this.UpdateOrbitalState();
         this.SetPlanetPosition(this.renderedObject);
         this.RotatePlanet();

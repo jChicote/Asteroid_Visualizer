@@ -3,21 +3,28 @@ import { SolarSystemVisualizer } from "../../../main.js";
 import { Transform } from "../Components/Transformation/Transform.js";
 
 class GameObject extends Transform {
-    constructor() {
+    // Subclassed objects should initialise through the 'InitialiseFields' method.
+    constructor(parameters) {
         super();
 
-        // Fields
-        this.enabled = false;
+        this.InitialiseFields(parameters);
 
+        // Subscribe Update event and sequentially invoke initialisation methods.
         const gameObjectManager = SolarSystemVisualizer.gameManager.gameObjectManager;
         gameObjectManager.AddGameObject(this);
     }
 
-    Awake() { }
+    InitialiseFields(parameters) {
+        this.enabled = false;
+    }
 
-    Start() { }
+    Awake() {
+        this.enabled = true;
+    }
 
-    Update() { }
+    Start() { /* Empty awake intended to be overriden */ }
+
+    Update() { /* Empty awake intended to be overriden */ }
 }
 
 class DefaultMaterialConfiguration {

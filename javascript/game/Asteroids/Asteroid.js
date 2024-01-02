@@ -8,27 +8,39 @@ import { SolarSystemVisualizer } from "../../../main.js";
 
 class Asteroid extends GameObject {
     constructor(asteroidData, materialConfigurationProvider) {
-        super();
+        super({ asteroidData, materialConfigurationProvider });
+    }
 
-        // Components
-        this.asteroidState = new AsteroidState(asteroidData.meanAnomaly, 0);
-        this.materialRenderer = {};
-        this.orbitalMotion = new CelestialOrbitalMotionLogic();
+    InitialiseFields(parameters) {
+        super.InitialiseFields(parameters);
 
         // Fields
-        this.asteroidData = asteroidData;
-        this.orbitalPeriod = this.orbitalMotion.GetOrbitalPeriodInDays(asteroidData.semiMajorAxis);
+        this.asteroidData = parameters.asteroidData;
+        this.materialConfiguration = parameters.materialConfigurationProvider.GetMaterialConfiguration("GeneralAsteroid");
+        this.meanMotion = 0.0;
+        this.orbitalPeriod = 0.0;
+        this.renderedObject = {};
+        this.timeStep = 0.0;
+
+        // Components
+        this.asteroidState = new AsteroidState(parameters.asteroidData.meanAnomaly, 0);
+        this.materialRenderer = {};
+        this.orbitalMotion = new CelestialOrbitalMotionLogic();
+    }
+
+    Start() {
+        this.orbitalPeriod = this.orbitalMotion.GetOrbitalPeriodInDays(this.asteroidData.semiMajorAxis);
         this.meanMotion = MathHelper.ConvertDegreesToRadians(this.asteroidData.meanMotion);
         this.timeStep = this.orbitalMotion.CalculateTimeStep(this.asteroidData.orbitalPeriod);
-        this.renderedObject = {};
-
-        const asteroidMaterialConfiguration = materialConfigurationProvider.GetMaterialConfiguration("GeneralAsteroid");
-
-        this.materialRenderer = new MaterialRenderer(asteroidMaterialConfiguration);
+        this.materialRenderer = new MaterialRenderer(this.materialConfiguration);
         this.renderedObject = this.RenderAsteroid();
     }
 
     Update() {
+        if (SolarSystemVisualizer.gameManager.gameState.isPaused) {
+            return;
+        }
+
         this.UpdateOrbitalState();
         this.SetAsteroidPosition(this.renderedObject);
     }

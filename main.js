@@ -7,6 +7,7 @@ import { AssetManager } from "./javascript/game/Managers/AssetManager/AssetManag
 import { GameConfiguration } from "./javascript/game/GameConfiguration.js";
 import { ObjectValidator } from "./javascript/utils/ObjectValidator.js";
 
+// This class is the entry point for the application.
 class SolarSystemVisualizer {
     static gameManager = null;
     static gameConfiguration = null;
@@ -64,10 +65,11 @@ class SolarSystemVisualizer {
     }
 
     async ProgramStarter() {
+        this.canUpdate = true;
+
         await this.Init();
         await this.Start();
 
-        this.canUpdate = true;
         console.log("Program can now start");
     }
 }

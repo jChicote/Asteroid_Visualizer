@@ -1,7 +1,6 @@
 import { Asteroid } from "./Asteroid.js";
 import { AsteroidObserver } from "../Observers/AsteroidObserver.js";
 import { MaterialConfigurationProvider } from "../Infrastructure/Providers/MaterialConfigurationProvider.js";
-import { SolarSystemVisualizer } from "../../../main.js";
 
 class AsteroidManager {
     constructor(serviceProvider) {
@@ -21,14 +20,6 @@ class AsteroidManager {
         }
 
         return this.asteroids;
-    }
-
-    UpdateAsteroids() {
-        if (!SolarSystemVisualizer.gameManager.gameState.isPaused) {
-            for (const asteroid of this.asteroids) {
-                asteroid.Update();
-            }
-        }
     }
 }
 

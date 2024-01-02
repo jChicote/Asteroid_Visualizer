@@ -5,9 +5,7 @@ import { SunMaterialConfiguration } from "./SunMaterialConfiguration.js";
 import { GameManager } from "../GameManager.js";
 
 class Sun extends GameObject {
-    constructor() {
-        super();
-
+    InitialiseFields(paramters) {
         // Fields
         this.pointLight = this.CreateLightSource();
         this.renderedObject = "";

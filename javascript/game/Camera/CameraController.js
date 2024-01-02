@@ -4,16 +4,25 @@ import { GameObject } from "../Entities/GameObject.js";
 
 class CameraController extends GameObject {
     constructor(camera, renderer) {
-        super();
+        super({ camera, renderer });
+    }
 
-        this.mainCamera = camera;
+    InitialiseFields(parameters) {
+        super.InitialiseFields(parameters);
+        this.mainCamera = parameters.camera;
+        this.renderer = parameters.renderer;
         this.cameraSpeed = 0.1;
         this.viewTargetPosition = new THREE.Vector3(0, 0, 0); // Default the sun as the origin.
+        this.orbitControls = {};
+    }
 
+    Start() {
         // Setup default controls
-        this.orbitControls = new OrbitControls(this.mainCamera.GetControlledCamera(), renderer.domElement);
+        this.orbitControls = new OrbitControls(this.mainCamera.GetControlledCamera(), this.renderer.domElement);
         this.orbitControls.enableDamping = true;
         this.orbitControls.update();
+
+        this.mainCamera.SetPosition(new THREE.Vector3(0, 20, 100));
     }
 
     Update() {
@@ -38,6 +47,7 @@ class CameraController extends GameObject {
             const distanceToMove = distanceToTarget * this.cameraSpeed;
 
             const newPosition = this.mainCamera.GetPosition().position.add(directionToTarget.multiplyScalar(distanceToMove));
+            this.mainCamera.SetPosition(newPosition);
         }
     }
 }

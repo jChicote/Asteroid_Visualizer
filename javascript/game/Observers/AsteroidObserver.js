@@ -21,8 +21,6 @@ class AsteroidObserver {
         if (this.observers[eventName]) {
             this.observers[eventName].forEach(observer => observer(data));
         }
-
-        console.log("Is dispatched");
     }
 }
 

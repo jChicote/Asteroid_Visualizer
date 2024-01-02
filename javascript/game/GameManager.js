@@ -19,13 +19,13 @@ import { TimeControl } from "./Components/Time/TimeControl.js";
 export class GameManager {
     static scene;
     static debugGui;
+    static gameObserver;
 
     constructor(serviceProvider) {
         // Fields
         this.camera = {};
         this.cameraController = {};
         this.renderer = "";
-        this.controls = "";
         this.sun = "";
 
         // Static Fields
@@ -42,18 +42,6 @@ export class GameManager {
             GameManager.gameObserver = new GameObserver();
         }
 
-        // Components
-        this.gameObjectManager = {};
-        this.gameState = {};
-        this.dataLoaderProvider = {};
-        this.planetManager = {};
-        this.asteroidManager = {};
-        this.cometManager = {};
-        this.timeControl = {};
-        this.shaderManager = {};
-        this.textureManager = {};
-        this.background = {};
-
         this.serviceProvider = serviceProvider;
     }
 
@@ -67,8 +55,8 @@ export class GameManager {
         this.timeControl = new TimeControl(this.gameState, this.serviceProvider);
         this.shaderManager = new ShaderManager(this.serviceProvider);
         this.textureManager = new TextureManager(this.serviceProvider);
-        this.background = new Background(this.scene);
 
+        // Load celestial objects
         const asteroidDataLoader = await this.dataLoaderProvider.CreateDataLoader("Asteroids");
         await asteroidDataLoader.LoadAsync();
 
@@ -84,40 +72,29 @@ export class GameManager {
 
         // Setup Debug GUI
         this.SetupDebugGUI();
-
-        this.sun = new Sun();
     }
 
     Update() {
-        // Update Planets
         this.gameObjectManager.UpdateGameObjects();
-
-        this.planetManager.UpdatePlanets();
-        this.asteroidManager.UpdateAsteroids();
-        this.cometManager.UpdateComets();
-
         this.sun.Update();
 
-        // this.renderer.render(this.scene, this.camera.GetControlledCamera());
+        this.renderer.render(GameManager.scene, this.camera.GetControlledCamera());
     }
 
     SetupScene() {
-        // this.camera = new THREE.OrthographicCamera(window.innerWidth / -2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / -2, 1, 1000);
-        this.renderer = new THREE.WebGLRenderer();
-
-        this.SetupCamera();
-
+        this.renderer = new THREE.WebGLRenderer({ antialias: true });
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         document.getElementById("canvas-container").appendChild(this.renderer.domElement);
 
-        this.background.Start(); // TODO: Move to game observer
+        this.background = new Background();
+        this.sun = new Sun();
+
+        this.SetupCamera();
     }
 
     SetupCamera() {
         this.camera = new Camera();
         this.cameraController = new CameraController(this.camera, this.renderer);
-
-        this.camera.SetPosition(new THREE.Vector3(0, 20, 100));
     }
 
     SetupDebugHelpers() {
