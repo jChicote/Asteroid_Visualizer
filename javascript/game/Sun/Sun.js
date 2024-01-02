@@ -6,6 +6,8 @@ import { GameManager } from "../GameManager.js";
 
 class Sun extends GameObject {
     InitialiseFields(paramters) {
+        super.InitialiseFields(paramters);
+
         // Fields
         this.pointLight = this.CreateLightSource();
         this.renderedObject = "";
@@ -23,21 +25,21 @@ class Sun extends GameObject {
     }
 
     Update() {
-        // const elapsedTime = performance.now() / 1000; // TODO: Each component should subscribe to a an Update and Start event. Coupling components to the GameObject is not ideal.
         this.currentTime += this.deltaTime;
         this.materialRenderer.material.uniforms.time.value = this.currentTime;
     }
 
     CreateRenderedObject(radius, hexColor, position) {
-        const star = new THREE.Mesh(
+        const mesh = new THREE.Mesh(
             new THREE.SphereGeometry(radius, 48, 16),
             this.materialRenderer.GetMaterial()
         );
-        this.SetVector(star, position);
 
-        GameManager.scene.add(star);
+        mesh.gameObject = this;
+        this.SetVector(mesh, position);
+        GameManager.scene.add(mesh);
 
-        return star;
+        return mesh;
     }
 
     CreateLightSource() {

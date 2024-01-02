@@ -12,6 +12,8 @@ export class Planet extends GameObject {
     }
 
     InitialiseFields(parameters) {
+        super.InitialiseFields(parameters);
+
         // Fields
         this.materialConfiguration = parameters.materialConfigurationProvider.GetMaterialConfiguration(parameters.planetCode);
         this.meanMotion = "";
@@ -48,15 +50,15 @@ export class Planet extends GameObject {
     }
 
     RenderPlanet() {
-        const planet = new THREE.Mesh(
+        const mesh = new THREE.Mesh(
             new THREE.SphereGeometry(this.GetPlanetRadius(), 32, 16),
             this.materialRenderer.GetMaterial());
 
-        this.SetPlanetPosition(planet);
+        mesh.gameObject = this;
+        this.SetPlanetPosition(mesh);
+        GameManager.scene.add(mesh);
 
-        GameManager.scene.add(planet);
-
-        return planet;
+        return mesh;
     }
 
     RotatePlanet() {

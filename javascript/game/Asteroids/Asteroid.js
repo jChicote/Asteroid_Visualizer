@@ -46,16 +46,15 @@ class Asteroid extends GameObject {
     }
 
     RenderAsteroid() {
-        const asteroid = new THREE.Mesh(
+        const mesh = new THREE.Mesh(
             new THREE.SphereGeometry(this.GetRadius(), 32, 16),
             this.materialRenderer.GetMaterial());
 
-        // This is temporary until we have proper orbital calculations and scaling relative to the sun and positions of the planets.
-        this.SetAsteroidPosition(asteroid);
+        mesh.gameObject = this;
+        this.SetAsteroidPosition(mesh);
+        GameManager.scene.add(mesh);
 
-        GameManager.scene.add(asteroid);
-
-        return asteroid;
+        return mesh;
     }
 
     SetAsteroidPosition(asteroid) {

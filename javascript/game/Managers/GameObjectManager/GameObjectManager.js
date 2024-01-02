@@ -1,4 +1,5 @@
 import { GameManager } from "../../GameManager.js";
+import { SolarSystemVisualizer } from "../../../../main.js";
 
 class GameObjectManager {
     AddGameObject(gameObject) {
@@ -9,6 +10,10 @@ class GameObjectManager {
     }
 
     UpdateGameObjects() {
+        if (!SolarSystemVisualizer.gameManager.gameState.canUpdate) {
+            return;
+        }
+
         GameManager.gameObserver.Dispatch("Update", {});
     }
 }

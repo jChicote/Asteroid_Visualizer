@@ -12,6 +12,8 @@ class Comet extends GameObject {
     }
 
     InitialiseFields(parameters) {
+        super.InitialiseFields(parameters);
+
         // Fields
         this.cometData = parameters.cometData;
         this.meanMotion = 0.0;
@@ -46,16 +48,15 @@ class Comet extends GameObject {
     }
 
     Render() {
-        const comet = new THREE.Mesh(
+        const mesh = new THREE.Mesh(
             new THREE.SphereGeometry(this.GetRadius(), 32, 16),
             this.materialRenderer.GetMaterial());
 
-        // This is temporary until we have proper orbital calculations and scaling relative to the sun and positions of the planets.
-        this.SetAsteroidPosition(comet);
+        mesh.gameObject = this;
+        this.SetAsteroidPosition(mesh);
+        GameManager.scene.add(mesh);
 
-        GameManager.scene.add(comet);
-
-        return comet;
+        return mesh;
     }
 
     SetAsteroidPosition(comet) {

@@ -10,6 +10,11 @@ class Camera extends GameObject {
         this.camera.position.set(newPosition.x, newPosition.y, newPosition.z);
     }
 
+    TrackPosition(targetPosition, viewPosition) {
+        // this.camera.position.copy(viewPosition);
+        this.camera.lookAt(targetPosition);
+    }
+
     GetPosition() {
         return this.camera.position;
     }

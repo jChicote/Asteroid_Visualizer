@@ -16,6 +16,7 @@ class GameObject extends Transform {
 
     InitialiseFields(parameters) {
         this.enabled = false;
+        this.identifier = Math.floor(Math.random() * 1000);
     }
 
     Awake() {

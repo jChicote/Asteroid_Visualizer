@@ -6,6 +6,7 @@ class GlobalState {
         this.timeStepResolution = 100000;
         this.timeMultiplier = 0.01;
         this.isPaused = false;
+        this.canUpdate = false;
 
         // Celestial Objects
         this.physicalRadiusMultiplier = 1;
