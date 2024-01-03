@@ -1,9 +1,10 @@
-import * as THREE from "../../../node_modules/three/build/three.module.js";
 import { OrbitControls } from "../../../addons/OrbitControls.js";
-import { GameObject } from "../Entities/GameObject.js";
-import { CameraRaycaster } from "./CameraRaycaster.js";
-import { GameManager } from "../GameManager.js";
+import * as THREE from "../../../node_modules/three/build/three.module.js";
 import { ObjectValidator } from "../../utils/ObjectValidator.js";
+import { MathHelper } from '../../utils/math-library.js';
+import { GameObject } from "../Entities/GameObject.js";
+import { GameManager } from "../GameManager.js";
+import { CameraRaycaster } from "./CameraRaycaster.js";
 
 class CameraController extends GameObject {
     constructor(camera, renderer) {
@@ -15,6 +16,7 @@ class CameraController extends GameObject {
 
         this.cameraRaycaser = {};
         this.cameraSpeed = 0.1;
+        this.scrollWheelSpeed = 1.5;
         this.mainCamera = parameters.camera;
         this.orbitControls = {};
         this.renderer = parameters.renderer;
@@ -22,14 +24,17 @@ class CameraController extends GameObject {
         this.viewTargetPosition = new THREE.Vector3(); // Default the sun as the origin.
         this.isLerping = false;
         this.dummyObject = {};
+        this.currentScroll = 0.0;
+        this.preferredDistance = 10.0;
 
         this.lastPosition = new THREE.Vector3();
         this.isInteracting = false;
 
-        const canvas = document.getElementById('canvas-container');
+        const canvas = document.getElementById("canvas-container");
 
         canvas.addEventListener("mousedown", this.OnMouseDown.bind(this));
         canvas.addEventListener("mouseup", this.OnMouseUp.bind(this));
+        canvas.addEventListener("wheel", this.OnMouseWheel.bind(this));
 
         GameManager.gameObserver.Subscribe("OnPointerEnter", this.SetNewViewTarget.bind(this));
     }
@@ -45,7 +50,8 @@ class CameraController extends GameObject {
         // Setup default controls
         this.orbitControls = new OrbitControls(this.mainCamera.GetControlledCamera(), this.renderer.domElement);
         this.orbitControls.enableDamping = true;
-        this.orbitControls.autoRotate = false;
+        this.orbitControls.autoRotate = false
+        this.orbitControls.enableZoom = true;
         this.orbitControls.minDistance = 5;
         this.orbitControls.maxDistance = 100;
         this.orbitControls.target = this.viewTargetPosition;
@@ -55,19 +61,51 @@ class CameraController extends GameObject {
     }
 
     OnMouseUp(event) {
-        // console.log("Mouse up");
-        console.log("always up");
         this.isInteracting = false;
     }
 
     OnMouseDown(event) {
-        console.log("Mouse down");
         this.isInteracting = true;
-        console.log(this.isInteracting);
+    }
+
+    OnMouseWheel(event) {
+        this.preferredDistance += Math.sign(event.deltaY) * this.scrollWheelSpeed;
+        this.preferredDistance = MathHelper.Clamp(this.preferredDistance, 0.0, 100);
+
+        // if (ObjectValidator.IsValid(this.viewTarget)) {
+        //     const scrollPosition = this.CalculateScrollPosition();
+        //     this.mainCamera.SetPosition(scrollPosition);
+
+        //     this.orbitControls.update();
+        // }
+
+        // const zoomSpeed = 0.1; // Adjust this value based on your sensitivity preference
+        // const minDistance = 1;
+        // const maxDistance = 100;
+
+        // // Calculate the direction from the camera towards the orbit controls target
+        // const direction = new THREE.Vector3().subVectors(this.orbitControls.target, this.mainCamera.GetPosition()).normalize();
+
+        // // Calculate the new distance from the target
+        // let distance = this.mainCamera.GetPosition().distanceTo(this.orbitControls.target);
+        // distance += event.deltaY * zoomSpeed;
+
+        // // Clamp the distance
+        // distance = Math.max(minDistance, Math.min(distance, maxDistance));
+
+        // // Calculate the new position
+        // const newPosition = direction.multiplyScalar(distance).add(this.orbitControls.target);
+
+        // // Update the camera position
+        // this.mainCamera.GetControlledCamera().position.copy(newPosition);
+
+        // // Update OrbitControls (if necessary)
+        // this.orbitControls.update();
     }
 
     Update() {
         if (ObjectValidator.IsValid(this.viewTarget)) {
+            this.orbitControls.enabled = true;
             this.FollowTarget(); // This does nothing.
             this.lastPosition.copy(this.mainCamera.GetControlledCamera().position).sub(this.viewTarget.object.position);
         }
@@ -75,15 +113,21 @@ class CameraController extends GameObject {
         this.orbitControls.update();
     }
 
+    CalculateScrollPosition() {
+        const targetPosition = this.viewTarget.object.position.clone();
+        const viewDirection = new THREE.Vector3().subVectors(this.mainCamera.GetPosition(), targetPosition).normalize();
+        const scrollVector = viewDirection.multiplyScalar(this.preferredDistance);
+        const finalPosition = targetPosition.add(scrollVector);
+
+        return finalPosition;
+    }
+
     FollowTarget() {
-        const preferredDistance = 10;
         // const currentDistance = this.orbitControls.target.distanceTo(this.mainCamera.GetPosition());
         // const scalingFactor = preferredDistance / currentDistance;
 
         const targetObjectPosition = this.viewTarget.object.position.clone();
-        console.log(this.isInteracting);
         if (!this.isInteracting) {
-            console.log("Saving last position");
             this.mainCamera.GetControlledCamera().position.copy(targetObjectPosition).add(this.lastPosition);
         }
 
@@ -95,7 +139,7 @@ class CameraController extends GameObject {
         // this.mainCamera.TrackPosition(targetObjectPosition, targetPosition);
         // calculates direction and combines with orbit control target
         //this.dummyObject.position.copy(targetObjectPosition);
-        this.orbitControls.target.copy(targetObjectPosition);
+        // this.orbitControls.target.copy(targetObjectPosition);
 
         // this.mainCamera.GetControlledCamera().position.copy(viewPosition);
 
@@ -106,6 +150,7 @@ class CameraController extends GameObject {
     SetNewViewTargetPosition(targetPosition) {
         this.viewTargetPosition = targetPosition;
         this.isLerping = true;
+        this.orbitControls.target.copy(this.viewTarget.object.position.clone());
         // this.orbitControls.enabled = false;
     }
 
@@ -142,3 +187,4 @@ class CameraController extends GameObject {
 }
 
 export { CameraController };
+

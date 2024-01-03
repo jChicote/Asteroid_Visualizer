@@ -18,6 +18,10 @@ class MathHelper {
     static Lerp(start, end, percent) {
         return start * (1 - percent) + end * percent;
     }
+
+    static Clamp(value, min, max) {
+        return Math.min(Math.max(value, min), max);
+    }
 }
 
 export {
