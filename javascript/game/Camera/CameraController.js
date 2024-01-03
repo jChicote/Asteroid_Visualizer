@@ -16,6 +16,7 @@ class CameraController extends GameObject {
 
         this.cameraRaycaster = {};
         this.cameraSpeed = 0.01;
+        this.currentDirection = new THREE.Vector3();
         this.isInteracting = false;
         this.isLerping = false;
         this.lerpFactor = 0.0;
@@ -91,7 +92,6 @@ class CameraController extends GameObject {
             this.FollowTarget();
             this.orbitControls.update();
         }
-
     }
 
     CalculateZoom() {
@@ -129,10 +129,18 @@ class CameraController extends GameObject {
         const offset = initialCameraPosition.clone().sub(this.viewTargetPosition).normalize().multiplyScalar(this.zoomMinDistance);
         const targetPosition = this.viewTargetPosition.clone().add(offset);
 
+        const currentDir = new THREE.Vector3();
+        this.mainCamera.GetControlledCamera().getWorldDirection(currentDir);
+        currentDir.add(this.mainCamera.GetPosition());
+
         this.lerpFactor += 0.0002;
 
+        const newLookAt = currentDir.lerp(this.viewTargetPosition, this.lerpFactor);
         const newPosition = initialCameraPosition.clone().lerp(targetPosition, this.lerpFactor);
+
         this.mainCamera.SetPosition(newPosition);
+        this.mainCamera.GetControlledCamera().lookAt(newLookAt);
+
         this.lastPosition.copy(this.mainCamera.GetPosition()).sub(this.viewTargetPosition);
         // this.orbitControls.target.copy(this.viewTargetPosition);
         this.mainCamera.GetControlledCamera().lookAt(this.viewTargetPosition);
