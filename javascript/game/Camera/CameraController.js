@@ -14,16 +14,21 @@ class CameraController extends GameObject {
     InitialiseFields(parameters) {
         super.InitialiseFields(parameters);
 
-        this.cameraSpeed = 0.1;
+        this.cameraRaycaster = {};
+        this.cameraSpeed = 0.01;
         this.isInteracting = false;
         this.isLerping = false;
+        this.lerpFactor = 0.0;
         this.lastPosition = new THREE.Vector3();
         this.mainCamera = parameters.camera;
         this.orbitControls = {};
         this.renderer = parameters.renderer;
-        this.scrollDirection = 0.0;
         this.scrollWheelSpeed = 1.5;
         this.viewTargetPosition = new THREE.Vector3(); // Default the sun as the origin.
+        this.zoomDirection = 0.0;
+        this.zoomMaxDistance = 100;
+        this.zoomMinDistance = 0.4;
+        this.zoomSpeed = 0.2; // Adjust this value based on your sensitivity preference
 
         const canvas = document.getElementById("canvas-container");
         canvas.addEventListener("mousedown", this.OnMouseDown.bind(this));
@@ -34,10 +39,11 @@ class CameraController extends GameObject {
     }
 
     Start() {
-        this.mainCamera.SetPosition(new THREE.Vector3(0, 20, 100));
+        this.mainCamera.SetPosition(new THREE.Vector3(0, 100, 100));
 
         // Setup default controls
         this.orbitControls = new OrbitControls(this.mainCamera.GetControlledCamera(), this.renderer.domElement);
+        this.orbitControls.enabled = true;
         this.orbitControls.enableDamping = true;
         this.orbitControls.autoRotate = false;
         this.orbitControls.enableZoom = false;
@@ -53,105 +59,102 @@ class CameraController extends GameObject {
 
     OnMouseUp(event) {
         this.isInteracting = false;
-        this.orbitControls.enabled = false;
     }
 
     OnMouseDown(event) {
         this.isInteracting = true;
-        this.orbitControls.enabled = true;
     }
 
     OnMouseWheel(event) {
-        this.scrollDirection = Math.sign(event.deltaY);
+        this.isLerping = false;
+        this.orbitControls.enabled = true;
+        this.lerpFactor = 0.0;
+        this.zoomDirection = Math.sign(event.deltaY);
         setTimeout(this.OnMouseWheelTimeout.bind(this), 300);
     }
 
     OnMouseWheelTimeout() {
-        this.scrollDirection = 0.0;
+        this.zoomDirection = 0.0;
     }
+
+    // Methods
 
     Update() {
-        if (!ObjectValidator.IsValid(this.viewTarget)) {
-            return;
+        if (ObjectValidator.IsValid(this.viewTarget)) {
+            this.viewTargetPosition = this.viewTarget.object.position.clone();
         }
 
-        this.orbitControls.enabled = true;
-        this.FollowTarget(); // This does nothing.
+        if (this.isLerping) {
+            this.InterpolateToTargetPosition();
+        } else {
+            this.CalculateZoom();
+            this.FollowTarget();
+            this.orbitControls.update();
+        }
 
-        this.lastPosition.copy(this.mainCamera.GetControlledCamera().position).sub(this.viewTarget.object.position);
-        this.CalculateScrollPosition();
-
-        this.orbitControls.update();
     }
 
-    CalculateScrollPosition() {
-        if (this.scrollDirection === 0.0) {
+    CalculateZoom() {
+        if (this.zoomDirection === 0.0) {
             return;
         }
 
-        const zoomSpeed = 0.2; // Adjust this value based on your sensitivity preference
-        const minDistance = 0.4;
-        const maxDistance = 100;
-
         const direction = new THREE.Vector3().subVectors(this.orbitControls.target, this.mainCamera.GetPosition()).normalize();
+        let distance = this.mainCamera.GetPosition().distanceTo(this.viewTargetPosition);
+        distance += this.zoomDirection * this.zoomSpeed;
+        distance = MathHelper.Clamp(distance, this.zoomMinDistance, this.zoomMaxDistance);
 
-        let distance = this.mainCamera.GetPosition().distanceTo(this.orbitControls.target);
-        distance += this.scrollDirection * zoomSpeed;
-        distance = MathHelper.Clamp(distance, minDistance, maxDistance);
-
-        const newPosition = direction.multiplyScalar(-distance).add(this.orbitControls.target);
+        const newPosition = direction.multiplyScalar(-distance).add(this.viewTargetPosition);
 
         if (!this.isInteracting) {
-            this.lastPosition.copy(newPosition).sub(this.viewTarget.object.position);
+            this.lastPosition.copy(newPosition).sub(this.viewTargetPosition);
         } else {
-            this.mainCamera.GetControlledCamera().position.copy(newPosition);
-            this.orbitControls.update();
+            this.mainCamera.SetPosition(newPosition);
         }
     }
 
     FollowTarget() {
-        const targetObjectPosition = this.viewTarget.object.position.clone();
         if (!this.isInteracting) {
-            this.mainCamera.SetPosition(targetObjectPosition).add(this.lastPosition);
+            this.mainCamera.SetPosition(this.viewTargetPosition).add(this.lastPosition);
         }
 
-        this.orbitControls.target.copy(targetObjectPosition);
-    }
-
-    SetNewViewTargetPosition(targetPosition) {
-        this.viewTargetPosition = targetPosition;
+        this.lastPosition.copy(this.mainCamera.GetPosition()).sub(this.viewTargetPosition);
+        this.orbitControls.target.copy(this.viewTargetPosition);
     }
 
     InterpolateToTargetPosition() {
-        const cameraPosition = this.mainCamera.GetPosition();
-        const direction = cameraPosition.sub(this.viewTarget.object.position.clone()).normalize();
-        const offset = direction.multiplyScalar(-6);
-        // const adjustedPosition = newPosition.add(offset);
-        const targetPosition = this.viewTarget.object.position.add(offset);
+        this.orbitControls.enabled = false;
 
-        const distanceToTarget = cameraPosition.distanceTo(targetPosition);
-        if (distanceToTarget > 5) {
-            const directionToTarget = targetPosition
-                .clone()
-                .sub(cameraPosition)
-                .normalize();
-            const distanceToMove = distanceToTarget * this.cameraSpeed;
+        const initialCameraPosition = this.mainCamera.GetPosition();
+        const offset = initialCameraPosition.clone().sub(this.viewTargetPosition).normalize().multiplyScalar(this.zoomMinDistance);
+        const targetPosition = this.viewTargetPosition.clone().add(offset);
 
-            const newPosition = this.mainCamera.GetPosition().add(directionToTarget.multiplyScalar(distanceToMove));
+        this.lerpFactor += 0.0002;
 
-            this.mainCamera.TrackPosition(this.viewTargetPosition, newPosition);
-            // this.orbitControls.target.copy(this.viewTarget.object.position);
-        } else {
+        const newPosition = initialCameraPosition.clone().lerp(targetPosition, this.lerpFactor);
+        this.mainCamera.SetPosition(newPosition);
+        this.lastPosition.copy(this.mainCamera.GetPosition()).sub(this.viewTargetPosition);
+        // this.orbitControls.target.copy(this.viewTargetPosition);
+        this.mainCamera.GetControlledCamera().lookAt(this.viewTargetPosition);
+
+        const distanceToTarget = this.mainCamera.GetPosition().distanceTo(this.viewTargetPosition);
+        console.log(distanceToTarget);
+        if (distanceToTarget < 5) {
             this.isLerping = false;
-            // this.orbitControls.target = this.viewTargetPosition;
-            // this.orbitControls.enabled = true;
+            this.orbitControls.enabled = true;
+            this.lerpFactor = 0.0;
         }
     }
 
     SetNewViewTarget(target) {
+        if (ObjectValidator.IsValid(this.viewTarget) &&
+            this.viewTarget.object.gameObject.identifier === target.object.gameObject.identifier) {
+            return;
+        }
+
         this.viewTarget = target;
-        this.SetNewViewTargetPosition(target.object.position.clone());
         this.isLerping = true;
+        this.orbitControls.enabled = false;
     }
 }
 
