@@ -38,13 +38,15 @@
 
 /* BACKGROUND STYLES */
 
+.bg-grey-6{
+    background-color: #141418;
+
+}
+
+/* Old background colors */
 
 .bg-dark-maroon-black {
     background-color: #0E0A0A;
-}
-
-.bg-dark-maroon {
-    background-color: #3D0000;
 }
 
 .bg-maroon {
