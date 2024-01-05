@@ -10,15 +10,28 @@ class CameraRaycaster extends GameObject {
 
     InitialiseFields(parameters) {
         super.InitialiseFields(parameters);
+
+        // Fields
         this.camera = parameters.camera;
         this.previousIntersect = {};
         this.currentIntersect = {};
         this.currentIntersectedState = IntersectState.NONE;
         this.pointer = new THREE.Vector2();
         this.raycaster = new THREE.Raycaster();
-
-        window.addEventListener("pointermove", this.OnMouseMove.bind(this), false);
     }
+
+    /* -------------------------------------------------------------------------- */
+    /*                              Lifecycle Methods                             */
+    /* -------------------------------------------------------------------------- */
+
+    Awake() {
+        const canvas = document.getElementById("canvas-container");
+        canvas.addEventListener("pointermove", this.OnMouseMove.bind(this), false);
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /*                               Event Handlers                               */
+    /* -------------------------------------------------------------------------- */
 
     OnMouseMove(event) {
         // Update mouse position with normalized device coordinates.
@@ -28,11 +41,14 @@ class CameraRaycaster extends GameObject {
         this.RaycastFromPointer(this.pointer);
     }
 
+    /* -------------------------------------------------------------------------- */
+    /*                                   Methods                                  */
+    /* -------------------------------------------------------------------------- */
+
     SetCurrentState(intersects) {
         if (intersects.length > 0 && this.currentIntersectedState === IntersectState.NONE) {
             this.currentIntersectedState = IntersectState.ENTER;
             this.currentIntersect = intersects[0];
-            // console.log("Enter");
             GameManager.gameObserver.Dispatch("OnPointerEnter", this.currentIntersect);
         } else if (intersects.length > 0 && this.currentIntersect.identifier === this.previousIntersect.identifier) {
             this.currentIntersectedState = IntersectState.HOVER;
@@ -52,6 +68,7 @@ class CameraRaycaster extends GameObject {
     }
 
     RaycastFromPointer(pointer) {
+        // Performs raycast
         this.raycaster.setFromCamera(pointer, this.camera.GetControlledCamera());
 
         const intersects = this.raycaster

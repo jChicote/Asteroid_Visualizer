@@ -6,12 +6,14 @@ class CameraZoomHandler {
     constructor(
         camera,
         cameraController,
+        cameraTransform,
         zoomMaxDistance,
         zoomMinDistance,
         zoomSpeed) {
         // Fields
         this.camera = camera;
         this.cameraController = cameraController;
+        this.cameraTransform = cameraTransform;
         this.zoomMaxDistance = zoomMaxDistance;
         this.zoomMinDistance = zoomMinDistance;
         this.zoomSignedDirection = 0.0;
@@ -69,10 +71,18 @@ class CameraZoomHandler {
         // Sets the last position to the current position if not interacting the orbit controls.
         if (!this.cameraController.IsControllerInteracting()) {
             this.camera.SetPosition(newPosition);
-            this.cameraController.CaptureCameraLastPosition();
+            this.cameraTransform.CaptureCameraLastPosition();
         } else {
             this.camera.SetPosition(newPosition);
         }
+    }
+
+    GetMaxZoomDistance() {
+        return this.zoomMaxDistance;
+    }
+
+    GetMinZoomDistance() {
+        return this.zoomMinDistance;
     }
 }
 
