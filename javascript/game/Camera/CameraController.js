@@ -1,12 +1,12 @@
 import * as THREE from "../../../node_modules/three/build/three.module.js";
-import { CameraRaycaster } from "./CameraRaycaster.js";
+import { CameraInterpolationHandler } from "./CameraInterpolationHandler.js";
+import { CameraTransformHandler } from "./CameraTransformHandler.js";
 import { CameraZoomHandler } from "./CameraZoomHandler.js";
 import { GameManager } from "../GameManager.js";
 import { GameObject } from "../Entities/GameObject.js";
 import { ObjectValidator } from "../../utils/ObjectValidator.js";
 import { OrbitControls } from "../../../addons/OrbitControls.js";
-import { CameraTransformHandler } from "./CameraTransformHandler.js";
-import { CameraInterpolationHandler } from "./CameraInterpolationHandler.js";
+import { CelestialObjectSelector } from "./CelestialObjectSelector.js";
 
 class CameraController extends GameObject {
     constructor(camera, renderer) {
@@ -19,15 +19,15 @@ class CameraController extends GameObject {
         // Fields
         this.isInteracting = false;
         this.isLerping = false;
-        this.mainCamera = parameters.camera;
         this.renderer = parameters.renderer;
         this.viewTargetPosition = new THREE.Vector3(); // Default the sun as the origin.
 
         // Components
-        this.cameraRaycaster = {};
-        this.orbitControls = {};
-        this.cameraZoomHandler = {};
+        this.mainCamera = parameters.camera;
+        this.celestialObjectSelector = {};
         this.cameraTransformHandler = {};
+        this.cameraZoomHandler = {};
+        this.orbitControls = {};
     }
 
     /* -------------------------------------------------------------------------- */
@@ -35,16 +35,16 @@ class CameraController extends GameObject {
     /* -------------------------------------------------------------------------- */
 
     Awake() {
-        // Handle Events
-        const canvas = document.getElementById("canvas-container");
-        canvas.addEventListener("mousedown", this.OnMouseDown.bind(this));
-        canvas.addEventListener("mouseup", this.OnMouseUp.bind(this));
+        // Subscribe input events
+        GameManager.gameObserver.Subscribe("OnMouseUp", this.OnMouseUp.bind(this));
+        GameManager.gameObserver.Subscribe("OnMouseDown", this.OnMouseDown.bind(this));
 
-        GameManager.gameObserver.Subscribe("OnPointerEnter", this.SetNewViewTarget.bind(this));
+        // Subscribe custom eventsd
+        GameManager.gameObserver.Subscribe("OnTargetSelected", this.SetNewViewTarget.bind(this));
     }
 
     Start() {
-        this.cameraRaycaster = new CameraRaycaster(this.mainCamera);
+        this.celestialObjectSelector = new CelestialObjectSelector(this.mainCamera);
 
         // Setup default controls
         this.orbitControls = new OrbitControls(this.mainCamera.GetControlledCamera(), this.renderer.domElement);
@@ -67,6 +67,7 @@ class CameraController extends GameObject {
             this.orbitControls,
             cameraController
         );
+
         const cameraTransform = {
             CaptureCameraLastPosition: this.cameraTransformHandler.CaptureCameraLastPosition.bind(this.cameraTransformHandler)
         };
@@ -79,6 +80,7 @@ class CameraController extends GameObject {
             0.4,
             0.2
         );
+
         const cameraZoomHandler = {
             GetMinZoomDistance: this.cameraZoomHandler.GetMinZoomDistance.bind(this.cameraZoomHandler)
         };

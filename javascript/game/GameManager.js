@@ -5,6 +5,7 @@ import { Camera } from "./Camera/Camera.js";
 import { CameraController } from "./Camera/CameraController.js";
 import { CometManager } from "./Comets/CometManager.js";
 import { DataLoaderProvider } from "./Infrastructure/DataLoaders/DataLoaderProvider.js";
+import { EventManager } from "./Managers/EventManager/EventManager.js";
 import { GUI } from "../../node_modules/dat.gui/build/dat.gui.module.js";
 import { GameObjectManager } from "./Managers/GameObjectManager/GameObjectManager.js";
 import { GameObserver } from "./Observers/GameObserver.js";
@@ -46,8 +47,10 @@ export class GameManager {
     }
 
     async Initialise() {
+        this.eventManager = new EventManager();
         this.gameObjectManager = new GameObjectManager();
         this.gameState = new GlobalState();
+        this.eventManager = new EventManager();
         this.dataLoaderProvider = new DataLoaderProvider(this.serviceProvider);
         this.planetManager = new PlanetManager(this.serviceProvider, this.scene);
         this.asteroidManager = new AsteroidManager(this.serviceProvider);

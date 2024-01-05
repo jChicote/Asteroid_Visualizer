@@ -1,32 +1,18 @@
 import * as THREE from "../../../node_modules/three/build/three.module.js";
 import { GameManager } from "../GameManager.js";
-import { GameObject } from "../Entities/GameObject.js";
 import { ObjectValidator } from "../../utils/ObjectValidator.js";
 
-class CameraRaycaster extends GameObject {
+class CameraRaycaster {
     constructor(camera) {
-        super({ camera });
-    }
-
-    InitialiseFields(parameters) {
-        super.InitialiseFields(parameters);
-
         // Fields
-        this.camera = parameters.camera;
-        this.previousIntersect = {};
-        this.currentIntersect = {};
+        this.camera = camera;
+        this.previousIntersect = null;
+        this.currentIntersect = null;
         this.currentIntersectedState = IntersectState.NONE;
         this.pointer = new THREE.Vector2();
         this.raycaster = new THREE.Raycaster();
-    }
 
-    /* -------------------------------------------------------------------------- */
-    /*                              Lifecycle Methods                             */
-    /* -------------------------------------------------------------------------- */
-
-    Awake() {
-        const canvas = document.getElementById("canvas-container");
-        canvas.addEventListener("pointermove", this.OnMouseMove.bind(this), false);
+        GameManager.gameObserver.Subscribe("OnMouseMove", this.OnMouseMove.bind(this));
     }
 
     /* -------------------------------------------------------------------------- */
@@ -49,22 +35,26 @@ class CameraRaycaster extends GameObject {
         if (intersects.length > 0 && this.currentIntersectedState === IntersectState.NONE) {
             this.currentIntersectedState = IntersectState.ENTER;
             this.currentIntersect = intersects[0];
-            GameManager.gameObserver.Dispatch("OnPointerEnter", this.currentIntersect);
+            this.previousIntersect = intersects[0];
+            console.log("Enter");
+            // GameManager.gameObserver.Dispatch("OnPointerEnter", this.currentIntersect);
         } else if (intersects.length > 0 && this.currentIntersect.identifier === this.previousIntersect.identifier) {
             this.currentIntersectedState = IntersectState.HOVER;
             this.previousIntersect = this.currentIntersect;
-            console.log("Hover");
             // GameManager.gameObserver.Dispatch("OnPointerHover", { intersects });
         } else if (intersects.length === 0 && (this.currentIntersectedState === IntersectState.ENTER || this.currentIntersectedState === IntersectState.HOVER)) {
             this.currentIntersectedState = IntersectState.EXIT;
-            this.currentIntersect = {};
-            this.previousIntersect = {};
+            this.currentIntersect = null;
+            this.previousIntersect = null;
             console.log("Exit");
             // GameManager.gameObserver.Dispatch("OnPointerExit", { intersects: this.currentIntersect });
         } else {
             this.currentIntersectedState = IntersectState.NONE;
-            // console.log("None");
         }
+    }
+
+    GetCurrentIntersect() {
+        return this.currentIntersect;
     }
 
     RaycastFromPointer(pointer) {
