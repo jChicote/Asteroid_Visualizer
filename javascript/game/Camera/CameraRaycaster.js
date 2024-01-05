@@ -1,6 +1,6 @@
 import * as THREE from "../../../node_modules/three/build/three.module.js";
-import { GameManager } from "../GameManager.js";
 import { ObjectValidator } from "../../utils/ObjectValidator.js";
+import { GameManager } from "../GameManager.js";
 
 class CameraRaycaster {
     constructor(camera) {
@@ -47,7 +47,7 @@ class CameraRaycaster {
             this.currentIntersectedState = IntersectState.ENTER;
             this.currentIntersect = intersects[0];
             this.previousIntersect = intersects[0];
-            console.log("Enter");
+            // console.log("Enter");
             // GameManager.gameObserver.Dispatch("OnPointerEnter", this.currentIntersect);
         } else if (intersects.length > 0 && this.currentIntersect.identifier === this.previousIntersect.identifier) {
             this.currentIntersectedState = IntersectState.HOVER;
@@ -57,7 +57,7 @@ class CameraRaycaster {
             this.currentIntersectedState = IntersectState.EXIT;
             this.currentIntersect = null;
             this.previousIntersect = null;
-            console.log("Exit");
+            // console.log("Exit");
             // GameManager.gameObserver.Dispatch("OnPointerExit", { intersects: this.currentIntersect });
         } else {
             this.currentIntersectedState = IntersectState.NONE;
