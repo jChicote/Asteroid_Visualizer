@@ -1,8 +1,8 @@
-import { VisualiserConfiguration } from "../../../../main.js";
+import { SolarSystemVisualizer } from "../../../../main.js";
 
 class MaterialConfigurationProvider {
     constructor() {
-        this.materialConfigurations = VisualiserConfiguration().materialConfigurations;
+        this.materialConfigurations = SolarSystemVisualizer.gameConfiguration.materialConfigurations;
     }
 
     GetMaterialConfiguration(key) {

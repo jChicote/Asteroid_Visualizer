@@ -1,4 +1,4 @@
-import { Container } from "../../main.js";
+import { SolarSystemVisualizer } from "../../main.js";
 import { ConfigureApplicationMapperConfigurations, RegisterApplicationServices } from "../assets/Application/DependencyInjection/ApplicationServiceRegistration.js";
 import { RegisterDomainServices } from "../assets/Domain/DependencyInjection/DomainServiceRegistration.js";
 import { ConfigureFrameworkMapperConfigurations, RegisterFrameworkServices } from "../assets/Framework/DependencyInjection/FrameworkServiceRegistration.js";
@@ -11,7 +11,7 @@ import { RegisterGameServices } from "../game/Infrastructure/DependencyInjection
 
 class Configuration {
     ConfigureProject() {
-        const container = Container();
+        const container = SolarSystemVisualizer.serviceContainer; // Referenced in variable for readability.
         container.RegisterService(ServiceProvider, {}, ServiceScopes.Singleton);
 
         const serviceProvider = container.Resolve(ServiceProvider);

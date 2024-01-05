@@ -1,4 +1,4 @@
-import { VisualiserManager } from "../../../../main.js";
+import { SolarSystemVisualizer } from "../../../../main.js";
 
 class CelestialOrbitalMotionLogic {
     constructor() {
@@ -16,7 +16,7 @@ class CelestialOrbitalMotionLogic {
 
     CalculateTimeStep(orbitalPeriod) {
         // Calculates the time step assuming synchronous sidereal rotation. Orbital Period = Sidereal Day Period.
-        return orbitalPeriod / (orbitalPeriod * 24 * 3600) * VisualiserManager().gameState.timeStepResolution;
+        return orbitalPeriod / (orbitalPeriod * 24 * 3600) * SolarSystemVisualizer.gameManager.gameState.timeStepResolution;
     }
 
     GetAngularVelocity(rotationalPeriod) {
@@ -24,7 +24,7 @@ class CelestialOrbitalMotionLogic {
     }
 
     GetTimeStepInDays(orbitalPeriod, sideRealDayPeriod) {
-        return orbitalPeriod / (sideRealDayPeriod * 24 * 3600) * VisualiserManager().gameState.timeStepResolution;
+        return orbitalPeriod / (sideRealDayPeriod * 24 * 3600) * SolarSystemVisualizer.gameManager.gameState.timeStepResolution;
     }
 
     GetMeanMotion(orbitalPeriod) {

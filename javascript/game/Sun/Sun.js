@@ -2,11 +2,11 @@ import * as THREE from "../../../../node_modules/three/build/three.module.js";
 import { GameObject } from "../Entities/GameObject.js";
 import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
 import { SunMaterialConfiguration } from "./SunMaterialConfiguration.js";
-import { VisualiserManager } from "../../../main.js";
+import { GameManager } from "../GameManager.js";
 
 class Sun extends GameObject {
-    constructor() {
-        super();
+    InitialiseFields(paramters) {
+        super.InitialiseFields(paramters);
 
         // Fields
         this.pointLight = this.CreateLightSource();
@@ -14,7 +14,7 @@ class Sun extends GameObject {
 
         // Components
         this.materialRenderer = new MaterialRenderer(new SunMaterialConfiguration());
-        this.renderedObject = this.CreateRenderedObject(5, 0xFFFFFF, new THREE.Vector3(0, 0, 0));
+        this.renderedObject = this.CreateRenderedObject(this.GetRadius(), 0xFFFFFF, new THREE.Vector3(0, 0, 0));
 
         // Debug
         this.DrawDebug();
@@ -25,28 +25,32 @@ class Sun extends GameObject {
     }
 
     Update() {
-        // const elapsedTime = performance.now() / 1000; // TODO: Each component should subscribe to a an Update and Start event. Coupling components to the GameObject is not ideal.
         this.currentTime += this.deltaTime;
         this.materialRenderer.material.uniforms.time.value = this.currentTime;
     }
 
     CreateRenderedObject(radius, hexColor, position) {
-        const star = new THREE.Mesh(
+        const mesh = new THREE.Mesh(
             new THREE.SphereGeometry(radius, 48, 16),
             this.materialRenderer.GetMaterial()
         );
-        this.SetVector(star, position);
 
-        VisualiserManager().scene.add(star);
+        mesh.gameObject = this;
+        this.SetVector(mesh, position);
+        GameManager.scene.add(mesh);
 
-        return star;
+        return mesh;
+    }
+
+    GetRadius() {
+        return 5;
     }
 
     CreateLightSource() {
         const pointLight = new THREE.PointLight(0xFFFFFF, 50000, 0);
         this.SetVector(pointLight, new THREE.Vector3(0, 0, 0));
 
-        VisualiserManager().scene.add(pointLight);
+        GameManager.scene.add(pointLight);
 
         return pointLight;
     }
@@ -54,7 +58,7 @@ class Sun extends GameObject {
     DrawDebug() {
         // Create light helper
         const pointLightHelper = new THREE.PointLightHelper(this.pointLight, 10);
-        VisualiserManager().scene.add(pointLightHelper);
+        GameManager.scene.add(pointLightHelper);
     }
 }
 

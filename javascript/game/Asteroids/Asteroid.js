@@ -1,48 +1,60 @@
-import { VisualiserManager } from "../../../main.js";
 import * as THREE from "../../../node_modules/three/build/three.module.js";
-import { MathHelper } from "../../utils/math-library.js";
 import { CelestialOrbitalMotionLogic } from "../Components/OrbitalMechanics/CelestialOrbitalMotionLogic.js";
-import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
+import { GameManager } from "../GameManager.js";
 import { GameObject } from "../Entities/GameObject.js";
+import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
+import { MathHelper } from "../../utils/math-library.js";
+import { SolarSystemVisualizer } from "../../../main.js";
 
 class Asteroid extends GameObject {
     constructor(asteroidData, materialConfigurationProvider) {
-        super();
+        super({ asteroidData, materialConfigurationProvider });
+    }
 
-        // Components
-        this.asteroidState = new AsteroidState(asteroidData.meanAnomaly, 0);
-        this.materialRenderer = {};
-        this.orbitalMotion = new CelestialOrbitalMotionLogic();
+    InitialiseFields(parameters) {
+        super.InitialiseFields(parameters);
 
         // Fields
-        this.asteroidData = asteroidData;
-        this.orbitalPeriod = this.orbitalMotion.GetOrbitalPeriodInDays(asteroidData.semiMajorAxis);
+        this.asteroidData = parameters.asteroidData;
+        this.materialConfiguration = parameters.materialConfigurationProvider.GetMaterialConfiguration("GeneralAsteroid");
+        this.meanMotion = 0.0;
+        this.orbitalPeriod = 0.0;
+        this.renderedObject = {};
+        this.timeStep = 0.0;
+
+        // Components
+        this.asteroidState = new AsteroidState(parameters.asteroidData.meanAnomaly, 0);
+        this.materialRenderer = {};
+        this.orbitalMotion = new CelestialOrbitalMotionLogic();
+    }
+
+    Start() {
+        this.orbitalPeriod = this.orbitalMotion.GetOrbitalPeriodInDays(this.asteroidData.semiMajorAxis);
         this.meanMotion = MathHelper.ConvertDegreesToRadians(this.asteroidData.meanMotion);
         this.timeStep = this.orbitalMotion.CalculateTimeStep(this.asteroidData.orbitalPeriod);
-        this.renderedObject = {};
-
-        const asteroidMaterialConfiguration = materialConfigurationProvider.GetMaterialConfiguration("GeneralAsteroid");
-
-        this.materialRenderer = new MaterialRenderer(asteroidMaterialConfiguration);
+        this.materialRenderer = new MaterialRenderer(this.materialConfiguration);
         this.renderedObject = this.RenderAsteroid();
     }
 
     Update() {
+        if (SolarSystemVisualizer.gameManager.gameState.isPaused) {
+            return;
+        }
+
         this.UpdateOrbitalState();
         this.SetAsteroidPosition(this.renderedObject);
     }
 
     RenderAsteroid() {
-        const asteroid = new THREE.Mesh(
+        const mesh = new THREE.Mesh(
             new THREE.SphereGeometry(this.GetRadius(), 32, 16),
             this.materialRenderer.GetMaterial());
 
-        // This is temporary until we have proper orbital calculations and scaling relative to the sun and positions of the planets.
-        this.SetAsteroidPosition(asteroid);
+        mesh.gameObject = this;
+        this.SetAsteroidPosition(mesh);
+        GameManager.scene.add(mesh);
 
-        VisualiserManager().scene.add(asteroid);
-
-        return asteroid;
+        return mesh;
     }
 
     SetAsteroidPosition(asteroid) {
@@ -63,7 +75,7 @@ class Asteroid extends GameObject {
     }
 
     UpdateOrbitalState() {
-        this.asteroidState.currentTime += this.timeStep * VisualiserManager().gameState.timeMultiplier;
+        this.asteroidState.currentTime += this.timeStep * SolarSystemVisualizer.gameManager.gameState.timeMultiplier;
         this.asteroidState.meanAnomaly = this.orbitalMotion.GetCurrentMeanAnomaly(
             this.asteroidData.meanAnomaly,
             this.meanMotion,

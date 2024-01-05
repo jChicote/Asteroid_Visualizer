@@ -1,4 +1,3 @@
-import { VisualiserManager } from "../../../main.js";
 import { MaterialConfigurationProvider } from "../Infrastructure/Providers/MaterialConfigurationProvider.js";
 import { CometObserver } from "../Observers/CometObserver.js";
 import { Comet } from "./Comet.js";
@@ -7,7 +6,7 @@ class CometManager {
     constructor(serviceProvider) {
         // Fields
         this.comets = [];
-        this.serviceProvider = serviceProvider
+        this.serviceProvider = serviceProvider;
         this.cometObserver = serviceProvider.GetService(CometObserver);
 
         this.cometObserver.Subscribe("GetComets", this.CreateComets.bind(this));
@@ -21,14 +20,6 @@ class CometManager {
         }
 
         return this.comets;
-    }
-
-    UpdateComets() {
-        if (!VisualiserManager().gameState.isPaused) {
-            for (const comet of this.comets) {
-                comet.Update();
-            }
-        }
     }
 }
 

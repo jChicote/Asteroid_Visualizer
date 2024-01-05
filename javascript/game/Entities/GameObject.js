@@ -1,10 +1,31 @@
 import * as THREE from "../../../../node_modules/three/build/three.module.js";
+import { SolarSystemVisualizer } from "../../../main.js";
 import { Transform } from "../Components/Transformation/Transform.js";
 
 class GameObject extends Transform {
-    Start() { }
+    // Subclassed objects should initialise through the 'InitialiseFields' method.
+    constructor(parameters) {
+        super();
 
-    Update() { }
+        this.InitialiseFields(parameters);
+
+        // Subscribe Update event and sequentially invoke initialisation methods.
+        const gameObjectManager = SolarSystemVisualizer.gameManager.gameObjectManager;
+        gameObjectManager.AddGameObject(this);
+    }
+
+    InitialiseFields(parameters) {
+        this.enabled = false;
+        this.identifier = Math.floor(Math.random() * 1000);
+    }
+
+    Awake() {
+        this.enabled = true;
+    }
+
+    Start() { /* Empty awake intended to be overriden */ }
+
+    Update() { /* Empty awake intended to be overriden */ }
 }
 
 class DefaultMaterialConfiguration {
