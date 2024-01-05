@@ -7,6 +7,11 @@ const app = express();
 const port = 8080;
 const host = "localhost";
 
+const httpsAgent = new https.Agent({
+    keepAlive: true,
+    maxSockets: 50 // Adjust this based on your load requirements
+});
+
 // Enable CORS for all origins (not recommended for production)
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*"); // Allow requests from any origin
@@ -19,7 +24,11 @@ app.use((req, res, next) => {
 app.get("/proxy", (req, res) => {
     const targetUrl = decodeURI(req.query.url);
 
-    https.get(targetUrl, (responseFromTarget) => {
+    const options = {
+        agent: httpsAgent // Reuse connections
+    };
+
+    https.get(targetUrl, options, (responseFromTarget) => {
         console.log(targetUrl);
 
         if (responseFromTarget.statusCode !== 200) {

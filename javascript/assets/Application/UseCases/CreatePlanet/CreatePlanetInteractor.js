@@ -1,8 +1,8 @@
+import { ServiceExtractor } from "../../../../shared/DependencyInjectionServices/Utilities/ServiceExtractor.js";
+import { ObjectMapper } from "../../../../shared/Infrastructure/Mapper/ObjectMapper.js";
 import { Planet } from "../../../Domain/Entities/Planet.js";
 import { PlanetRepository } from "../../../Domain/Repositories/PlanetRepository.js";
 import { PlanetDto } from "../../Dtos/PlanetDto.js";
-import { ServiceExtractor } from "../../../../shared/DependencyInjectionServices/Utilities/ServiceExtractor.js";
-import { ObjectMapper } from "../../../../shared/Infrastructure/Mapper/ObjectMapper.js";
 import { CreatePlanetDataContainer } from "./CreatePlanetMapperConfiguration.js";
 
 /**
@@ -33,7 +33,7 @@ export class CreatePlanetInteractor {
         // Store planet domain entity
         await this.planetRepository.Add(planet);
 
-        await presenter.PresentsPlanetDataAsync(this.mapper.Map(dataContainer, PlanetDto));
+        await presenter.PresentsPlanetDataAsync(this.mapper.Map(planet, PlanetDto));
     }
 
     /**
@@ -64,8 +64,13 @@ export class CreatePlanetInteractor {
      */
     async ExtractHeliocentricData(heliocentricSection) {
         const heliocentricData = {
+            argumentOfPerihelion: "",
             eccentricity: "",
+            inclination: "",
+            longitudeOfAscendingNode: "",
             meanAnomaly: "",
+            meanMotion: "",
+            perihelionDistance: "",
             semiMajorAxis: ""
         };
 
@@ -83,6 +88,17 @@ export class CreatePlanetInteractor {
                             heliocentricData.meanAnomaly = this.ParseValidFloat(data.value);
                         } else if (data.key === "A") {
                             heliocentricData.semiMajorAxis = this.ParseValidFloat(data.value);
+                        } else if (data.key === "IN") {
+                            heliocentricData.inclination = this.ParseValidFloat(data.value);
+                        } else if (data.key === "OM") {
+                            heliocentricData.longitudeOfAscendingNode = this.ParseValidFloat(data.value);
+                        } else if (data.key === "W") {
+                            heliocentricData.argumentOfPerihelion = this.ParseValidFloat(data.value);
+                        } else if (data.key === "QR") {
+                            heliocentricData.perihelionDistance = this.ParseValidFloat(data.value);
+                        } else if (data.key === "N") {
+                            const originalMeanMotion = this.ParseValidFloat(data.value);
+                            heliocentricData.meanMotion = originalMeanMotion * 86400; // Converts from degrees per second to degrees per day
                         }
                     });
                 }

@@ -1,17 +1,17 @@
-import { Container } from "../../main.js";
-import { RegisterApplicationServices, ConfigureApplicationMapperConfigurations } from "../assets/Application/DependencyInjection/ApplicationServiceRegistration.js";
+import { SolarSystemVisualizer } from "../../main.js";
+import { ConfigureApplicationMapperConfigurations, RegisterApplicationServices } from "../assets/Application/DependencyInjection/ApplicationServiceRegistration.js";
 import { RegisterDomainServices } from "../assets/Domain/DependencyInjection/DomainServiceRegistration.js";
-import { RegisterFrameworkServices, ConfigureFrameworkMapperConfigurations } from "../assets/Framework/DependencyInjection/FrameworkServiceRegistration.js";
+import { ConfigureFrameworkMapperConfigurations, RegisterFrameworkServices } from "../assets/Framework/DependencyInjection/FrameworkServiceRegistration.js";
 import { RegisterInterfaceAdapterServices } from "../assets/InterfaceAdapters/DependencyInjection/InterfaceAdapterRegistration.js";
 import { ServiceScopes } from "./DependencyInjectionServices/ServiceContainer.js";
 import { ServiceProvider } from "./DependencyInjectionServices/ServiceProvider.js";
 import { RegisterSharedServices } from "./DependencyInjectionServices/SharedServiceRegistration.js";
 import { ObjectMapper } from "./Infrastructure/Mapper/ObjectMapper.js";
-import { PlanetObserver } from "./Observers/PlanetObserver.js";
+import { RegisterGameServices } from "../game/Infrastructure/DependencyInjection/GameServiceRegistration.js";
 
-export class Configuration {
+class Configuration {
     ConfigureProject() {
-        const container = Container();
+        const container = SolarSystemVisualizer.serviceContainer; // Referenced in variable for readability.
         container.RegisterService(ServiceProvider, {}, ServiceScopes.Singleton);
 
         const serviceProvider = container.Resolve(ServiceProvider);
@@ -22,15 +22,15 @@ export class Configuration {
         RegisterApplicationServices(container);
         RegisterInterfaceAdapterServices(container);
         RegisterFrameworkServices(container);
+        RegisterGameServices(container);
 
         // Configure mapper
         const mapper = serviceProvider.GetService(ObjectMapper);
         ConfigureApplicationMapperConfigurations(mapper);
         ConfigureFrameworkMapperConfigurations(mapper);
 
-        // Configure observers between game and web areas of concern
-        container.RegisterService(PlanetObserver, {}, ServiceScopes.Singleton);
-
         return 0;
     }
 }
+
+export { Configuration };

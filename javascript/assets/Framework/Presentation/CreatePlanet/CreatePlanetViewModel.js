@@ -3,25 +3,31 @@
  */
 export class CreatePlanetViewModel {
     constructor(
-        startDate,
+        argumentOfPerihelion,
         eccentricity,
         endDate,
-        obliquityToOrbit,
-        orbitalSpeed,
+        inclination,
+        longitudeOfAscendingNode,
         meanAnomaly,
         meanSolarDay,
+        obliquityToOrbit,
+        orbitalSpeed,
+        planetRadius,
         semiMajorAxis,
         sideRealDayPeriod,
-        planetRadius) {
-        this.startDate = startDate;
+        startDate) {
+        this.argumentOfPerihelion = argumentOfPerihelion;
         this.eccentricity = eccentricity;
         this.endDate = endDate;
-        this.obliquityToOrbit = obliquityToOrbit;
-        this.orbitalSpeed = orbitalSpeed;
+        this.inclination = inclination;
+        this.longitudeOfAscendingNode = longitudeOfAscendingNode;
         this.meanAnomaly = meanAnomaly;
         this.meanSolarDay = meanSolarDay;
+        this.obliquityToOrbit = obliquityToOrbit;
+        this.orbitalSpeed = orbitalSpeed;
+        this.planetRadius = planetRadius;
         this.semiMajorAxis = semiMajorAxis;
         this.sideRealDayPeriod = sideRealDayPeriod;
-        this.planetRadius = planetRadius;
+        this.startDate = startDate;
     }
 }

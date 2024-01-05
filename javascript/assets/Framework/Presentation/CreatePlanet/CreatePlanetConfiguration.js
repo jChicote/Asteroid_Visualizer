@@ -1,6 +1,6 @@
+import { BaseObjectMapperConfiguration } from "../../../../shared/Infrastructure/Mapper/BaseObjectMapperConfiguration.js";
 import { PlanetDto } from "../../../Application/Dtos/PlanetDto.js";
 import { CreatePlanetViewModel } from "./CreatePlanetViewModel.js";
-import { BaseObjectMapperConfiguration } from "../../../../shared/Infrastructure/Mapper/BaseObjectMapperConfiguration.js";
 
 export class CreatePlanetConfiguration extends BaseObjectMapperConfiguration {
     RegisterConfigurations(mapper) {
@@ -8,16 +8,19 @@ export class CreatePlanetConfiguration extends BaseObjectMapperConfiguration {
     }
 
     MapPlanetDtoToCreatePlanetViewModel(planetDto, createPlanetViewModel) {
-        createPlanetViewModel.startDate = planetDto.startDate;
+        createPlanetViewModel.argumentOfPerihelion = planetDto.argumentOfPerihelion;
         createPlanetViewModel.eccentricity = planetDto.eccentricity;
         createPlanetViewModel.endDate = planetDto.endDate;
-        createPlanetViewModel.obliquityToOrbit = planetDto.obliquityToOrbit;
-        createPlanetViewModel.orbitalSpeed = planetDto.orbitalSpeed;
+        createPlanetViewModel.inclination = planetDto.inclination;
+        createPlanetViewModel.longitudeOfAscendingNode = planetDto.longitudeOfAscendingNode;
         createPlanetViewModel.meanAnomaly = planetDto.meanAnomaly;
         createPlanetViewModel.meanSolarDay = planetDto.meanSolarDay;
+        createPlanetViewModel.obliquityToOrbit = planetDto.obliquityToOrbit;
+        createPlanetViewModel.orbitalSpeed = planetDto.orbitalSpeed;
+        createPlanetViewModel.planetRadius = planetDto.planetRadius;
         createPlanetViewModel.semiMajorAxis = planetDto.semiMajorAxis;
         createPlanetViewModel.sideRealDayPeriod = planetDto.sideRealDayPeriod;
-        createPlanetViewModel.planetRadius = planetDto.planetRadius;
+        createPlanetViewModel.startDate = planetDto.startDate;
 
         return createPlanetViewModel;
     }

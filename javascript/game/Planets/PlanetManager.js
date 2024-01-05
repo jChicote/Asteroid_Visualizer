@@ -1,5 +1,6 @@
-import { PlanetObserver } from "../../shared/Observers/PlanetObserver.js";
-import { Planet } from "../Entities/Planet.js";
+import { MaterialConfigurationProvider } from "../Infrastructure/Providers/MaterialConfigurationProvider.js";
+import { Planet } from "./Planet.js";
+import { PlanetObserver } from "../Observers/PlanetObserver.js";
 
 export const PlanetCodes = {
     Mercury: "199",
@@ -17,22 +18,19 @@ export class PlanetManager {
     constructor(serviceProvider, scene) {
         this.planets = [];
         this.timeStep = 4;
+        this.serviceProvider = serviceProvider;
 
         this.planetObserver = serviceProvider.GetService(PlanetObserver);
         this.planetObserver.Subscribe("GetPlanets", this.CreateMainPlanets.bind(this));
     }
 
     CreateMainPlanets(planets) {
+        const materialConfigurationProvider = this.serviceProvider.GetService(MaterialConfigurationProvider);
+
         for (const planet of planets) {
-            this.planets.push(new Planet(planet.planetCode, planet));
+            this.planets.push(new Planet(planet.planetCode, planet, materialConfigurationProvider));
         }
 
         return this.planets;
-    }
-
-    UpdatePlanets() {
-        for (const planet of this.planets) {
-            planet.Update();
-        }
     }
 }
