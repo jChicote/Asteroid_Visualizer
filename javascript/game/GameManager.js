@@ -125,6 +125,19 @@ export class GameManager {
         globalPhysicalProperties.add(this.gameState, "physicalRadiusMultiplier", 1, 25, 0.1);
         globalPhysicalProperties.add(this.gameState, "distanceToSunMultiplier", 1, 20, 0.1);
 
+        // Scene section
+        const sceneProperties = GameManager.debugGui.addFolder("Scene Properties");
+        sceneProperties.add(this.gameState, "isLightActive").onChange(isLightActive => {
+            if (isLightActive) {
+                this.camera.cameraLight.EnableLight();
+            } else {
+                this.camera.cameraLight.DisableLight();
+            }
+        });
+        sceneProperties.add(this.gameState, "lightIntensity", 10, 200, 1).onChange(lightIntensity => {
+            this.camera.cameraLight.SetLightIntensity(lightIntensity);
+        });
+
         this.SetupDebugHelpers();
     }
 }
