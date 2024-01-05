@@ -77,6 +77,11 @@ class CameraZoomHandler {
         }
     }
 
+    SetMinZoomDistance(radius) {
+        this.zoomMinDistance = radius + (2 * radius);
+        console.log(this.zoomMinDistance);
+    }
+
     GetMaxZoomDistance() {
         return this.zoomMaxDistance;
     }

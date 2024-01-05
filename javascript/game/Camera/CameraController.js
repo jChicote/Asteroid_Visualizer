@@ -145,6 +145,8 @@ class CameraController extends GameObject {
         this.EnableLerp();
         this.viewTarget = target;
         this.viewTargetPosition = target.object.position.clone();
+
+        this.cameraZoomHandler.SetMinZoomDistance(target.object.gameObject.GetRadius());
     }
 
     IsControllerInteracting() {

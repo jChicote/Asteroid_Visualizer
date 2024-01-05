@@ -60,11 +60,11 @@ export class GameManager {
         this.textureManager = new TextureManager(this.serviceProvider);
 
         // Load celestial objects
-        // const asteroidDataLoader = await this.dataLoaderProvider.CreateDataLoader("Asteroids");
-        // await asteroidDataLoader.LoadAsync();
+        const asteroidDataLoader = await this.dataLoaderProvider.CreateDataLoader("Asteroids");
+        await asteroidDataLoader.LoadAsync();
 
-        // const cometsDataLoader = await this.dataLoaderProvider.CreateDataLoader("Comets");
-        // await cometsDataLoader.LoadAsync();
+        const cometsDataLoader = await this.dataLoaderProvider.CreateDataLoader("Comets");
+        await cometsDataLoader.LoadAsync();
 
         const planetDataLoader = await this.dataLoaderProvider.CreateDataLoader("Planets");
         await planetDataLoader.LoadAsync();

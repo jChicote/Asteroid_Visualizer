@@ -31,6 +31,17 @@ class CameraRaycaster {
     /*                                   Methods                                  */
     /* -------------------------------------------------------------------------- */
 
+    RaycastFromPointer(pointer) {
+        // Performs raycast
+        this.raycaster.setFromCamera(pointer, this.camera.GetControlledCamera());
+
+        const intersects = this.raycaster
+            .intersectObjects(GameManager.scene.children, false)
+            .filter(intersect =>
+                ObjectValidator.IsValid(intersect.object.gameObject));
+        this.SetCurrentState(intersects);
+    }
+
     SetCurrentState(intersects) {
         if (intersects.length > 0 && this.currentIntersectedState === IntersectState.NONE) {
             this.currentIntersectedState = IntersectState.ENTER;
@@ -55,17 +66,6 @@ class CameraRaycaster {
 
     GetCurrentIntersect() {
         return this.currentIntersect;
-    }
-
-    RaycastFromPointer(pointer) {
-        // Performs raycast
-        this.raycaster.setFromCamera(pointer, this.camera.GetControlledCamera());
-
-        const intersects = this.raycaster
-            .intersectObjects(GameManager.scene.children, false)
-            .filter(intersect =>
-                ObjectValidator.IsValid(intersect.object.gameObject));
-        this.SetCurrentState(intersects);
     }
 }
 

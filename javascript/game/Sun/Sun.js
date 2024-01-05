@@ -14,7 +14,7 @@ class Sun extends GameObject {
 
         // Components
         this.materialRenderer = new MaterialRenderer(new SunMaterialConfiguration());
-        this.renderedObject = this.CreateRenderedObject(5, 0xFFFFFF, new THREE.Vector3(0, 0, 0));
+        this.renderedObject = this.CreateRenderedObject(this.GetRadius(), 0xFFFFFF, new THREE.Vector3(0, 0, 0));
 
         // Debug
         this.DrawDebug();
@@ -40,6 +40,10 @@ class Sun extends GameObject {
         GameManager.scene.add(mesh);
 
         return mesh;
+    }
+
+    GetRadius() {
+        return 5;
     }
 
     CreateLightSource() {

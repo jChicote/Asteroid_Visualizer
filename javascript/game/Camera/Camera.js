@@ -3,7 +3,7 @@ import { GameObject } from "../Entities/GameObject.js";
 
 class Camera extends GameObject {
     InitialiseFields() {
-        this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 6000);
+        this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.4, 6000);
         this.SetPosition(new THREE.Vector3(30, 20, 45));
     }
 

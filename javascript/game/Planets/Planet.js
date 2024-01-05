@@ -51,7 +51,7 @@ export class Planet extends GameObject {
 
     RenderPlanet() {
         const mesh = new THREE.Mesh(
-            new THREE.SphereGeometry(this.GetPlanetRadius(), 32, 16),
+            new THREE.SphereGeometry(this.GetRadius(), 32, 16),
             this.materialRenderer.GetMaterial());
 
         mesh.gameObject = this;
@@ -90,7 +90,7 @@ export class Planet extends GameObject {
         return this.planetCode;
     }
 
-    GetPlanetRadius() {
+    GetRadius() {
         return this.planetData.planetRadius * 0.0001; // TODO: ABstract this to make this dynamically scaled
     }
 
