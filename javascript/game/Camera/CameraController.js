@@ -1,10 +1,10 @@
-import { OrbitControls } from "../../../addons/OrbitControls.js";
 import * as THREE from "../../../node_modules/three/build/three.module.js";
-import { ObjectValidator } from "../../utils/ObjectValidator.js";
-import { GameObject } from "../Entities/GameObject.js";
-import { GameManager } from "../GameManager.js";
 import { CameraRaycaster } from "./CameraRaycaster.js";
 import { CameraZoomHandler } from "./CameraZoomHandler.js";
+import { GameManager } from "../GameManager.js";
+import { GameObject } from "../Entities/GameObject.js";
+import { ObjectValidator } from "../../utils/ObjectValidator.js";
+import { OrbitControls } from "../../../addons/OrbitControls.js";
 
 class CameraController extends GameObject {
     constructor(camera, renderer) {
@@ -24,7 +24,6 @@ class CameraController extends GameObject {
         this.lastPosition = new THREE.Vector3();
         this.lerpFactor = 0.05;
         this.mainCamera = parameters.camera;
-        this.orbitControls = {};
         this.renderer = parameters.renderer;
         this.targetRotation = new THREE.Quaternion();
         this.viewTargetPosition = new THREE.Vector3(); // Default the sun as the origin.
@@ -34,28 +33,19 @@ class CameraController extends GameObject {
         this.zoomSpeed = 0.2; // Adjust this value based on your sensitivity preference
 
         // Components
-        this.cameraZoomHandler = new CameraZoomHandler(
-            this.mainCamera,
-            {
-                CaptureCameraLastPosition: this.CaptureCameraLastPosition.bind(this),
-                DisableLerp: this.DisableLerp.bind(this),
-                GetViewTargetPosition: this.GetViewTargetPosition.bind(this),
-                IsControllerInteracting: this.IsControllerInteracting.bind(this)
-            },
-            this.zoomMaxDistance,
-            this.zoomMinDistance,
-            this.zoomSpeed
-        );
+        this.orbitControls = {};
+        this.cameraZoomHandler = {};
     }
+
+    /* -------------------------------------------------------------------------- */
+    /*                              Lifecycle Methods                             */
+    /* -------------------------------------------------------------------------- */
 
     Awake() {
         // Handle Events
-        // const onMouseWheelEndEvent = this.cameraZoomController.OnMouseWheelTimeout().bind(this.cameraZoomController);
-
         const canvas = document.getElementById("canvas-container");
         canvas.addEventListener("mousedown", this.OnMouseDown.bind(this));
         canvas.addEventListener("mouseup", this.OnMouseUp.bind(this));
-        // canvas.addEventListener("wheel", this.OnMouseWheel.bind(this), 300);
 
         GameManager.gameObserver.Subscribe("OnPointerEnter", this.SetNewViewTarget.bind(this));
     }
@@ -71,30 +61,21 @@ class CameraController extends GameObject {
         this.orbitControls.target = this.viewTargetPosition;
         this.orbitControls.update();
 
+        this.cameraZoomHandler = new CameraZoomHandler(
+            this.mainCamera,
+            {
+                CaptureCameraLastPosition: this.CaptureCameraLastPosition.bind(this),
+                DisableLerp: this.DisableLerp.bind(this),
+                GetViewTargetPosition: this.GetViewTargetPosition.bind(this),
+                IsControllerInteracting: this.IsControllerInteracting.bind(this)
+            },
+            this.zoomMaxDistance,
+            this.zoomMinDistance,
+            this.zoomSpeed
+        );
+
         this.cameraRaycaster = new CameraRaycaster(this.mainCamera);
     }
-
-    // Events
-
-    OnMouseUp(event) {
-        this.isInteracting = false;
-    }
-
-    OnMouseDown(event) {
-        this.isInteracting = true;
-    }
-
-    // OnMouseWheel(event) {
-    //     this.DisableLerp();
-    //     this.zoomSignedDirection = Math.sign(event.deltaY);
-    //     setTimeout(this.OnMouseWheelTimeout.bind(this), 300);
-    // }
-
-    // OnMouseWheelTimeout() {
-    //     this.zoomSignedDirection = 0.0;
-    // }
-
-    // Methods
 
     Update() {
         if (ObjectValidator.IsValid(this.viewTarget)) {
@@ -112,29 +93,21 @@ class CameraController extends GameObject {
         }
     }
 
-    // CalculateZoom() {
-    //     if (this.zoomSignedDirection === 0.0) {
-    //         return;
-    //     }
+    /* -------------------------------------------------------------------------- */
+    /*                               Event Handlers                               */
+    /* -------------------------------------------------------------------------- */
 
-    //     const direction = new THREE.Vector3().subVectors(
-    //         this.orbitControls.target,
-    //         this.mainCamera.GetPosition()
-    //     ).normalize();
+    OnMouseUp(event) {
+        this.isInteracting = false;
+    }
 
-    //     let distance = this.mainCamera.GetPosition().distanceTo(this.viewTargetPosition);
-    //     distance += this.zoomSignedDirection * this.zoomSpeed; // This might be wrong. distance being the direction + the zoomspeed ????
-    //     distance = MathHelper.Clamp(distance, this.zoomMinDistance, this.zoomMaxDistance);
+    OnMouseDown(event) {
+        this.isInteracting = true;
+    }
 
-    //     const newPosition = direction.multiplyScalar(-distance).add(this.viewTargetPosition);
-
-    //     // Sets the last position to the current position if not interacting the orbit controls.
-    //     if (!this.isInteracting) {
-    //         this.lastPosition.copy(newPosition).sub(this.viewTargetPosition);
-    //     } else {
-    //         this.mainCamera.SetPosition(newPosition);
-    //     }
-    // }
+    /* -------------------------------------------------------------------------- */
+    /*                                   Methods                                  */
+    /* -------------------------------------------------------------------------- */
 
     DisableLerp() {
         this.isLerping = false;
@@ -210,6 +183,7 @@ class CameraController extends GameObject {
         this.initialCameraPosition = this.mainCamera.GetPosition();
         this.EnableLerp();
         this.viewTarget = target;
+        this.viewTargetPosition = target.object.position.clone();
     }
 
     CaptureCameraLastPosition() {

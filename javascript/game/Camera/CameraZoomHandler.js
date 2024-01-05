@@ -28,6 +28,10 @@ class CameraZoomHandler {
         canvas.addEventListener("wheel", this.OnMouseWheel.bind(this));
     }
 
+    /* -------------------------------------------------------------------------- */
+    /*                               Event Handlers                               */
+    /* -------------------------------------------------------------------------- */
+
     OnMouseWheel(event) {
         this.cameraController.DisableLerp();
         this.zoomSignedDirection = Math.sign(event.deltaY);
@@ -39,12 +43,14 @@ class CameraZoomHandler {
         this.zoomSignedDirection = 0.0;
     }
 
+    /* -------------------------------------------------------------------------- */
+    /*                                   Methods                                  */
+    /* -------------------------------------------------------------------------- */
+
     CalculateZoom() {
-        if (this.zoomSignedDirection === 0.0) {
+        if (!MathHelper.IsNotZero(this.zoomSignedDirection)) {
             return;
         }
-
-        console.log(this.zoomSignedDirection);
 
         const direction = new THREE.Vector3().subVectors(
             this.cameraController.GetViewTargetPosition().clone(),
@@ -62,6 +68,7 @@ class CameraZoomHandler {
 
         // Sets the last position to the current position if not interacting the orbit controls.
         if (!this.cameraController.IsControllerInteracting()) {
+            this.camera.SetPosition(newPosition);
             this.cameraController.CaptureCameraLastPosition();
         } else {
             this.camera.SetPosition(newPosition);

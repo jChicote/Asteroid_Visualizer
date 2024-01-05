@@ -1,3 +1,5 @@
+import { ObjectValidator } from "./ObjectValidator.js";
+
 class MathHelper {
     static ConvertDegreesToRadians(degrees) {
         return degrees * Math.PI / 180;
@@ -21,6 +23,10 @@ class MathHelper {
 
     static Clamp(value, min, max) {
         return Math.min(Math.max(value, min), max);
+    }
+
+    static IsNotZero(value) {
+        return ObjectValidator.IsValid(value) && value !== 0;
     }
 }
 
