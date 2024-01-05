@@ -8,6 +8,13 @@ class SaturnPlanetMaterialConfiguration extends MaterialConfiguration {
 
         this.key = "699";
         this.defaultMaterial = new THREE.MeshStandardMaterial({ color: DefaultPlanetColor.Saturn });
+        this.ringConfiguration = {
+            textureConfiguration: {
+                textureMaps: new TextureMaps({
+                    albedoPath: "../../../../../images/Planets/Saturn/saturn-ring-albedo.png"
+                })
+            }
+        };
         this.textureConfiguration = {
             textureMaps: new TextureMaps({
                 albedoPath: "../../../../../images/Planets/Saturn/saturn-albedo.jpg"
