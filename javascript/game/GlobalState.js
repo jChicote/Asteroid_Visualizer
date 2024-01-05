@@ -11,6 +11,10 @@ class GlobalState {
         // Celestial Objects
         this.physicalRadiusMultiplier = 1;
         this.distanceToSunMultiplier = 1;
+
+        // Scene Properties
+        this.isLightActive = false;
+        this.lightIntensity = 50;
     }
 }
 
