@@ -5,6 +5,7 @@ import { GameManager } from "../GameManager.js";
 import { GameObject } from "../Entities/GameObject.js";
 import { ObjectValidator } from "../../utils/ObjectValidator.js";
 import { OrbitControls } from "../../../addons/OrbitControls.js";
+import { CameraTransformHandler } from "./CameraTransformHandler.js";
 
 class CameraController extends GameObject {
     constructor(camera, renderer) {
@@ -21,7 +22,6 @@ class CameraController extends GameObject {
         this.initialCameraPosition = new THREE.Vector3();
         this.isInteracting = false;
         this.isLerping = false;
-        this.lastPosition = new THREE.Vector3();
         this.lerpFactor = 0.05;
         this.mainCamera = parameters.camera;
         this.renderer = parameters.renderer;
@@ -35,6 +35,7 @@ class CameraController extends GameObject {
         // Components
         this.orbitControls = {};
         this.cameraZoomHandler = {};
+        this.cameraTransformHandler = {};
     }
 
     /* -------------------------------------------------------------------------- */
@@ -61,10 +62,19 @@ class CameraController extends GameObject {
         this.orbitControls.target = this.viewTargetPosition;
         this.orbitControls.update();
 
+        this.cameraTransformHandler = new CameraTransformHandler(
+            this.mainCamera,
+            this.orbitControls,
+            {
+                IsControllerInteracting: this.IsControllerInteracting.bind(this),
+                GetViewTargetPosition: this.GetViewTargetPosition.bind(this)
+            }
+        );
+
         this.cameraZoomHandler = new CameraZoomHandler(
             this.mainCamera,
             {
-                CaptureCameraLastPosition: this.CaptureCameraLastPosition.bind(this),
+                CaptureCameraLastPosition: this.cameraTransformHandler.CaptureCameraLastPosition.bind(this.cameraTransformHandler),
                 DisableLerp: this.DisableLerp.bind(this),
                 GetViewTargetPosition: this.GetViewTargetPosition.bind(this),
                 IsControllerInteracting: this.IsControllerInteracting.bind(this)
@@ -88,7 +98,7 @@ class CameraController extends GameObject {
             this.InterpolateToTargetPosition();
         } else {
             this.cameraZoomHandler.CalculateZoom();
-            this.FollowTarget();
+            this.cameraTransformHandler.FollowTarget();
             this.orbitControls.update();
         }
     }
@@ -119,14 +129,14 @@ class CameraController extends GameObject {
         this.orbitControls.enabled = false;
     }
 
-    FollowTarget() {
-        if (!this.isInteracting) {
-            this.mainCamera.SetPosition(this.viewTargetPosition).add(this.lastPosition);
-        }
+    // FollowTarget() {
+    //     if (!this.isInteracting) {
+    //         this.mainCamera.SetPosition(this.viewTargetPosition).add(this.lastPosition);
+    //     }
 
-        this.lastPosition.copy(this.mainCamera.GetPosition()).sub(this.viewTargetPosition);
-        this.orbitControls.target.copy(this.viewTargetPosition);
-    }
+    //     this.lastPosition.copy(this.mainCamera.GetPosition()).sub(this.viewTargetPosition);
+    //     this.orbitControls.target.copy(this.viewTargetPosition);
+    // }
 
     GetTargetRotation() {
         const lookAtMatrix = new THREE.Matrix4().lookAt(
@@ -158,7 +168,7 @@ class CameraController extends GameObject {
         const distanceToTarget = this.mainCamera.GetPosition().distanceTo(this.viewTargetPosition);
         if (distanceToTarget > this.zoomMinDistance) {
             this.mainCamera.SetPosition(newPosition);
-            this.lastPosition.copy(this.mainCamera.GetPosition()).sub(this.viewTargetPosition);
+            this.cameraTransformHandler.CaptureCameraLastPosition();
         }
 
         this.mainCamera.GetControlledCamera().quaternion.slerp(newRotation, this.lerpFactor);
@@ -184,10 +194,6 @@ class CameraController extends GameObject {
         this.EnableLerp();
         this.viewTarget = target;
         this.viewTargetPosition = target.object.position.clone();
-    }
-
-    CaptureCameraLastPosition() {
-        this.lastPosition.copy(this.mainCamera.GetPosition()).sub(this.viewTargetPosition);
     }
 
     IsControllerInteracting() {
