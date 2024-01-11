@@ -19,6 +19,7 @@ import { TimeControl } from "./Components/Time/TimeControl.js";
 
 export class GameManager {
     static scene;
+    static renderer;
     static debugGui;
     static gameObserver;
 
@@ -26,7 +27,6 @@ export class GameManager {
         // Fields
         this.camera = {};
         this.cameraController = {};
-        this.renderer = "";
         this.sun = "";
 
         // Static Fields
@@ -83,13 +83,13 @@ export class GameManager {
         this.gameObjectManager.UpdateGameObjects();
         this.sun.Update();
 
-        this.renderer.render(GameManager.scene, this.camera.GetControlledCamera());
+        GameManager.renderer.render(GameManager.scene, this.camera.GetControlledCamera());
     }
 
     SetupScene() {
-        this.renderer = new THREE.WebGLRenderer({ antialias: true });
-        this.renderer.setSize(window.innerWidth, window.innerHeight);
-        document.getElementById("canvas-container").appendChild(this.renderer.domElement);
+        GameManager.renderer = new THREE.WebGLRenderer({ antialias: true });
+        GameManager.renderer.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById("canvas-container").appendChild(GameManager.renderer.domElement);
 
         this.background = new Background();
         this.sun = new Sun();
@@ -99,7 +99,7 @@ export class GameManager {
 
     SetupCamera() {
         this.camera = new Camera();
-        this.cameraController = new CameraController(this.camera, this.renderer);
+        this.cameraController = new CameraController(this.camera, GameManager.renderer);
     }
 
     SetupDebugHelpers() {

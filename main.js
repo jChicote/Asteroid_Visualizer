@@ -1,11 +1,12 @@
+import * as THREE from "three/build/three.module.js";
+import React, { Component } from "react";
+import { AssetManager } from "./javascript/game/Managers/AssetManager/AssetManager.js";
 import { Configuration } from "./javascript/shared/Configuration.js";
+import { GameConfiguration } from "./javascript/game/GameConfiguration.js";
 import { GameManager } from "./javascript/game/GameManager.js";
+import { ObjectValidator } from "./javascript/utils/ObjectValidator.js";
 import { ServiceContainer } from "./javascript/shared/DependencyInjectionServices/ServiceContainer.js";
 import { ServiceProvider } from "./javascript/shared/DependencyInjectionServices/ServiceProvider.js";
-import * as THREE from "./node_modules/three/build/three.module.js";
-import { AssetManager } from "./javascript/game/Managers/AssetManager/AssetManager.js";
-import { GameConfiguration } from "./javascript/game/GameConfiguration.js";
-import { ObjectValidator } from "./javascript/utils/ObjectValidator.js";
 
 // This class is the entry point for the application.
 class SolarSystemVisualizer {
@@ -15,6 +16,10 @@ class SolarSystemVisualizer {
 
     constructor() {
         this.canUpdate = false;
+
+        // Enables caching of textures
+        THREE.Cache.enabled = true;
+        THREE.ColorManagement.enabled = true;
     }
 
     // Initializes scene
@@ -72,28 +77,67 @@ class SolarSystemVisualizer {
 
         console.log("Program can now start");
     }
+
+    Render() {
+        if (solarSystemVisualizer.canUpdate === false) {
+            return;
+        }
+
+        // Update the scene
+        SolarSystemVisualizer.gameManager.Update();
+
+        requestAnimationFrame(this.Render);
+    }
 }
 
-const solarSystemVisualizer = new SolarSystemVisualizer();
-
-// Enables caching of textures
-THREE.Cache.enabled = true;
-THREE.ColorManagement.enabled = true;
-
-// animate function used by Three.js
-async function animate() {
-    if (solarSystemVisualizer.canUpdate === false) {
-        return;
+class ThreeContainer extends Component {
+    constructor(props) {
+        super(props);
+        this.mount = React.createRef();
+        this.solarSystemVisualizer = new SolarSystemVisualizer();
     }
 
-    // Update the scene
-    SolarSystemVisualizer.gameManager.Update();
+    async GetRenderer() {
+        return GameManager.renderer;
+    }
 
-    requestAnimationFrame(animate);
+    async Construction() {
+        await this.solarSystemVisualizer.ProgramStarter();
+
+        const renderer = await this.GetRenderer();
+        this.mount.current.appendChild(renderer.domElement);
+    }
+
+    async DeConstruct() {
+        const renderer = await this.GetRenderer();
+        this.mount.removeChild(renderer.domElement);
+    }
+
+    // React Lifecycle Methods
+    componentDidMount() {
+        this.Construction();
+    }
+
+    componentWillUnmount() {
+        this.DeConstruct();
+    }
+
+    render() {
+        this.solarSystemVisualizer.Render();
+
+        return (
+            <div ref={ref => (this.mount = ref)} />
+        );
+    }
 }
 
-// Run application
-await solarSystemVisualizer.ProgramStarter();
-animate();
+// This is the entry point for the application.
+function App() {
+    return (
+        <div className="App">
+            <ThreeContainer />
+        </div>
+    );
+}
 
-export { SolarSystemVisualizer };
+export { SolarSystemVisualizer, App, ThreeContainer };
