@@ -26,19 +26,10 @@ class ThreeContainer extends Component {
         }
     }
 
-    // async DeConstruct() {
-    //     const renderer = await this.GetRenderer();
-    //     this.mount.removeChild(renderer.domElement);
-    // }
-
     // React Lifecycle Methods
     componentDidMount() {
         this.Construction();
     }
-
-    // componentWillUnmount() {
-    //     this.DeConstruct();
-    // }
 
     render() {
         return (

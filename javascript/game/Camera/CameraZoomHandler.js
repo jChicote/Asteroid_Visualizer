@@ -26,7 +26,7 @@ class CameraZoomHandler {
             300
         );
 
-        const canvas = document.getElementById("canvas-container");
+        const canvas = document.getElementById("root");
         canvas.addEventListener("wheel", this.OnMouseWheel.bind(this));
     }
 

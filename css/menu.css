@@ -80,3 +80,11 @@
   top: 60px;
   right: 2rem;
 }
+
+/* VISUALIZER CANVAS */
+
+#root {
+    position: fixed;
+    top: 6vh;
+    bottom: 6vh;
+}
