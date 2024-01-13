@@ -75,7 +75,7 @@
 
 /* DEBUG GUI */
 
-#gui {
+#debug-gui {
   position: absolute;
   top: 60px;
   right: 2rem;

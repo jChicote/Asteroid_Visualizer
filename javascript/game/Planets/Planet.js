@@ -47,10 +47,7 @@ export class Planet extends GameObject {
         // Note: This implementation will only work with saturn.
         if (ObjectValidator.IsValid(this.materialConfiguration.ringConfiguration)) {
             console.log("Planet with rings found");
-            console.log(this.planetCode);
             this.AddRings();
-
-            console.log(this.ring);
         }
     }
 
