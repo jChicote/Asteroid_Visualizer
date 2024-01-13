@@ -1,7 +1,7 @@
 import { ObjectValidator } from "../../../utils/ObjectValidator.js";
 import { ShaderLoader } from "./Loaders/ShaderLoader.js";
 import { TextureLoader } from "./Loaders/TextureLoader.js";
-import { SolarSystemVisualizer } from "../../../../main.js";
+import { SolarSystemVisualizer } from "../../../SolarSystemVisualizer.js";
 
 class AssetManager {
     constructor() {

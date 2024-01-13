@@ -5,7 +5,7 @@ import { GameObject } from "../Entities/GameObject.js";
 import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
 import { MathHelper } from "../../utils/math-library.js";
 import { ObjectValidator } from "../../utils/ObjectValidator.js";
-import { SolarSystemVisualizer } from "../../../main.js";
+import { SolarSystemVisualizer } from "../../SolarSystemVisualizer.js";
 
 export class Planet extends GameObject {
     constructor(planetCode, planetData, materialConfigurationProvider) {

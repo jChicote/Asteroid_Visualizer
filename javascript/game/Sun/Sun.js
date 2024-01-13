@@ -1,4 +1,4 @@
-import * as THREE from "../../../../node_modules/three/build/three.module.js";
+import * as THREE from "three";
 import { GameObject } from "../Entities/GameObject.js";
 import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
 import { SunMaterialConfiguration } from "./SunMaterialConfiguration.js";

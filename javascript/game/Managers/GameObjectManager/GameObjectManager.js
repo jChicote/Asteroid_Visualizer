@@ -1,5 +1,5 @@
 import { GameManager } from "../../GameManager.js";
-import { SolarSystemVisualizer } from "../../../../main.js";
+import { SolarSystemVisualizer } from "../../../SolarSystemVisualizer.js";
 
 class GameObjectManager {
     AddGameObject(gameObject) {

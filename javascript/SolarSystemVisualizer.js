@@ -1,14 +1,9 @@
-import * as THREE from "three/build/three.module.js";
-import React, { Component } from "react";
-import { AssetManager } from "./javascript/game/Managers/AssetManager/AssetManager.js";
-import { Configuration } from "./javascript/shared/Configuration.js";
-import { GameConfiguration } from "./javascript/game/GameConfiguration.js";
-import { GameManager } from "./javascript/game/GameManager.js";
-import { ObjectValidator } from "./javascript/utils/ObjectValidator.js";
-import { ServiceContainer } from "./javascript/shared/DependencyInjectionServices/ServiceContainer.js";
-import { ServiceProvider } from "./javascript/shared/DependencyInjectionServices/ServiceProvider.js";
+import * as THREE from "../node_modules/three/build/three.module.js";
+import { Configuration } from "./shared/Configuration.js";
+import { GameConfiguration } from "./game/GameConfiguration.js";
+import { GameManager } from "./game/GameManager.js";
+import { ServiceProvider } from "./shared/DependencyInjectionServices/ServiceProvider.js";
 
-// This class is the entry point for the application.
 class SolarSystemVisualizer {
     static gameManager = null;
     static gameConfiguration = null;
@@ -90,54 +85,4 @@ class SolarSystemVisualizer {
     }
 }
 
-class ThreeContainer extends Component {
-    constructor(props) {
-        super(props);
-        this.mount = React.createRef();
-        this.solarSystemVisualizer = new SolarSystemVisualizer();
-    }
-
-    async GetRenderer() {
-        return GameManager.renderer;
-    }
-
-    async Construction() {
-        await this.solarSystemVisualizer.ProgramStarter();
-
-        const renderer = await this.GetRenderer();
-        this.mount.current.appendChild(renderer.domElement);
-    }
-
-    async DeConstruct() {
-        const renderer = await this.GetRenderer();
-        this.mount.removeChild(renderer.domElement);
-    }
-
-    // React Lifecycle Methods
-    componentDidMount() {
-        this.Construction();
-    }
-
-    componentWillUnmount() {
-        this.DeConstruct();
-    }
-
-    render() {
-        this.solarSystemVisualizer.Render();
-
-        return (
-            <div ref={ref => (this.mount = ref)} />
-        );
-    }
-}
-
-// This is the entry point for the application.
-function App() {
-    return (
-        <div className="App">
-            <ThreeContainer />
-        </div>
-    );
-}
-
-export { SolarSystemVisualizer, App, ThreeContainer };
+export { SolarSystemVisualizer };

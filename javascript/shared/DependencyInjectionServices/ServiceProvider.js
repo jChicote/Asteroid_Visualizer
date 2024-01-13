@@ -1,5 +1,5 @@
 import { ServiceValidator } from "./Utilities/ServiceValidator.js";
-import { SolarSystemVisualizer } from "../../../main.js";
+import { SolarSystemVisualizer } from "../../SolarSystemVisualizer.js";
 
 /**
  * Responsible for providing services to the application.
