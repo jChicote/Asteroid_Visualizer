@@ -36,7 +36,7 @@ export class GameManager {
 
         if (!ObjectValidator.IsValid(GameManager.debugGui)) {
             GameManager.debugGui = new GUI({ autoPlace: false });
-            document.querySelector("#gui").append(GameManager.debugGui.domElement);
+            document.querySelector("#debug-gui").append(GameManager.debugGui.domElement);
         }
 
         if (!ObjectValidator.IsValid(GameManager.gameObserver)) {
@@ -71,6 +71,7 @@ export class GameManager {
     }
 
     Start() {
+        console.log("Should only run once");
         this.SetupScene();
 
         // Setup Debug GUI
@@ -89,7 +90,7 @@ export class GameManager {
     SetupScene() {
         GameManager.renderer = new THREE.WebGLRenderer({ antialias: true });
         GameManager.renderer.setSize(window.innerWidth, window.innerHeight);
-        document.getElementById("canvas-container").appendChild(GameManager.renderer.domElement);
+        document.getElementById("root").appendChild(GameManager.renderer.domElement);
 
         this.background = new Background();
         this.sun = new Sun();

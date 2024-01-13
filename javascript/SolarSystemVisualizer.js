@@ -3,6 +3,9 @@ import { Configuration } from "./shared/Configuration.js";
 import { GameConfiguration } from "./game/GameConfiguration.js";
 import { GameManager } from "./game/GameManager.js";
 import { ServiceProvider } from "./shared/DependencyInjectionServices/ServiceProvider.js";
+import { ObjectValidator } from "./utils/ObjectValidator.js";
+import { ServiceContainer } from "./shared/DependencyInjectionServices/ServiceContainer.js";
+import { AssetManager } from "./game/Managers/AssetManager/AssetManager.js";
 
 class SolarSystemVisualizer {
     static gameManager = null;
@@ -74,14 +77,14 @@ class SolarSystemVisualizer {
     }
 
     Render() {
-        if (solarSystemVisualizer.canUpdate === false) {
+        if (this.canUpdate === false) {
             return;
         }
 
         // Update the scene
         SolarSystemVisualizer.gameManager.Update();
 
-        requestAnimationFrame(this.Render);
+        requestAnimationFrame(this.Render.bind(this));
     }
 }
 

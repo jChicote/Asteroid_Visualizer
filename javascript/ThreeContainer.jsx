@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { SolarSystemVisualizer } from "./SolarSystemVisualizer";
+import { SolarSystemVisualizer } from "./SolarSystemVisualizer.js";
+import { GameManager } from "./game/GameManager.js";
 
 class ThreeContainer extends Component {
     constructor(props) {
@@ -8,34 +9,38 @@ class ThreeContainer extends Component {
         this.solarSystemVisualizer = new SolarSystemVisualizer();
     }
 
+    // TODO: Canvas related behaviour should be refactored into a common location.
     async GetRenderer() {
         return GameManager.renderer;
     }
 
     async Construction() {
-        await this.solarSystemVisualizer.ProgramStarter();
+        try {
+            await this.solarSystemVisualizer.ProgramStarter();
+            const renderer = await this.GetRenderer();
+            this.mount.appendChild(renderer.domElement);
 
-        const renderer = await this.GetRenderer();
-        this.mount.current.appendChild(renderer.domElement);
+            this.solarSystemVisualizer.Render();
+        } catch (error) {
+            console.error("Error during construction:", error);
+        }
     }
 
-    async DeConstruct() {
-        const renderer = await this.GetRenderer();
-        this.mount.removeChild(renderer.domElement);
-    }
+    // async DeConstruct() {
+    //     const renderer = await this.GetRenderer();
+    //     this.mount.removeChild(renderer.domElement);
+    // }
 
     // React Lifecycle Methods
     componentDidMount() {
         this.Construction();
     }
 
-    componentWillUnmount() {
-        this.DeConstruct();
-    }
+    // componentWillUnmount() {
+    //     this.DeConstruct();
+    // }
 
     render() {
-        this.solarSystemVisualizer.Render();
-
         return (
             <div ref={ref => (this.mount = ref)} />
         );
