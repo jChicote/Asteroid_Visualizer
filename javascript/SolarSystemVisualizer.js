@@ -1,4 +1,4 @@
-import * as THREE from "../node_modules/three/build/three.module.js";
+import * as THREE from "three";
 import { Configuration } from "./shared/Configuration.js";
 import { GameConfiguration } from "./game/GameConfiguration.js";
 import { GameManager } from "./game/GameManager.js";

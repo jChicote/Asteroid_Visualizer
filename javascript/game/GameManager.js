@@ -1,4 +1,4 @@
-import * as THREE from "../../node_modules/three/build/three.module.js";
+import * as THREE from "three";
 import { AsteroidManager } from "./Asteroids/AsteroidManager.js";
 import { Background } from "./Scene/Background/Background.js";
 import { Camera } from "./Camera/Camera.js";

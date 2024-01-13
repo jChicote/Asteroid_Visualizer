@@ -1,4 +1,4 @@
-import * as THREE from "../../../../../node_modules/three/build/three.module.js";
+import * as THREE from "three";
 import { TextureResource } from "../../../Entities/TextureResource.js";
 import { ObjectValidator } from "../../../../utils/ObjectValidator.js";
 
