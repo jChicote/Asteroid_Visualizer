@@ -1,8 +1,10 @@
 import * as THREE from "three";
+import Stats from "stats.js";
 import { AsteroidManager } from "./Asteroids/AsteroidManager.js";
 import { Background } from "./Scene/Background/Background.js";
 import { Camera } from "./Camera/Camera.js";
 import { CameraController } from "./Camera/CameraController.js";
+import { CanvasManager } from "./Canvas/CanvasManager.js";
 import { CometManager } from "./Comets/CometManager.js";
 import { DataLoaderProvider } from "./Infrastructure/DataLoaders/DataLoaderProvider.js";
 import { EventManager } from "./Managers/EventManager/EventManager.js";
@@ -16,7 +18,6 @@ import { ShaderManager } from "./Managers/ShaderManager/ShaderManager.js";
 import { Sun } from "./Sun/Sun.js";
 import { TextureManager } from "./Managers/TextureManager/TextureManager.js";
 import { TimeControl } from "./Components/Time/TimeControl.js";
-import Stats from "stats.js";
 
 export class GameManager {
     static scene;
@@ -31,6 +32,7 @@ export class GameManager {
         // Fields
         this.camera = {};
         this.cameraController = {};
+        this.canvas = null;
         this.sun = "";
 
         // Static Fields
@@ -57,6 +59,7 @@ export class GameManager {
     }
 
     async Initialise() {
+        this.canvas = new CanvasManager();
         this.eventManager = new EventManager();
         this.gameObjectManager = new GameObjectManager();
         this.gameState = new GlobalState();
@@ -152,6 +155,16 @@ export class GameManager {
         });
         sceneProperties.add(this.gameState, "lightIntensity", 10, 200, 1).onChange(lightIntensity => {
             this.camera.cameraLight.SetLightIntensity(lightIntensity);
+        });
+
+        // Canvas section
+        const canvasProperties = GameManager.debugGui.addFolder("Canvas Properties");
+        canvasProperties.add(this.gameState, "isFullScreen").onChange(isFullScreen => {
+            if (isFullScreen) {
+                this.canvas.SetToFullScreen();
+            } else {
+                this.canvas.SetToDefault();
+            }
         });
 
         this.SetupDebugHelpers();
