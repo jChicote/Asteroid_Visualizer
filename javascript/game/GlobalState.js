@@ -15,6 +15,9 @@ class GlobalState {
         // Scene Properties
         this.isLightActive = false;
         this.lightIntensity = 50;
+
+        // Canvas Properties
+        this.isFullScreen = false;
     }
 }
 
