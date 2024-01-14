@@ -81,10 +81,19 @@
   right: 2rem;
 }
 
+#stats {
+    position: absolute;
+    top: 60px;
+    left: 2rem;
+
+}
+
 /* VISUALIZER CANVAS */
 
 #root {
     position: fixed;
-    top: 6vh;
-    bottom: 6vh;
+    height: auto;
+    width: auto;
+    top: 0;
+    bottom: 0;
 }
