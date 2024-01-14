@@ -75,8 +75,25 @@
 
 /* DEBUG GUI */
 
-#gui {
+#debug-gui {
   position: absolute;
   top: 60px;
   right: 2rem;
+}
+
+#stats {
+    position: absolute;
+    top: 60px;
+    left: 2rem;
+
+}
+
+/* VISUALIZER CANVAS */
+
+#root {
+    position: fixed;
+    height: auto;
+    width: auto;
+    top: 0;
+    bottom: 0;
 }

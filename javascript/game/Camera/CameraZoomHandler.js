@@ -1,4 +1,4 @@
-import * as THREE from "../../../node_modules/three/build/three.module.js";
+import * as THREE from "three";
 import { EventUtility } from "../../utils/EventUtility.js";
 import { MathHelper } from "../../utils/math-library.js";
 
@@ -26,7 +26,7 @@ class CameraZoomHandler {
             300
         );
 
-        const canvas = document.getElementById("canvas-container");
+        const canvas = document.getElementById("root");
         canvas.addEventListener("wheel", this.OnMouseWheel.bind(this));
     }
 

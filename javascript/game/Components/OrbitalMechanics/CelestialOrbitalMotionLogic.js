@@ -1,4 +1,4 @@
-import { SolarSystemVisualizer } from "../../../../main.js";
+import { SolarSystemVisualizer } from "../../../SolarSystemVisualizer.js";
 
 class CelestialOrbitalMotionLogic {
     constructor() {

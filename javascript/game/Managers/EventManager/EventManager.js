@@ -2,7 +2,7 @@ import { GameManager } from "../../GameManager.js";
 
 class EventManager {
     constructor() {
-        const canvas = document.getElementById("canvas-container");
+        const canvas = document.getElementById("root");
         canvas.addEventListener("mousedown", this.OnMouseDown.bind(this));
         canvas.addEventListener("mouseup", this.OnMouseUp.bind(this));
         canvas.addEventListener("click", this.OnMouseClick.bind(this), false);

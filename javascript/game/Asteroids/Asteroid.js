@@ -1,10 +1,10 @@
-import * as THREE from "../../../node_modules/three/build/three.module.js";
+import * as THREE from "three";
 import { CelestialOrbitalMotionLogic } from "../Components/OrbitalMechanics/CelestialOrbitalMotionLogic.js";
 import { GameManager } from "../GameManager.js";
 import { GameObject } from "../Entities/GameObject.js";
 import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
 import { MathHelper } from "../../utils/math-library.js";
-import { SolarSystemVisualizer } from "../../../main.js";
+import { SolarSystemVisualizer } from "../../SolarSystemVisualizer.js";
 
 class Asteroid extends GameObject {
     constructor(asteroidData, materialConfigurationProvider) {

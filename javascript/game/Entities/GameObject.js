@@ -1,5 +1,5 @@
-import * as THREE from "../../../../node_modules/three/build/three.module.js";
-import { SolarSystemVisualizer } from "../../../main.js";
+import * as THREE from "three";
+import { SolarSystemVisualizer } from "../../SolarSystemVisualizer.js";
 import { Transform } from "../Components/Transformation/Transform.js";
 
 class GameObject extends Transform {

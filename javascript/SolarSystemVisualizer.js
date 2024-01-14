@@ -1,13 +1,12 @@
-import { Configuration } from "./javascript/shared/Configuration.js";
-import { GameManager } from "./javascript/game/GameManager.js";
-import { ServiceContainer } from "./javascript/shared/DependencyInjectionServices/ServiceContainer.js";
-import { ServiceProvider } from "./javascript/shared/DependencyInjectionServices/ServiceProvider.js";
-import * as THREE from "./node_modules/three/build/three.module.js";
-import { AssetManager } from "./javascript/game/Managers/AssetManager/AssetManager.js";
-import { GameConfiguration } from "./javascript/game/GameConfiguration.js";
-import { ObjectValidator } from "./javascript/utils/ObjectValidator.js";
+import * as THREE from "three";
+import { Configuration } from "./shared/Configuration.js";
+import { GameConfiguration } from "./game/GameConfiguration.js";
+import { GameManager } from "./game/GameManager.js";
+import { ServiceProvider } from "./shared/DependencyInjectionServices/ServiceProvider.js";
+import { ObjectValidator } from "./utils/ObjectValidator.js";
+import { ServiceContainer } from "./shared/DependencyInjectionServices/ServiceContainer.js";
+import { AssetManager } from "./game/Managers/AssetManager/AssetManager.js";
 
-// This class is the entry point for the application.
 class SolarSystemVisualizer {
     static gameManager = null;
     static gameConfiguration = null;
@@ -15,6 +14,10 @@ class SolarSystemVisualizer {
 
     constructor() {
         this.canUpdate = false;
+
+        // Enables caching of textures
+        THREE.Cache.enabled = true;
+        THREE.ColorManagement.enabled = true;
     }
 
     // Initializes scene
@@ -72,28 +75,17 @@ class SolarSystemVisualizer {
 
         console.log("Program can now start");
     }
-}
 
-const solarSystemVisualizer = new SolarSystemVisualizer();
+    Render() {
+        if (this.canUpdate === false) {
+            return;
+        }
 
-// Enables caching of textures
-THREE.Cache.enabled = true;
-THREE.ColorManagement.enabled = true;
+        // Update the scene
+        SolarSystemVisualizer.gameManager.Update();
 
-// animate function used by Three.js
-async function animate() {
-    if (solarSystemVisualizer.canUpdate === false) {
-        return;
+        requestAnimationFrame(this.Render.bind(this));
     }
-
-    // Update the scene
-    SolarSystemVisualizer.gameManager.Update();
-
-    requestAnimationFrame(animate);
 }
-
-// Run application
-await solarSystemVisualizer.ProgramStarter();
-animate();
 
 export { SolarSystemVisualizer };

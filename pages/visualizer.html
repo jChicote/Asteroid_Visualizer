@@ -11,11 +11,10 @@
     <!-- Bootstrap Stylesheets -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <script type='module' src="../main.js"></script>
+    <script type='module' src="../main.jsx"></script>
 </head>
 <body class="text-center">
     <div class=" cover-container min-vh-100 h-100 flex-column">
-
         <!-- NAVIGATION BAR -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-grey-6 fixed-top">
             <div class="container">
@@ -45,9 +44,11 @@
 
 
         <!-- PAGE CONTENT -->
-        <div id="gui"></div>
-        <div id="canvas-container">
-        </div>
+        <div id="root"></div>
+
+        <!-- Debug Screens -->
+        <div id="debug-gui"></div>
+        <div id="stats"></div>
 
         <!-- FOOTER -->
         <footer class="fixed-bottom justify-content-center footer-vh bg-grey-6">

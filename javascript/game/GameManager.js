@@ -1,4 +1,4 @@
-import * as THREE from "../../node_modules/three/build/three.module.js";
+import * as THREE from "three";
 import { AsteroidManager } from "./Asteroids/AsteroidManager.js";
 import { Background } from "./Scene/Background/Background.js";
 import { Camera } from "./Camera/Camera.js";
@@ -16,17 +16,21 @@ import { ShaderManager } from "./Managers/ShaderManager/ShaderManager.js";
 import { Sun } from "./Sun/Sun.js";
 import { TextureManager } from "./Managers/TextureManager/TextureManager.js";
 import { TimeControl } from "./Components/Time/TimeControl.js";
+import Stats from "stats.js";
 
 export class GameManager {
     static scene;
-    static debugGui;
+    static renderer;
     static gameObserver;
+
+    // debug screens
+    static debugGui;
+    static stats;
 
     constructor(serviceProvider) {
         // Fields
         this.camera = {};
         this.cameraController = {};
-        this.renderer = "";
         this.sun = "";
 
         // Static Fields
@@ -36,7 +40,13 @@ export class GameManager {
 
         if (!ObjectValidator.IsValid(GameManager.debugGui)) {
             GameManager.debugGui = new GUI({ autoPlace: false });
-            document.querySelector("#gui").append(GameManager.debugGui.domElement);
+            document.querySelector("#debug-gui").append(GameManager.debugGui.domElement);
+        }
+
+        if (!ObjectValidator.IsValid(GameManager.stats)) {
+            GameManager.stats = new Stats();
+            GameManager.stats.showPanel(1);
+            document.querySelector("#stats").append(GameManager.stats.dom);
         }
 
         if (!ObjectValidator.IsValid(GameManager.gameObserver)) {
@@ -71,6 +81,7 @@ export class GameManager {
     }
 
     Start() {
+        console.log("Should only run once");
         this.SetupScene();
 
         // Setup Debug GUI
@@ -80,16 +91,21 @@ export class GameManager {
     }
 
     Update() {
+        GameManager.stats.begin(); // Only for debug performance purposes
+
         this.gameObjectManager.UpdateGameObjects();
         this.sun.Update();
 
-        this.renderer.render(GameManager.scene, this.camera.GetControlledCamera());
+        GameManager.renderer.render(GameManager.scene, this.camera.GetControlledCamera());
+
+        GameManager.stats.end(); // Only for debug performance purposes
     }
 
     SetupScene() {
-        this.renderer = new THREE.WebGLRenderer({ antialias: true });
-        this.renderer.setSize(window.innerWidth, window.innerHeight);
-        document.getElementById("canvas-container").appendChild(this.renderer.domElement);
+        const container = document.getElementById("root");
+        GameManager.renderer = new THREE.WebGLRenderer({ antialias: true });
+        GameManager.renderer.setSize(window.innerWidth, container.clientHeight);
+        container.appendChild(GameManager.renderer.domElement);
 
         this.background = new Background();
         this.sun = new Sun();
@@ -99,7 +115,7 @@ export class GameManager {
 
     SetupCamera() {
         this.camera = new Camera();
-        this.cameraController = new CameraController(this.camera, this.renderer);
+        this.cameraController = new CameraController(this.camera, GameManager.renderer);
     }
 
     SetupDebugHelpers() {
