@@ -1,6 +1,19 @@
+import { GameManager } from "../GameManager.js";
+
 class CanvasManager {
     constructor() {
+        this.isFullScreen = false;
         this.canvas = document.getElementById("root");
+
+        GameManager.gameObserver.Subscribe("ToggleMenuVisibility", this.ToggleFullScreen.bind(this));
+    }
+
+    ToggleFullScreen() {
+        if (this.isFullScreen) {
+            this.SetToDefault();
+        } else {
+            this.SetToFullScreen();
+        }
     }
 
     // THIS SHOULD NOT BE DONE HERE. Either use a react component or css variable.
@@ -11,6 +24,8 @@ class CanvasManager {
 
         navbar.style.display = "none";
         footer.style.display = "none";
+
+        this.isFullScreen = true;
     }
 
     SetToDefault() {
@@ -19,6 +34,8 @@ class CanvasManager {
 
         navbar.style.display = "flex";
         footer.style.display = "block";
+
+        this.isFullScreen = false;
     }
 }
 
