@@ -1,11 +1,11 @@
 import { ThreeContainer } from "./ThreeContainer.jsx";
-import { OverlayUI } from "./user-interface/debug/OverlayUI.jsx";
+import { RootCanvas } from "./user-interface/RootCanvas.jsx";
 
 function App() {
     return (
         <div style={{ position: "relative" }}>
             <ThreeContainer />
-            <OverlayUI />
+            <RootCanvas />
         </div>
     );
 }

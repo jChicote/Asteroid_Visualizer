@@ -1,0 +1,54 @@
+:root {
+    --navbar-height: 60px;
+    --view-options-height: 12vh;
+    --option-button-padding: 5px;
+}
+
+#root-canvas {
+    position: absolute;
+    top: var(--navbar-height);
+    bottom: var(--navbar-height);
+    width: 100%;
+    pointer-events: none;
+}
+
+#view-options {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: var(--view-options-height);
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 2%;
+}
+
+.option-button {
+    aspect-ratio: 1;
+    display: flex;
+    background-color: #13191d;
+    border-radius: 10px;
+    border: none;
+    color: white;
+    padding: var(--option-button-padding);
+    height: 60%;
+    width: auto;
+    pointer-events: all;
+    justify-content: center;
+    align-items: center;
+}
+
+.option-button:hover {
+    background-color: #e95a07;
+}
+
+.option-button:active, .option-button:focus {
+    outline: none;
+}
+
+.option-icon {
+    color: white;
+    width: 60%;
+    height: 60%;
+}
