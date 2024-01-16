@@ -1,7 +1,7 @@
 :root {
     --navbar-height: 60px;
     --view-options-height: 12vh;
-    --option-button-padding: 20px;
+    --option-button-padding: 5px;
 }
 
 #root-canvas {
@@ -26,11 +26,21 @@
 
 .option-button {
     aspect-ratio: 1;
-    background-color: #3498db; /* Add your desired background color */
+    background-color: #13191d;
     border: none;
     color: white;
     padding: var(--option-button-padding);
     height: 60%;
     width: auto;
     pointer-events: all;
+}
+
+.option-button:hover {
+    background-color: #e95a07;
+}
+
+.option-icon {
+    color: white;
+    width: 100%;
+    height: 100%;
 }

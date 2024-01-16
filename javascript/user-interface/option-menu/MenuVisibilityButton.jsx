@@ -10,7 +10,9 @@ class MenuVisibilityButton extends Component {
 
     render() {
         return (
-            <button className="option-button" onClick={this.HandleClick.bind(this)}></button>
+            <button className="option-button" onClick={this.HandleClick.bind(this)}>
+                <i className="option-icon fa-solid fa-eye"></i>
+            </button>
         );
     }
 }
