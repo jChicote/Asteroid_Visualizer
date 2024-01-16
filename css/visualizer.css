@@ -26,21 +26,29 @@
 
 .option-button {
     aspect-ratio: 1;
+    display: flex;
     background-color: #13191d;
+    border-radius: 10px;
     border: none;
     color: white;
     padding: var(--option-button-padding);
     height: 60%;
     width: auto;
     pointer-events: all;
+    justify-content: center;
+    align-items: center;
 }
 
 .option-button:hover {
     background-color: #e95a07;
 }
 
+.option-button:active, .option-button:focus {
+    outline: none;
+}
+
 .option-icon {
     color: white;
-    width: 100%;
-    height: 100%;
+    width: 60%;
+    height: 60%;
 }
