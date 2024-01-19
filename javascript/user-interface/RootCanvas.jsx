@@ -1,4 +1,5 @@
 import { Component } from "react";
+import { OptionsMenuGroup } from "./option-menu/OptionsMenuGroup.jsx";
 import { ViewingOptionsGroup } from "./option-menu/ViewingOptionsGroup.jsx";
 
 class RootCanvas extends Component {
@@ -6,6 +7,7 @@ class RootCanvas extends Component {
         return (
             <div id="root-canvas">
                 <ViewingOptionsGroup />
+                <OptionsMenuGroup />
             </div>
         );
     }

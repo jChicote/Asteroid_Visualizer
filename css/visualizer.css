@@ -52,3 +52,20 @@
     width: 60%;
     height: 60%;
 }
+
+/* Options Menu */
+
+#options-menu{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 80%;
+    width: 50%;
+    display: flex;
+    justify-content: flex-start;
+    padding: 20px;
+}
+
+#expand-button {
+
+}
