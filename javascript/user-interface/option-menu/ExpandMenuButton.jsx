@@ -7,7 +7,7 @@ class ExpandMenuButton extends Component {
 
     render() {
         return (
-            <button className="option-button" onClick={this.HandleClick.bind(this)}>
+            <button id="expand-button" onClick={this.HandleClick.bind(this)}>
             </button>
         );
     }

@@ -59,13 +59,47 @@
     position: absolute;
     left: 0;
     bottom: 0;
-    height: 80%;
+    height: 100%;
     width: 50%;
     display: flex;
     justify-content: flex-start;
     padding: 20px;
 }
 
-#expand-button {
+.option-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    left: 0;
+    bottom: 0;
+    width: 90px;
+}
 
+#expand-button {
+    aspect-ratio: 1;
+    display: flex;
+    background-color: #13191d;
+    border-radius: 10px;
+    border: none;
+    color: white;
+    padding: var(--option-button-padding);
+    width: 80%;
+    pointer-events: all;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15px
+}
+
+#light-button {
+    aspect-ratio: 1;
+    display: flex;
+    background-color: #13191d;
+    border-radius: 10px;
+    border: none;
+    color: white;
+    padding: var(--option-button-padding);
+    width: 80%;
+    pointer-events: all;
+    justify-content: center;
+    align-items: center;
 }
