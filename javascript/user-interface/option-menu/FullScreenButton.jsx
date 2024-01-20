@@ -1,19 +1,19 @@
-import { faLightbulb } from "@fortawesome/free-solid-svg-icons";
+import { faExpand } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Component } from "react";
 
-class LightOptionButton extends Component {
+class FullScreenButton extends Component {
     HandleClick() {
-        console.log("Light button clicked");
+        console.log("Fullscreen button clicked.");
     }
 
     render() {
         return (
             <button className="option-button column-button" onClick={this.HandleClick.bind(this)}>
-                <FontAwesomeIcon icon={faLightbulb} className="option-icon"/>
+                <FontAwesomeIcon icon={faExpand} className="option-icon"/>
             </button>
         );
     }
 }
 
-export { LightOptionButton };
+export { FullScreenButton };

@@ -2,6 +2,7 @@
     --navbar-height: 60px;
     --view-options-height: 12vh;
     --option-button-padding: 5px;
+    --option-button-length: 67px;
 }
 
 #root-canvas {
@@ -16,12 +17,12 @@
     position: absolute;
     top: 0px;
     left: 0px;
-    height: var(--view-options-height);
+    height: 20%;;
     width: 100%;
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    padding-left: 2%;
+    padding: 20px;
 }
 
 .option-button {
@@ -32,8 +33,6 @@
     border: none;
     color: white;
     padding: var(--option-button-padding);
-    height: 60%;
-    width: auto;
     pointer-events: all;
     justify-content: center;
     align-items: center;
@@ -59,7 +58,7 @@
     position: absolute;
     left: 0;
     bottom: 0;
-    height: 100%;
+    height: 80%;
     width: 50%;
     display: flex;
     justify-content: flex-start;
@@ -75,31 +74,12 @@
     width: 90px;
 }
 
-#expand-button {
-    aspect-ratio: 1;
-    display: flex;
-    background-color: #13191d;
-    border-radius: 10px;
-    border: none;
-    color: white;
-    padding: var(--option-button-padding);
-    width: 80%;
-    pointer-events: all;
-    justify-content: center;
-    align-items: center;
-    margin-top: 15px
+.column-button {
+    width: var(--option-button-length);
+    margin-top: 15px;
 }
 
-#light-button {
-    aspect-ratio: 1;
-    display: flex;
-    background-color: #13191d;
-    border-radius: 10px;
-    border: none;
-    color: white;
-    padding: var(--option-button-padding);
-    width: 80%;
-    pointer-events: all;
-    justify-content: center;
-    align-items: center;
+.row-button {
+    height: var(--option-button-length);
+    margin-right: 15px;
 }

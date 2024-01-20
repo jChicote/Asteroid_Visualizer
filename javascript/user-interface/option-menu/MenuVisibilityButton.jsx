@@ -1,7 +1,7 @@
+import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Component } from "react";
 import { GameManager } from "../../game/GameManager";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
 
 class MenuVisibilityButton extends Component {
     HandleClick() {
@@ -12,7 +12,7 @@ class MenuVisibilityButton extends Component {
 
     render() {
         return (
-            <button className="option-button" onClick={this.HandleClick.bind(this)}>
+            <button className="option-button row-button" onClick={this.HandleClick.bind(this)}>
                 <FontAwesomeIcon icon={faEye} className="option-icon"/>
             </button>
         );
