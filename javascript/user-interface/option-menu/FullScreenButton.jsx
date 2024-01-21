@@ -4,7 +4,7 @@ import { Component } from "react";
 
 class FullScreenButton extends Component {
     HandleClick() {
-        console.log("Fullscreen button clicked.");
+        console.log("Fullscreen behaviour not implemented.");
     }
 
     render() {

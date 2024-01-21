@@ -65,6 +65,30 @@
     padding: 20px;
 }
 
+#light-intensity {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: var(--option-button-length);
+    height: 40%;
+    background-color: #13191d;
+    border-radius: 10px;
+    border: none;
+    color: white;
+    padding: var(--option-button-padding);
+    pointer-events: all;
+}
+
+.vertical-slider {
+    display: flex;
+    flex-direction: column;
+    width: calc(100vh * 0.2);
+    height: 20px;
+    margin: 10px;
+    transform: rotate(270deg);
+}
+
 .option-column {
     display: flex;
     flex-direction: column;
