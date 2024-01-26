@@ -7,11 +7,11 @@ class LightIntensitySlider extends Component {
     constructor(props) {
         super(props);
 
-        // initial state
         this.state = {
             sliderValue: 50,
             isVisible: false,
-            isEnabled: false
+            isEnabled: false,
+            hasFadedOut: false
         };
     }
 
@@ -25,6 +25,12 @@ class LightIntensitySlider extends Component {
     HandleSliderChange = (event) => {
         this.setState({ sliderValue: parseInt(event.target.value) });
         GameManager.gameObserver.Dispatch("SetCameraLightIntensity", this.state.sliderValue);
+    };
+
+    HandleTransitionEnd = (event) => {
+        this.setState((prevState) => ({
+            hasFadedOut: !prevState.hasFadedOut
+        }));
     };
 
     ToggleVisibility() {
@@ -41,9 +47,13 @@ class LightIntensitySlider extends Component {
 
     render() {
         const sliderValue = this.state.sliderValue;
+        const sliderHiddenClassName = this.state.hasFadedOut ? "hidden" : "";
+        const sliderClassName = "vertical-slider-container " + (this.state.isVisible && this.state.isEnabled
+            ? "visible"
+            : sliderHiddenClassName);
 
         return (
-            <div id="light-intensity" className={"vertical-slider-container " + (this.state.isVisible && this.state.isEnabled ? "visible" : "")}>
+            <div id="light-intensity" className={sliderClassName} onTransitionEnd={this.HandleTransitionEnd.bind(this)}>
                 <input
                     type="range"
                     className="vertical-slider"

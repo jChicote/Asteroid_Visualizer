@@ -16,7 +16,7 @@ class ExpandMenuButton extends Component {
 
     render() {
         return (
-            <button className="option-button column-button" onClick={this.HandleClick.bind(this)}>
+            <button id="expand-menu-button" className="rounded-square-button column-button" onClick={this.HandleClick.bind(this)}>
                 <FontAwesomeIcon icon={faSliders} className="option-icon"/>
             </button>
         );

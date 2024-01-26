@@ -17,12 +17,27 @@
     position: absolute;
     top: 0px;
     left: 0px;
-    height: 20%;;
+    height: 20%;
     width: 100%;
     display: flex;
     justify-content: flex-start;
     align-items: center;
     padding: 20px;
+}
+
+/* Button shape */
+.rounded-square-button {
+    aspect-ratio: 1;
+    border-radius: 10px;
+    border: none;
+    background-color: #13191d;
+    color: white;
+    display: flex;
+    padding: var(--option-button-padding);
+    pointer-events: all;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.5s ease;
 }
 
 .option-button {
@@ -70,6 +85,10 @@
     padding: 20px;
 }
 
+#expand-menu-button {
+    visibility: visible;
+}
+
 #light-intensity {
     display: flex;
     flex-direction: column;
@@ -92,7 +111,6 @@
 }
 
 .options-expanded-menu {
-    visibility: hidden;
     opacity: 1;
     transition: opacity 1s ease;
 }
@@ -104,9 +122,12 @@
 }
 
 .vertical-slider-container {
-    visibility: hidden;
     opacity: 0;
     transition: opacity 1s ease;
+}
+
+.hidden {
+    visibility: hidden;
 }
 
 .vertical-slider {
