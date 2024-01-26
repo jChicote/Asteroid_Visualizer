@@ -1,9 +1,9 @@
-import { Component } from "react";
-import { EventMediator } from "../mediator/EventMediator.js";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { GameManager } from "../../game/GameManager.js";
-import { SolarSystemVisualizer } from "../../SolarSystemVisualizer.js";
 import { faLightbulb } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Component } from "react";
+import { SolarSystemVisualizer } from "../../SolarSystemVisualizer.js";
+import { GameManager } from "../../game/GameManager.js";
+import { EventMediator } from "../mediator/EventMediator.js";
 
 class LightOptionButton extends Component {
     constructor(props) {
@@ -23,7 +23,7 @@ class LightOptionButton extends Component {
         console.log("Light button clicked");
 
         GameManager.gameObserver.Dispatch("ToggleCameraLight");
-        this.eventMediator.Notify("ToggleLightIntensitySliderVisibility");
+        this.eventMediator.Notify("ToggleCameraLight");
 
         this.setState((prevState) => ({
             isActive: !prevState.isActive

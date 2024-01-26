@@ -1,23 +1,23 @@
-import * as THREE from "three";
 import Stats from "stats.js";
+import * as THREE from "three";
+import { GUI } from "../../node_modules/dat.gui/build/dat.gui.module.js";
+import { ObjectValidator } from "../utils/ObjectValidator.js";
 import { AsteroidManager } from "./Asteroids/AsteroidManager.js";
-import { Background } from "./Scene/Background/Background.js";
 import { Camera } from "./Camera/Camera.js";
 import { CameraController } from "./Camera/CameraController.js";
 import { CanvasManager } from "./Canvas/CanvasManager.js";
 import { CometManager } from "./Comets/CometManager.js";
+import { TimeControl } from "./Components/Time/TimeControl.js";
+import { GlobalState } from "./GlobalState.js";
 import { DataLoaderProvider } from "./Infrastructure/DataLoaders/DataLoaderProvider.js";
 import { EventManager } from "./Managers/EventManager/EventManager.js";
-import { GUI } from "../../node_modules/dat.gui/build/dat.gui.module.js";
 import { GameObjectManager } from "./Managers/GameObjectManager/GameObjectManager.js";
-import { GameObserver } from "./Observers/GameObserver.js";
-import { GlobalState } from "./GlobalState.js";
-import { ObjectValidator } from "../utils/ObjectValidator.js";
-import { PlanetManager } from "./Planets/PlanetManager.js";
 import { ShaderManager } from "./Managers/ShaderManager/ShaderManager.js";
-import { Sun } from "./Sun/Sun.js";
 import { TextureManager } from "./Managers/TextureManager/TextureManager.js";
-import { TimeControl } from "./Components/Time/TimeControl.js";
+import { GameObserver } from "./Observers/GameObserver.js";
+import { PlanetManager } from "./Planets/PlanetManager.js";
+import { Background } from "./Scene/Background/Background.js";
+import { Sun } from "./Sun/Sun.js";
 
 export class GameManager {
     static scene;
@@ -88,7 +88,7 @@ export class GameManager {
         this.SetupScene();
 
         // Setup Debug GUI
-        this.SetupDebugGUI();
+        // this.SetupDebugGUI();
 
         this.gameState.canUpdate = true;
     }

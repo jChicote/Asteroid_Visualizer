@@ -85,6 +85,18 @@
     pointer-events: all;
 }
 
+.options-expanded-menu.visible {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 1s ease;
+}
+
+.options-expanded-menu {
+    visibility: hidden;
+    opacity: 1;
+    transition: opacity 1s ease;
+}
+
 .vertical-slider-container.visible {
     visibility: visible;
     opacity: 1;
