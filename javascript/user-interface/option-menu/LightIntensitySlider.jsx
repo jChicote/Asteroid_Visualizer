@@ -10,15 +10,16 @@ class LightIntensitySlider extends Component {
         // initial state
         this.state = {
             sliderValue: 50,
-            visibility: VisibilityState.Inactive
+            isVisible: false,
+            isEnabled: false
         };
     }
 
     componentDidMount() {
         // TODO: Tie to the game observer instead
         this.eventMediator = SolarSystemVisualizer.serviceContainer.Resolve(EventMediator);
-        // this.eventMediator.Subscribe("EnableLightIntensitySlider", this.ToggleEnabled.bind(this));
         this.eventMediator.Subscribe("ToggleCameraLight", this.ToggleVisibility.bind(this));
+        this.eventMediator.Subscribe("ToggleExpandedMenu", this.ToggleEnabled.bind(this));
     }
 
     HandleSliderChange = (event) => {
@@ -26,46 +27,23 @@ class LightIntensitySlider extends Component {
         GameManager.gameObserver.Dispatch("SetCameraLightIntensity", this.state.sliderValue);
     };
 
-    // WHEN EXPANDED BUT ACTIVE = {Active: true, Visible: true}
-    // WHEN EXPANDED BUT INACTIVE = {Active: false, Visible: false}
-    // WHEN HIDDEN BUT INACTIVE = {Active: false, Visible: false}
-    // WHEN HIDDEN BUT ACTIVE = {Active: false, Visible: true}
-
-    // NEW ENUM:
-    // ElementState.Active
-    // ElementState.Inactive
-    // ElementState.hidden
-
     ToggleVisibility() {
         this.setState((prevState) => ({
-            visibility: (prevState.visibility !== VisibilityState.Hidden
-                ? (prevState.visibility === VisibilityState.Inactive
-                    ? VisibilityState.Active
-                    : VisibilityState.Inactive)
-                : prevState.visibility)
-        }), () => {
-            console.log(this.state.visibility);
-        });
+            isVisible: !prevState.isVisible
+        }));
     }
 
-    RevealElement() {
-        this.setState({
-            visibility: VisibilityState.Active
-        });
-    }
-
-    SetElementToHidden() {
-        this.setState({
-            visibility: VisibilityState.Hidden
-        });
+    ToggleEnabled() {
+        this.setState((prevState) => ({
+            isEnabled: !prevState.isEnabled
+        }));
     }
 
     render() {
         const sliderValue = this.state.sliderValue;
-        const visibility = this.state.visibility;
 
         return (
-            <div id="light-intensity" className={"vertical-slider-container " + (visibility === VisibilityState.Active ? "visible" : "")}>
+            <div id="light-intensity" className={"vertical-slider-container " + (this.state.isVisible && this.state.isEnabled ? "visible" : "")}>
                 <input
                     type="range"
                     className="vertical-slider"
@@ -79,11 +57,5 @@ class LightIntensitySlider extends Component {
         );
     }
 }
-
-const VisibilityState = {
-    Active: "Active",
-    Inactive: "Inactive",
-    Hidden: "Hidden"
-};
 
 export { LightIntensitySlider };

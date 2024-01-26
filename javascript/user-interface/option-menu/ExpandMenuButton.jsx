@@ -12,7 +12,6 @@ class ExpandMenuButton extends Component {
 
     HandleClick() {
         this.eventMediator.Notify("ToggleExpandedMenu");
-        console.log("Toggling expanded menu");
     }
 
     render() {
