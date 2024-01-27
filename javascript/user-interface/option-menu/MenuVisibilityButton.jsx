@@ -12,7 +12,7 @@ class MenuVisibilityButton extends Component {
 
     render() {
         return (
-            <button className="option-button row-button" onClick={this.HandleClick.bind(this)}>
+            <button className="rounded-square-button menu-button-skin  row-button" onClick={this.HandleClick.bind(this)}>
                 <FontAwesomeIcon icon={faEye} className="option-icon"/>
             </button>
         );

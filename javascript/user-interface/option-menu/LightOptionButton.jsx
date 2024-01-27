@@ -10,18 +10,19 @@ class LightOptionButton extends Component {
         super(props);
 
         this.state = {
-            isActive: false
+            isActive: false,
+            isVisible: false,
+            hasFadedOut: false
         };
     }
 
     componentDidMount() {
         // TODO: Tie to the game observer instead
         this.eventMediator = SolarSystemVisualizer.serviceContainer.Resolve(EventMediator);
+        this.eventMediator.Subscribe("ToggleExpandedMenu", this.ToggleVisibility.bind(this));
     }
 
     HandleClick(event) {
-        console.log("Light button clicked");
-
         GameManager.gameObserver.Dispatch("ToggleCameraLight");
         this.eventMediator.Notify("ToggleCameraLight");
 
@@ -30,12 +31,20 @@ class LightOptionButton extends Component {
         }));
     }
 
+    ToggleVisibility() {
+        this.setState((prevState) => ({
+            isVisible: !prevState.isVisible
+        }));
+    }
+
     render() {
+        const buttonClassName = "rounded-square-button menu-button-skin column-button option-button " +
+            (this.state.isVisible
+                ? "fade-in"
+                : "fade-out");
+
         return (
-            <button
-                className={"option-button column-button " + (this.state.isActive ? "active" : "")}
-                onClick={this.HandleClick.bind(this)}
-            >
+            <button className={buttonClassName} onClick={this.HandleClick.bind(this)}>
                 <FontAwesomeIcon icon={faLightbulb} className="option-icon"/>
             </button>
         );

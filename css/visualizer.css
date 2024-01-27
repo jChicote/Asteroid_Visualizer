@@ -30,8 +30,6 @@
     aspect-ratio: 1;
     border-radius: 10px;
     border: none;
-    background-color: #13191d;
-    color: white;
     display: flex;
     padding: var(--option-button-padding);
     pointer-events: all;
@@ -40,30 +38,35 @@
     transition: background-color 0.5s ease;
 }
 
-.option-button {
-    aspect-ratio: 1;
-    display: flex;
+.menu-button-skin {
     background-color: #13191d;
-    border-radius: 10px;
+    color: white;
     border: none;
-    color: white;
-    padding: var(--option-button-padding);
-    pointer-events: all;
-    justify-content: center;
-    align-items: center;
-    transition: background-color 0.5s ease;
 }
 
-.option-button:hover {
+.menu-button-skin:hover {
     background-color: #e95a07;
 }
 
-.option-button.active {
+.menu-button-skin.active {
     background-color: #4521e4;
 }
 
-.option-button:active, .option-button:focus {
+.menu-button-skin:active, .menu-button-skin:focus {
     outline: none;
+}
+
+/* OPTIONS MENU STYLES */
+
+.option-button.fade-in {
+    opacity: 1;
+    transition: opacity 1s ease;
+}
+
+.option-button.fade-out {
+    opacity: 0;
+    transition: opacity 1s ease;
+    pointer-events: none;
 }
 
 .option-icon {
@@ -72,9 +75,7 @@
     height: 60%;
 }
 
-/* Options Menu */
-
-#options-menu{
+#options-menu {
     position: absolute;
     left: 0;
     bottom: 0;
@@ -147,6 +148,8 @@
     bottom: 0;
     width: 90px;
 }
+
+/* MENU LAYOUT */
 
 .column-button {
     width: var(--option-button-length);
