@@ -38,7 +38,9 @@ class LightOptionButton extends Component {
     }
 
     render() {
-        const buttonClassName = "rounded-square-button menu-button-skin column-button option-button " +
+        const buttonClassName = "rounded-square-button " +
+            "menu-button-skin " + (this.state.isActive ? "active " : "") +
+            "column-button option-button " +
             (this.state.isVisible
                 ? "fade-in"
                 : "fade-out");
