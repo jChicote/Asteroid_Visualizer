@@ -25,7 +25,9 @@
     padding: 20px;
 }
 
-/* Button shape */
+/* OPTIONS MENU STYLES */
+
+/* Menu button styles */
 .rounded-square-button {
     aspect-ratio: 1;
     border-radius: 10px;
@@ -56,8 +58,8 @@
     outline: none;
 }
 
-/* OPTIONS MENU STYLES */
 
+/* Option button styles */
 .option-button.fade-in {
     opacity: 1;
     transition: opacity 1s ease;
@@ -90,6 +92,8 @@
     visibility: visible;
 }
 
+
+/* Light intensity slider */
 #light-intensity {
     display: flex;
     flex-direction: column;
@@ -105,30 +109,15 @@
     pointer-events: all;
 }
 
-.options-expanded-menu.visible {
-    visibility: visible;
+.vertical-slider-container.fade-in {
     opacity: 1;
     transition: opacity 1s ease;
 }
 
-.options-expanded-menu {
-    opacity: 1;
-    transition: opacity 1s ease;
-}
-
-.vertical-slider-container.visible {
-    visibility: visible;
-    opacity: 1;
-    transition: opacity 1s ease;
-}
-
-.vertical-slider-container {
+.vertical-slider-container.fade-out {
     opacity: 0;
     transition: opacity 1s ease;
-}
-
-.hidden {
-    visibility: hidden;
+    pointer-events: none;
 }
 
 .vertical-slider {
@@ -140,6 +129,20 @@
     transform: rotate(270deg);
 }
 
+/* Expanded menu options */
+.options-expanded-menu.visible {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 1s ease;
+}
+
+.options-expanded-menu {
+    opacity: 1;
+    transition: opacity 1s ease;
+}
+
+/* MENU LAYOUT */
+
 .option-column {
     display: flex;
     flex-direction: column;
@@ -148,8 +151,6 @@
     bottom: 0;
     width: 90px;
 }
-
-/* MENU LAYOUT */
 
 .column-button {
     width: var(--option-button-length);

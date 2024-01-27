@@ -47,10 +47,9 @@ class LightIntensitySlider extends Component {
 
     render() {
         const sliderValue = this.state.sliderValue;
-        const sliderHiddenClassName = this.state.hasFadedOut ? "hidden" : "";
         const sliderClassName = "vertical-slider-container " + (this.state.isVisible && this.state.isEnabled
-            ? "visible"
-            : sliderHiddenClassName);
+            ? "fade-in"
+            : "fade-out");
 
         return (
             <div id="light-intensity" className={sliderClassName} onTransitionEnd={this.HandleTransitionEnd.bind(this)}>
