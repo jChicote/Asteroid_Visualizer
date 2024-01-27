@@ -1,7 +1,7 @@
 import { Component } from "react";
-import { SolarSystemVisualizer } from "../../SolarSystemVisualizer.js";
-import { GameManager } from "../../game/GameManager.js";
 import { EventMediator } from "../mediator/EventMediator.js";
+import { GameManager } from "../../game/GameManager.js";
+import { SolarSystemVisualizer } from "../../SolarSystemVisualizer.js";
 
 class LightIntensitySlider extends Component {
     constructor(props) {
@@ -15,12 +15,9 @@ class LightIntensitySlider extends Component {
         };
     }
 
-    componentDidMount() {
-        // TODO: Tie to the game observer instead
-        this.eventMediator = SolarSystemVisualizer.serviceContainer.Resolve(EventMediator);
-        this.eventMediator.Subscribe("ToggleCameraLight", this.ToggleVisibility.bind(this));
-        this.eventMediator.Subscribe("ToggleExpandedMenu", this.ToggleEnabled.bind(this));
-    }
+    /* -------------------------------------------------------------------------- */
+    /*                               Event Handlers                               */
+    /* -------------------------------------------------------------------------- */
 
     HandleSliderChange = (event) => {
         this.setState({ sliderValue: parseInt(event.target.value) });
@@ -43,6 +40,17 @@ class LightIntensitySlider extends Component {
         this.setState((prevState) => ({
             isEnabled: !prevState.isEnabled
         }));
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /*                              Lifecycle Methods                             */
+    /* -------------------------------------------------------------------------- */
+
+    componentDidMount() {
+        // TODO: Tie to the game observer instead
+        this.eventMediator = SolarSystemVisualizer.serviceContainer.Resolve(EventMediator);
+        this.eventMediator.Subscribe("ToggleCameraLight", this.ToggleVisibility.bind(this));
+        this.eventMediator.Subscribe("ToggleExpandedMenu", this.ToggleEnabled.bind(this));
     }
 
     render() {

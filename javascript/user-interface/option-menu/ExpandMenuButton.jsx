@@ -5,13 +5,20 @@ import { SolarSystemVisualizer } from "../../SolarSystemVisualizer";
 import { EventMediator } from "../mediator/EventMediator.js";
 
 class ExpandMenuButton extends Component {
-    componentDidMount() {
-        // TODO: Tie to the game observer instead
-        this.eventMediator = SolarSystemVisualizer.serviceContainer.Resolve(EventMediator);
-    }
+    /* -------------------------------------------------------------------------- */
+    /*                               Event Handlers                               */
+    /* -------------------------------------------------------------------------- */
 
     HandleClick() {
         this.eventMediator.Notify("ToggleExpandedMenu");
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /*                              Lifecycle Methods                             */
+    /* -------------------------------------------------------------------------- */
+
+    componentDidMount() {
+        this.eventMediator = SolarSystemVisualizer.serviceContainer.Resolve(EventMediator);
     }
 
     render() {

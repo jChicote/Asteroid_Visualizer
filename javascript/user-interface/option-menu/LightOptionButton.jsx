@@ -1,9 +1,9 @@
-import { faLightbulb } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Component } from "react";
-import { SolarSystemVisualizer } from "../../SolarSystemVisualizer.js";
-import { GameManager } from "../../game/GameManager.js";
 import { EventMediator } from "../mediator/EventMediator.js";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { GameManager } from "../../game/GameManager.js";
+import { SolarSystemVisualizer } from "../../SolarSystemVisualizer.js";
+import { faLightbulb } from "@fortawesome/free-solid-svg-icons";
 
 class LightOptionButton extends Component {
     constructor(props) {
@@ -16,11 +16,9 @@ class LightOptionButton extends Component {
         };
     }
 
-    componentDidMount() {
-        // TODO: Tie to the game observer instead
-        this.eventMediator = SolarSystemVisualizer.serviceContainer.Resolve(EventMediator);
-        this.eventMediator.Subscribe("ToggleExpandedMenu", this.ToggleVisibility.bind(this));
-    }
+    /* -------------------------------------------------------------------------- */
+    /*                               Event Handlers                               */
+    /* -------------------------------------------------------------------------- */
 
     HandleClick(event) {
         GameManager.gameObserver.Dispatch("ToggleCameraLight");
@@ -35,6 +33,15 @@ class LightOptionButton extends Component {
         this.setState((prevState) => ({
             isVisible: !prevState.isVisible
         }));
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /*                              Lifecycle Methods                             */
+    /* -------------------------------------------------------------------------- */
+
+    componentDidMount() {
+        this.eventMediator = SolarSystemVisualizer.serviceContainer.Resolve(EventMediator);
+        this.eventMediator.Subscribe("ToggleExpandedMenu", this.ToggleVisibility.bind(this));
     }
 
     render() {

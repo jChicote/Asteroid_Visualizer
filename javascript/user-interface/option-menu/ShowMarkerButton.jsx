@@ -14,10 +14,9 @@ class ShowMarkerButton extends Component {
         };
     }
 
-    componentDidMount() {
-        this.eventMediator = SolarSystemVisualizer.serviceContainer.Resolve(EventMediator);
-        this.eventMediator.Subscribe("ToggleExpandedMenu", this.ToggleVisibility.bind(this));
-    }
+    /* -------------------------------------------------------------------------- */
+    /*                               Event Handlers                               */
+    /* -------------------------------------------------------------------------- */
 
     HandleClick() {
         console.log("Show marker behaviour not implemented.");
@@ -33,6 +32,15 @@ class ShowMarkerButton extends Component {
         this.setState((prevState) => ({
             isVisible: !prevState.isVisible
         }));
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /*                              Lifecycle Methods                             */
+    /* -------------------------------------------------------------------------- */
+
+    componentDidMount() {
+        this.eventMediator = SolarSystemVisualizer.serviceContainer.Resolve(EventMediator);
+        this.eventMediator.Subscribe("ToggleExpandedMenu", this.ToggleVisibility.bind(this));
     }
 
     render() {

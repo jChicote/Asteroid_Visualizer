@@ -5,19 +5,31 @@
     --option-button-length: 67px;
 }
 
+/* ROOT CANVAS STYLING */
+
 #root-canvas {
     position: absolute;
+    pointer-events: none;
+}
+
+.canvas {
     top: var(--navbar-height);
     bottom: var(--navbar-height);
     width: 100%;
-    pointer-events: none;
+    transition: top 0.5s ease, bottom 0.5s ease;
+}
+
+.canvas.fullscreen {
+    top: 0px;
+    bottom: 0px;
+    width: 100%;
 }
 
 #view-options {
     position: absolute;
     top: 0px;
     left: 0px;
-    height: 20%;
+    height: 15%;
     width: 100%;
     display: flex;
     justify-content: flex-start;

@@ -5,7 +5,7 @@ import { ObjectValidator } from "../utils/ObjectValidator.js";
 import { AsteroidManager } from "./Asteroids/AsteroidManager.js";
 import { Camera } from "./Camera/Camera.js";
 import { CameraController } from "./Camera/CameraController.js";
-import { CanvasManager } from "./Canvas/CanvasManager.js";
+import { CanvasManager } from "../user-interface/manager/canvas-manager/CanvasManager.js";
 import { CometManager } from "./Comets/CometManager.js";
 import { TimeControl } from "./Components/Time/TimeControl.js";
 import { GlobalState } from "./GlobalState.js";
