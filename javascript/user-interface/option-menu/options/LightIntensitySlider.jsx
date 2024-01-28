@@ -47,7 +47,6 @@ class LightIntensitySlider extends Component {
     /* -------------------------------------------------------------------------- */
 
     componentDidMount() {
-        // TODO: Tie to the game observer instead
         this.eventMediator = SolarSystemVisualizer.serviceContainer.Resolve(EventMediator);
         this.eventMediator.Subscribe("ToggleCameraLight", this.ToggleVisibility.bind(this));
         this.eventMediator.Subscribe("ToggleExpandedMenu", this.ToggleEnabled.bind(this));

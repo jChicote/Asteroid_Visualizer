@@ -1,6 +1,7 @@
 import { EventMediator } from "../../mediator/EventMediator.js";
 import { SolarSystemVisualizer } from "../../../SolarSystemVisualizer.js";
 
+// Intended to manage the canvas element that the three.js root depends on.
 class CanvasManager {
     constructor() {
         this.isMenuVisible = true;
