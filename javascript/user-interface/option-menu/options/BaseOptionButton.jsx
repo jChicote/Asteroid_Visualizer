@@ -8,7 +8,8 @@ class BaseOptionButton extends Component {
     constructor(props) {
         super(props);
 
-        this.icon = props.icon;
+        this.activeIcon = props.icons.activeIcon;
+        this.inactiveIcon = props.icons.inactiveIcon;
 
         this.state = {
             isActive: false,
@@ -49,16 +50,18 @@ class BaseOptionButton extends Component {
             menu-button-skin ${this.state.isActive ? "active " : ""}
             option-button ${this.state.isVisible ? "fade-in" : "fade-out"}`;
 
+        const icon = this.state.isActive ? this.activeIcon : this.inactiveIcon;
+
         return (
             <button className={buttonClassName} onClick={this.HandleClick.bind(this)} onTransitionEnd={this.HandleTransitionEnd.bind(this)}>
-                <FontAwesomeIcon icon={this.icon} className="option-icon"/>
+                <FontAwesomeIcon icon={icon} className="option-icon"/>
             </button>
         );
     }
 }
 
 BaseOptionButton.propTypes = {
-    icon: PropTypes.object.isRequired
+    icons: PropTypes.object.isRequired
 };
 
 export { BaseOptionButton };

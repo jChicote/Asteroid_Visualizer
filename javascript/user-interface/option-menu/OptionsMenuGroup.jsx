@@ -46,9 +46,18 @@ class OptionsMenuGroup extends Component {
             <div id="options-menu">
                 <div className="option-column">
                     <div className={"options-expanded-menu " + (this.state.isExpanded ? "visible" : "")}>
-                        <LightOptionButton icon={faLightbulb}/>
-                        <ShowMarkerButton icon={faLocationDot} />
-                        <FullScreenButton icon={faExpand}/>
+                        <LightOptionButton icons={{
+                            activeIcon: faLightbulb,
+                            inactiveIcon: faLightbulb
+                        }}/>
+                        <ShowMarkerButton icons={{
+                            activeIcon: faLocationDot,
+                            inactiveIcon: faLocationDot
+                        }}/>
+                        <FullScreenButton icons={{
+                            activeIcon: faExpand,
+                            inactiveIcon: faExpand
+                        }}/>
                     </div>
                     <ExpandMenuButton />
                 </div>
