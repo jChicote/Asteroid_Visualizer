@@ -1,7 +1,7 @@
 import { Component } from "react";
-import { EventMediator } from "../mediator/EventMediator.js";
-import { GameManager } from "../../game/GameManager.js";
-import { SolarSystemVisualizer } from "../../SolarSystemVisualizer.js";
+import { EventMediator } from "../../mediator/EventMediator.js";
+import { GameManager } from "../../../game/GameManager.js";
+import { SolarSystemVisualizer } from "../../../SolarSystemVisualizer.js";
 
 class LightIntensitySlider extends Component {
     constructor(props) {

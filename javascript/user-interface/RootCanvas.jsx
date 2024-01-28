@@ -18,7 +18,6 @@ class RootCanvas extends Component {
     /* -------------------------------------------------------------------------- */
 
     ToggleFullscreen() {
-        console.log("Set fullscreen");
         this.setState((prevState) => ({
             isMenuVisible: !prevState.isMenuVisible
         }));

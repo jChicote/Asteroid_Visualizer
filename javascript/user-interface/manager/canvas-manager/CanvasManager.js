@@ -15,8 +15,6 @@ class CanvasManager {
     /* -------------------------------------------------------------------------- */
 
     ToggleFullScreen() {
-        console.log("Detected click");
-        console.log(this.isMenuVisible);
         if (this.isMenuVisible) {
             this.HideMenu();
         } else {

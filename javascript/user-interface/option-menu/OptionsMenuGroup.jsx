@@ -1,11 +1,12 @@
 import { Component } from "react";
 import { EventMediator } from "../mediator/EventMediator.js";
 import { ExpandMenuButton } from "./ExpandMenuButton.jsx";
-import { FullScreenButton } from "./FullScreenButton.jsx";
-import { LightIntensitySlider } from "./LightIntensitySlider.jsx";
-import { LightOptionButton } from "./LightOptionButton.jsx";
-import { ShowMarkerButton } from "./ShowMarkerButton.jsx";
+import { FullScreenButton } from "./options/FullScreenButton.jsx";
+import { LightIntensitySlider } from "./options/LightIntensitySlider.jsx";
+import { LightOptionButton } from "./options/LightOptionButton.jsx";
+import { ShowMarkerButton } from "./options/ShowMarkerButton.jsx";
 import { SolarSystemVisualizer } from "../../SolarSystemVisualizer.js";
+import { faLightbulb, faExpand, faLocationDot } from "@fortawesome/free-solid-svg-icons";
 
 class OptionsMenuGroup extends Component {
     constructor(props) {
@@ -36,7 +37,6 @@ class OptionsMenuGroup extends Component {
     /* -------------------------------------------------------------------------- */
 
     componentDidMount() {
-        // TODO: Tie to the game observer instead
         this.eventMediator = SolarSystemVisualizer.serviceContainer.Resolve(EventMediator);
         this.eventMediator.Subscribe("ToggleExpandedMenu", this.ToggleExpandedMenuVisibility.bind(this));
     }
@@ -46,9 +46,9 @@ class OptionsMenuGroup extends Component {
             <div id="options-menu">
                 <div className="option-column">
                     <div className={"options-expanded-menu " + (this.state.isExpanded ? "visible" : "")}>
-                        <LightOptionButton />
-                        <ShowMarkerButton />
-                        <FullScreenButton />
+                        <LightOptionButton icon={faLightbulb}/>
+                        <ShowMarkerButton icon={faLocationDot} />
+                        <FullScreenButton icon={faExpand}/>
                     </div>
                     <ExpandMenuButton />
                 </div>

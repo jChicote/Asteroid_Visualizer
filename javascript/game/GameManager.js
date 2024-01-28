@@ -84,7 +84,6 @@ export class GameManager {
     }
 
     Start() {
-        console.log("Should only run once");
         this.SetupScene();
 
         // Setup Debug GUI
