@@ -26,7 +26,6 @@ class OptionsMenuGroup extends Component {
             isExpanded: !prevState.isExpanded
         }), () => {
             if (!this.state.isExpanded) {
-                console.log("Hiding option panel");
                 this.eventMediator.Notify("SetOptionPanelVisibility", false);
             }
         });
