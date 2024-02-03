@@ -11,8 +11,3 @@ export class ServiceProvider {
                 .Resolve(ClassToResolve));
     }
 }
-
-// This is only for a test
-export function sum(a, b) {
-    return a + b;
-}

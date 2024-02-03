@@ -85,7 +85,18 @@
     position: absolute;
     top: 60px;
     left: 2rem;
+}
 
+#navbar {
+    opacity: 1;
+    transition: opacity 0.5s ease;
+    pointer-events: all;
+}
+
+#footer {
+    opacity: 1;
+    transition: opacity 1s ease;
+    pointer-events: all;
 }
 
 /* VISUALIZER CANVAS */

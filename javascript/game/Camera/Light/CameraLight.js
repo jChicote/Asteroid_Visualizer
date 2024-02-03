@@ -13,13 +13,20 @@ class CameraLight extends GameObject {
 
     InitialiseFields(parameters) {
         super.InitialiseFields(parameters);
+
         // Fields
         this.camera = parameters.camera;
         this.light = new THREE.PointLight(0xffffff, 50, 100);
+        this.isLightEnabled = false;
 
         // Attach to the camera
         parameters.camera.add(this.light);
         GameManager.scene.add(this.light);
+    }
+
+    Awake() {
+        GameManager.gameObserver.Subscribe("ToggleCameraLight", this.ToggleCameraLight.bind(this));
+        GameManager.gameObserver.Subscribe("SetCameraLightIntensity", this.SetLightIntensity.bind(this));
     }
 
     Update() {
@@ -29,6 +36,16 @@ class CameraLight extends GameObject {
     /* -------------------------------------------------------------------------- */
     /*                                   Methods                                  */
     /* -------------------------------------------------------------------------- */
+
+    ToggleCameraLight() {
+        if (this.isLightEnabled) {
+            this.DisableLight();
+            this.isLightEnabled = false;
+        } else {
+            this.EnableLight();
+            this.isLightEnabled = true;
+        }
+    }
 
     EnableLight() {
         this.light.visible = true;

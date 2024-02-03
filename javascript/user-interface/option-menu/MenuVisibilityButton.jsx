@@ -1,19 +1,44 @@
 import { Component } from "react";
-import { GameManager } from "../../game/GameManager";
+import { EventMediator } from "../mediator/EventMediator.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { SolarSystemVisualizer } from "../../SolarSystemVisualizer.js";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 class MenuVisibilityButton extends Component {
-    HandleClick() {
-        console.log("Button clicked");
+    constructor(props) {
+        super(props);
 
-        GameManager.gameObserver.Dispatch("ToggleMenuVisibility");
+        this.state = {
+            active: false,
+            activeIcon: faEyeSlash,
+            inactiveIcon: faEye
+        };
+    }
+    /* -------------------------------------------------------------------------- */
+    /*                               Event Handlers                               */
+    /* -------------------------------------------------------------------------- */
+
+    HandleClick() {
+        this.eventObserver.Notify("ToggleMenuVisibility");
+
+        this.setState((prevState) => ({
+            isActive: !prevState.isActive
+        }));
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /*                              Lifecycle Methods                             */
+    /* -------------------------------------------------------------------------- */
+
+    componentDidMount() {
+        this.eventObserver = SolarSystemVisualizer.serviceContainer.Resolve(EventMediator);
     }
 
     render() {
+        const icon = this.state.isActive ? this.state.activeIcon : this.state.inactiveIcon;
         return (
-            <button className="option-button" onClick={this.HandleClick.bind(this)}>
-                <FontAwesomeIcon icon={faEye} className="option-icon"/>
+            <button className="rounded-square-button menu-button-skin row-button" onClick={this.HandleClick.bind(this)}>
+                <FontAwesomeIcon icon={icon} className="option-icon"/>
             </button>
         );
     }
