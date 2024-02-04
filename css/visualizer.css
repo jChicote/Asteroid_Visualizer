@@ -25,6 +25,25 @@
     width: 100%;
 }
 
+.app-canvas {
+    position: relative;
+    height: 100%;
+}
+
+.three-container {
+    top: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.render-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
+
 #view-options {
     position: absolute;
     top: 0px;

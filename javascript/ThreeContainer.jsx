@@ -33,7 +33,7 @@ class ThreeContainer extends Component {
 
     render() {
         return (
-            <div ref={ref => (this.mount = ref)} />
+            <div id="threeCanvas" className="three-container" ref={ref => (this.mount = ref)} />
         );
     }
 }
