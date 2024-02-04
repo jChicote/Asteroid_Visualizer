@@ -1,25 +1,35 @@
 import { EventMediator } from "../../mediator/EventMediator.js";
 import { SolarSystemVisualizer } from "../../../SolarSystemVisualizer.js";
 
-// Intended to manage the canvas element that the three.js root depends on.
-class CanvasManager {
+// Manages the canvas elements for React components, html and css.
+class ReactCanvasManager {
     constructor() {
         this.isMenuVisible = true;
+        this.isFullScreen = document.fullscreenElement;
         this.canvas = document.getElementById("root");
 
         this.eventObserver = SolarSystemVisualizer.serviceContainer.Resolve(EventMediator);
-        this.eventObserver.Subscribe("ToggleMenuVisibility", this.ToggleFullScreen.bind(this));
+        this.eventObserver.Subscribe("ToggleMenuVisibility", this.OnMenuVisibilityChange.bind(this));
+        this.eventObserver.Subscribe("ToggleFullscreen", this.OnFullscreenChange.bind(this));
     }
 
     /* -------------------------------------------------------------------------- */
     /*                               Event Handlers                               */
     /* -------------------------------------------------------------------------- */
 
-    ToggleFullScreen() {
+    OnMenuVisibilityChange() {
         if (this.isMenuVisible) {
             this.HideMenu();
         } else {
             this.RevealMenu();
+        }
+    }
+
+    OnFullscreenChange() {
+        if (this.isFullScreen) {
+            this.TriggerExitFullScreen();
+        } else {
+            this.TriggerEnterFullScreen();
         }
     }
 
@@ -50,6 +60,24 @@ class CanvasManager {
 
         this.isMenuVisible = true;
     }
+
+    TriggerEnterFullScreen() {
+        const rootCanvas = document.getElementById("main-container");
+        if (rootCanvas.requestFullscreen) {
+            rootCanvas.requestFullscreen().then(() => {
+                this.isFullScreen = true;
+            }).catch(err => {
+                console.error(err);
+            });
+        }
+    }
+
+    TriggerExitFullScreen() {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+            this.isFullScreen = false;
+        }
+    }
 }
 
-export { CanvasManager };
+export { ReactCanvasManager };

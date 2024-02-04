@@ -1,6 +1,8 @@
 import * as THREE from "three";
-import { GameObject } from "../Entities/GameObject.js";
+import { CameraContract } from "./CameraContract.js";
 import { CameraLight } from "./Light/CameraLight.js";
+import { GameObject } from "../Entities/GameObject.js";
+import { GameManager } from "../GameManager.js";
 
 class Camera extends GameObject {
     InitialiseFields() {
@@ -9,6 +11,18 @@ class Camera extends GameObject {
         this.cameraLight.DisableLight();
 
         this.SetPosition(new THREE.Vector3(30, 20, 45));
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /*                              Lifecycle Methods                             */
+    /* -------------------------------------------------------------------------- */
+
+    Start() {
+        const gameObjectRegistry = GameManager.gameObjectRegistry;
+        const cameraContract = new CameraContract();
+
+        cameraContract.SetAspectRatio = this.SetAspectRatio.bind(this);
+        gameObjectRegistry.RegisterGameObject("Camera", cameraContract);
     }
 
     /* -------------------------------------------------------------------------- */
@@ -39,6 +53,11 @@ class Camera extends GameObject {
 
     GetControlledCamera() {
         return this.camera;
+    }
+
+    SetAspectRatio(newAspectRatio) {
+        this.camera.aspect = newAspectRatio;
+        this.camera.updateProjectionMatrix();
     }
 }
 
