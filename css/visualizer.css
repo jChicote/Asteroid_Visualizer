@@ -56,6 +56,23 @@
     padding: 20px;
 }
 
+/* LOADING SCREEN STYLES */
+
+.dark-background-06 {
+    background-color: rgb(24, 24, 24);
+}
+
+.background-panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 /* OPTIONS MENU STYLES */
 
 /* Menu button styles */

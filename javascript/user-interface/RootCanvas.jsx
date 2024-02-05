@@ -1,7 +1,7 @@
 import { Component } from "react";
+import { SolarSystemVisualizer } from "../SolarSystemVisualizer.js";
 import { EventMediator } from "./mediator/EventMediator.js";
 import { OptionsMenuGroup } from "./option-menu/OptionsMenuGroup.jsx";
-import { SolarSystemVisualizer } from "../SolarSystemVisualizer.js";
 import { ViewingOptionsGroup } from "./option-menu/ViewingOptionsGroup.jsx";
 
 class RootCanvas extends Component {
