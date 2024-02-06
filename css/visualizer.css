@@ -80,8 +80,35 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    order: 0;
+    z-index: 9997;
+}
+
+.loading-bar-shape {
+    position: relative;
+    height: 20px;
+    width: 320px;
+    border-radius: 10px;
+    background-color: #13191d;
+    margin: 10px;
+    z-index: 9998;
+}
+
+.loading-bar-fill-shape {
+    position: absolute;
+    height: 100%;
+    width: 0%;
+    border-radius: 10px;
+    background-color: #4521e4;
     z-index: 9999;
+    transition: width 0.5s ease;
+}
+
+.loading-bar-background {
+    background-color: #9d9d9d;
+}
+
+.loading-bar-fill {
+    background-color: #4521e4;
 }
 
 /* OPTIONS MENU STYLES */
