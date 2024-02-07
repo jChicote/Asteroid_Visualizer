@@ -53,7 +53,6 @@ class InitialisationHandler {
 
         this.eventMediator.Notify("UpdateLoadingBar", 20);
 
-
         const preLoadManager = serviceProvider.GetService(AssetManager);
         await preLoadManager.PreLoadAssets();
 
@@ -75,6 +74,7 @@ class InitialisationHandler {
         console.log("7 >> Start the game");
         SolarSystemVisualizer.gameManager.Start();
         this.eventMediator.Notify("UpdateLoadingBar", 100);
+        this.eventMediator.Notify("StartGame");
     }
 
     /* -------------------------------------------------------------------------- */

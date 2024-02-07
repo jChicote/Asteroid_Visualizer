@@ -71,7 +71,7 @@
     background-color: rgb(24, 24, 24);
 }
 
-.background-panel {
+.loading-panel {
     position: absolute;
     top: 0;
     left: 0;
@@ -81,6 +81,13 @@
     justify-content: center;
     align-items: center;
     z-index: 9997;
+    opacity: 1;
+}
+
+.loading-panel-fade-out {
+    opacity: 0;
+    transition: opacity 1s ease;
+    pointer-events: none;
 }
 
 .loading-bar-shape {

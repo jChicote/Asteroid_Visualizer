@@ -3,6 +3,10 @@ import { SolarSystemVisualizer } from "../../SolarSystemVisualizer";
 import { EventMediator } from "../mediator/EventMediator";
 
 class LoadingBar extends Component {
+    /* -------------------------------------------------------------------------- */
+    /*                                   Methods                                  */
+    /* -------------------------------------------------------------------------- */
+
     UpdateBarFill(progress) {
         const fill = document.getElementById("loading-bar-progress");
         fill.style.width = `${progress}%`;
