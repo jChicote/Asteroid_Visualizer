@@ -11,7 +11,7 @@ export class CreatePlanetPresenter {
     }
 
     async PresentsPlanetDataAsync(planetData) {
-        console.log("Encountered Success");
+        console.log("Planet has been created.");
         this.result = new SuccessfulResult(this.mapper.Map(planetData, CreatePlanetViewModel));
     }
 

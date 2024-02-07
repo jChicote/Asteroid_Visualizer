@@ -1,11 +1,19 @@
 :root {
-    --navbar-height: 60px;
+    --navbar-height: 6vh;
     --view-options-height: 12vh;
     --option-button-padding: 5px;
     --option-button-length: 67px;
 }
 
 /* ROOT CANVAS STYLING */
+
+#root {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
 
 #root-canvas {
     position: absolute;
@@ -28,6 +36,7 @@
 .app-canvas {
     position: relative;
     height: 100%;
+    width: 100%;
 }
 
 .three-container {
@@ -54,6 +63,59 @@
     justify-content: flex-start;
     align-items: center;
     padding: 20px;
+}
+
+/* LOADING SCREEN STYLES */
+
+.dark-background-06 {
+    background-color: rgb(24, 24, 24);
+}
+
+.loading-panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9997;
+    opacity: 1;
+}
+
+.loading-panel-fade-out {
+    opacity: 0;
+    transition: opacity 1s ease;
+    pointer-events: none;
+}
+
+.loading-bar-shape {
+    position: relative;
+    height: 20px;
+    width: 320px;
+    border-radius: 10px;
+    background-color: #13191d;
+    margin: 10px;
+    z-index: 9998;
+}
+
+.loading-bar-fill-shape {
+    position: absolute;
+    height: 100%;
+    width: 0%;
+    border-radius: 10px;
+    background-color: #4521e4;
+    z-index: 9999;
+    transition: width 0.5s ease;
+}
+
+.loading-bar-background {
+    background-color: #9d9d9d;
+}
+
+.loading-bar-fill {
+    background-color: #4521e4;
 }
 
 /* OPTIONS MENU STYLES */

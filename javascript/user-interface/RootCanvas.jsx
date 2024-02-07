@@ -1,8 +1,9 @@
 import { Component } from "react";
+import { SolarSystemVisualizer } from "../SolarSystemVisualizer.js";
 import { EventMediator } from "./mediator/EventMediator.js";
 import { OptionsMenuGroup } from "./option-menu/OptionsMenuGroup.jsx";
-import { SolarSystemVisualizer } from "../SolarSystemVisualizer.js";
 import { ViewingOptionsGroup } from "./option-menu/ViewingOptionsGroup.jsx";
+import { LoadingScreen } from "./loading-screen/LoadingScreen.jsx";
 
 class RootCanvas extends Component {
     constructor(props) {
@@ -37,6 +38,7 @@ class RootCanvas extends Component {
 
         return (
             <div id="root-canvas" className={canvasClassName}>
+                <LoadingScreen />
                 <ViewingOptionsGroup />
                 <OptionsMenuGroup />
             </div>

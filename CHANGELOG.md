@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 - Website theme to use darker greys over maroon.
 - Supports React.js and Vite.js.
 - Official option buttons included for interaction.
+- Loading screen added on opening the visualiser.
 
 ## [3.0.0] - 2024-01-05
 ### Added
