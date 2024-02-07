@@ -1,17 +1,21 @@
 import { Component } from "react";
+import { SolarSystemVisualizer } from "../../SolarSystemVisualizer";
+import { EventMediator } from "../mediator/EventMediator";
 
 class LoadingBar extends Component {
-    constructor() {
-        super();
-
-        this.state = {
-            progress: 0
-        };
+    UpdateBarFill(progress) {
+        const fill = document.getElementById("loading-bar-progress");
+        fill.style.width = `${progress}%`;
     }
 
-    UpdateBarFill() {
-        const fill = document.getElementById("loading-bar-progress");
-        fill.style.width = `${this.state.progress}%`;
+    /* -------------------------------------------------------------------------- */
+    /*                              Lifecycle Methods                             */
+    /* -------------------------------------------------------------------------- */
+
+    componentDidMount() {
+        this.eventMediator = SolarSystemVisualizer.serviceContainer.Resolve(EventMediator);
+        this.eventMediator.Subscribe("UpdateLoadingBar", this.UpdateBarFill.bind(this));
+        console.log("event subscribed");
     }
 
     render() {

@@ -1,11 +1,12 @@
-import { ObjectValidator } from "../../../utils/ObjectValidator.js";
-import { ServiceContainer } from "../../DependencyInjectionServices/ServiceContainer.js";
-import { Configuration } from "../../Configuration.js";
+import { SolarSystemVisualizer } from "../../../SolarSystemVisualizer.js";
 import { GameConfiguration } from "../../../game/GameConfiguration.js";
 import { GameManager } from "../../../game/GameManager.js";
-import { ServiceProvider } from "../../DependencyInjectionServices/ServiceProvider.js";
 import { AssetManager } from "../../../game/Managers/AssetManager/AssetManager.js";
-import { SolarSystemVisualizer } from "../../../SolarSystemVisualizer.js";
+import { EventMediator } from "../../../user-interface/mediator/EventMediator.js";
+import { ObjectValidator } from "../../../utils/ObjectValidator.js";
+import { Configuration } from "../../Configuration.js";
+import { ServiceContainer } from "../../DependencyInjectionServices/ServiceContainer.js";
+import { ServiceProvider } from "../../DependencyInjectionServices/ServiceProvider.js";
 
 class InitialisationHandler {
     async Handle() {
@@ -14,6 +15,10 @@ class InitialisationHandler {
         await this.Initialisation();
         await this.Start();
     }
+
+    /* -------------------------------------------------------------------------- */
+    /*                              Lifecycle Methods                             */
+    /* -------------------------------------------------------------------------- */
 
     async Construction() {
         console.log("1 >> Begin Construction");
@@ -35,6 +40,8 @@ class InitialisationHandler {
                         .Resolve(ServiceProvider));
         }
 
+        this.GetEventMediator();
+
         console.log("2 >> Complete Construction");
     }
 
@@ -44,8 +51,13 @@ class InitialisationHandler {
         const serviceProvider = SolarSystemVisualizer.serviceContainer
             .Resolve(ServiceProvider);
 
+        this.eventMediator.Notify("UpdateLoadingBar", 20);
+
+
         const preLoadManager = serviceProvider.GetService(AssetManager);
         await preLoadManager.PreLoadAssets();
+
+        this.eventMediator.Notify("UpdateLoadingBar", 40);
 
         console.log("4 >> Complete PreInitialisation");
     }
@@ -54,6 +66,7 @@ class InitialisationHandler {
         console.log("5 >> Begin Initialisation");
 
         await SolarSystemVisualizer.gameManager.Initialise();
+        this.eventMediator.Notify("UpdateLoadingBar", 60);
 
         console.log("6 >> Complete Initialisation");
     }
@@ -61,6 +74,15 @@ class InitialisationHandler {
     async Start() {
         console.log("7 >> Start the game");
         SolarSystemVisualizer.gameManager.Start();
+        this.eventMediator.Notify("UpdateLoadingBar", 100);
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /*                                  Methods                                   */
+    /* -------------------------------------------------------------------------- */
+
+    GetEventMediator() {
+        this.eventMediator = SolarSystemVisualizer.serviceContainer.Resolve(EventMediator);
     }
 }
 

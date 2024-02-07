@@ -1,25 +1,26 @@
-import * as THREE from "three";
 import Stats from "stats.js";
+import * as THREE from "three";
+import { GUI } from "../../node_modules/dat.gui/build/dat.gui.module.js";
+import { ReactCanvasManager } from "../user-interface/manager/canvas-manager/ReactCanvasManager.js";
+import { EventMediator } from "../user-interface/mediator/EventMediator.js";
+import { ObjectValidator } from "../utils/ObjectValidator.js";
 import { AsteroidManager } from "./Asteroids/AsteroidManager.js";
-import { Background } from "./Scene/Background/Background.js";
 import { Camera } from "./Camera/Camera.js";
 import { CameraController } from "./Camera/CameraController.js";
-import { ReactCanvasManager } from "../user-interface/manager/canvas-manager/ReactCanvasManager.js";
 import { CometManager } from "./Comets/CometManager.js";
+import { TimeControl } from "./Components/Time/TimeControl.js";
+import { GlobalState } from "./GlobalState.js";
 import { DataLoaderProvider } from "./Infrastructure/DataLoaders/DataLoaderProvider.js";
 import { EventManager } from "./Managers/EventManager/EventManager.js";
-import { GUI } from "../../node_modules/dat.gui/build/dat.gui.module.js";
 import { GameObjectManager } from "./Managers/GameObjectManager/GameObjectManager.js";
-import { GameObjectRegistry } from "./Providers/GameObjectRegistry.js";
-import { GameObserver } from "./Observers/GameObserver.js";
-import { GlobalState } from "./GlobalState.js";
-import { ObjectValidator } from "../utils/ObjectValidator.js";
-import { PlanetManager } from "./Planets/PlanetManager.js";
 import { ShaderManager } from "./Managers/ShaderManager/ShaderManager.js";
-import { Sun } from "./Sun/Sun.js";
 import { TextureManager } from "./Managers/TextureManager/TextureManager.js";
-import { TimeControl } from "./Components/Time/TimeControl.js";
 import { ThreeCanvasManager } from "./Managers/ThreeCanvasManager/ThreeCanvasManager.js";
+import { GameObserver } from "./Observers/GameObserver.js";
+import { PlanetManager } from "./Planets/PlanetManager.js";
+import { GameObjectRegistry } from "./Providers/GameObjectRegistry.js";
+import { Background } from "./Scene/Background/Background.js";
+import { Sun } from "./Sun/Sun.js";
 
 export class GameManager {
     static scene;
@@ -80,15 +81,20 @@ export class GameManager {
         this.camera = {};
         this.cameraController = {};
 
+        const eventMediator = this.serviceProvider.GetService(EventMediator);
+
         // Load celestial objects
         const asteroidDataLoader = await this.dataLoaderProvider.CreateDataLoader("Asteroids");
         await asteroidDataLoader.LoadAsync();
+        eventMediator.Notify("UpdateLoadingBar", 65);
 
         const cometsDataLoader = await this.dataLoaderProvider.CreateDataLoader("Comets");
         await cometsDataLoader.LoadAsync();
+        eventMediator.Notify("UpdateLoadingBar", 70);
 
         const planetDataLoader = await this.dataLoaderProvider.CreateDataLoader("Planets");
         await planetDataLoader.LoadAsync();
+        eventMediator.Notify("UpdateLoadingBar", 75);
     }
 
     Start() {
