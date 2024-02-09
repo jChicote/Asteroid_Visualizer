@@ -133,6 +133,7 @@
     transition: background-color 0.5s ease;
 }
 
+
 .menu-button-skin {
     background-color: #13191d;
     color: white;
@@ -252,4 +253,47 @@
 .row-button {
     height: var(--option-button-length);
     margin-right: 15px;
+}
+
+/* TIME CONTROL STYLES */
+
+.centered-canvas {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.center-third-column {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 33%;
+    height: 100%;
+}
+
+.time-control-box {
+    position: absolute;
+    bottom: 0;
+    height: 20%;
+    width: 100%;
+    padding: 20px;
+}
+
+.time-control-button-group {
+    top: 0;
+    height: 50%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.time-control-button {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.time-control-trigger-box {
+
 }
