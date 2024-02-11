@@ -1,5 +1,9 @@
 import { Component } from "react";
-import { TimeControlButton } from "./TimeControlButton";
+import { ForwardTimeButton } from "./ForwardTimeButton.jsx";
+import { ReverseTimeButton } from "./ReverseTimeButton.jsx";
+import { PauseButton } from "./PauseButton.jsx";
+import { PlayButton } from "./PlayButton.jsx";
+import { ResetTimeButton } from "./ResetTimeButton.jsx";
 
 class TimeControlScreen extends Component {
     render() {
@@ -12,10 +16,11 @@ class TimeControlScreen extends Component {
                     <div className="time-control-box">
                         <div className="time-control-button-group">
                             <p>-1x</p>
-                            <TimeControlButton />
-                            <TimeControlButton />
-                            <TimeControlButton />
-                            <TimeControlButton />
+                            <ReverseTimeButton />
+                            <PauseButton />
+                            <ResetTimeButton />
+                            <PlayButton />
+                            <ForwardTimeButton />
                             <p>1x</p>
                         </div>
                         <div>

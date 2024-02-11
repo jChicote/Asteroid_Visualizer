@@ -100,6 +100,11 @@ export class GameManager {
     Start() {
         this.SetupScene();
         this.gameState.canUpdate = true;
+
+        // Subscribe time methods
+        GameManager.gameObserver.Subscribe("UpdateTimeMultiplier", this.SetTimeMultiplier.bind(this));
+        GameManager.gameObserver.Subscribe("UpdateIsTimePaused", this.SetIsTimePaused.bind(this));
+        GameManager.gameObserver.Subscribe("ResetTimeControls", this.ResetTimeControls.bind(this));
     }
 
     Update() {
@@ -133,6 +138,19 @@ export class GameManager {
     SetupDebugHelpers() {
         const axesHelper = new THREE.AxesHelper(30);
         GameManager.scene.add(axesHelper);
+    }
+
+    SetTimeMultiplier(timeDirection) {
+        this.gameState.timeMultiplier += timeDirection;
+    }
+
+    SetIsTimePaused(isPaused) {
+        this.gameState.isPaused = isPaused;
+    }
+
+    ResetTimeControls() {
+        this.gameState.timeMultiplier = 0.01; // Default configurations will need to exist in the future.
+        this.gameState.isPaused = false;
     }
 
     // SetupDebugGUI() {
