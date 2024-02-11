@@ -1,4 +1,5 @@
 import { Component } from "react";
+import { TimeControlButton } from "./TimeControlButton";
 
 class TimeControlScreen extends Component {
     render() {
@@ -11,10 +12,10 @@ class TimeControlScreen extends Component {
                     <div className="time-control-box">
                         <div className="time-control-button-group">
                             <p>-1x</p>
-                            <button id="play-pause-button" className="rounded-square-button time-control-button" />
-                            <button id="play-pause-button" className="rounded-square-button time-control-button" />
-                            <button id="play-pause-button" className="rounded-square-button time-control-button" />
-                            <button id="play-pause-button" className="rounded-square-button time-control-button" />
+                            <TimeControlButton />
+                            <TimeControlButton />
+                            <TimeControlButton />
+                            <TimeControlButton />
                             <p>1x</p>
                         </div>
                         <div>
