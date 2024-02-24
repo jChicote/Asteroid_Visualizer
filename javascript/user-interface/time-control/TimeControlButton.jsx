@@ -11,11 +11,19 @@ class TimeControlButton extends Component {
         };
     }
 
+    /* -------------------------------------------------------------------------- */
+    /*                               Event Handlers                               */
+    /* -------------------------------------------------------------------------- */
+
     HandleClick(event) {
         this.setState((prevState) => ({
             isActive: !prevState.isActive
         }));
     }
+
+    /* -------------------------------------------------------------------------- */
+    /*                              Lifecycle Methods                             */
+    /* -------------------------------------------------------------------------- */
 
     render() {
         const buttonClassName = "rounded-square-button time-control-button menu-button-skin";

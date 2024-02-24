@@ -142,6 +142,24 @@ export class GameManager {
 
     SetTimeMultiplier(timeDirection) {
         this.gameState.timeMultiplier += timeDirection;
+
+        if (this.gameState.timeMultiplier < 0) {
+            GameManager.gameObserver.Dispatch(
+                "UpdateTimeMultiplierEnd",
+                {
+                    reverseMultiplier: parseInt(Math.round(this.gameState.timeMultiplier)),
+                    forwardMultiplier: 0
+                }
+            );
+        } else if (this.gameState.timeMultiplier > 0) {
+            GameManager.gameObserver.Dispatch(
+                "UpdateTimeMultiplierEnd",
+                {
+                    reverseMultiplier: 0,
+                    forwardMultiplier: parseInt(Math.round(this.gameState.timeMultiplier))
+                }
+            );
+        }
     }
 
     SetIsTimePaused(isPaused) {
@@ -151,6 +169,13 @@ export class GameManager {
     ResetTimeControls() {
         this.gameState.timeMultiplier = 0.01; // Default configurations will need to exist in the future.
         this.gameState.isPaused = false;
+        GameManager.gameObserver.Dispatch(
+            "UpdateTimeMultiplierEnd",
+            {
+                reverseMultiplier: 0,
+                forwardMultiplier: 0
+            }
+        );
     }
 
     // SetupDebugGUI() {

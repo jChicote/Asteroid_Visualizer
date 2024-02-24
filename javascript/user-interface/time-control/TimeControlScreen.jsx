@@ -4,28 +4,72 @@ import { ReverseTimeButton } from "./ReverseTimeButton.jsx";
 import { PauseButton } from "./PauseButton.jsx";
 import { PlayButton } from "./PlayButton.jsx";
 import { ResetTimeButton } from "./ResetTimeButton.jsx";
+import { GameManager } from "../../game/GameManager.js";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCaretUp, faCaretDown } from "@fortawesome/free-solid-svg-icons";
+import { SolarSystemVisualizer } from "../../SolarSystemVisualizer.js";
+import { EventMediator } from "../mediator/EventMediator.js";
+import { TimeControlRevealButton } from "./TimeControlRevealButton.jsx";
 
 class TimeControlScreen extends Component {
+    constructor() {
+        super();
+
+        this.state = {
+            reverseMultiplier: 0,
+            forwardMultiplier: 0,
+            isHidden: true
+        };
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /*                                Event Methods                               */
+    /* -------------------------------------------------------------------------- */
+
+    UpdateMultiplierState(props) {
+        this.setState({
+            reverseMultiplier: props.reverseMultiplier,
+            forwardMultiplier: props.forwardMultiplier
+        });
+    }
+
+    OnTimeControlToggle() {
+        this.setState((prevState) => ({
+            isHidden: !prevState.isHidden
+        }));
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /*                              Lifecycle Methods                             */
+    /* -------------------------------------------------------------------------- */
+
+    componentDidMount() {
+        GameManager.gameObserver.Subscribe("UpdateTimeMultiplierEnd", this.UpdateMultiplierState.bind(this));
+
+        this.eventMediator = SolarSystemVisualizer.serviceContainer.Resolve(EventMediator);
+        this.eventMediator.Subscribe("ToggleTimeControlView", this.OnTimeControlToggle.bind(this));
+    }
+
     render() {
-        // Box:
-        // Group
-        // Buttons
+        const reverseMultiplier = `${this.state.reverseMultiplier}x`;
+        const forwardMultiplier = `${this.state.forwardMultiplier}x`;
+
+        const timeControlGroupClassName = `time-control-button-group ${this.state.isHidden ? "fade-out" : "fade-in"}`;
+
         return (
             <div className="centered-canvas">
                 <div className="center-third-column">
                     <div className="time-control-box">
-                        <div className="time-control-button-group">
-                            <p>-1x</p>
+                        <div className={timeControlGroupClassName}>
+                            <p className="text-center time-control-text">{reverseMultiplier}</p>
                             <ReverseTimeButton />
                             <PauseButton />
                             <ResetTimeButton />
                             <PlayButton />
                             <ForwardTimeButton />
-                            <p>1x</p>
+                            <p className="text-center time-control-text">{forwardMultiplier}</p>
                         </div>
-                        <div>
-                            <p>Time Controls</p>
-                        </div>
+                        <TimeControlRevealButton />
                     </div>
                 </div>
             </div>
