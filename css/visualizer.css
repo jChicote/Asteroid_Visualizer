@@ -295,7 +295,6 @@
 .time-control-button-group.fade-out {
     opacity: 0;
     pointer-events: none;
-
 }
 
 .time-control-button-group.fade-in {

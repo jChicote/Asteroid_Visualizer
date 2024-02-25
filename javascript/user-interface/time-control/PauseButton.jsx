@@ -4,11 +4,19 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPause } from "@fortawesome/free-solid-svg-icons";
 
 class PauseButton extends TimeControlButton {
+    /* -------------------------------------------------------------------------- */
+    /*                                Event Methods                               */
+    /* -------------------------------------------------------------------------- */
+
     HandleClick(event) {
         super.HandleClick(event);
 
         GameManager.gameObserver.Dispatch("UpdateIsTimePaused", true);
     }
+
+    /* -------------------------------------------------------------------------- */
+    /*                              Lifecycle Methods                             */
+    /* -------------------------------------------------------------------------- */
 
     render() {
         const buttonClassName = "rounded-square-button time-control-button menu-button-skin";

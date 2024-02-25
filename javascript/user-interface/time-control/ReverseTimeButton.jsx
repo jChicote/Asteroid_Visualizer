@@ -4,11 +4,19 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBackward } from "@fortawesome/free-solid-svg-icons";
 
 class ReverseTimeButton extends TimeControlButton {
+    /* -------------------------------------------------------------------------- */
+    /*                                Event Methods                               */
+    /* -------------------------------------------------------------------------- */
+
     HandleClick(event) {
         super.HandleClick(event);
 
         GameManager.gameObserver.Dispatch("UpdateTimeMultiplier", -1);
     }
+
+    /* -------------------------------------------------------------------------- */
+    /*                              Lifecycle Methods                             */
+    /* -------------------------------------------------------------------------- */
 
     render() {
         const buttonClassName = "rounded-square-button time-control-button menu-button-skin";

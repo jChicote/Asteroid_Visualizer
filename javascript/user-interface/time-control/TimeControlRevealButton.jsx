@@ -25,7 +25,7 @@ class TimeControlRevealButton extends TimeControlButton {
         }));
     }
 
-    // Tech-Debt: #
+    // Tech-Debt: #152
     // This does not belong here. This should belong to its own presenter class instead of being in the view.
     OnMouseDown(event) {
         const controlArea = document.getElementById("timeControlArea");
@@ -67,8 +67,6 @@ class TimeControlRevealButton extends TimeControlButton {
                 </button>
             </div>
         );
-
-        // <FontAwesomeIcon icon={faCaretUp} className={iconClassName}/>
     }
 }
 
