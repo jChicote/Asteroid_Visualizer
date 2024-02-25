@@ -1,10 +1,11 @@
+import { CelestialMarkerScreen } from "./hover-markers/CelestialMarkerScreen.jsx";
 import { Component } from "react";
-import { SolarSystemVisualizer } from "../SolarSystemVisualizer.js";
-import { LoadingScreen } from "./loading-screen/LoadingScreen.jsx";
 import { EventMediator } from "./mediator/EventMediator.js";
+import { LoadingScreen } from "./loading-screen/LoadingScreen.jsx";
 import { OptionsMenuGroup } from "./option-menu/OptionsMenuGroup.jsx";
-import { ViewingOptionsGroup } from "./option-menu/ViewingOptionsGroup.jsx";
+import { SolarSystemVisualizer } from "../SolarSystemVisualizer.js";
 import { TimeControlScreen } from "./time-control/TimeControlScreen.jsx";
+import { ViewingOptionsGroup } from "./option-menu/ViewingOptionsGroup.jsx";
 
 class RootCanvas extends Component {
     constructor(props) {
@@ -43,6 +44,7 @@ class RootCanvas extends Component {
                 <ViewingOptionsGroup />
                 <OptionsMenuGroup />
                 <TimeControlScreen />
+                <CelestialMarkerScreen />
             </div>
         );
     }
