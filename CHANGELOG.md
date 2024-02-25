@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 - Supports React.js and Vite.js.
 - Official option buttons included for interaction.
 - Loading screen added on opening the visualiser.
+- Time control buttons added for time scrolling.
 
 ## [3.0.0] - 2024-01-05
 ### Added

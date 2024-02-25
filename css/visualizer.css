@@ -133,6 +133,7 @@
     transition: background-color 0.5s ease;
 }
 
+
 .menu-button-skin {
     background-color: #13191d;
     color: white;
@@ -252,4 +253,114 @@
 .row-button {
     height: var(--option-button-length);
     margin-right: 15px;
+}
+
+/* TIME CONTROL STYLES */
+
+.centered-canvas {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.center-third-column {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 33%;
+    height: 100%;
+}
+
+.time-control-box {
+    position: absolute;
+    bottom: 0;
+    height: 20%;
+    max-height: 18vh;
+    width: 100%;
+    padding: 20px;
+}
+
+.time-control-button-group {
+    top: 0;
+    height: 50%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+.time-control-button-group.fade-out {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.time-control-button-group.fade-in {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.time-control-button {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.time-control-reveal-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 5px;
+    margin-bottom: 20px;
+}
+
+.time-control-expand-button {
+    color: #979797;
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: flex-end;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    pointer-events: all;
+    transition: color 0.5s ease;
+}
+
+.time-control-expand-button:hover {
+    color: white;
+}
+
+.time-control-expand-button:focus {
+    outline: none;
+}
+
+.time-control-expand-button-text {
+    font-size: 18px;
+    margin: 0;
+}
+
+.time-control-text {
+    aspect-ratio: 1;
+    margin-left: 5px;
+    margin-right: 5px;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    color: white;
+}
+
+.time-control-icon {
+    height: 32px;
+    opacity: 1;
+    transition: opacity 1s ease, height 1s ease;
+}
+
+.time-control-icon.hidden {
+    opacity: 0;
+    height: 0px;
 }

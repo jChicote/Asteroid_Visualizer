@@ -21,6 +21,7 @@ import { PlanetManager } from "./Planets/PlanetManager.js";
 import { GameObjectRegistry } from "./Providers/GameObjectRegistry.js";
 import { Background } from "./Scene/Background/Background.js";
 import { Sun } from "./Sun/Sun.js";
+import { TimeManager } from "./Managers/TimeManager/TimeManager.js";
 
 export class GameManager {
     static scene;
@@ -76,6 +77,7 @@ export class GameManager {
         this.timeControl = new TimeControl(this.gameState, this.serviceProvider);
         this.shaderManager = new ShaderManager(this.serviceProvider);
         this.textureManager = new TextureManager(this.serviceProvider);
+        this.timeManager = new TimeManager({ gameState: this.gameState });
 
         // Initialise Camera
         this.camera = {};
@@ -136,18 +138,6 @@ export class GameManager {
     }
 
     // SetupDebugGUI() {
-    //     // Orbital mechanics section
-    //     const orbitalMechanicsFolder = GameManager.debugGui.addFolder("Orbital Mechanics");
-    //     orbitalMechanicsFolder.add(this.gameState, "timeMultiplier", -20, 20, 0.01);
-    //     orbitalMechanicsFolder.add(this.gameState, "timeStepResolution", 1000, 100000, 100);
-    //     orbitalMechanicsFolder.add(this.gameState, "isPaused").onChange(isPaused => {
-    //         if (isPaused) {
-    //             this.gameState.timeMultiplier = 0;
-    //         } else {
-    //             this.gameState.timeMultiplier = 1;
-    //         }
-    //     });
-
     //     // Physical section
     //     const globalPhysicalProperties = GameManager.debugGui.addFolder("Global Physical Properties");
     //     globalPhysicalProperties.add(this.gameState, "physicalRadiusMultiplier", 1, 25, 0.1);

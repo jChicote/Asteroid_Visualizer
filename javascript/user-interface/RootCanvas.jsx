@@ -1,9 +1,10 @@
 import { Component } from "react";
 import { SolarSystemVisualizer } from "../SolarSystemVisualizer.js";
+import { LoadingScreen } from "./loading-screen/LoadingScreen.jsx";
 import { EventMediator } from "./mediator/EventMediator.js";
 import { OptionsMenuGroup } from "./option-menu/OptionsMenuGroup.jsx";
 import { ViewingOptionsGroup } from "./option-menu/ViewingOptionsGroup.jsx";
-import { LoadingScreen } from "./loading-screen/LoadingScreen.jsx";
+import { TimeControlScreen } from "./time-control/TimeControlScreen.jsx";
 
 class RootCanvas extends Component {
     constructor(props) {
@@ -41,6 +42,7 @@ class RootCanvas extends Component {
                 <LoadingScreen />
                 <ViewingOptionsGroup />
                 <OptionsMenuGroup />
+                <TimeControlScreen />
             </div>
         );
     }
