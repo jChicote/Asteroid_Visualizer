@@ -5,8 +5,6 @@ import { PauseButton } from "./PauseButton.jsx";
 import { PlayButton } from "./PlayButton.jsx";
 import { ResetTimeButton } from "./ResetTimeButton.jsx";
 import { GameManager } from "../../game/GameManager.js";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCaretUp, faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import { SolarSystemVisualizer } from "../../SolarSystemVisualizer.js";
 import { EventMediator } from "../mediator/EventMediator.js";
 import { TimeControlRevealButton } from "./TimeControlRevealButton.jsx";

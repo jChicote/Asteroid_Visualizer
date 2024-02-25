@@ -277,6 +277,7 @@
     position: absolute;
     bottom: 0;
     height: 20%;
+    max-height: 18vh;
     width: 100%;
     padding: 20px;
 }
@@ -307,13 +308,24 @@
     margin-right: 5px;
 }
 
+.time-control-reveal-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 5px;
+    margin-bottom: 20px;
+}
+
 .time-control-expand-button {
     color: #979797;
     margin-top: 5px;
-    align-items: top;
-    justify-content: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: flex-end;
     background-color: transparent;
     border: none;
+    outline: none;
     pointer-events: all;
     transition: color 0.5s ease;
 }
@@ -322,8 +334,13 @@
     color: white;
 }
 
+.time-control-expand-button:focus {
+    outline: none;
+}
+
 .time-control-expand-button-text {
     font-size: 18px;
+    margin: 0;
 }
 
 .time-control-text {
@@ -340,4 +357,11 @@
 
 .time-control-icon {
     height: 32px;
+    opacity: 1;
+    transition: opacity 1s ease, height 1s ease;
+}
+
+.time-control-icon.hidden {
+    opacity: 0;
+    height: 0px;
 }
