@@ -3,13 +3,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretUp, faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import { SolarSystemVisualizer } from "../../SolarSystemVisualizer.js";
 import { EventMediator } from "../mediator/EventMediator.js";
+import { GameManager } from "../../game/GameManager.js";
 
 class TimeControlRevealButton extends TimeControlButton {
     constructor() {
         super();
 
         this.state = {
-            isHidden: false
+            isHidden: true
         };
     }
     /* -------------------------------------------------------------------------- */
@@ -24,17 +25,38 @@ class TimeControlRevealButton extends TimeControlButton {
         }));
     }
 
+    // Tech-Debt: #
+    // This does not belong here. This should belong to its own presenter class instead of being in the view.
+    OnMouseDown(event) {
+        const controlArea = document.getElementById("timeControlArea");
+        const rect = controlArea.getBoundingClientRect();
+
+        const isOverControlArea = (event.clientX >= rect.left) &&
+                                    (event.clientX <= rect.right) &&
+                                    (event.clientY >= rect.top) &&
+                                    (event.clientY <= rect.bottom);
+
+        if (!isOverControlArea && !this.state.isHidden) {
+            this.eventMediator.Notify("ToggleTimeControlView");
+
+            this.setState((prevState) => ({
+                isHidden: !prevState.isHidden
+            }));
+        }
+    }
+
     /* -------------------------------------------------------------------------- */
     /*                              Lifecycle Methods                             */
     /* -------------------------------------------------------------------------- */
 
     componentDidMount() {
+        GameManager.gameObserver.Subscribe("OnMouseDown", this.OnMouseDown.bind(this));
         this.eventMediator = SolarSystemVisualizer.serviceContainer.Resolve(EventMediator);
     }
 
     render() {
-        const caretUpIconClassName = `time-control-icon ${this.state.isHidden ? "hidden" : ""}`;
-        const caretDownIconClassName = `time-control-icon ${this.state.isHidden ? "" : "hidden"}`;
+        const caretUpIconClassName = `time-control-icon ${this.state.isHidden ? "" : "hidden"}`;
+        const caretDownIconClassName = `time-control-icon ${this.state.isHidden ? "hidden" : ""}`;
 
         return (
             <div className="time-control-reveal-group">

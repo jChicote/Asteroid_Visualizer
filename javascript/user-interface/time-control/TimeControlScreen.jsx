@@ -57,7 +57,7 @@ class TimeControlScreen extends Component {
         return (
             <div className="centered-canvas">
                 <div className="center-third-column">
-                    <div className="time-control-box">
+                    <div id="timeControlArea" className="time-control-box">
                         <div className={timeControlGroupClassName}>
                             <p className="text-center time-control-text">{reverseMultiplier}</p>
                             <ReverseTimeButton />
