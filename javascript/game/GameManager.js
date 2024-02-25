@@ -21,6 +21,7 @@ import { PlanetManager } from "./Planets/PlanetManager.js";
 import { GameObjectRegistry } from "./Providers/GameObjectRegistry.js";
 import { Background } from "./Scene/Background/Background.js";
 import { Sun } from "./Sun/Sun.js";
+import { TimeManager } from './Managers/TimeManager/TimeManager.js';
 
 export class GameManager {
     static scene;
@@ -76,6 +77,7 @@ export class GameManager {
         this.timeControl = new TimeControl(this.gameState, this.serviceProvider);
         this.shaderManager = new ShaderManager(this.serviceProvider);
         this.textureManager = new TextureManager(this.serviceProvider);
+        this.timeManager = new TimeManager({ gameState: this.gameState });
 
         // Initialise Camera
         this.camera = {};
@@ -100,11 +102,6 @@ export class GameManager {
     Start() {
         this.SetupScene();
         this.gameState.canUpdate = true;
-
-        // Subscribe time methods
-        GameManager.gameObserver.Subscribe("UpdateTimeMultiplier", this.SetTimeMultiplier.bind(this));
-        GameManager.gameObserver.Subscribe("UpdateIsTimePaused", this.SetIsTimePaused.bind(this));
-        GameManager.gameObserver.Subscribe("ResetTimeControls", this.ResetTimeControls.bind(this));
     }
 
     Update() {
@@ -138,44 +135,6 @@ export class GameManager {
     SetupDebugHelpers() {
         const axesHelper = new THREE.AxesHelper(30);
         GameManager.scene.add(axesHelper);
-    }
-
-    SetTimeMultiplier(timeDirection) {
-        this.gameState.timeMultiplier += timeDirection;
-
-        if (this.gameState.timeMultiplier < 0) {
-            GameManager.gameObserver.Dispatch(
-                "UpdateTimeMultiplierEnd",
-                {
-                    reverseMultiplier: parseInt(Math.round(this.gameState.timeMultiplier)),
-                    forwardMultiplier: 0
-                }
-            );
-        } else if (this.gameState.timeMultiplier > 0) {
-            GameManager.gameObserver.Dispatch(
-                "UpdateTimeMultiplierEnd",
-                {
-                    reverseMultiplier: 0,
-                    forwardMultiplier: parseInt(Math.round(this.gameState.timeMultiplier))
-                }
-            );
-        }
-    }
-
-    SetIsTimePaused(isPaused) {
-        this.gameState.isPaused = isPaused;
-    }
-
-    ResetTimeControls() {
-        this.gameState.timeMultiplier = 0.01; // Default configurations will need to exist in the future.
-        this.gameState.isPaused = false;
-        GameManager.gameObserver.Dispatch(
-            "UpdateTimeMultiplierEnd",
-            {
-                reverseMultiplier: 0,
-                forwardMultiplier: 0
-            }
-        );
     }
 
     // SetupDebugGUI() {
