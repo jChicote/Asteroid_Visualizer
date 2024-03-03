@@ -375,24 +375,26 @@
     width: 100%;
     height: 100%;
     background-color: transparent;
+    position: absolute;
 }
 
 .celestial-object-marker {
     position: absolute;
     pointer-events: all;
-    opacity: 0;
 }
 
 .marker-shape-circle {
     border-radius: 50%;
-    width: 10px;
+    width: 40px;
+    aspect-ratio: 1;
 }
 
 .marker-skin {
-    background-color: #4521e4;
+    background-color: #F000FF;
     border: none;
     color: white;
     padding: 5px;
     pointer-events: all;
+    opacity: 1;
     transition: background-color 0.5s ease;
 }

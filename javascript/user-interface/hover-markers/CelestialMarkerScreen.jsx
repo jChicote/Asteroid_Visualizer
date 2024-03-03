@@ -11,35 +11,21 @@ class CelestialMarkerScreen extends Component {
     }
 
     componentDidMount() {
-        const testMarker1 = new CelestialObjectMarker();
-        const testMarker2 = new CelestialObjectMarker();
+        const testMarker1 = { id: 1, position: { x: 100, y: 100 } };
+        const testMarker2 = { id: 2, position: { x: 200, y: 100 } };
 
         this.setState(prevState => ({
             markers: [...prevState.markers, testMarker1, testMarker2]
         }));
     }
 
-    CreateMarkers() {
-        return this.state.markers.map(marker => (
-            <div
-                key={marker.id}
-                style={{
-                    position: "absolute",
-                    top: `${20}%`,
-                    left: `${20}%`,
-                    width: "20px",
-                    height: "20px",
-                    backgroundColor: "red"
-                }}
-                onMouseOver={() => this.handleMouseOver(marker.id)}
-            />
-        ));
-    }
-
     render() {
+        console.log(1);
         return (
             <div className="fill-canvas">
-                {this.CreateMarkers()}
+                {this.state.markers.map(marker => (
+                    <CelestialObjectMarker key={marker.id} position={marker.position}/>
+                ))}
             </div>
         );
     }
