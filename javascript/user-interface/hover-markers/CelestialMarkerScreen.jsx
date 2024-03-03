@@ -1,34 +1,72 @@
 import { Component } from "react";
 import { CelestialObjectMarker } from "./CelestialHoverMarker.jsx";
+import { SolarSystemVisualizer } from "../../SolarSystemVisualizer.js";
+import { EventMediator } from "../mediator/EventMediator.js";
 
 class CelestialMarkerScreen extends Component {
     constructor() {
         super();
+
+        this.parentCanvasDelegate = new ParentCanvasDelegate();
+        this.parentCanvasDelegate.GetCanvasDimensions = this.GetCanvasDimensions.bind(this);
 
         this.state = {
             markers: []
         };
     }
 
-    componentDidMount() {
-        const testMarker1 = { id: 1, position: { x: 100, y: 100 } };
-        const testMarker2 = { id: 2, position: { x: 200, y: 100 } };
+    /* -------------------------------------------------------------------------- */
+    /*                                   Methods                                  */
+    /* -------------------------------------------------------------------------- */
+
+    ConstructHoverMarker(markerDetails) {
+        const newMarker = { id: markerDetails.id, position: markerDetails.position, delegate: markerDetails.delegate };
 
         this.setState(prevState => ({
-            markers: [...prevState.markers, testMarker1, testMarker2]
+            markers: [...prevState.markers, newMarker]
         }));
     }
 
+    GetCanvasDimensions() {
+        // This returns back the canvas dimensions of the root element.
+        // THIS IS NOT IDEAL AS WE ARE GETTING THE DIMENSIONS AT RUNTIME
+        return document.getElementById("markerCanvas").getBoundingClientRect();
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /*                              Lifecycle Methods                             */
+    /* -------------------------------------------------------------------------- */
+    componentDidMount() {
+        this.eventMediator = SolarSystemVisualizer.serviceContainer.Resolve(EventMediator);
+        this.eventMediator.Subscribe("CreateHoverMarker", this.ConstructHoverMarker.bind(this));
+    }
+
+    componentDidUpdate() {
+        this.state.markers.map(marker => (
+            console.log(marker.position.x, marker.position.y)
+        ));
+    }
+
     render() {
-        console.log(1);
         return (
-            <div className="fill-canvas">
+            <div id="markerCanvas" className="fill-canvas">
                 {this.state.markers.map(marker => (
-                    <CelestialObjectMarker key={marker.id} position={marker.position}/>
+                    <CelestialObjectMarker
+                        key={marker.id}
+                        position={marker.position}
+                        celestialObjectDelegate={marker.delegate}
+                        parentCanvasDelegate={this.parentCanvasDelegate} />
                 ))}
             </div>
         );
     }
 }
 
-export { CelestialMarkerScreen };
+class ParentCanvasDelegate {
+    /* -------------------------------------------------------------------------- */
+    /*                                   Methods                                  */
+    /* -------------------------------------------------------------------------- */
+    GetCanvasDimensions() { }
+}
+
+export { CelestialMarkerScreen, ParentCanvasDelegate };

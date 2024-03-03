@@ -6,6 +6,7 @@ import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
 import { MathHelper } from "../../utils/math-library.js";
 import { ObjectValidator } from "../../utils/ObjectValidator.js";
 import { SolarSystemVisualizer } from "../../SolarSystemVisualizer.js";
+import { EventMediator } from "../../user-interface/mediator/EventMediator.js";
 
 export class Planet extends GameObject {
     constructor(planetCode, planetData, materialConfigurationProvider) {
@@ -30,6 +31,8 @@ export class Planet extends GameObject {
         this.materialRenderer = {};
         this.orbitalMotion = new CelestialOrbitalMotionLogic();
         this.planetState = new PlanetState(parameters.planetData.meanAnomaly, 0);
+
+        this.eventMediator = SolarSystemVisualizer.serviceContainer.Resolve(EventMediator);
     }
 
     /* -------------------------------------------------------------------------- */
@@ -44,11 +47,24 @@ export class Planet extends GameObject {
         this.timeStep = this.orbitalMotion.CalculateTimeStep(this.orbitalPeriod);
         this.renderedObject = this.RenderPlanet();
 
+        this.planetDelegate = new PlanetDelegate();
+        this.planetDelegate.SetMarker = this.SetMarker.bind(this);
+
         // Note: This implementation will only work with saturn.
         if (ObjectValidator.IsValid(this.materialConfiguration.ringConfiguration)) {
             console.log("Planet with rings found");
             this.AddRings();
         }
+
+        this.eventMediator.Notify("CreateHoverMarker", {
+            id: this.planetCode,
+            position: {
+                x: this.renderedObject.position.x,
+                y: this.renderedObject.position.y,
+                z: this.renderedObject.position.z
+            },
+            delegate: this.planetDelegate
+        });
     }
 
     // Updates the planet. Used during runtime.
@@ -64,6 +80,14 @@ export class Planet extends GameObject {
         // Note: This implementation will only work with saturn.
         if (ObjectValidator.IsValid(this.ring)) {
             this.ring.position.copy(this.renderedObject.position);
+        }
+
+        if (ObjectValidator.IsValid(this.marker)) {
+            this.marker.UpdatePosition({
+                x: this.renderedObject.position.x,
+                y: this.renderedObject.position.y,
+                z: this.renderedObject.position.z
+            });
         }
     }
 
@@ -137,7 +161,21 @@ export class Planet extends GameObject {
             this.meanMotion,
             this.planetState.currentTime);
     }
+
+    SetMarker(marker) {
+        this.marker = marker;
+    }
 }
+
+class PlanetDelegate {
+    /* -------------------------------------------------------------------------- */
+    /*                                   Methods                                  */
+    /* -------------------------------------------------------------------------- */
+
+    SetMarker(marker) { }
+}
+
+export { PlanetDelegate };
 
 export class PlanetState {
     constructor(meanAnomaly, initialTime) {

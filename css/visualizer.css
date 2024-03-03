@@ -20,6 +20,10 @@
     pointer-events: none;
 }
 
+#fullScreenCanvas {
+    pointer-events: none;
+}
+
 .canvas {
     top: var(--navbar-height);
     bottom: var(--navbar-height);
@@ -376,6 +380,7 @@
     height: 100%;
     background-color: transparent;
     position: absolute;
+    overflow: hidden;
 }
 
 .celestial-object-marker {
@@ -385,7 +390,7 @@
 
 .marker-shape-circle {
     border-radius: 50%;
-    width: 40px;
+    width: 20px;
     aspect-ratio: 1;
 }
 
@@ -397,4 +402,13 @@
     pointer-events: all;
     opacity: 1;
     transition: background-color 0.5s ease;
+}
+
+.marker-shape-circle:hover {
+    width: 40px;
+    transition: width 0.5s ease;
+}
+
+.marker-skin:hover {
+    background-color: #00ffbf;
 }

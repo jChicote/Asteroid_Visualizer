@@ -39,11 +39,13 @@ class RootCanvas extends Component {
         const canvasClassName = `canvas ${this.state.isMenuVisible ? "fullscreen" : ""}`;
 
         return (
-            <div id="root-canvas" className={canvasClassName}>
-                <LoadingScreen />
-                <ViewingOptionsGroup />
-                <OptionsMenuGroup />
-                <TimeControlScreen />
+            <div id="fullScreenCanvas" className="fullscreen">
+                <div id="root-canvas" className={canvasClassName}>
+                    <LoadingScreen />
+                    <ViewingOptionsGroup />
+                    <OptionsMenuGroup />
+                    <TimeControlScreen />
+                </div>
                 <CelestialMarkerScreen />
             </div>
         );

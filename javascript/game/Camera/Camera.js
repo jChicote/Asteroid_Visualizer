@@ -22,6 +22,8 @@ class Camera extends GameObject {
         const cameraContract = new CameraContract();
 
         cameraContract.SetAspectRatio = this.SetAspectRatio.bind(this);
+        cameraContract.GetProjectionMatrix = this.GetProjectionMatrix.bind(this);
+        cameraContract.GetMatrixWorldInverse = this.GetMatrixWorldInverse.bind(this);
         gameObjectRegistry.RegisterGameObject("Camera", cameraContract);
     }
 
@@ -41,6 +43,15 @@ class Camera extends GameObject {
 
     GetPosition() {
         return this.camera.position.clone();
+    }
+
+    GetProjectionMatrix() {
+        this.camera.updateProjectionMatrix();
+        return this.camera.projectionMatrix.clone();
+    }
+
+    GetMatrixWorldInverse() {
+        return this.camera.matrixWorldInverse.clone();
     }
 
     GetEulerRotation() {
