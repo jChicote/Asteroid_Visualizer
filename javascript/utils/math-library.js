@@ -41,18 +41,6 @@ class MathHelper {
 
         return { x: screenPosition.x, y: screenPosition.y };
     }
-
-    // static MultiplyMatrixAndVector(matrix, vector) {
-    //     const result = [];
-    //     for (let i = 0; i < matrix.length; i++) {
-    //         let sum = 0;
-    //         for (let j = 0; j < vector.length; j++) {
-    //             sum += matrix[i][j] * vector[j];
-    //         }
-    //         result[i] = sum;
-    //     }
-    //     return result;
-    // }
 }
 
 export {

@@ -32,6 +32,7 @@ export class Planet extends GameObject {
         this.orbitalMotion = new CelestialOrbitalMotionLogic();
         this.planetState = new PlanetState(parameters.planetData.meanAnomaly, 0);
 
+        // Observers
         this.eventMediator = SolarSystemVisualizer.serviceContainer.Resolve(EventMediator);
     }
 
