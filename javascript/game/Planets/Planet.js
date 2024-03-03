@@ -1,12 +1,12 @@
 import * as THREE from "three";
-import { CelestialOrbitalMotionLogic } from "../Components/OrbitalMechanics/CelestialOrbitalMotionLogic.js";
-import { GameManager } from "../GameManager.js";
-import { GameObject } from "../Entities/GameObject.js";
-import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
-import { MathHelper } from "../../utils/math-library.js";
-import { ObjectValidator } from "../../utils/ObjectValidator.js";
 import { SolarSystemVisualizer } from "../../SolarSystemVisualizer.js";
 import { EventMediator } from "../../user-interface/mediator/EventMediator.js";
+import { ObjectValidator } from "../../utils/ObjectValidator.js";
+import { MathHelper } from "../../utils/math-library.js";
+import { CelestialOrbitalMotionLogic } from "../Components/OrbitalMechanics/CelestialOrbitalMotionLogic.js";
+import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
+import { GameObject } from "../Entities/GameObject.js";
+import { GameManager } from "../GameManager.js";
 
 export class Planet extends GameObject {
     constructor(planetCode, planetData, materialConfigurationProvider) {

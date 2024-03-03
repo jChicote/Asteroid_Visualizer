@@ -41,8 +41,13 @@ class MathHelper {
 
         return { x: screenPosition.x, y: screenPosition.y };
     }
+
+    /// <summary>
+    /// Returns the direction from source to target. This uses THREE.js Vector3.
+    /// </summary>
+    static GetDirectionToTarget(source, target) {
+        return new THREE.Vector3().subVectors(target, source).normalize();
+    }
 }
 
-export {
-    MathHelper
-};
+export { MathHelper };
