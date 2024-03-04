@@ -1,7 +1,7 @@
-import { Component, createRef } from "react";
 import { PropTypes } from "prop-types";
-import { MathHelper } from "../../utils/math-library";
+import { Component, createRef } from "react";
 import { GameManager } from "../../game/GameManager";
+import { MathHelper } from "../../utils/math-library";
 
 class CelestialObjectMarker extends Component {
     constructor(props) {
@@ -9,6 +9,7 @@ class CelestialObjectMarker extends Component {
 
         this.element = createRef();
         this.state = {
+            id: props.id,
             screenPosition: props.position,
             currentState: MarkerState.Visible
         };
@@ -48,6 +49,14 @@ class CelestialObjectMarker extends Component {
     }
 
     /* -------------------------------------------------------------------------- */
+    /*                                Event Methods                               */
+    /* -------------------------------------------------------------------------- */
+
+    HandleClick(event) {
+        console.log("Clicked on celestial object marker with id " + this.state.id + "!");
+    }
+
+    /* -------------------------------------------------------------------------- */
     /*                              Lifecycle Methods                             */
     /* -------------------------------------------------------------------------- */
 
@@ -67,12 +76,14 @@ class CelestialObjectMarker extends Component {
                     top: `${this.state.screenPosition.y - elementHalfHeight}px`,
                     left: `${this.state.screenPosition.x - elementHalfWidth}px`
                 }}
+                onClick={this.HandleClick.bind(this)}
             />
         );
     }
 }
 
 CelestialObjectMarker.propTypes = {
+    id: PropTypes.string.isRequired,
     position: PropTypes.object.isRequired,
     celestialObjectDelegate: PropTypes.object.isRequired,
     parentCanvasDelegate: PropTypes.object.isRequired
@@ -94,4 +105,4 @@ class CelestialHoverMarkerDelegate {
     SetState(nextState) { }
 }
 
-export { CelestialObjectMarker, CelestialHoverMarkerDelegate, MarkerState };
+export { CelestialHoverMarkerDelegate, CelestialObjectMarker, MarkerState };

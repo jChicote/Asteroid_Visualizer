@@ -1,7 +1,7 @@
 import { Component } from "react";
-import { CelestialObjectMarker } from "./CelestialHoverMarker.jsx";
 import { SolarSystemVisualizer } from "../../SolarSystemVisualizer.js";
 import { EventMediator } from "../mediator/EventMediator.js";
+import { CelestialObjectMarker } from "./CelestialHoverMarker.jsx";
 
 class CelestialMarkerScreen extends Component {
     constructor() {
@@ -53,6 +53,7 @@ class CelestialMarkerScreen extends Component {
                 {this.state.markers.map(marker => (
                     <CelestialObjectMarker
                         key={marker.id}
+                        id={marker.id}
                         position={marker.position}
                         celestialObjectDelegate={marker.delegate}
                         parentCanvasDelegate={this.parentCanvasDelegate} />

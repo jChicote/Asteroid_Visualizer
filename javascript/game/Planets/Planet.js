@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { SolarSystemVisualizer } from "../../SolarSystemVisualizer.js";
+import { MarkerState } from "../../user-interface/hover-markers/CelestialHoverMarker.jsx";
 import { EventMediator } from "../../user-interface/mediator/EventMediator.js";
 import { ObjectValidator } from "../../utils/ObjectValidator.js";
 import { MathHelper } from "../../utils/math-library.js";
@@ -7,7 +8,6 @@ import { CelestialOrbitalMotionLogic } from "../Components/OrbitalMechanics/Cele
 import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
 import { GameObject } from "../Entities/GameObject.js";
 import { GameManager } from "../GameManager.js";
-import { MarkerState } from "../../user-interface/hover-markers/CelestialHoverMarker.jsx";
 
 export class Planet extends GameObject {
     constructor(planetCode, planetData, materialConfigurationProvider) {
@@ -51,6 +51,7 @@ export class Planet extends GameObject {
 
         this.planetDelegate = new PlanetDelegate();
         this.planetDelegate.SetMarker = this.SetMarker.bind(this);
+        this.planetDelegate.GetRenderedObject = this.GetRenderedObject.bind(this);
 
         // Note: This implementation will only work with saturn.
         if (ObjectValidator.IsValid(this.materialConfiguration.ringConfiguration)) {
@@ -155,6 +156,10 @@ export class Planet extends GameObject {
         return this.planetData.planetRadius * 0.0001; // TODO: ABstract this to make this dynamically scaled
     }
 
+    GetRenderedObject() {
+        return this.renderedObject;
+    }
+
     // This method so far is intended for Saturn only.
     AddRings() {
         const ringGeometry = new THREE.RingGeometry(1.5 * 5, 2.5 * 5, 42);
@@ -188,6 +193,8 @@ class PlanetDelegate {
     /* -------------------------------------------------------------------------- */
 
     SetMarker(marker) { }
+
+    GetRenderedObject() { }
 }
 
 export { PlanetDelegate };
