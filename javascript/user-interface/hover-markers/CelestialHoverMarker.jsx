@@ -9,11 +9,13 @@ class CelestialObjectMarker extends Component {
 
         this.element = createRef();
         this.state = {
-            screenPosition: props.position
+            screenPosition: props.position,
+            currentState: MarkerState.Visible
         };
 
         const markerDelegate = new CelestialHoverMarkerDelegate();
         markerDelegate.UpdatePosition = this.SetPosition.bind(this);
+        markerDelegate.SetState = this.SetState.bind(this);
 
         this.celestialObjectDelegate = props.celestialObjectDelegate;
         this.celestialObjectDelegate.SetMarker(markerDelegate);
@@ -37,6 +39,12 @@ class CelestialObjectMarker extends Component {
         );
 
         this.setState({ screenPosition });
+    }
+
+    SetState(nextState) {
+        if (this.state.currentState !== nextState) {
+            this.setState({ currentState: nextState });
+        }
     }
 
     /* -------------------------------------------------------------------------- */
@@ -70,12 +78,20 @@ CelestialObjectMarker.propTypes = {
     parentCanvasDelegate: PropTypes.object.isRequired
 };
 
+const MarkerState = {
+    Hidden: 0,
+    Visible: 1,
+    Faded: 2
+};
+
 class CelestialHoverMarkerDelegate {
     /* -------------------------------------------------------------------------- */
     /*                                   Methods                                  */
     /* -------------------------------------------------------------------------- */
 
     UpdatePosition(position) { }
+
+    SetState(nextState) { }
 }
 
-export { CelestialObjectMarker, CelestialHoverMarkerDelegate };
+export { CelestialObjectMarker, CelestialHoverMarkerDelegate, MarkerState };

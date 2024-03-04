@@ -6,6 +6,10 @@ class CameraContract {
 
     GetProjectionMatrix() { }
 
+    GetPosition() { }
+
+    GetQuaternion() { }
+
     SetAspectRatio(aspectRatio) { }
 }
 

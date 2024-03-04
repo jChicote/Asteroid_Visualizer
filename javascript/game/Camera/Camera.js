@@ -24,6 +24,8 @@ class Camera extends GameObject {
         cameraContract.SetAspectRatio = this.SetAspectRatio.bind(this);
         cameraContract.GetProjectionMatrix = this.GetProjectionMatrix.bind(this);
         cameraContract.GetMatrixWorldInverse = this.GetMatrixWorldInverse.bind(this);
+        cameraContract.GetPosition = this.GetPosition.bind(this);
+        cameraContract.GetQuaternion = this.GetQuaternion.bind(this);
         gameObjectRegistry.RegisterGameObject("Camera", cameraContract);
     }
 

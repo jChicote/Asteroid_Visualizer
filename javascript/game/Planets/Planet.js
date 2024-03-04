@@ -7,6 +7,7 @@ import { CelestialOrbitalMotionLogic } from "../Components/OrbitalMechanics/Cele
 import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
 import { GameObject } from "../Entities/GameObject.js";
 import { GameManager } from "../GameManager.js";
+import { MarkerState } from "../../user-interface/hover-markers/CelestialHoverMarker.jsx";
 
 export class Planet extends GameObject {
     constructor(planetCode, planetData, materialConfigurationProvider) {
@@ -84,6 +85,19 @@ export class Planet extends GameObject {
         }
 
         if (ObjectValidator.IsValid(this.marker)) {
+            // TODO: Refactor this out into a seperate service or method passing in the MarkerState. Preferably into a component
+            // Determine if the planet is behind the camera
+            const forward = new THREE.Vector3(0, 0, -1);
+            const camera = GameManager.gameObjectRegistry.GetGameObject("Camera");
+            const directionToCamera = MathHelper.GetDirectionToTarget(this.renderedObject.position, camera.GetPosition());
+            const dotProduct = directionToCamera.dot(forward.applyQuaternion(camera.GetQuaternion()));
+
+            if (dotProduct < 0) {
+                this.marker.SetState(MarkerState.Hidden);
+            } else {
+                this.marker.SetState(MarkerState.Visible);
+            }
+
             this.marker.UpdatePosition({
                 x: this.renderedObject.position.x,
                 y: this.renderedObject.position.y,
