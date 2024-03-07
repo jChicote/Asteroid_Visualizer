@@ -72,6 +72,27 @@ export class Planet extends GameObject {
 
     // Updates the planet. Used during runtime.
     Update() {
+        if (ObjectValidator.IsValid(this.marker)) {
+            // TODO: Refactor this out into a seperate service or method passing in the MarkerState. Preferably into a component
+            // Determine if the planet is behind the camera
+            const forward = new THREE.Vector3(0, 0, -1);
+            const camera = GameManager.gameObjectRegistry.GetGameObject("Camera");
+            const directionToCamera = MathHelper.GetDirectionToTarget(this.renderedObject.position, camera.GetPosition());
+            const dotProduct = directionToCamera.dot(forward.applyQuaternion(camera.GetQuaternion()));
+
+            // if (dotProduct < 0) {
+            //     this.marker.SetState(MarkerState.Hidden);
+            // } else {
+            //     this.marker.SetState(MarkerState.Visible);
+            // }
+
+            this.marker.UpdatePosition({
+                x: this.renderedObject.position.x,
+                y: this.renderedObject.position.y,
+                z: this.renderedObject.position.z
+            });
+        }
+
         if (SolarSystemVisualizer.gameManager.gameState.isPaused) {
             return;
         }
@@ -83,27 +104,6 @@ export class Planet extends GameObject {
         // Note: This implementation will only work with saturn.
         if (ObjectValidator.IsValid(this.ring)) {
             this.ring.position.copy(this.renderedObject.position);
-        }
-
-        if (ObjectValidator.IsValid(this.marker)) {
-            // TODO: Refactor this out into a seperate service or method passing in the MarkerState. Preferably into a component
-            // Determine if the planet is behind the camera
-            const forward = new THREE.Vector3(0, 0, -1);
-            const camera = GameManager.gameObjectRegistry.GetGameObject("Camera");
-            const directionToCamera = MathHelper.GetDirectionToTarget(this.renderedObject.position, camera.GetPosition());
-            const dotProduct = directionToCamera.dot(forward.applyQuaternion(camera.GetQuaternion()));
-
-            if (dotProduct < 0) {
-                this.marker.SetState(MarkerState.Hidden);
-            } else {
-                this.marker.SetState(MarkerState.Visible);
-            }
-
-            this.marker.UpdatePosition({
-                x: this.renderedObject.position.x,
-                y: this.renderedObject.position.y,
-                z: this.renderedObject.position.z
-            });
         }
     }
 

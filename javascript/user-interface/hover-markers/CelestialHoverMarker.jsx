@@ -53,7 +53,15 @@ class CelestialObjectMarker extends Component {
     /* -------------------------------------------------------------------------- */
 
     HandleClick(event) {
-        console.log("Clicked on celestial object marker with id " + this.state.id + "!");
+        console.log("Clicked on celestial object marker with id " + this.state.id + "!" + "With the state of " + this.state.currentState);
+        this.SetState(MarkerState.Hidden);
+
+        GameManager.gameObserver.Dispatch("OnTargetSelected", { object: this.celestialObjectDelegate.GetRenderedObject(), exitDelegate: this.HandleExitEvent.bind(this) });
+    }
+
+    HandleExitEvent() {
+        console.log("Clicked on celestial object marker with id " + this.state.id + ", should now be visible");
+        this.SetState(MarkerState.Visible);
     }
 
     /* -------------------------------------------------------------------------- */
@@ -69,12 +77,13 @@ class CelestialObjectMarker extends Component {
         const elementHalfWidth = this.element.current !== null ? (this.element.current.offsetWidth / 2) : 0;
 
         return (
-            <div
+            <button
                 ref= {this.element}
                 className="celestial-object-marker marker-shape-circle marker-skin"
                 style= {{
                     top: `${this.state.screenPosition.y - elementHalfHeight}px`,
-                    left: `${this.state.screenPosition.x - elementHalfWidth}px`
+                    left: `${this.state.screenPosition.x - elementHalfWidth}px`,
+                    opacity: this.state.currentState === MarkerState.Hidden ? "0" : "1"
                 }}
                 onClick={this.HandleClick.bind(this)}
             />

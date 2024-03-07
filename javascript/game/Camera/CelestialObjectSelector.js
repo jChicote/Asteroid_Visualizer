@@ -18,14 +18,16 @@ class CelestialObjectSelector {
     /* -------------------------------------------------------------------------- */
 
     SelectObject() {
-        const intersect = this.cameraRaycaster.GetCurrentIntersect();
+        // const intersect = this.cameraRaycaster.GetCurrentIntersect();
 
-        if (ObjectValidator.IsValid(intersect)) {
-            this.selectedObject = intersect;
-            GameManager.gameObserver.Dispatch("OnTargetSelected", this.selectedObject);
-        } else {
-            this.selectedObject = null;
-        }
+        // console.log("Thius runn");
+
+        // if (ObjectValidator.IsValid(intersect)) {
+        //     this.selectedObject = intersect;
+        //     GameManager.gameObserver.Dispatch("OnTargetSelected", this.selectedObject);
+        // } else {
+        //     this.selectedObject = null;
+        // }
     }
 }
 
