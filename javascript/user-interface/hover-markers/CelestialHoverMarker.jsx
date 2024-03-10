@@ -56,7 +56,12 @@ class CelestialObjectMarker extends Component {
         console.log("Clicked on celestial object marker with id " + this.state.id + "!" + "With the state of " + this.state.currentState);
         this.SetState(MarkerState.Hidden);
 
-        GameManager.gameObserver.Dispatch("OnTargetSelected", { object: this.celestialObjectDelegate.GetRenderedObject(), exitDelegate: this.HandleExitEvent.bind(this) });
+        const command = new CelestialHoverMarkerCommand({
+            objectDelegate: this.celestialObjectDelegate,
+            hoverMarker: this
+        });
+
+        GameManager.gameObserver.Dispatch("OnTargetSelected", command);
     }
 
     HandleExitEvent() {
@@ -114,4 +119,28 @@ class CelestialHoverMarkerDelegate {
     SetState(nextState) { }
 }
 
-export { CelestialHoverMarkerDelegate, CelestialObjectMarker, MarkerState };
+class CelestialHoverMarkerCommand {
+    constructor(props) {
+        this.object = props.objectDelegate;
+        this.hoverMarker = props.hoverMarker;
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /*                                   Methods                                  */
+    /* -------------------------------------------------------------------------- */
+
+    GetObject() {
+        return { object: this.object.GetRenderedObject() };
+    }
+
+    ExecuteMarkerExit() {
+        return this.hoverMarker.HandleExitEvent();
+    }
+}
+
+export {
+    CelestialHoverMarkerCommand,
+    CelestialHoverMarkerDelegate,
+    CelestialObjectMarker,
+    MarkerState
+};

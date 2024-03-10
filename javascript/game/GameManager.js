@@ -1,26 +1,27 @@
-import Stats from "stats.js";
 import * as THREE from "three";
-import { GUI } from "../../node_modules/dat.gui/build/dat.gui.module.js";
-import { ReactCanvasManager } from "../user-interface/manager/canvas-manager/ReactCanvasManager.js";
-import { EventMediator } from "../user-interface/mediator/EventMediator.js";
-import { ObjectValidator } from "../utils/ObjectValidator.js";
+import Stats from "stats.js";
 import { AsteroidManager } from "./Asteroids/AsteroidManager.js";
+import { Background } from "./Scene/Background/Background.js";
 import { Camera } from "./Camera/Camera.js";
 import { CameraController } from "./Camera/CameraController.js";
+import { CameraRaycaster } from "./Camera/CameraRaycaster.js";
 import { CometManager } from "./Comets/CometManager.js";
-import { TimeControl } from "./Components/Time/TimeControl.js";
-import { GlobalState } from "./GlobalState.js";
 import { DataLoaderProvider } from "./Infrastructure/DataLoaders/DataLoaderProvider.js";
 import { EventManager } from "./Managers/EventManager/EventManager.js";
+import { EventMediator } from "../user-interface/mediator/EventMediator.js";
 import { GameObjectManager } from "./Managers/GameObjectManager/GameObjectManager.js";
+import { GameObjectRegistry } from "./Providers/GameObjectRegistry.js";
+import { GameObserver } from "./Observers/GameObserver.js";
+import { GlobalState } from "./GlobalState.js";
+import { ObjectValidator } from "../utils/ObjectValidator.js";
+import { PlanetManager } from "./Planets/PlanetManager.js";
+import { ReactCanvasManager } from "../user-interface/manager/canvas-manager/ReactCanvasManager.js";
 import { ShaderManager } from "./Managers/ShaderManager/ShaderManager.js";
+import { Sun } from "./Sun/Sun.js";
+import { TargetManager } from "./Managers/TargetManager/TargetManager.js";
 import { TextureManager } from "./Managers/TextureManager/TextureManager.js";
 import { ThreeCanvasManager } from "./Managers/ThreeCanvasManager/ThreeCanvasManager.js";
-import { GameObserver } from "./Observers/GameObserver.js";
-import { PlanetManager } from "./Planets/PlanetManager.js";
-import { GameObjectRegistry } from "./Providers/GameObjectRegistry.js";
-import { Background } from "./Scene/Background/Background.js";
-import { Sun } from "./Sun/Sun.js";
+import { TimeControl } from "./Components/Time/TimeControl.js";
 import { TimeManager } from "./Managers/TimeManager/TimeManager.js";
 
 export class GameManager {
@@ -29,8 +30,6 @@ export class GameManager {
     static gameObserver;
     static gameObjectRegistry = new GameObjectRegistry();
 
-    // debug screens
-    static debugGui;
     static stats;
 
     constructor(serviceProvider) {
@@ -41,11 +40,6 @@ export class GameManager {
         // Static Fields
         if (!ObjectValidator.IsValid(GameManager.scene)) {
             GameManager.scene = new THREE.Scene();
-        }
-
-        if (!ObjectValidator.IsValid(GameManager.debugGui)) {
-            GameManager.debugGui = new GUI({ autoPlace: false });
-            document.querySelector("#debug-gui").append(GameManager.debugGui.domElement);
         }
 
         if (!ObjectValidator.IsValid(GameManager.stats)) {
@@ -78,6 +72,7 @@ export class GameManager {
         this.shaderManager = new ShaderManager(this.serviceProvider);
         this.textureManager = new TextureManager(this.serviceProvider);
         this.timeManager = new TimeManager({ gameState: this.gameState });
+        this.targetManager = new TargetManager();
 
         // Initialise Camera
         this.camera = {};
@@ -130,42 +125,11 @@ export class GameManager {
     SetupCamera() {
         this.camera = new Camera();
         this.cameraController = new CameraController(this.camera, GameManager.renderer);
+        this.cameraRaycaster = new CameraRaycaster({ camera: this.camera.GetControlledCamera() });
     }
 
     SetupDebugHelpers() {
         const axesHelper = new THREE.AxesHelper(30);
         GameManager.scene.add(axesHelper);
     }
-
-    // SetupDebugGUI() {
-    //     // Physical section
-    //     const globalPhysicalProperties = GameManager.debugGui.addFolder("Global Physical Properties");
-    //     globalPhysicalProperties.add(this.gameState, "physicalRadiusMultiplier", 1, 25, 0.1);
-    //     globalPhysicalProperties.add(this.gameState, "distanceToSunMultiplier", 1, 20, 0.1);
-
-    //     // Scene section
-    //     const sceneProperties = GameManager.debugGui.addFolder("Scene Properties");
-    //     sceneProperties.add(this.gameState, "isLightActive").onChange(isLightActive => {
-    //         if (isLightActive) {
-    //             this.camera.cameraLight.EnableLight();
-    //         } else {
-    //             this.camera.cameraLight.DisableLight();
-    //         }
-    //     });
-    //     sceneProperties.add(this.gameState, "lightIntensity", 10, 200, 1).onChange(lightIntensity => {
-    //         this.camera.cameraLight.SetLightIntensity(lightIntensity);
-    //     });
-
-    //     // Canvas section
-    //     const canvasProperties = GameManager.debugGui.addFolder("Canvas Properties");
-    //     canvasProperties.add(this.gameState, "isFullScreen").onChange(isFullScreen => {
-    //         if (isFullScreen) {
-    //             this.canvas.SetToFullScreen();
-    //         } else {
-    //             this.canvas.SetToDefault();
-    //         }
-    //     });
-
-    //     this.SetupDebugHelpers();
-    // }
 }

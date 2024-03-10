@@ -1,79 +1,52 @@
 import * as THREE from "three";
-import { ObjectValidator } from "../../utils/ObjectValidator.js";
 import { GameManager } from "../GameManager.js";
+import { GameObject } from "../Entities/GameObject.js";
+import { ObjectValidator } from "../../utils/ObjectValidator.js";
 
-class CameraRaycaster {
-    constructor(camera) {
+class CameraRaycasterContract {
+    /* -------------------------------------------------------------------------- */
+    /*                                   Methods                                  */
+    /* -------------------------------------------------------------------------- */
+    RaycastToDestination(destination) { }
+}
+
+class CameraRaycaster extends GameObject {
+    constructor(props) {
+        super(props);
+
         // Fields
-        this.camera = camera;
-        this.previousIntersect = null;
-        this.currentIntersect = null;
-        this.currentIntersectedState = IntersectState.NONE;
+        this.camera = props.camera;
         this.pointer = new THREE.Vector2();
         this.raycaster = new THREE.Raycaster();
-
-        GameManager.gameObserver.Subscribe("OnMouseMove", this.OnMouseMove.bind(this));
     }
 
     /* -------------------------------------------------------------------------- */
-    /*                               Event Handlers                               */
+    /*                              Lifecycle Methods                             */
     /* -------------------------------------------------------------------------- */
 
-    OnMouseMove(event) {
-        // Update mouse position with normalized device coordinates.
-        this.pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
-        this.pointer.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    Start() {
+        const gameObjectRegistry = GameManager.gameObjectRegistry;
+        const cameraRaycasterContract = new CameraRaycasterContract();
 
-        this.RaycastFromPointer(this.pointer);
+        cameraRaycasterContract.RaycastToDestination = this.RaycastToDestination.bind(this);
+        gameObjectRegistry.RegisterGameObject("CameraRaycaster", cameraRaycasterContract);
     }
 
     /* -------------------------------------------------------------------------- */
     /*                                   Methods                                  */
     /* -------------------------------------------------------------------------- */
 
-    RaycastFromPointer(pointer) {
+    RaycastToDestination(destination) {
         // Performs raycast
-        this.raycaster.setFromCamera(pointer, this.camera.GetControlledCamera());
+        this.raycaster.setFromCamera(destination, this.camera.GetControlledCamera());
 
         const intersects = this.raycaster
             .intersectObjects(GameManager.scene.children, false)
             .filter(intersect =>
                 ObjectValidator.IsValid(intersect.object.gameObject));
-        this.SetCurrentState(intersects);
-    }
 
-    SetCurrentState(intersects) {
-        if (intersects.length > 0 && this.currentIntersectedState === IntersectState.NONE) {
-            this.currentIntersectedState = IntersectState.ENTER;
-            this.currentIntersect = intersects[0];
-            this.previousIntersect = intersects[0];
-            // console.log("Enter");
-            // GameManager.gameObserver.Dispatch("OnPointerEnter", this.currentIntersect);
-        } else if (intersects.length > 0 && this.currentIntersect.identifier === this.previousIntersect.identifier) {
-            this.currentIntersectedState = IntersectState.HOVER;
-            this.previousIntersect = this.currentIntersect;
-            // GameManager.gameObserver.Dispatch("OnPointerHover", { intersects });
-        } else if (intersects.length === 0 && (this.currentIntersectedState === IntersectState.ENTER || this.currentIntersectedState === IntersectState.HOVER)) {
-            this.currentIntersectedState = IntersectState.EXIT;
-            this.currentIntersect = null;
-            this.previousIntersect = null;
-            // console.log("Exit");
-            // GameManager.gameObserver.Dispatch("OnPointerExit", { intersects: this.currentIntersect });
-        } else {
-            this.currentIntersectedState = IntersectState.NONE;
-        }
-    }
-
-    GetCurrentIntersect() {
-        return this.currentIntersect;
+        return intersects;
     }
 }
 
-class IntersectState {
-    static ENTER = "enter";
-    static EXIT = "exit";
-    static HOVER = "hover";
-    static NONE = "none";
-}
-
-export { CameraRaycaster };
+export { CameraRaycaster, CameraRaycasterContract };
