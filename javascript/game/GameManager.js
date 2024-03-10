@@ -125,7 +125,7 @@ export class GameManager {
     SetupCamera() {
         this.camera = new Camera();
         this.cameraController = new CameraController(this.camera, GameManager.renderer);
-        this.cameraRaycaster = new CameraRaycaster({ camera: this.camera.GetControlledCamera() });
+        this.cameraRaycaster = new CameraRaycaster({ camera: this.camera });
     }
 
     SetupDebugHelpers() {

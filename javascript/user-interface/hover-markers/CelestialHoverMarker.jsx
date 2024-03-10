@@ -15,6 +15,7 @@ class CelestialObjectMarker extends Component {
         };
 
         const markerDelegate = new CelestialHoverMarkerDelegate();
+        markerDelegate.CheckIsBehindObject = this.CheckIsBehindObject.bind(this);
         markerDelegate.UpdatePosition = this.SetPosition.bind(this);
         markerDelegate.SetState = this.SetState.bind(this);
 
@@ -27,6 +28,17 @@ class CelestialObjectMarker extends Component {
     /* -------------------------------------------------------------------------- */
     /*                                   Methods                                  */
     /* -------------------------------------------------------------------------- */
+
+    CheckIsBehindObject() {
+        const raycasterDelegate = GameManager.gameObjectRegistry.GetGameObject("CameraRaycaster");
+        const intersects = raycasterDelegate.RaycastToDestination(this.celestialObjectDelegate.GetRenderedObject());
+
+        if (intersects.length > 0) {
+            this.SetState(MarkerState.Hidden);
+        } else {
+            this.SetState(MarkerState.Visible);
+        }
+    }
 
     SetPosition(position) {
         const cameraDelegate = GameManager.gameObjectRegistry.GetGameObject("Camera");
@@ -113,6 +125,7 @@ class CelestialHoverMarkerDelegate {
     /* -------------------------------------------------------------------------- */
     /*                                   Methods                                  */
     /* -------------------------------------------------------------------------- */
+    CheckIsBehindObject() {}
 
     UpdatePosition(position) { }
 

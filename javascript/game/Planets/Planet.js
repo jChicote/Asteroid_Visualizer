@@ -28,6 +28,10 @@ export class Planet extends GameObject {
         this.hasRing = false;
         this.ring = null;
 
+        this.identifier = parameters.planetCode;
+        this.objectType = "Planet";
+        this.classification = "None";
+
         // Components
         this.materialRenderer = {};
         this.orbitalMotion = new CelestialOrbitalMotionLogic();
@@ -80,9 +84,11 @@ export class Planet extends GameObject {
             const directionToCamera = MathHelper.GetDirectionToTarget(this.renderedObject.position, camera.GetPosition());
             const dotProduct = directionToCamera.dot(forward.applyQuaternion(camera.GetQuaternion()));
 
-            // if (dotProduct < 0) {
-            //     this.marker.SetState(MarkerState.Hidden);
-            // } else {
+            if (dotProduct < 0) {
+                // this.marker.SetState(MarkerState.Hidden);
+                this.marker.CheckIsBehindObject();
+            }
+            // else {
             //     this.marker.SetState(MarkerState.Visible);
             // }
 

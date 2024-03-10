@@ -30,6 +30,9 @@ class CameraRaycaster extends GameObject {
 
         cameraRaycasterContract.RaycastToDestination = this.RaycastToDestination.bind(this);
         gameObjectRegistry.RegisterGameObject("CameraRaycaster", cameraRaycasterContract);
+
+        this.arrowHelper = new THREE.ArrowHelper(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, 0), 0, 0xff0000);
+        GameManager.scene.add(this.arrowHelper);
     }
 
     /* -------------------------------------------------------------------------- */
@@ -37,13 +40,25 @@ class CameraRaycaster extends GameObject {
     /* -------------------------------------------------------------------------- */
 
     RaycastToDestination(destination) {
+        const validIntersects = GameManager.scene.children.filter(child =>
+            ObjectValidator.IsValid(child.gameObject) &&
+            child.gameObject.objectType === "Star");
+
+        // Exit early if there are no valid objects to raycast against
+        if (validIntersects.length === 0) return [];
+
+        const directionToTarget = new THREE.Vector3().subVectors(destination.position, this.camera.GetControlledCamera().position).normalize();
+
         // Performs raycast
-        this.raycaster.setFromCamera(destination, this.camera.GetControlledCamera());
+        this.raycaster.set(
+            this.camera.GetControlledCamera().position,
+            directionToTarget.multiplyScalar(this.camera.GetControlledCamera().position.distanceTo(destination.position)));
 
         const intersects = this.raycaster
-            .intersectObjects(GameManager.scene.children, false)
+            .intersectObjects(validIntersects, false)
             .filter(intersect =>
-                ObjectValidator.IsValid(intersect.object.gameObject));
+                !isNaN(intersect.distance) &&
+                intersect.object.uuid !== destination.uuid);
 
         return intersects;
     }

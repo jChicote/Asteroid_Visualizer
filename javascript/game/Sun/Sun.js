@@ -11,13 +11,15 @@ class Sun extends GameObject {
         // Fields
         this.pointLight = this.CreateLightSource();
         this.renderedObject = "";
+        this.objectType = "Star";
+        this.classification = "Yellow-Giant";
 
         // Components
         this.materialRenderer = new MaterialRenderer(new SunMaterialConfiguration());
         this.renderedObject = this.CreateRenderedObject(this.GetRadius(), 0xFFFFFF, new THREE.Vector3(0, 0, 0));
 
         // Debug
-        this.DrawDebug();
+        // this.DrawDebug();
 
         this.currentTime = performance.now() / 1000;
         this.lastTime = performance.now();
