@@ -2,6 +2,8 @@ class CameraContract {
     /* -------------------------------------------------------------------------- */
     /*                                   Methods                                  */
     /* -------------------------------------------------------------------------- */
+    GetControlledCamera() { }
+
     GetMatrixWorldInverse() { }
 
     GetProjectionMatrix() { }
@@ -9,6 +11,10 @@ class CameraContract {
     GetPosition() { }
 
     GetQuaternion() { }
+
+    GetWorldPosition() { }
+
+    GetWorldDirection() { }
 
     SetAspectRatio(aspectRatio) { }
 }
