@@ -83,19 +83,17 @@ export class Planet extends GameObject {
         if (ObjectValidator.IsValid(this.marker)) {
             // TODO: Refactor this out into a seperate service or method passing in the MarkerState. Preferably into a component
             // Determine if the planet is behind the camera
-            const forward = new THREE.Vector3(0, 0, -1);
             const camera = GameManager.gameObjectRegistry.GetGameObject("Camera");
             const directionToCamera = MathHelper.GetDirectionToTarget(this.renderedObject.position, camera.GetPosition());
-            const dotProduct = directionToCamera.dot(forward.applyQuaternion(camera.GetQuaternion()));
             const forwardDirection = new THREE.Vector3().copy(camera.GetWorldDirection()).add(camera.GetWorldPosition());
+            const dotProduct = directionToCamera.dot(forwardDirection);
 
             if (dotProduct < 0) {
-                // this.marker.SetState(MarkerState.Hidden);
-                this.marker.CheckIsBehindObject();
+                this.marker.SetState(MarkerState.Hidden);
+            } else {
+                //this.marker.CheckIsBehindObject();
+                this.marker.SetState(MarkerState.Visible);
             }
-            // else {
-            //     this.marker.SetState(MarkerState.Visible);
-            // }
 
             this.marker.UpdatePosition({
                 x: this.renderedObject.position.x,
