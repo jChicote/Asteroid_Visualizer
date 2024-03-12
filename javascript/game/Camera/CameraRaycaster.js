@@ -42,7 +42,7 @@ class CameraRaycaster extends GameObject {
     RaycastToDestination(destination) {
         const validIntersects = GameManager.scene.children.filter(child =>
             ObjectValidator.IsValid(child.gameObject) &&
-            child.gameObject.objectType === "Star");
+            (child.gameObject.objectType === "Star" || child.gameObject.objectType === "Planet"));
 
         // Exit early if there are no valid objects to raycast against
         if (validIntersects.length === 0) return [];

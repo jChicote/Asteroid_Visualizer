@@ -11,7 +11,8 @@ class CelestialObjectMarker extends Component {
         this.state = {
             id: props.id,
             screenPosition: props.position,
-            currentState: MarkerState.Visible
+            currentState: MarkerState.Visible,
+            isActive: true
         };
 
         const markerDelegate = new CelestialHoverMarkerDelegate();
@@ -30,11 +31,13 @@ class CelestialObjectMarker extends Component {
     /* -------------------------------------------------------------------------- */
 
     CheckIsBehindObject() {
+        if (!this.state.isActive) return;
+
         const raycasterDelegate = GameManager.gameObjectRegistry.GetGameObject("CameraRaycaster");
         const intersects = raycasterDelegate.RaycastToDestination(this.celestialObjectDelegate.GetRenderedObject());
 
         if (intersects.length > 0) {
-            this.SetState(MarkerState.Hidden);
+            this.SetState(MarkerState.Obstructed);
         } else {
             this.SetState(MarkerState.Visible);
         }
@@ -65,8 +68,8 @@ class CelestialObjectMarker extends Component {
     /* -------------------------------------------------------------------------- */
 
     HandleClick(event) {
-        console.log("Clicked on celestial object marker with id " + this.state.id + "!" + "With the state of " + this.state.currentState);
         this.SetState(MarkerState.Hidden);
+        this.setState({ isActive: false });
 
         const command = new CelestialHoverMarkerCommand({
             objectDelegate: this.celestialObjectDelegate,
@@ -77,8 +80,8 @@ class CelestialObjectMarker extends Component {
     }
 
     HandleExitEvent() {
-        console.log("Clicked on celestial object marker with id " + this.state.id + ", should now be visible");
         this.SetState(MarkerState.Visible);
+        this.setState({ isActive: true });
     }
 
     /* -------------------------------------------------------------------------- */
@@ -100,7 +103,7 @@ class CelestialObjectMarker extends Component {
                 style= {{
                     top: `${this.state.screenPosition.y - elementHalfHeight}px`,
                     left: `${this.state.screenPosition.x - elementHalfWidth}px`,
-                    opacity: this.state.currentState === MarkerState.Hidden ? "0" : "1"
+                    opacity: this.state.currentState === MarkerState.Hidden || this.state.currentState === MarkerState.Obstructed ? "0" : "1"
                 }}
                 onClick={this.HandleClick.bind(this)}
             />
@@ -118,7 +121,8 @@ CelestialObjectMarker.propTypes = {
 const MarkerState = {
     Hidden: 0,
     Visible: 1,
-    Faded: 2
+    Faded: 2,
+    Obstructed: 3
 };
 
 class CelestialHoverMarkerDelegate {

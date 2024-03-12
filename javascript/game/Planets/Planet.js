@@ -87,12 +87,10 @@ export class Planet extends GameObject {
             const directionToObject = this.renderedObject.position.clone().sub(camera.GetPosition()).normalize();
             const dotProduct = camera.GetWorldDirection().dot(directionToObject);
 
-            console.log(dotProduct);
             if (dotProduct < 0) {
                 this.marker.SetState(MarkerState.Hidden);
             } else {
-                //this.marker.CheckIsBehindObject();
-                this.marker.SetState(MarkerState.Visible);
+                this.marker.CheckIsBehindObject();
             }
 
             this.marker.UpdatePosition({
