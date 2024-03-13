@@ -1,7 +1,9 @@
 import { PropTypes } from "prop-types";
 import { Component, createRef } from "react";
+import { SolarSystemVisualizer } from "../../SolarSystemVisualizer";
 import { GameManager } from "../../game/GameManager";
 import { MathHelper } from "../../utils/math-library";
+import { EventMediator } from "../mediator/EventMediator";
 
 class CelestialObjectMarker extends Component {
     constructor(props) {
@@ -57,7 +59,19 @@ class CelestialObjectMarker extends Component {
         this.setState({ screenPosition });
     }
 
+    FlipFlopState() {
+        this.setState({ isActive: !this.state.isActive });
+
+        if (!this.state.isActive) {
+            this.SetState(MarkerState.Hidden);
+        } else {
+            this.SetState(MarkerState.Visible);
+        }
+    }
+
     SetState(nextState) {
+        if (!this.state.isActive) return;
+
         if (this.state.currentState !== nextState) {
             this.setState({ currentState: nextState });
         }
@@ -90,6 +104,8 @@ class CelestialObjectMarker extends Component {
 
     componentDidMount() {
         console.log(this.element.current.offsetWidth);
+        this.eventMediator = SolarSystemVisualizer.serviceContainer.Resolve(EventMediator);
+        this.eventMediator.Subscribe("ToggleMarkers", this.FlipFlopState.bind(this));
     }
 
     render() {
