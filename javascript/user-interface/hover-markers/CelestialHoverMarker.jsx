@@ -35,11 +35,17 @@ class CelestialObjectMarker extends Component {
     CheckIsBehindObject() {
         if (!this.state.isActive) return;
 
+        // Hacky implementation
+        const camera = GameManager.gameObjectRegistry.GetGameObject("Camera");
+
         const raycasterDelegate = GameManager.gameObjectRegistry.GetGameObject("CameraRaycaster");
         const intersects = raycasterDelegate.RaycastToDestination(this.celestialObjectDelegate.GetRenderedObject());
 
         if (intersects.length > 0) {
-            this.SetState(MarkerState.Hidden);
+            // Check for relative distancing
+            const planetDistance = MathHelper.GetDistanceBetweenObjects(this.celestialObjectDelegate.GetRenderedObject(), camera.GetControlledCamera());
+            const distance = MathHelper.GetDistanceBetweenObjects(intersects[0].object, camera.GetControlledCamera());
+            if (planetDistance > distance) this.SetState(MarkerState.Hidden);
         } else {
             // This should be in its own seperate method. This is a hacky way of doing it.
             if (this.state.currentState === MarkerState.Selected) {

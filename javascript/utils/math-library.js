@@ -48,6 +48,10 @@ class MathHelper {
     static GetDirectionToTarget(source, target) {
         return new THREE.Vector3().subVectors(target, source).normalize();
     }
+
+    static GetDistanceBetweenObjects(source, target) {
+        return source.position.distanceTo(target.position);
+    }
 }
 
 export { MathHelper };

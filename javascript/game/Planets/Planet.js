@@ -8,7 +8,6 @@ import { CelestialOrbitalMotionLogic } from "../Components/OrbitalMechanics/Cele
 import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
 import { GameObject } from "../Entities/GameObject.js";
 import { GameManager } from "../GameManager.js";
-import { VisibilityDebugger } from './VisibilityDebugger.js';
 
 export class Planet extends GameObject {
     constructor(planetCode, planetData, materialConfigurationProvider) {
@@ -74,12 +73,12 @@ export class Planet extends GameObject {
             delegate: this.planetDelegate
         });
 
-        this.visualiserDebugger = new VisibilityDebugger();
+        // this.visualiserDebugger = new VisibilityDebugger();
     }
 
     // Updates the planet. Used during runtime.
     Update() {
-        this.visualiserDebugger.Update();
+        // this.visualiserDebugger.Update();
         if (ObjectValidator.IsValid(this.marker)) {
             // TODO: Refactor this out into a seperate service or method passing in the MarkerState. Preferably into a component
             // Determine if the planet is behind the camera
