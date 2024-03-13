@@ -5,7 +5,7 @@ class ShowMarkerButton extends BaseOptionButton {
         super(props);
 
         this.state = {
-            isActive: false,
+            isActive: true,
             isVisible: false,
             hasFadedOut: false
         };
@@ -17,6 +17,7 @@ class ShowMarkerButton extends BaseOptionButton {
 
     HandleClick() {
         this.eventMediator.Notify("ToggleMarkers");
+        this.setState({ isActive: !this.state.isActive });
     }
 }
 

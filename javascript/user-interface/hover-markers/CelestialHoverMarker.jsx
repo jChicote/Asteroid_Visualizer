@@ -39,9 +39,14 @@ class CelestialObjectMarker extends Component {
         const intersects = raycasterDelegate.RaycastToDestination(this.celestialObjectDelegate.GetRenderedObject());
 
         if (intersects.length > 0) {
-            this.SetState(MarkerState.Obstructed);
+            this.SetState(MarkerState.Hidden);
         } else {
-            this.SetState(MarkerState.Visible);
+            // This should be in its own seperate method. This is a hacky way of doing it.
+            if (this.state.currentState === MarkerState.Selected) {
+                this.SetState(MarkerState.Selected);
+            } else {
+                this.SetState(MarkerState.Visible);
+            }
         }
     }
 
@@ -60,21 +65,14 @@ class CelestialObjectMarker extends Component {
     }
 
     FlipFlopState() {
-        this.setState({ isActive: !this.state.isActive });
-
-        if (!this.state.isActive) {
-            this.SetState(MarkerState.Hidden);
-        } else {
-            this.SetState(MarkerState.Visible);
-        }
+        this.setState(prevState => ({
+            isActive: !prevState.isActive,
+            currentState: !prevState.isActive && prevState.currentState !== MarkerState.Selected ? MarkerState.Visible : prevState.currentState
+        }));
     }
 
     SetState(nextState) {
-        if (!this.state.isActive) return;
-
-        if (this.state.currentState !== nextState) {
-            this.setState({ currentState: nextState });
-        }
+        this.setState({ currentState: nextState });
     }
 
     /* -------------------------------------------------------------------------- */
@@ -82,8 +80,7 @@ class CelestialObjectMarker extends Component {
     /* -------------------------------------------------------------------------- */
 
     HandleClick(event) {
-        this.SetState(MarkerState.Hidden);
-        this.setState({ isActive: false });
+        this.setState({ currentState: MarkerState.Selected });
 
         const command = new CelestialHoverMarkerCommand({
             objectDelegate: this.celestialObjectDelegate,
@@ -94,8 +91,9 @@ class CelestialObjectMarker extends Component {
     }
 
     HandleExitEvent() {
+        if (!this.state.isActive) return;
+
         this.SetState(MarkerState.Visible);
-        this.setState({ isActive: true });
     }
 
     /* -------------------------------------------------------------------------- */
@@ -103,7 +101,6 @@ class CelestialObjectMarker extends Component {
     /* -------------------------------------------------------------------------- */
 
     componentDidMount() {
-        console.log(this.element.current.offsetWidth);
         this.eventMediator = SolarSystemVisualizer.serviceContainer.Resolve(EventMediator);
         this.eventMediator.Subscribe("ToggleMarkers", this.FlipFlopState.bind(this));
     }
@@ -111,6 +108,7 @@ class CelestialObjectMarker extends Component {
     render() {
         const elementHalfHeight = this.element.current !== null ? (this.element.current.offsetHeight / 2) : 0;
         const elementHalfWidth = this.element.current !== null ? (this.element.current.offsetWidth / 2) : 0;
+        const shouldRender = this.state.isActive && this.state.currentState === MarkerState.Visible;
 
         return (
             <button
@@ -119,7 +117,7 @@ class CelestialObjectMarker extends Component {
                 style= {{
                     top: `${this.state.screenPosition.y - elementHalfHeight}px`,
                     left: `${this.state.screenPosition.x - elementHalfWidth}px`,
-                    opacity: this.state.currentState === MarkerState.Hidden || this.state.currentState === MarkerState.Obstructed ? "0" : "1"
+                    opacity: shouldRender ? "1" : "0"
                 }}
                 onClick={this.HandleClick.bind(this)}
             />
@@ -138,7 +136,7 @@ const MarkerState = {
     Hidden: 0,
     Visible: 1,
     Faded: 2,
-    Obstructed: 3
+    Selected: 3
 };
 
 class CelestialHoverMarkerDelegate {
