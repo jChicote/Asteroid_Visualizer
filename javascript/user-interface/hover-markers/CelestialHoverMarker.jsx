@@ -56,6 +56,33 @@ class CelestialObjectMarker extends Component {
         }
     }
 
+    GetRaycastIntersects() {
+        const raycasterDelegate = GameManager.gameObjectRegistry.GetGameObject("CameraRaycaster");
+        const intersects = raycasterDelegate.RaycastToDestination(this.celestialObjectDelegate.GetRenderedObject());
+        return intersects;
+    }
+
+    CheckIfInFrontOfObject(source, destination) {
+        const planetDistance = MathHelper.GetDistanceBetweenObjects(this.celestialObjectDelegate.GetRenderedObject(), source);
+        const distance = MathHelper.GetDistanceBetweenObjects(destination, source);
+
+        return planetDistance > distance;
+    }
+
+    UpdateMarker() {
+        if (!this.state.isActive) return;
+
+        const intersects = this.GetRaycastIntersects();
+        if (intersects.length > 0) {
+            const camera = GameManager.gameObjectRegistry.GetGameObject("Camera");
+            if (CheckIfInFrontOfObject(camera, intersects[0].object)) this.SetState(MarkerState.Hidden);
+        } else if (this.state.currentState === MarkerState.Selected) {
+            this.SetState(MarkerState.Selected);
+        } else {
+            this.SetState(MarkerState.Visible);
+        }
+    }
+
     SetPosition(position) {
         const cameraDelegate = GameManager.gameObjectRegistry.GetGameObject("Camera");
         const screenPosition = MathHelper.WorldSpaceToScreenSpace(

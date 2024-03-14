@@ -41,12 +41,6 @@ class CelestialMarkerScreen extends Component {
         this.eventMediator.Subscribe("CreateHoverMarker", this.ConstructHoverMarker.bind(this));
     }
 
-    // componentDidUpdate() {
-    //     this.state.markers.map(marker => (
-    //         console.log(marker.position.x, marker.position.y)
-    //     ));
-    // }
-
     render() {
         return (
             <div id="markerCanvas" className="fill-canvas">
