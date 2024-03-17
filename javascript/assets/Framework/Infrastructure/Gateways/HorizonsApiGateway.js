@@ -77,8 +77,6 @@ export class HorizonsApiGateway {
             heliocentricSection = heliocentricMatch[0].split("\n").slice(2, 6); // Take the first 4 lines containing the data points
         }
 
-        console.log(heliocentricSection);
-
         return heliocentricSection;
     }
 

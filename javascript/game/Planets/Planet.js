@@ -1,6 +1,5 @@
 import * as THREE from "three";
 import { SolarSystemVisualizer } from "../../SolarSystemVisualizer.js";
-import { MarkerState } from "../../user-interface/hover-markers/CelestialHoverMarker.jsx";
 import { EventMediator } from "../../user-interface/mediator/EventMediator.js";
 import { ObjectValidator } from "../../utils/ObjectValidator.js";
 import { MathHelper } from "../../utils/math-library.js";
@@ -8,6 +7,7 @@ import { CelestialOrbitalMotionLogic } from "../Components/OrbitalMechanics/Cele
 import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
 import { GameObject } from "../Entities/GameObject.js";
 import { GameManager } from "../GameManager.js";
+import { PlanetMarkerHandler } from "./PlanetMarkerHandler.js";
 
 export class Planet extends GameObject {
     constructor(planetCode, planetData, materialConfigurationProvider) {
@@ -58,6 +58,11 @@ export class Planet extends GameObject {
         this.planetDelegate.GetRenderedObject = this.GetRenderedObject.bind(this);
         this.planetDelegate.GetName = this.GetName.bind(this);
 
+        this.markerHandler = new PlanetMarkerHandler({
+            planetDelegate: this.planetDelegate,
+            renderedObject: this.renderedObject
+        });
+
         // Note: This implementation will only work with saturn.
         if (ObjectValidator.IsValid(this.materialConfiguration.ringConfiguration)) {
             console.log("Planet with rings found");
@@ -73,36 +78,13 @@ export class Planet extends GameObject {
             },
             delegate: this.planetDelegate
         });
-
-        // this.visualiserDebugger = new VisibilityDebugger();
     }
 
     // Updates the planet. Used during runtime.
     Update() {
-        // this.visualiserDebugger.Update();
-        if (ObjectValidator.IsValid(this.marker)) {
-            // TODO: Refactor this out into a seperate service or method passing in the MarkerState. Preferably into a component
-            // Determine if the planet is behind the camera
-            const camera = GameManager.gameObjectRegistry.GetGameObject("Camera");
-            const directionToObject = this.renderedObject.position.clone().sub(camera.GetPosition()).normalize();
-            const dotProduct = camera.GetWorldDirection().dot(directionToObject);
+        this.markerHandler.UpdateMarker();
 
-            if (dotProduct < 0) {
-                this.marker.SetState(MarkerState.Hidden);
-            } else {
-                this.marker.UpdateMarker();
-            }
-
-            this.marker.UpdatePosition({
-                x: this.renderedObject.position.x,
-                y: this.renderedObject.position.y,
-                z: this.renderedObject.position.z
-            });
-        }
-
-        if (SolarSystemVisualizer.gameManager.gameState.isPaused) {
-            return;
-        }
+        if (SolarSystemVisualizer.gameManager.gameState.isPaused) return;
 
         this.UpdateOrbitalState();
         this.SetPlanetPosition(this.renderedObject);
@@ -193,8 +175,9 @@ export class Planet extends GameObject {
             this.planetState.currentTime);
     }
 
+    // This method is just a passthrough
     SetMarker(marker) {
-        this.marker = marker;
+        this.marker = this.markerHandler.SetMarker(marker);
     }
 }
 
@@ -207,16 +190,14 @@ class PlanetDelegate {
 
     GetRenderedObject() { }
 
-    GetName() {
-
-    }
+    GetName() { }
 }
 
-export { PlanetDelegate };
-
-export class PlanetState {
+class PlanetState {
     constructor(meanAnomaly, initialTime) {
         this.meanAnomaly = meanAnomaly;
         this.currentTime = initialTime;
     }
 }
+
+export { PlanetDelegate, PlanetState };

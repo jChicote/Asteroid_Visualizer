@@ -1,9 +1,9 @@
-import { PropTypes } from "prop-types";
 import { Component, createRef } from "react";
-import { SolarSystemVisualizer } from "../../SolarSystemVisualizer";
+import { EventMediator } from "../mediator/EventMediator";
 import { GameManager } from "../../game/GameManager";
 import { MathHelper } from "../../utils/math-library";
-import { EventMediator } from "../mediator/EventMediator";
+import { PropTypes } from "prop-types";
+import { SolarSystemVisualizer } from "../../SolarSystemVisualizer";
 
 class CelestialObjectMarker extends Component {
     constructor(props) {
@@ -21,7 +21,7 @@ class CelestialObjectMarker extends Component {
         };
 
         const markerDelegate = new CelestialHoverMarkerDelegate();
-        markerDelegate.UpdateMarker = this.UpdateMarker.bind(this);
+        markerDelegate.UpdateMarkerState = this.UpdateMarkerState.bind(this);
         markerDelegate.UpdatePosition = this.SetPosition.bind(this);
         markerDelegate.SetState = this.SetState.bind(this);
 
@@ -35,26 +35,11 @@ class CelestialObjectMarker extends Component {
     /*                                   Methods                                  */
     /* -------------------------------------------------------------------------- */
 
-    GetRaycastIntersects() {
-        const raycasterDelegate = GameManager.gameObjectRegistry.GetGameObject("CameraRaycaster");
-        const intersects = raycasterDelegate.RaycastToDestination(this.celestialObjectDelegate.GetRenderedObject());
-        return intersects;
-    }
-
-    CheckIfInFrontOfObject(source, destination) {
-        const planetDistance = MathHelper.GetDistanceBetweenObjects(this.celestialObjectDelegate.GetRenderedObject(), source);
-        const distance = MathHelper.GetDistanceBetweenObjects(destination, source);
-
-        return planetDistance > distance;
-    }
-
-    UpdateMarker() {
+    UpdateMarkerState(hasIntersected, isInFront) {
         if (!this.state.isActive) return;
 
-        const intersects = this.GetRaycastIntersects();
-        if (intersects.length > 0) {
-            const camera = GameManager.gameObjectRegistry.GetGameObject("Camera");
-            if (this.CheckIfInFrontOfObject(camera.GetControlledCamera(), intersects[0].object)) this.SetState(MarkerState.Hidden);
+        if (hasIntersected && isInFront) {
+            this.SetState(MarkerState.Hidden);
         } else if (this.state.currentState === MarkerState.Selected) {
             this.SetState(MarkerState.Selected);
         } else {
@@ -79,7 +64,9 @@ class CelestialObjectMarker extends Component {
     FlipFlopState() {
         this.setState(prevState => ({
             isActive: !prevState.isActive,
-            currentState: !prevState.isActive && prevState.currentState !== MarkerState.Selected ? MarkerState.Visible : prevState.currentState
+            currentState: !prevState.isActive && prevState.currentState !== MarkerState.Selected
+                ? MarkerState.Visible
+                : prevState.currentState
         }));
     }
 
@@ -128,10 +115,11 @@ class CelestialObjectMarker extends Component {
     render() {
         const elementHalfHeight = this.element.current !== null ? (this.element.current.offsetHeight / 2) : 0;
         const elementHalfWidth = this.element.current !== null ? (this.element.current.offsetWidth / 2) : 0;
-        const shouldRender = this.state.isActive && this.state.currentState === MarkerState.Visible;
 
         const labelHeight = this.label.current !== null ? this.label.current.offsetHeight : 0;
         const labelHalfWidth = this.label.current !== null ? (this.label.current.offsetWidth / 2) : 0;
+
+        const shouldRender = this.state.isActive && this.state.currentState === MarkerState.Visible;
 
         return (
             <div style={{ position: "relative" }}>
@@ -181,7 +169,7 @@ class CelestialHoverMarkerDelegate {
     /* -------------------------------------------------------------------------- */
     /*                                   Methods                                  */
     /* -------------------------------------------------------------------------- */
-    UpdateMarker() {}
+    UpdateMarkerState() {}
 
     UpdatePosition(position) { }
 
