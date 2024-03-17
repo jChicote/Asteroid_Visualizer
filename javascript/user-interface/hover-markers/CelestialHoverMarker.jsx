@@ -9,6 +9,7 @@ class CelestialObjectMarker extends Component {
     constructor(props) {
         super(props);
 
+        this.label = createRef();
         this.element = createRef();
         this.state = {
             id: props.id,
@@ -31,30 +32,6 @@ class CelestialObjectMarker extends Component {
     /* -------------------------------------------------------------------------- */
     /*                                   Methods                                  */
     /* -------------------------------------------------------------------------- */
-
-    CheckIsBehindObject() {
-        if (!this.state.isActive) return;
-
-        // Hacky implementation
-        const camera = GameManager.gameObjectRegistry.GetGameObject("Camera");
-
-        const raycasterDelegate = GameManager.gameObjectRegistry.GetGameObject("CameraRaycaster");
-        const intersects = raycasterDelegate.RaycastToDestination(this.celestialObjectDelegate.GetRenderedObject());
-
-        if (intersects.length > 0) {
-            // Check for relative distancing
-            const planetDistance = MathHelper.GetDistanceBetweenObjects(this.celestialObjectDelegate.GetRenderedObject(), camera.GetControlledCamera());
-            const distance = MathHelper.GetDistanceBetweenObjects(intersects[0].object, camera.GetControlledCamera());
-            if (planetDistance > distance) this.SetState(MarkerState.Hidden);
-        } else {
-            // This should be in its own seperate method. This is a hacky way of doing it.
-            if (this.state.currentState === MarkerState.Selected) {
-                this.SetState(MarkerState.Selected);
-            } else {
-                this.SetState(MarkerState.Visible);
-            }
-        }
-    }
 
     GetRaycastIntersects() {
         const raycasterDelegate = GameManager.gameObjectRegistry.GetGameObject("CameraRaycaster");
@@ -143,18 +120,35 @@ class CelestialObjectMarker extends Component {
         const elementHalfWidth = this.element.current !== null ? (this.element.current.offsetWidth / 2) : 0;
         const shouldRender = this.state.isActive && this.state.currentState === MarkerState.Visible;
 
+        const labelHeight = this.label.current !== null ? this.label.current.offsetHeight : 0;
+        const labelHalfWidth = this.label.current !== null ? (this.label.current.offsetWidth / 2) : 0;
+
         return (
-            <button
-                ref= {this.element}
-                className="celestial-object-marker marker-shape-circle marker-skin"
-                style= {{
-                    top: `${this.state.screenPosition.y - elementHalfHeight}px`,
-                    left: `${this.state.screenPosition.x - elementHalfWidth}px`,
-                    opacity: shouldRender ? "1" : "0",
-                    pointerEvents: shouldRender ? "all" : "none"
-                }}
-                onClick={this.HandleClick.bind(this)}
-            />
+            <div style={{ position: "relative" }}>
+                <button
+                    ref= {this.element}
+                    className="celestial-object-marker marker-shape-circle marker-skin"
+                    style= {{
+                        top: `${this.state.screenPosition.y - elementHalfHeight}px`,
+                        left: `${this.state.screenPosition.x - elementHalfWidth}px`,
+                        opacity: shouldRender ? "1" : "0",
+                        pointerEvents: shouldRender ? "all" : "none"
+                    }}
+                    onClick={this.HandleClick.bind(this)}
+                />
+                <div
+                    ref={this.label}
+                    style= {{
+                        position: "absolute",
+                        color: "white",
+                        top: `${this.state.screenPosition.y - labelHeight - 8}px`,
+                        left: `${this.state.screenPosition.x - labelHalfWidth}px`,
+                        opacity: shouldRender ? "1" : "0",
+                        pointerEvents: "none"
+                    }}>
+                    <p>Test Label</p>
+                </div>
+            </div>
         );
     }
 }

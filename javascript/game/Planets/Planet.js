@@ -17,6 +17,8 @@ export class Planet extends GameObject {
     InitialiseFields(parameters) {
         super.InitialiseFields(parameters);
 
+        console.log(parameters);
+
         // Fields
         this.materialConfiguration = parameters.materialConfigurationProvider.GetMaterialConfiguration(parameters.planetCode);
         this.meanMotion = "";
@@ -56,6 +58,7 @@ export class Planet extends GameObject {
         this.planetDelegate = new PlanetDelegate();
         this.planetDelegate.SetMarker = this.SetMarker.bind(this);
         this.planetDelegate.GetRenderedObject = this.GetRenderedObject.bind(this);
+        this.planetDelegate.GetName = this.GetName.bind(this);
 
         // Note: This implementation will only work with saturn.
         if (ObjectValidator.IsValid(this.materialConfiguration.ringConfiguration)) {
@@ -158,6 +161,10 @@ export class Planet extends GameObject {
         return this.planetCode;
     }
 
+    GetName() {
+        return
+    }
+
     GetRadius() {
         return this.planetData.planetRadius * 0.0001; // TODO: ABstract this to make this dynamically scaled
     }
@@ -201,6 +208,10 @@ class PlanetDelegate {
     SetMarker(marker) { }
 
     GetRenderedObject() { }
+
+    GetName() {
+
+    }
 }
 
 export { PlanetDelegate };
