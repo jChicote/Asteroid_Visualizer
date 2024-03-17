@@ -7,6 +7,16 @@ class PlanetMarkerHandler {
     constructor(props) {
         this.planetDelegate = props.planetDelegate;
         this.renderedObject = props.renderedObject;
+
+        props.eventMediator.Notify("CreateHoverMarker", {
+            id: props.planetCode,
+            position: {
+                x: this.renderedObject.position.x,
+                y: this.renderedObject.position.y,
+                z: this.renderedObject.position.z
+            },
+            delegate: this.planetDelegate
+        });
     }
 
     /* -------------------------------------------------------------------------- */
@@ -28,7 +38,9 @@ class PlanetMarkerHandler {
 
     UpdateMarker() {
         if (ObjectValidator.IsValid(this.marker)) {
-            const camera = GameManager.gameObjectRegistry.GetGameObject("Camera"); // TODO: This should be its own event in the case the camera is loaded.
+            // TODO: The camera should initialised once or be set only when the camera is created.
+            // There is no way to know when the camera is created and is not validated in this class.
+            const camera = GameManager.gameObjectRegistry.GetGameObject("Camera");
             const directionToObject = this.planetDelegate.GetRenderedObject().position
                 .clone()
                 .sub(camera.GetPosition())

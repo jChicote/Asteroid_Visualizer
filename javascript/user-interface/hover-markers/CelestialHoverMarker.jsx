@@ -32,6 +32,15 @@ class CelestialObjectMarker extends Component {
     }
 
     /* -------------------------------------------------------------------------- */
+    /*                              Lifecycle Methods                             */
+    /* -------------------------------------------------------------------------- */
+
+    componentDidMount() {
+        this.eventMediator = SolarSystemVisualizer.serviceContainer.Resolve(EventMediator);
+        this.eventMediator.Subscribe("ToggleMarkers", this.FlipFlopState.bind(this));
+    }
+
+    /* -------------------------------------------------------------------------- */
     /*                                   Methods                                  */
     /* -------------------------------------------------------------------------- */
 
@@ -104,13 +113,8 @@ class CelestialObjectMarker extends Component {
     }
 
     /* -------------------------------------------------------------------------- */
-    /*                              Lifecycle Methods                             */
+    /*                                    View                                    */
     /* -------------------------------------------------------------------------- */
-
-    componentDidMount() {
-        this.eventMediator = SolarSystemVisualizer.serviceContainer.Resolve(EventMediator);
-        this.eventMediator.Subscribe("ToggleMarkers", this.FlipFlopState.bind(this));
-    }
 
     render() {
         const elementHalfHeight = this.element.current !== null ? (this.element.current.offsetHeight / 2) : 0;

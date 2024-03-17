@@ -59,6 +59,8 @@ export class Planet extends GameObject {
         this.planetDelegate.GetName = this.GetName.bind(this);
 
         this.markerHandler = new PlanetMarkerHandler({
+            eventMediator: this.eventMediator,
+            planetCode: this.planetCode,
             planetDelegate: this.planetDelegate,
             renderedObject: this.renderedObject
         });
@@ -68,16 +70,6 @@ export class Planet extends GameObject {
             console.log("Planet with rings found");
             this.AddRings();
         }
-
-        this.eventMediator.Notify("CreateHoverMarker", {
-            id: this.planetCode,
-            position: {
-                x: this.renderedObject.position.x,
-                y: this.renderedObject.position.y,
-                z: this.renderedObject.position.z
-            },
-            delegate: this.planetDelegate
-        });
     }
 
     // Updates the planet. Used during runtime.

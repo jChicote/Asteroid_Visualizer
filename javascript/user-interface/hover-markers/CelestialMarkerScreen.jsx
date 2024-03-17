@@ -16,6 +16,14 @@ class CelestialMarkerScreen extends Component {
     }
 
     /* -------------------------------------------------------------------------- */
+    /*                              Lifecycle Methods                             */
+    /* -------------------------------------------------------------------------- */
+    componentDidMount() {
+        this.eventMediator = SolarSystemVisualizer.serviceContainer.Resolve(EventMediator);
+        this.eventMediator.Subscribe("CreateHoverMarker", this.ConstructHoverMarker.bind(this));
+    }
+
+    /* -------------------------------------------------------------------------- */
     /*                                   Methods                                  */
     /* -------------------------------------------------------------------------- */
 
@@ -34,12 +42,8 @@ class CelestialMarkerScreen extends Component {
     }
 
     /* -------------------------------------------------------------------------- */
-    /*                              Lifecycle Methods                             */
+    /*                                    View                                    */
     /* -------------------------------------------------------------------------- */
-    componentDidMount() {
-        this.eventMediator = SolarSystemVisualizer.serviceContainer.Resolve(EventMediator);
-        this.eventMediator.Subscribe("CreateHoverMarker", this.ConstructHoverMarker.bind(this));
-    }
 
     render() {
         return (
