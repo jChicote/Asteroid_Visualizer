@@ -20,6 +20,10 @@
     pointer-events: none;
 }
 
+#fullScreenCanvas {
+    pointer-events: none;
+}
+
 .canvas {
     top: var(--navbar-height);
     bottom: var(--navbar-height);
@@ -365,4 +369,60 @@
 .time-control-icon.hidden {
     opacity: 0;
     height: 0px;
+}
+
+/* CELESTIAL OBJECT MARKERS */
+
+.fill-canvas {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    position: absolute;
+    overflow: hidden;
+}
+
+.celestial-object-marker {
+    position: absolute;
+    pointer-events: all;
+}
+
+.marker-shape-circle {
+    border-radius: 50%;
+    width: 14px;
+    aspect-ratio: 1;
+}
+
+.marker-skin {
+    background-color: #449ADC;
+    border: 0px solid transparent;
+    border-radius: 50%;
+    color: white;
+    padding: 5px;
+    pointer-events: all;
+    opacity: 1;
+    transition:
+        background-color 0.5s ease,
+        border-radius 0.5s ease,
+        border-width 0.2s linear,
+        width 0.5s ease,
+        border 0.5s ease,
+        opacity 0.1s ease;
+}
+
+.marker-shape-circle:hover {
+    width: 40px;
+}
+
+.marker-skin:hover {
+    background-color: transparent;
+    border: 5px solid #E6E6E6;
+}
+
+.marker-label {
+    position: absolute;
+    color: #E6E6E6;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
 }

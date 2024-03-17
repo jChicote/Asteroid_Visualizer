@@ -21,7 +21,14 @@ class Camera extends GameObject {
         const gameObjectRegistry = GameManager.gameObjectRegistry;
         const cameraContract = new CameraContract();
 
+        cameraContract.GetControlledCamera = this.GetControlledCamera.bind(this);
         cameraContract.SetAspectRatio = this.SetAspectRatio.bind(this);
+        cameraContract.GetProjectionMatrix = this.GetProjectionMatrix.bind(this);
+        cameraContract.GetMatrixWorldInverse = this.GetMatrixWorldInverse.bind(this);
+        cameraContract.GetPosition = this.GetPosition.bind(this);
+        cameraContract.GetQuaternion = this.GetQuaternion.bind(this);
+        cameraContract.GetWorldPosition = this.GetWorldPosition.bind(this);
+        cameraContract.GetWorldDirection = this.GetWorldDirection.bind(this);
         gameObjectRegistry.RegisterGameObject("Camera", cameraContract);
     }
 
@@ -43,6 +50,15 @@ class Camera extends GameObject {
         return this.camera.position.clone();
     }
 
+    GetProjectionMatrix() {
+        this.camera.updateProjectionMatrix();
+        return this.camera.projectionMatrix.clone();
+    }
+
+    GetMatrixWorldInverse() {
+        return this.camera.matrixWorldInverse.clone();
+    }
+
     GetEulerRotation() {
         return this.camera.rotation.clone();
     }
@@ -53,6 +69,14 @@ class Camera extends GameObject {
 
     GetControlledCamera() {
         return this.camera;
+    }
+
+    GetWorldPosition() {
+        return this.camera.getWorldPosition(new THREE.Vector3());
+    }
+
+    GetWorldDirection() {
+        return this.camera.getWorldDirection(new THREE.Vector3());
     }
 
     SetAspectRatio(newAspectRatio) {

@@ -15,6 +15,7 @@ export class CreatePlanetConfiguration extends BaseObjectMapperConfiguration {
         createPlanetViewModel.longitudeOfAscendingNode = planetDto.longitudeOfAscendingNode;
         createPlanetViewModel.meanAnomaly = planetDto.meanAnomaly;
         createPlanetViewModel.meanSolarDay = planetDto.meanSolarDay;
+        createPlanetViewModel.name = planetDto.name;
         createPlanetViewModel.obliquityToOrbit = planetDto.obliquityToOrbit;
         createPlanetViewModel.orbitalSpeed = planetDto.orbitalSpeed;
         createPlanetViewModel.planetRadius = planetDto.planetRadius;

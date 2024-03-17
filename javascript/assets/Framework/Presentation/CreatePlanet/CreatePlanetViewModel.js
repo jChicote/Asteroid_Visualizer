@@ -10,6 +10,7 @@ export class CreatePlanetViewModel {
         longitudeOfAscendingNode,
         meanAnomaly,
         meanSolarDay,
+        name,
         obliquityToOrbit,
         orbitalSpeed,
         planetRadius,
@@ -23,6 +24,7 @@ export class CreatePlanetViewModel {
         this.longitudeOfAscendingNode = longitudeOfAscendingNode;
         this.meanAnomaly = meanAnomaly;
         this.meanSolarDay = meanSolarDay;
+        this.name = name;
         this.obliquityToOrbit = obliquityToOrbit;
         this.orbitalSpeed = orbitalSpeed;
         this.planetRadius = planetRadius;

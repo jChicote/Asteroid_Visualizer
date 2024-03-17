@@ -8,6 +8,7 @@ export class PlanetDto {
         meanAnomaly,
         meanMotion,
         meanSolarDay,
+        name,
         obliquityToOrbit,
         orbitalSpeed,
         perihelionDistance,
@@ -24,6 +25,7 @@ export class PlanetDto {
         this.meanAnomaly = meanAnomaly;
         this.meanMotion = meanMotion;
         this.meanSolarDay = meanSolarDay;
+        this.name = name;
         this.obliquityToOrbit = obliquityToOrbit;
         this.orbitalSpeed = orbitalSpeed;
         this.perihelionDistance = perihelionDistance;

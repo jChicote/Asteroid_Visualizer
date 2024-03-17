@@ -1,11 +1,13 @@
 import * as THREE from "three";
-import { CelestialOrbitalMotionLogic } from "../Components/OrbitalMechanics/CelestialOrbitalMotionLogic.js";
-import { GameManager } from "../GameManager.js";
-import { GameObject } from "../Entities/GameObject.js";
-import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
-import { MathHelper } from "../../utils/math-library.js";
-import { ObjectValidator } from "../../utils/ObjectValidator.js";
 import { SolarSystemVisualizer } from "../../SolarSystemVisualizer.js";
+import { EventMediator } from "../../user-interface/mediator/EventMediator.js";
+import { ObjectValidator } from "../../utils/ObjectValidator.js";
+import { MathHelper } from "../../utils/math-library.js";
+import { CelestialOrbitalMotionLogic } from "../Components/OrbitalMechanics/CelestialOrbitalMotionLogic.js";
+import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
+import { GameObject } from "../Entities/GameObject.js";
+import { GameManager } from "../GameManager.js";
+import { PlanetMarkerHandler } from "./PlanetMarkerHandler.js";
 
 export class Planet extends GameObject {
     constructor(planetCode, planetData, materialConfigurationProvider) {
@@ -26,10 +28,17 @@ export class Planet extends GameObject {
         this.hasRing = false;
         this.ring = null;
 
+        this.identifier = parameters.planetCode;
+        this.objectType = "Planet";
+        this.classification = "None";
+
         // Components
         this.materialRenderer = {};
         this.orbitalMotion = new CelestialOrbitalMotionLogic();
         this.planetState = new PlanetState(parameters.planetData.meanAnomaly, 0);
+
+        // Observers
+        this.eventMediator = SolarSystemVisualizer.serviceContainer.Resolve(EventMediator);
     }
 
     /* -------------------------------------------------------------------------- */
@@ -44,6 +53,18 @@ export class Planet extends GameObject {
         this.timeStep = this.orbitalMotion.CalculateTimeStep(this.orbitalPeriod);
         this.renderedObject = this.RenderPlanet();
 
+        this.planetDelegate = new PlanetDelegate();
+        this.planetDelegate.SetMarker = this.SetMarker.bind(this);
+        this.planetDelegate.GetRenderedObject = this.GetRenderedObject.bind(this);
+        this.planetDelegate.GetName = this.GetName.bind(this);
+
+        this.markerHandler = new PlanetMarkerHandler({
+            eventMediator: this.eventMediator,
+            planetCode: this.planetCode,
+            planetDelegate: this.planetDelegate,
+            renderedObject: this.renderedObject
+        });
+
         // Note: This implementation will only work with saturn.
         if (ObjectValidator.IsValid(this.materialConfiguration.ringConfiguration)) {
             console.log("Planet with rings found");
@@ -53,9 +74,9 @@ export class Planet extends GameObject {
 
     // Updates the planet. Used during runtime.
     Update() {
-        if (SolarSystemVisualizer.gameManager.gameState.isPaused) {
-            return;
-        }
+        this.markerHandler.UpdateMarker();
+
+        if (SolarSystemVisualizer.gameManager.gameState.isPaused) return;
 
         this.UpdateOrbitalState();
         this.SetPlanetPosition(this.renderedObject);
@@ -112,8 +133,16 @@ export class Planet extends GameObject {
         return this.planetCode;
     }
 
+    GetName() {
+        return this.planetData.name;
+    }
+
     GetRadius() {
         return this.planetData.planetRadius * 0.0001; // TODO: ABstract this to make this dynamically scaled
+    }
+
+    GetRenderedObject() {
+        return this.renderedObject;
     }
 
     // This method so far is intended for Saturn only.
@@ -137,11 +166,30 @@ export class Planet extends GameObject {
             this.meanMotion,
             this.planetState.currentTime);
     }
+
+    // This method is just a passthrough
+    SetMarker(marker) {
+        this.marker = this.markerHandler.SetMarker(marker);
+    }
 }
 
-export class PlanetState {
+class PlanetDelegate {
+    /* -------------------------------------------------------------------------- */
+    /*                                   Methods                                  */
+    /* -------------------------------------------------------------------------- */
+
+    SetMarker(marker) { }
+
+    GetRenderedObject() { }
+
+    GetName() { }
+}
+
+class PlanetState {
     constructor(meanAnomaly, initialTime) {
         this.meanAnomaly = meanAnomaly;
         this.currentTime = initialTime;
     }
 }
+
+export { PlanetDelegate, PlanetState };

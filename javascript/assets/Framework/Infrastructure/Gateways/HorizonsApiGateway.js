@@ -32,7 +32,6 @@ export class HorizonsApiGateway {
     async GetPlanetEphemerisData(planetCode) {
         try {
             const response = await this.gatewayClient.SendAsync(HTTPMethods.GET, this.uriProvider.Provide(planetCode), textContentOptions, true);
-
             if (response.status === 200) {
                 const planetData = {
                     captureSection: {},

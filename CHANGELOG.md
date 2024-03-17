@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 - Official option buttons included for interaction.
 - Loading screen added on opening the visualiser.
 - Time control buttons added for time scrolling.
+- Hover markers added for planet selection.
 
 ## [3.0.0] - 2024-01-05
 ### Added

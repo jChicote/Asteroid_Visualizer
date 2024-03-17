@@ -6,7 +6,6 @@ import { GameManager } from "../GameManager.js";
 import { GameObject } from "../Entities/GameObject.js";
 import { ObjectValidator } from "../../utils/ObjectValidator.js";
 import { OrbitControls } from "../../../addons/OrbitControls.js";
-import { CelestialObjectSelector } from "./CelestialObjectSelector.js";
 
 class CameraController extends GameObject {
     constructor(camera, renderer) {
@@ -40,12 +39,10 @@ class CameraController extends GameObject {
         GameManager.gameObserver.Subscribe("OnMouseDown", this.OnMouseDown.bind(this));
 
         // Subscribe custom eventsd
-        GameManager.gameObserver.Subscribe("OnTargetSelected", this.SetNewViewTarget.bind(this));
+        GameManager.gameObserver.Subscribe("NewTargetSelected", this.OnNewTargetSelected.bind(this));
     }
 
     Start() {
-        this.celestialObjectSelector = new CelestialObjectSelector(this.mainCamera);
-
         // Setup default controls
         this.orbitControls = new OrbitControls(this.mainCamera.GetControlledCamera(), this.renderer.domElement);
         this.orbitControls.enabled = true;
@@ -122,6 +119,21 @@ class CameraController extends GameObject {
         this.isInteracting = true;
     }
 
+    OnNewTargetSelected(target) {
+        if (ObjectValidator.IsValid(this.viewTarget) &&
+            this.viewTarget.object.gameObject.identifier === target.object.gameObject.identifier) {
+            return;
+        }
+
+        console.log("Target translation started");
+
+        this.EnableLerp();
+        this.viewTarget = target;
+        this.viewTargetPosition = target.object.position.clone();
+
+        this.cameraZoomHandler.SetMinZoomDistance(target.object.gameObject.GetRadius());
+    }
+
     /* -------------------------------------------------------------------------- */
     /*                                   Methods                                  */
     /* -------------------------------------------------------------------------- */
@@ -134,19 +146,6 @@ class CameraController extends GameObject {
     EnableLerp() {
         this.isLerping = true;
         this.orbitControls.enabled = false;
-    }
-
-    SetNewViewTarget(target) {
-        if (ObjectValidator.IsValid(this.viewTarget) &&
-            this.viewTarget.object.gameObject.identifier === target.object.gameObject.identifier) {
-            return;
-        }
-
-        this.EnableLerp();
-        this.viewTarget = target;
-        this.viewTargetPosition = target.object.position.clone();
-
-        this.cameraZoomHandler.SetMinZoomDistance(target.object.gameObject.GetRadius());
     }
 
     IsControllerInteracting() {

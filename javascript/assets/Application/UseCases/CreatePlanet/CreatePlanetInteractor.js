@@ -43,7 +43,8 @@ export class CreatePlanetInteractor {
     async ExtractCaptureData(captureSection) {
         const captureData = {
             startDate: "",
-            endDate: ""
+            endDate: "",
+            name: ""
         };
 
         const dateTimeRegex = /(\d{4})-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)-(\d{1,2})/;
@@ -52,6 +53,8 @@ export class CreatePlanetInteractor {
                 captureData.startDate = this.CreateDictionaryFromData(element, ":").value.match(dateTimeRegex)[0];
             } else if (element.includes("Stop  time")) {
                 captureData.endDate = this.CreateDictionaryFromData(element, ":").value.match(dateTimeRegex)[0];
+            } else if (element.includes("Target body name")) {
+                captureData.name = this.CreateDictionaryFromData(element, ":").value.split(" ")[0].trim();
             }
         });
 

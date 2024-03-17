@@ -14,6 +14,7 @@ export class GetPlanetsConfiguration extends BaseObjectMapperConfiguration {
         planetViewModel.longitudeOfAscendingNode = planetDto.longitudeOfAscendingNode;
         planetViewModel.meanAnomaly = planetDto.meanAnomaly;
         planetViewModel.meanMotion = planetDto.meanMotion;
+        planetViewModel.name = planetDto.name;
         planetViewModel.perihelionDistance = planetDto.perihelionDistance;
         planetViewModel.planetCode = planetDto.planetCode;
         planetViewModel.planetRadius = planetDto.planetRadius;
