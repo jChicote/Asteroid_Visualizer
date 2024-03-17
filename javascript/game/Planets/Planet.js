@@ -160,7 +160,7 @@ export class Planet extends GameObject {
     }
 
     GetName() {
-        return
+        return this.planetData.name;
     }
 
     GetRadius() {

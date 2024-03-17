@@ -395,7 +395,7 @@
 }
 
 .marker-skin {
-    background-color: #F000FF;
+    background-color: #449ADC;
     border: 0px solid transparent;
     border-radius: 50%;
     color: white;
@@ -417,5 +417,12 @@
 
 .marker-skin:hover {
     background-color: transparent;
-    border: 5px solid #00ffbf;
+    border: 5px solid #E6E6E6;
+}
+
+.marker-label {
+    position: absolute;
+    color: #E6E6E6;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
 }

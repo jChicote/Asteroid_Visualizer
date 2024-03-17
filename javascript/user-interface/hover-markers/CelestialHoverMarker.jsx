@@ -15,7 +15,9 @@ class CelestialObjectMarker extends Component {
             id: props.id,
             screenPosition: props.position,
             currentState: MarkerState.Visible,
-            isActive: true
+            isActive: true,
+            isHovering: false,
+            name: props.celestialObjectDelegate.GetName()
         };
 
         const markerDelegate = new CelestialHoverMarkerDelegate();
@@ -106,6 +108,14 @@ class CelestialObjectMarker extends Component {
         this.SetState(MarkerState.Visible);
     }
 
+    HandleMouseEnter() {
+        this.setState({ isHovering: true });
+    }
+
+    HandleMouseExit() {
+        this.setState({ isHovering: false });
+    }
+
     /* -------------------------------------------------------------------------- */
     /*                              Lifecycle Methods                             */
     /* -------------------------------------------------------------------------- */
@@ -135,18 +145,18 @@ class CelestialObjectMarker extends Component {
                         pointerEvents: shouldRender ? "all" : "none"
                     }}
                     onClick={this.HandleClick.bind(this)}
+                    onMouseEnter={this.HandleMouseEnter.bind(this)}
+                    onMouseLeave={this.HandleMouseExit.bind(this)}
                 />
                 <div
                     ref={this.label}
+                    className="marker-label"
                     style= {{
-                        position: "absolute",
-                        color: "white",
                         top: `${this.state.screenPosition.y - labelHeight - 8}px`,
                         left: `${this.state.screenPosition.x - labelHalfWidth}px`,
-                        opacity: shouldRender ? "1" : "0",
-                        pointerEvents: "none"
+                        opacity: this.state.isHovering ? "1" : "0"
                     }}>
-                    <p>Test Label</p>
+                    <p>{this.state.name}</p>
                 </div>
             </div>
         );
