@@ -17,8 +17,6 @@ export class Planet extends GameObject {
     InitialiseFields(parameters) {
         super.InitialiseFields(parameters);
 
-        console.log(parameters);
-
         // Fields
         this.materialConfiguration = parameters.materialConfigurationProvider.GetMaterialConfiguration(parameters.planetCode);
         this.meanMotion = "";

@@ -32,7 +32,6 @@ export class HorizonsApiGateway {
     async GetPlanetEphemerisData(planetCode) {
         try {
             const response = await this.gatewayClient.SendAsync(HTTPMethods.GET, this.uriProvider.Provide(planetCode), textContentOptions, true);
-
             if (response.status === 200) {
                 const planetData = {
                     captureSection: {},
@@ -77,6 +76,8 @@ export class HorizonsApiGateway {
         if (heliocentricMatch) {
             heliocentricSection = heliocentricMatch[0].split("\n").slice(2, 6); // Take the first 4 lines containing the data points
         }
+
+        console.log(heliocentricSection);
 
         return heliocentricSection;
     }

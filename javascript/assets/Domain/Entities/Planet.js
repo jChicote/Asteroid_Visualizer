@@ -8,6 +8,7 @@ export class Planet {
         meanAnomaly,
         meanMotion,
         meanSolarDay,
+        name,
         obliquityToOrbit,
         orbitalSpeed,
         perihelionDistance,
@@ -24,6 +25,7 @@ export class Planet {
         this.meanAnomaly = meanAnomaly;
         this.meanMotion = meanMotion;
         this.meanSolarDay = meanSolarDay;
+        this.name = name;
         this.obliquityToOrbit = obliquityToOrbit;
         this.orbitalSpeed = orbitalSpeed;
         this.perihelionDistance = perihelionDistance;
