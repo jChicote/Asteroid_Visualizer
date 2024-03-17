@@ -89,7 +89,7 @@ export class Planet extends GameObject {
             if (dotProduct < 0) {
                 this.marker.SetState(MarkerState.Hidden);
             } else {
-                this.marker.CheckIsBehindObject();
+                this.marker.UpdateMarker();
             }
 
             this.marker.UpdatePosition({
