@@ -16,6 +16,7 @@ class CameraController extends GameObject {
         super.InitialiseFields(parameters);
 
         // Fields
+        this.isInputEnabled = true;
         this.isInteracting = false;
         this.isLerping = false;
         this.renderer = parameters.renderer;
@@ -37,8 +38,10 @@ class CameraController extends GameObject {
         // Subscribe input events
         GameManager.gameObserver.Subscribe("OnMouseUp", this.OnMouseUp.bind(this));
         GameManager.gameObserver.Subscribe("OnMouseDown", this.OnMouseDown.bind(this));
+        GameManager.gameObserver.Subscribe("OnHoverMarkerEnter", this.DisableInput.bind(this));
+        GameManager.gameObserver.Subscribe("OnHoverMarkerExit", this.EnableInput.bind(this));
 
-        // Subscribe custom eventsd
+        // Subscribe custom events
         GameManager.gameObserver.Subscribe("NewTargetSelected", this.OnNewTargetSelected.bind(this));
     }
 
@@ -93,6 +96,8 @@ class CameraController extends GameObject {
     }
 
     Update() {
+        if (!this.isInputEnabled) return;
+
         if (ObjectValidator.IsValid(this.viewTarget)) {
             this.viewTargetPosition = this.viewTarget.object.position.clone();
         } else {
@@ -126,8 +131,6 @@ class CameraController extends GameObject {
             return;
         }
 
-        console.log("Target translation started");
-
         this.EnableLerp();
         this.viewTarget = target;
         this.viewTargetPosition = target.object.position.clone();
@@ -153,6 +156,14 @@ class CameraController extends GameObject {
 
         // Pause time control to allow completion of interpolation of positions.
         GameManager.gameObserver.Dispatch("UpdateIsTimePaused", true);
+    }
+
+    DisableInput() {
+        this.isInputEnabled = false;
+    }
+
+    EnableInput() {
+        this.isInputEnabled = true;
     }
 
     IsControllerInteracting() {
