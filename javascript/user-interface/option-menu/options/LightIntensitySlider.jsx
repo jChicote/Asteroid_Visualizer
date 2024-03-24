@@ -63,7 +63,7 @@ class LightIntensitySlider extends Component {
                 <input
                     type="range"
                     className="vertical-slider"
-                    min={1}
+                    min={0.1}
                     max={200}
                     value={sliderValue}
                     onChange={this.HandleSliderChange}
