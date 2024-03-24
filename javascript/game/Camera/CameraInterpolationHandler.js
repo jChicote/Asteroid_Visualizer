@@ -50,7 +50,10 @@ class CameraInterpolationHandler {
 
         this.camera.GetControlledCamera().quaternion.slerp(newRotation, this.lerpFactor);
 
-        if (distanceToTarget < 5 && this.IsRotationComplete(this.camera.GetQuaternion(), newRotation, 0.01)) {
+        const endDistance = this.cameraController.GetTargetRadius() + this.cameraController.GetTargetRadius() * 3.3;
+
+        console.log("Target Radius", endDistance);
+        if (distanceToTarget < endDistance && this.IsRotationComplete(this.camera.GetQuaternion(), newRotation, 0.01)) {
             this.cameraController.DisableLerp();
         }
     }

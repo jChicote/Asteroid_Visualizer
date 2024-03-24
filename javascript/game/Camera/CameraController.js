@@ -56,6 +56,7 @@ class CameraController extends GameObject {
         const cameraController = {
             DisableLerp: this.DisableLerp.bind(this),
             GetViewTargetPosition: this.GetViewTargetPosition.bind(this),
+            GetTargetRadius: this.GetViewTargetRadius.bind(this),
             IsControllerInteracting: this.IsControllerInteracting.bind(this)
         };
 
@@ -141,11 +142,17 @@ class CameraController extends GameObject {
     DisableLerp() {
         this.isLerping = false;
         this.orbitControls.enabled = true;
+
+        // Restore previous time control state.
+        GameManager.gameObserver.Dispatch("UpdateIsTimePaused", false);
     }
 
     EnableLerp() {
         this.isLerping = true;
         this.orbitControls.enabled = false;
+
+        // Pause time control to allow completion of interpolation of positions.
+        GameManager.gameObserver.Dispatch("UpdateIsTimePaused", true);
     }
 
     IsControllerInteracting() {
@@ -154,6 +161,10 @@ class CameraController extends GameObject {
 
     GetViewTargetPosition() {
         return this.viewTargetPosition;
+    }
+
+    GetViewTargetRadius() {
+        return this.viewTarget.object.gameObject.GetRadius();
     }
 }
 

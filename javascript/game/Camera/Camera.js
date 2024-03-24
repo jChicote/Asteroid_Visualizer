@@ -6,7 +6,7 @@ import { GameManager } from "../GameManager.js";
 
 class Camera extends GameObject {
     InitialiseFields() {
-        this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.4, 6000);
+        this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 6000);
         this.cameraLight = new CameraLight(this.camera);
         this.cameraLight.DisableLight();
 
