@@ -15,6 +15,10 @@ class CameraInterpolationHandler {
         this.lerpFactor = lerpFactor;
     }
 
+    /* -------------------------------------------------------------------------- */
+    /*                                   Methods                                  */
+    /* -------------------------------------------------------------------------- */
+
     GetTargetRotation() {
         const lookAtMatrix = new THREE.Matrix4().lookAt(
             this.camera.GetPosition(),

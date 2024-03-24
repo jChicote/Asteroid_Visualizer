@@ -8,8 +8,8 @@ import { ObjectValidator } from "../../utils/ObjectValidator.js";
 import { OrbitControls } from "../../../addons/OrbitControls.js";
 
 class CameraController extends GameObject {
-    constructor(camera, renderer) {
-        super({ camera, renderer });
+    constructor(camera, renderer, defaultPosition) {
+        super({ camera, renderer, defaultPosition });
     }
 
     InitialiseFields(parameters) {
@@ -21,6 +21,7 @@ class CameraController extends GameObject {
         this.isLerping = false;
         this.renderer = parameters.renderer;
         this.viewTargetPosition = new THREE.Vector3(); // Default the sun as the origin.
+        this.cameraDefaultPosition = parameters.defaultPosition;
 
         // Components
         this.mainCamera = parameters.camera;
@@ -43,6 +44,7 @@ class CameraController extends GameObject {
 
         // Subscribe custom events
         GameManager.gameObserver.Subscribe("NewTargetSelected", this.OnNewTargetSelected.bind(this));
+        GameManager.gameObserver.Subscribe("OnResetToDefault", this.OnResetToDefault.bind(this));
     }
 
     Start() {
@@ -136,6 +138,14 @@ class CameraController extends GameObject {
         this.viewTargetPosition = target.object.position.clone();
 
         this.cameraZoomHandler.SetMinZoomDistance(target.object.gameObject.GetRadius());
+    }
+
+    OnResetToDefault() {
+        // Get Sun Object
+        const sun = GameManager.gameObjectRegistry.GetGameObject("Sun");
+
+        this.OnNewTargetSelected({ object: sun });
+        this.viewTargetPosition = this.cameraDefaultPosition;
     }
 
     /* -------------------------------------------------------------------------- */

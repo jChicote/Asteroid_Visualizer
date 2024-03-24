@@ -26,10 +26,22 @@ class Sun extends GameObject {
         this.deltaTime = 0.01;
     }
 
+    /* -------------------------------------------------------------------------- */
+    /*                              Lifecycle Methods                             */
+    /* -------------------------------------------------------------------------- */
+
+    Awake() {
+        GameManager.gameObjectRegistry.RegisterGameObject("Sun", this.renderedObject);
+    }
+
     Update() {
         this.currentTime += this.deltaTime;
         this.materialRenderer.material.uniforms.time.value = this.currentTime;
     }
+
+    /* -------------------------------------------------------------------------- */
+    /*                                   Methods                                  */
+    /* -------------------------------------------------------------------------- */
 
     CreateRenderedObject(radius, hexColor, position) {
         const mesh = new THREE.Mesh(

@@ -55,6 +55,10 @@ export class GameManager {
         this.serviceProvider = serviceProvider;
     }
 
+    /* -------------------------------------------------------------------------- */
+    /*                              Lifecycle Methods                             */
+    /* -------------------------------------------------------------------------- */
+
     async Initialise() {
         // Initialise Game Services and Managers
         this.reactCanvas = new ReactCanvasManager(); // Needs to be refactored out to the ServiceContainer instead.
@@ -110,6 +114,10 @@ export class GameManager {
         GameManager.stats.end(); // Only for debug performance purposes
     }
 
+    /* -------------------------------------------------------------------------- */
+    /*                                   Methods                                  */
+    /* -------------------------------------------------------------------------- */
+
     SetupScene() {
         const container = document.getElementById("threeCanvas");
         GameManager.renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -124,7 +132,7 @@ export class GameManager {
 
     SetupCamera() {
         this.camera = new Camera();
-        this.cameraController = new CameraController(this.camera, GameManager.renderer);
+        this.cameraController = new CameraController(this.camera, GameManager.renderer, this.gameState.cameraDefaultPosition);
         this.cameraRaycaster = new CameraRaycaster({ camera: this.camera });
     }
 
