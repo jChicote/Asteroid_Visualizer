@@ -1,11 +1,11 @@
 import * as THREE from "three";
+import { OrbitControls } from "../../../addons/OrbitControls.js";
+import { ObjectValidator } from "../../utils/ObjectValidator.js";
+import { GameObject } from "../Entities/GameObject.js";
+import { GameManager } from "../GameManager.js";
 import { CameraInterpolationHandler } from "./CameraInterpolationHandler.js";
 import { CameraTransformHandler } from "./CameraTransformHandler.js";
 import { CameraZoomHandler } from "./CameraZoomHandler.js";
-import { GameManager } from "../GameManager.js";
-import { GameObject } from "../Entities/GameObject.js";
-import { ObjectValidator } from "../../utils/ObjectValidator.js";
-import { OrbitControls } from "../../../addons/OrbitControls.js";
 
 class CameraController extends GameObject {
     constructor(camera, renderer, defaultPosition) {
@@ -98,8 +98,6 @@ class CameraController extends GameObject {
     }
 
     Update() {
-        if (!this.isInputEnabled) return;
-
         if (ObjectValidator.IsValid(this.viewTarget)) {
             this.viewTargetPosition = this.viewTarget.object.position.clone();
         } else {
@@ -111,7 +109,10 @@ class CameraController extends GameObject {
         } else {
             this.cameraZoomHandler.CalculateZoom();
             this.cameraTransformHandler.FollowTarget();
-            this.orbitControls.update();
+
+            if (this.isInputEnabled) {
+                this.orbitControls.update();
+            }
         }
     }
 
