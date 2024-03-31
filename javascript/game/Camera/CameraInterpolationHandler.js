@@ -50,6 +50,7 @@ class CameraInterpolationHandler {
         if (distanceToTarget > this.cameraZoom.GetMinZoomDistance()) {
             this.camera.SetPosition(newPosition);
             this.cameraTransform.CaptureCameraLastPosition();
+            this.cameraTransform.CaptureCameraLastRelativeDistance();
         }
 
         this.camera.GetControlledCamera().quaternion.slerp(newRotation, this.lerpFactor);

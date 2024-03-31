@@ -1,10 +1,12 @@
 import * as THREE from "three";
 import { EventUtility } from "../../utils/EventUtility.js";
 import { MathHelper } from "../../utils/math-library.js";
+import { GameManager } from "../GameManager.js";
 
 class CameraZoomHandler {
     constructor(
         camera,
+        cameraState,
         cameraController,
         cameraTransform,
         zoomMaxDistance,
@@ -12,8 +14,10 @@ class CameraZoomHandler {
         zoomSpeed) {
         // Fields
         this.camera = camera;
+        this.cameraState = cameraState;
         this.cameraController = cameraController;
         this.cameraTransform = cameraTransform;
+        this.isZooming = false;
         this.zoomMaxDistance = zoomMaxDistance;
         this.zoomMinDistance = zoomMinDistance;
         this.zoomSignedDirection = 0.0;
@@ -26,8 +30,10 @@ class CameraZoomHandler {
             300
         );
 
-        const canvas = document.getElementById("root");
-        canvas.addEventListener("wheel", this.OnMouseWheel.bind(this));
+        GameManager.gameObserver.Subscribe("OnWheelScroll", this.OnMouseWheel.bind(this));
+
+        // const canvas = document.getElementById("root");
+        // canvas.addEventListener("wheel", this.OnMouseWheel.bind(this));
     }
 
     /* -------------------------------------------------------------------------- */
@@ -37,11 +43,13 @@ class CameraZoomHandler {
     OnMouseWheel(event) {
         this.cameraController.DisableLerp();
         this.zoomSignedDirection = Math.sign(event.deltaY);
+        this.cameraState.isZooming = true;
 
         this.OnMouseWheelEndEvent();
     }
 
     OnMouseWheelTimeout() {
+        this.cameraState.isZooming = false;
         this.zoomSignedDirection = 0.0;
     }
 
@@ -68,12 +76,10 @@ class CameraZoomHandler {
             .multiplyScalar(-distance)
             .add(this.cameraController.GetViewTargetPosition());
 
-        // Sets the last position to the current position if not interacting the orbit controls.
-        if (!this.cameraController.IsControllerInteracting()) {
+        if (this.cameraState.isZooming) {
             this.camera.SetPosition(newPosition);
             this.cameraTransform.CaptureCameraLastPosition();
-        } else {
-            this.camera.SetPosition(newPosition);
+            this.cameraTransform.CaptureCameraLastRelativeDistance();
         }
     }
 

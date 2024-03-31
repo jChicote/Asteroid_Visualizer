@@ -7,6 +7,14 @@ import { CameraInterpolationHandler } from "./CameraInterpolationHandler.js";
 import { CameraTransformHandler } from "./CameraTransformHandler.js";
 import { CameraZoomHandler } from "./CameraZoomHandler.js";
 
+class CameraControlState {
+    constructor() {
+        this.isInteracting = false;
+        this.isLerping = false;
+        this.isZooming = false;
+    }
+}
+
 class CameraController extends GameObject {
     constructor(camera, renderer, defaultPosition) {
         super({ camera, renderer, defaultPosition });
@@ -16,6 +24,7 @@ class CameraController extends GameObject {
         super.InitialiseFields(parameters);
 
         // Fields
+        this.cameraState = new CameraControlState();
         this.isInputEnabled = true;
         this.isInteracting = false;
         this.isLerping = false;
@@ -67,16 +76,19 @@ class CameraController extends GameObject {
 
         this.cameraTransformHandler = new CameraTransformHandler(
             this.mainCamera,
+            this.cameraState,
             this.orbitControls,
             cameraController
         );
 
         const cameraTransform = {
-            CaptureCameraLastPosition: this.cameraTransformHandler.CaptureCameraLastPosition.bind(this.cameraTransformHandler)
+            CaptureCameraLastPosition: this.cameraTransformHandler.CaptureCameraLastPosition.bind(this.cameraTransformHandler),
+            CaptureCameraLastRelativeDistance: this.cameraTransformHandler.CaptureCameraLastRelativeDistance.bind(this.cameraTransformHandler)
         };
 
         this.cameraZoomHandler = new CameraZoomHandler(
             this.mainCamera,
+            this.cameraState,
             cameraController,
             cameraTransform,
             100,
@@ -190,4 +202,4 @@ class CameraController extends GameObject {
     }
 }
 
-export { CameraController };
+export { CameraController, CameraControlState };

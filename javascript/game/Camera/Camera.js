@@ -41,6 +41,11 @@ class Camera extends GameObject {
         return this.camera.position;
     }
 
+    SetRotationFromVector(newRotation) {
+        this.camera.rotation.setFromVector3(newRotation);
+        return this.camera.rotation;
+    }
+
     SetQuaternion(newQuaternion) {
         this.camera.quaternion.copy(newQuaternion);
         return this.camera.quaternion;
