@@ -4,24 +4,17 @@ import { MathHelper } from "../../utils/math-library.js";
 import { GameManager } from "../GameManager.js";
 
 class CameraZoomHandler {
-    constructor(
-        camera,
-        cameraState,
-        cameraController,
-        cameraTransform,
-        zoomMaxDistance,
-        zoomMinDistance,
-        zoomSpeed) {
+    constructor(props) {
         // Fields
-        this.camera = camera;
-        this.cameraState = cameraState;
-        this.cameraController = cameraController;
-        this.cameraTransform = cameraTransform;
+        this.camera = props.camera;
+        this.cameraState = props.cameraState;
+        this.cameraController = props.cameraController;
+        this.cameraTransform = props.cameraTransform;
         this.isZooming = false;
-        this.zoomMaxDistance = zoomMaxDistance;
-        this.zoomMinDistance = zoomMinDistance;
+        this.zoomMaxDistance = props.zoomMaxDistance;
+        this.zoomMinDistance = props.zoomMinDistance;
         this.zoomSignedDirection = 0.0;
-        this.zoomSpeed = zoomSpeed; // Adjust this value based on your sensitivity preference
+        this.zoomSpeed = props.zoomSpeed; // Adjust this value based on your sensitivity preference
 
         // Components
         this.eventDebouncer = new EventUtility();
@@ -31,9 +24,6 @@ class CameraZoomHandler {
         );
 
         GameManager.gameObserver.Subscribe("OnWheelScroll", this.OnMouseWheel.bind(this));
-
-        // const canvas = document.getElementById("root");
-        // canvas.addEventListener("wheel", this.OnMouseWheel.bind(this));
     }
 
     /* -------------------------------------------------------------------------- */

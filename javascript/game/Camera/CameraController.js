@@ -26,7 +26,6 @@ class CameraController extends GameObject {
         // Fields
         this.cameraState = new CameraControlState();
         this.isInputEnabled = true;
-        this.isInteracting = false;
         this.isLerping = false;
         this.renderer = parameters.renderer;
         this.viewTargetPosition = new THREE.Vector3(); // Default the sun as the origin.
@@ -74,27 +73,27 @@ class CameraController extends GameObject {
             IsControllerInteracting: this.IsControllerInteracting.bind(this)
         };
 
-        this.cameraTransformHandler = new CameraTransformHandler(
-            this.mainCamera,
-            this.cameraState,
-            this.orbitControls,
+        this.cameraTransformHandler = new CameraTransformHandler({
+            mainCamera: this.mainCamera,
+            cameraState: this.cameraState,
+            orbitControls: this.orbitControls,
             cameraController
-        );
+        });
 
         const cameraTransform = {
             CaptureCameraLastPosition: this.cameraTransformHandler.CaptureCameraLastPosition.bind(this.cameraTransformHandler),
             CaptureCameraLastRelativeDistance: this.cameraTransformHandler.CaptureCameraLastRelativeDistance.bind(this.cameraTransformHandler)
         };
 
-        this.cameraZoomHandler = new CameraZoomHandler(
-            this.mainCamera,
-            this.cameraState,
+        this.cameraZoomHandler = new CameraZoomHandler({
+            camera: this.mainCamera,
+            cameraState: this.cameraState,
             cameraController,
             cameraTransform,
-            100,
-            0.4,
-            0.2
-        );
+            zoomMaxDistance: 100,
+            zoomMinDistance: 0.4,
+            zoomSpeed: 0.2
+        });
 
         const cameraZoomHandler = {
             GetMinZoomDistance: this.cameraZoomHandler.GetMinZoomDistance.bind(this.cameraZoomHandler)
@@ -133,11 +132,11 @@ class CameraController extends GameObject {
     /* -------------------------------------------------------------------------- */
 
     OnMouseUp(event) {
-        this.isInteracting = false;
+        this.cameraState.isInteracting = false;
     }
 
     OnMouseDown(event) {
-        this.isInteracting = true;
+        this.cameraState.isInteracting = true;
     }
 
     OnNewTargetSelected(target) {
@@ -190,7 +189,7 @@ class CameraController extends GameObject {
     }
 
     IsControllerInteracting() {
-        return this.isInteracting;
+        return this.cameraState.isInteracting;
     }
 
     GetViewTargetPosition() {

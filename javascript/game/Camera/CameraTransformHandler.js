@@ -1,17 +1,17 @@
 import * as THREE from "three";
 
 class CameraTransformHandler {
-    constructor(mainCamera, cameraState, orbitControls, cameraController) {
+    constructor(props) {
         // Fields
-        this.camera = mainCamera;
-        this.cameraState = cameraState;
+        this.camera = props.mainCamera;
+        this.cameraState = props.cameraState;
         this.lastPosition = new THREE.Vector3();
         this.lastRelativeDistance = 5;
         this.lastDirection = new THREE.Vector3();
 
         // Components
-        this.orbitControls = orbitControls;
-        this.cameraController = cameraController;
+        this.orbitControls = props.orbitControls;
+        this.cameraController = props.cameraController;
     }
 
     CaptureCameraLastPosition() {
@@ -43,15 +43,14 @@ class CameraTransformHandler {
 
     FollowTarget() {
         if (!this.cameraController.IsControllerInteracting() && !this.cameraState.isZooming) {
-            const relativePosition = this.cameraController.GetViewTargetPosition().clone().add(this.lastDirection.clone().multiplyScalar(this.lastRelativeDistance));
+            const relativePosition = this.cameraController
+                .GetViewTargetPosition().clone()
+                .add(this.lastDirection.clone().multiplyScalar(this.lastRelativeDistance));
             this.camera.SetPosition(relativePosition);
         }
 
-        // if (!this.cameraState.isZooming) {
-        // this.CaptureCameraLastRelativeDistance();
         this.CaptureCameraLastPosition();
         this.MaintainRelativeOrbitAroundTarget();
-        // }
 
         this.orbitControls.target.copy(this.cameraController.GetViewTargetPosition());
     }
