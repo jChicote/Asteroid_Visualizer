@@ -49,6 +49,8 @@ class CameraController extends GameObject {
         GameManager.gameObserver.Subscribe("OnMouseDown", this.OnMouseDown.bind(this));
         GameManager.gameObserver.Subscribe("OnHoverMarkerEnter", this.DisableInput.bind(this));
         GameManager.gameObserver.Subscribe("OnHoverMarkerExit", this.EnableInput.bind(this));
+        GameManager.gameObserver.Subscribe("OnInterfaceEnter", this.DisableInput.bind(this));
+        GameManager.gameObserver.Subscribe("OnInterfaceExit", this.EnableInput.bind(this));
 
         // Subscribe custom events
         GameManager.gameObserver.Subscribe("NewTargetSelected", this.OnNewTargetSelected.bind(this));
@@ -120,10 +122,7 @@ class CameraController extends GameObject {
         } else {
             this.cameraZoomHandler.CalculateZoom();
             this.cameraTransformHandler.FollowTarget();
-
-            if (this.isInputEnabled) {
-                this.orbitControls.update();
-            }
+            this.orbitControls.update();
         }
     }
 
@@ -132,11 +131,15 @@ class CameraController extends GameObject {
     /* -------------------------------------------------------------------------- */
 
     OnMouseUp(event) {
-        this.cameraState.isInteracting = false;
+        if (this.isInputEnabled) {
+            this.cameraState.isInteracting = false;
+        }
     }
 
     OnMouseDown(event) {
-        this.cameraState.isInteracting = true;
+        if (this.isInputEnabled) {
+            this.cameraState.isInteracting = true;
+        }
     }
 
     OnNewTargetSelected(target) {
@@ -182,10 +185,12 @@ class CameraController extends GameObject {
 
     DisableInput() {
         this.isInputEnabled = false;
+        this.orbitControls.enabled = false;
     }
 
     EnableInput() {
         this.isInputEnabled = true;
+        this.orbitControls.enabled = true;
     }
 
     IsControllerInteracting() {

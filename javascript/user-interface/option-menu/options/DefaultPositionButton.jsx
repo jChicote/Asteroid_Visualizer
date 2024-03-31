@@ -34,7 +34,12 @@ class DefaultPositionButton extends BaseOptionButton {
         const icon = this.state.isActive ? this.activeIcon : this.inactiveIcon;
 
         return (
-            <button className={buttonClassName} onClick={this.HandleClick.bind(this)} onTransitionEnd={this.HandleTransitionEnd.bind(this)}>
+            <button
+                className={buttonClassName}
+                onClick={this.HandleClick.bind(this)}
+                onTransitionEnd={this.HandleTransitionEnd.bind(this)}
+                onMouseEnter={this.HandleMouseEnter.bind(this)}
+                onMouseLeave={this.HandleMouseExit.bind(this)}>
                 <FontAwesomeIcon icon={icon} className="option-icon"/>
             </button>
         );
