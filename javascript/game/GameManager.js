@@ -128,6 +128,9 @@ export class GameManager {
         this.sun = new Sun();
 
         this.SetupCamera();
+
+        // Set the sun as the default target
+        this.cameraController.OnResetToDefault();
     }
 
     SetupCamera() {

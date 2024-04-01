@@ -8,6 +8,8 @@ class PlanetMarkerHandler {
         this.planetDelegate = props.planetDelegate;
         this.renderedObject = props.renderedObject;
 
+        this.isHidden = false;
+
         props.eventMediator.Notify("CreateHoverMarker", {
             id: props.planetCode,
             position: {
@@ -36,8 +38,21 @@ class PlanetMarkerHandler {
         return planetDistance > distance;
     }
 
+    HideMarker() {
+        this.isHidden = true;
+    }
+
+    ShowMarker() {
+        this.isHidden = false;
+    }
+
     UpdateMarker() {
         if (ObjectValidator.IsValid(this.marker)) {
+            if (this.isHidden) {
+                this.marker.SetState(MarkerState.Hidden);
+                return;
+            }
+
             // TODO: The camera should initialised once or be set only when the camera is created.
             // There is no way to know when the camera is created and is not validated in this class.
             const camera = GameManager.gameObjectRegistry.GetGameObject("Camera");

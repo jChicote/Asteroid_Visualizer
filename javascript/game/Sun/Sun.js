@@ -1,8 +1,12 @@
 import * as THREE from "three";
+import { CelestialObjectDelegate } from "../CelestialObjects/CelestialObjectDelegate.js";
+import { EventMediator } from "../../user-interface/mediator/EventMediator.js";
+import { GameManager } from "../GameManager.js";
 import { GameObject } from "../Entities/GameObject.js";
 import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
+import { PlanetMarkerHandler } from "../Planets/PlanetMarkerHandler.js";
+import { SolarSystemVisualizer } from "../../SolarSystemVisualizer.js";
 import { SunMaterialConfiguration } from "./SunMaterialConfiguration.js";
-import { GameManager } from "../GameManager.js";
 
 class Sun extends GameObject {
     InitialiseFields(paramters) {
@@ -18,12 +22,12 @@ class Sun extends GameObject {
         this.materialRenderer = new MaterialRenderer(new SunMaterialConfiguration());
         this.renderedObject = this.CreateRenderedObject(this.GetRadius(), 0xFFFFFF, new THREE.Vector3(0, 0, 0));
 
-        // Debug
-        // this.DrawDebug();
-
         this.currentTime = performance.now() / 1000;
         this.lastTime = performance.now();
         this.deltaTime = 0.01;
+
+        // Observers
+        this.eventMediator = SolarSystemVisualizer.serviceContainer.Resolve(EventMediator);
     }
 
     /* -------------------------------------------------------------------------- */
@@ -34,7 +38,32 @@ class Sun extends GameObject {
         GameManager.gameObjectRegistry.RegisterGameObject("Sun", this.renderedObject);
     }
 
+    Start() {
+        this.sunDelegate = new CelestialObjectDelegate();
+        this.sunDelegate.SetMarker = this.SetMarker.bind(this);
+        this.sunDelegate.GetRenderedObject = this.GetRenderedObject.bind(this);
+        this.sunDelegate.GetName = this.GetName.bind(this);
+        this.sunDelegate.GetType = this.GetType.bind(this);
+
+        this.markerHandler = new PlanetMarkerHandler({
+            eventMediator: this.eventMediator,
+            planetCode: "000fff",
+            planetDelegate: this.sunDelegate,
+            renderedObject: this.renderedObject
+        });
+
+        GameManager.gameObserver.Subscribe("OnResetToDefault", this.markerHandler.HideMarker.bind(this.markerHandler));
+        GameManager.gameObserver.Subscribe("OnTargetSelected", this.markerHandler.ShowMarker.bind(this.markerHandler));
+
+        // On default the sun is the preselected target.
+        this.markerHandler.HideMarker();
+    }
+
     Update() {
+        this.markerHandler.UpdateMarker();
+
+        if (SolarSystemVisualizer.gameManager.gameState.isPaused) return;
+
         this.currentTime += this.deltaTime;
         this.materialRenderer.material.uniforms.time.value = this.currentTime;
     }
@@ -67,6 +96,23 @@ class Sun extends GameObject {
         GameManager.scene.add(pointLight);
 
         return pointLight;
+    }
+
+    GetName() {
+        return "Sun";
+    }
+
+    GetType() {
+        return this.objectType;
+    }
+
+    GetRenderedObject() {
+        return this.renderedObject;
+    }
+
+    // This method is just a passthrough
+    SetMarker(marker) {
+        this.marker = this.markerHandler.SetMarker(marker);
     }
 
     DrawDebug() {
