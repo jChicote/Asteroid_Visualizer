@@ -8,6 +8,8 @@ class OrbitalPath {
         this.normalColor = props.normalColor;
 
         this.orbitalLine = null;
+
+        GameManager.gameObserver.Subscribe("ToggleOrbitalPathVisibility", this.ToggleOrbitalPathVisibility.bind(this));
     }
 
     /* -------------------------------------------------------------------------- */
@@ -52,12 +54,15 @@ class OrbitalPath {
     }
 
     HighlightOrbitalPathLine() {
-        console.log("This is highlighted");
         this.orbitalLine.material.color.set(this.highlightColor);
     }
 
     DeselectOrbitalPathLine() {
         this.orbitalLine.material.color.set(this.normalColor);
+    }
+
+    ToggleOrbitalPathVisibility() {
+        this.orbitalLine.visible = !this.orbitalLine.visible;
     }
 }
 
