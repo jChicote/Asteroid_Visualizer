@@ -7,6 +7,7 @@ class JupiterPlanetMaterialConfiguration extends MaterialConfiguration {
         super();
 
         this.key = "599";
+        this.defaultColor = DefaultPlanetColor.Jupiter.hexCode;
         this.defaultMaterial = new THREE.MeshStandardMaterial({ color: DefaultPlanetColor.Jupiter });
         this.textureConfiguration = {
             textureMaps: new TextureMaps({

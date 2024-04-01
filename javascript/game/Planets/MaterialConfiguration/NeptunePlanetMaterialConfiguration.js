@@ -7,6 +7,7 @@ class NeptunePlanetMaterialConfiguration extends MaterialConfiguration {
         super();
 
         this.key = "899";
+        this.defaultColor = DefaultPlanetColor.Neptune.hexCode;
         this.defaultMaterial = new THREE.MeshStandardMaterial({ color: DefaultPlanetColor.Neptune });
         this.textureConfiguration = {
             textureMaps: new TextureMaps({

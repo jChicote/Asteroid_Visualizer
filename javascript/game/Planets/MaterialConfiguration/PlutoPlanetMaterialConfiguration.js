@@ -7,6 +7,7 @@ class PlutoPlanetMaterialConfiguration extends MaterialConfiguration {
         super();
 
         this.key = "999";
+        this.defaultColor = DefaultPlanetColor.Pluto.hexCode;
         this.defaultMaterial = new THREE.MeshStandardMaterial({ color: DefaultPlanetColor.Pluto });
         this.textureConfiguration = {
             textureMaps: new TextureMaps({

@@ -7,6 +7,7 @@ class SaturnPlanetMaterialConfiguration extends MaterialConfiguration {
         super();
 
         this.key = "699";
+        this.defaultColor = DefaultPlanetColor.Saturn.hexCode;
         this.defaultMaterial = new THREE.MeshStandardMaterial({ color: DefaultPlanetColor.Saturn });
         this.ringConfiguration = {
             textureConfiguration: {

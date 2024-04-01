@@ -7,6 +7,7 @@ class EarthPlanetMaterialConfiguration extends MaterialConfiguration {
         super();
 
         this.key = "399";
+        this.defaultColor = DefaultPlanetColor.Earth.hexCode;
         this.defaultMaterial = new THREE.MeshStandardMaterial({ color: DefaultPlanetColor.Earth });
         this.shaderConfiguration = null;
         this.textureConfiguration = {
