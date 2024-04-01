@@ -17,7 +17,8 @@ class CelestialObjectMarker extends Component {
             currentState: MarkerState.Visible,
             isActive: true,
             isHovering: false,
-            name: props.celestialObjectDelegate.GetName()
+            name: props.celestialObjectDelegate.GetName(),
+            color: props.color
         };
 
         const markerDelegate = new CelestialHoverMarkerDelegate();
@@ -138,7 +139,8 @@ class CelestialObjectMarker extends Component {
                         top: `${this.state.screenPosition.y - elementHalfHeight}px`,
                         left: `${this.state.screenPosition.x - elementHalfWidth}px`,
                         opacity: shouldRender ? "1" : "0",
-                        pointerEvents: shouldRender ? "all" : "none"
+                        pointerEvents: shouldRender ? "all" : "none",
+                        backgroundColor: this.state.color
                     }}
                     onClick={this.HandleClick.bind(this)}
                     onMouseEnter={this.HandleMouseEnter.bind(this)}
@@ -163,7 +165,8 @@ CelestialObjectMarker.propTypes = {
     id: PropTypes.string.isRequired,
     position: PropTypes.object.isRequired,
     celestialObjectDelegate: PropTypes.object.isRequired,
-    parentCanvasDelegate: PropTypes.object.isRequired
+    parentCanvasDelegate: PropTypes.object.isRequired,
+    color: PropTypes.string
 };
 
 const MarkerState = {

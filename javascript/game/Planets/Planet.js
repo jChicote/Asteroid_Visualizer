@@ -1,13 +1,14 @@
 import * as THREE from "three";
-import { SolarSystemVisualizer } from "../../SolarSystemVisualizer.js";
-import { EventMediator } from "../../user-interface/mediator/EventMediator.js";
-import { ObjectValidator } from "../../utils/ObjectValidator.js";
-import { MathHelper } from "../../utils/math-library.js";
+import { CelestialObjectDelegate } from "../CelestialObjects/CelestialObjectDelegate.js";
+import { CelestialObjectMarkerHandler } from "../Components/Handlers/CelestialObjectMarkerHandler.js";
 import { CelestialOrbitalMotionLogic } from "../Components/OrbitalMechanics/CelestialOrbitalMotionLogic.js";
-import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
-import { GameObject } from "../Entities/GameObject.js";
+import { EventMediator } from "../../user-interface/mediator/EventMediator.js";
 import { GameManager } from "../GameManager.js";
-import { PlanetMarkerHandler } from "./PlanetMarkerHandler.js";
+import { GameObject } from "../Entities/GameObject.js";
+import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
+import { MathHelper } from "../../utils/math-library.js";
+import { ObjectValidator } from "../../utils/ObjectValidator.js";
+import { SolarSystemVisualizer } from "../../SolarSystemVisualizer.js";
 
 export class Planet extends GameObject {
     constructor(planetCode, planetData, materialConfigurationProvider) {
@@ -53,12 +54,13 @@ export class Planet extends GameObject {
         this.timeStep = this.orbitalMotion.CalculateTimeStep(this.orbitalPeriod);
         this.renderedObject = this.RenderPlanet();
 
-        this.planetDelegate = new PlanetDelegate();
+        this.planetDelegate = new CelestialObjectDelegate();
         this.planetDelegate.SetMarker = this.SetMarker.bind(this);
         this.planetDelegate.GetRenderedObject = this.GetRenderedObject.bind(this);
         this.planetDelegate.GetName = this.GetName.bind(this);
+        this.planetDelegate.GetType = this.GetType.bind(this);
 
-        this.markerHandler = new PlanetMarkerHandler({
+        this.markerHandler = new CelestialObjectMarkerHandler({
             eventMediator: this.eventMediator,
             planetCode: this.planetCode,
             planetDelegate: this.planetDelegate,
@@ -137,6 +139,10 @@ export class Planet extends GameObject {
         return this.planetData.name;
     }
 
+    GetType() {
+        return this.objectType;
+    }
+
     GetRadius() {
         return this.planetData.planetRadius * 0.0001; // TODO: ABstract this to make this dynamically scaled
     }
@@ -173,18 +179,6 @@ export class Planet extends GameObject {
     }
 }
 
-class PlanetDelegate {
-    /* -------------------------------------------------------------------------- */
-    /*                                   Methods                                  */
-    /* -------------------------------------------------------------------------- */
-
-    SetMarker(marker) { }
-
-    GetRenderedObject() { }
-
-    GetName() { }
-}
-
 class PlanetState {
     constructor(meanAnomaly, initialTime) {
         this.meanAnomaly = meanAnomaly;
@@ -192,4 +186,4 @@ class PlanetState {
     }
 }
 
-export { PlanetDelegate, PlanetState };
+export { PlanetState };

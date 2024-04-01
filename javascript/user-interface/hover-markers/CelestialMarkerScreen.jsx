@@ -45,17 +45,31 @@ class CelestialMarkerScreen extends Component {
     /*                                    View                                    */
     /* -------------------------------------------------------------------------- */
 
+    CreateHoverMarker(marker) {
+        console.log(marker.delegate.GetType());
+        if (marker.delegate.GetType() === "Planet") {
+            return (<CelestialObjectMarker
+                key={marker.id}
+                id={marker.id}
+                position={marker.position}
+                celestialObjectDelegate={marker.delegate}
+                parentCanvasDelegate={this.parentCanvasDelegate}
+                color={"#449ADC"} />);
+        } else if (marker.delegate.GetType() === "Star") {
+            return (<CelestialObjectMarker
+                key={marker.id}
+                id={marker.id}
+                position={marker.position}
+                celestialObjectDelegate={marker.delegate}
+                parentCanvasDelegate={this.parentCanvasDelegate}
+                color={"#f5cb42"} />);
+        }
+    }
+
     render() {
         return (
             <div id="markerCanvas" className="fill-canvas">
-                {this.state.markers.map(marker => (
-                    <CelestialObjectMarker
-                        key={marker.id}
-                        id={marker.id}
-                        position={marker.position}
-                        celestialObjectDelegate={marker.delegate}
-                        parentCanvasDelegate={this.parentCanvasDelegate} />
-                ))}
+                {this.state.markers.map(marker => this.CreateHoverMarker(marker))}
             </div>
         );
     }
