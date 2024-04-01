@@ -15,6 +15,10 @@ class CameraInterpolationHandler {
         this.lerpFactor = lerpFactor;
     }
 
+    /* -------------------------------------------------------------------------- */
+    /*                                   Methods                                  */
+    /* -------------------------------------------------------------------------- */
+
     GetTargetRotation() {
         const lookAtMatrix = new THREE.Matrix4().lookAt(
             this.camera.GetPosition(),
@@ -46,11 +50,13 @@ class CameraInterpolationHandler {
         if (distanceToTarget > this.cameraZoom.GetMinZoomDistance()) {
             this.camera.SetPosition(newPosition);
             this.cameraTransform.CaptureCameraLastPosition();
+            this.cameraTransform.CaptureCameraLastRelativeDistance();
         }
 
         this.camera.GetControlledCamera().quaternion.slerp(newRotation, this.lerpFactor);
 
-        if (distanceToTarget < 5 && this.IsRotationComplete(this.camera.GetQuaternion(), newRotation, 0.01)) {
+        const endDistance = this.cameraController.GetTargetRadius() + this.cameraController.GetTargetRadius() * 3.3;
+        if (distanceToTarget < endDistance && this.IsRotationComplete(this.camera.GetQuaternion(), newRotation, 0.01)) {
             this.cameraController.DisableLerp();
         }
     }

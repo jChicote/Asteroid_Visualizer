@@ -21,7 +21,12 @@ class ReverseTimeButton extends TimeControlButton {
     render() {
         const buttonClassName = "rounded-square-button time-control-button menu-button-skin";
         return (
-            <button id="play-pause-button" className={buttonClassName} onClick={this.HandleClick.bind(this)}>
+            <button
+                id="play-pause-button"
+                className={buttonClassName}
+                onClick={this.HandleClick.bind(this)}
+                onMouseEnter={this.HandleMouseEnter.bind(this)}
+                onMouseLeave={this.HandleMouseExit.bind(this)}>
                 <FontAwesomeIcon icon={faBackward} className="option-icon"/>
             </button>
         );

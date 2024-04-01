@@ -16,6 +16,16 @@ class LightIntensitySlider extends Component {
     }
 
     /* -------------------------------------------------------------------------- */
+    /*                              Lifecycle Methods                             */
+    /* -------------------------------------------------------------------------- */
+
+    componentDidMount() {
+        this.eventMediator = SolarSystemVisualizer.serviceContainer.Resolve(EventMediator);
+        this.eventMediator.Subscribe("ToggleCameraLight", this.ToggleVisibility.bind(this));
+        this.eventMediator.Subscribe("ToggleExpandedMenu", this.ToggleEnabled.bind(this));
+    }
+
+    /* -------------------------------------------------------------------------- */
     /*                               Event Handlers                               */
     /* -------------------------------------------------------------------------- */
 
@@ -30,6 +40,14 @@ class LightIntensitySlider extends Component {
         }));
     };
 
+    HandleMouseEnter(event) {
+        GameManager.gameObserver.Dispatch("OnInterfaceEnter");
+    }
+
+    HandleMouseExit(event) {
+        GameManager.gameObserver.Dispatch("OnInterfaceExit");
+    }
+
     ToggleVisibility() {
         this.setState((prevState) => ({
             isVisible: !prevState.isVisible
@@ -43,14 +61,8 @@ class LightIntensitySlider extends Component {
     }
 
     /* -------------------------------------------------------------------------- */
-    /*                              Lifecycle Methods                             */
+    /*                                    View                                    */
     /* -------------------------------------------------------------------------- */
-
-    componentDidMount() {
-        this.eventMediator = SolarSystemVisualizer.serviceContainer.Resolve(EventMediator);
-        this.eventMediator.Subscribe("ToggleCameraLight", this.ToggleVisibility.bind(this));
-        this.eventMediator.Subscribe("ToggleExpandedMenu", this.ToggleEnabled.bind(this));
-    }
 
     render() {
         const sliderValue = this.state.sliderValue;
@@ -59,11 +71,16 @@ class LightIntensitySlider extends Component {
             : "fade-out");
 
         return (
-            <div id="light-intensity" className={sliderClassName} onTransitionEnd={this.HandleTransitionEnd.bind(this)}>
+            <div
+                id="light-intensity"
+                className={sliderClassName}
+                onTransitionEnd={this.HandleTransitionEnd.bind(this)}
+                onMouseEnter={this.HandleMouseEnter.bind(this)}
+                onMouseLeave={this.HandleMouseExit.bind(this)}>
                 <input
                     type="range"
                     className="vertical-slider"
-                    min={1}
+                    min={0.1}
                     max={200}
                     value={sliderValue}
                     onChange={this.HandleSliderChange}

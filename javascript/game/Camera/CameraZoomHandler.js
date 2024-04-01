@@ -1,23 +1,20 @@
 import * as THREE from "three";
 import { EventUtility } from "../../utils/EventUtility.js";
 import { MathHelper } from "../../utils/math-library.js";
+import { GameManager } from "../GameManager.js";
 
 class CameraZoomHandler {
-    constructor(
-        camera,
-        cameraController,
-        cameraTransform,
-        zoomMaxDistance,
-        zoomMinDistance,
-        zoomSpeed) {
+    constructor(props) {
         // Fields
-        this.camera = camera;
-        this.cameraController = cameraController;
-        this.cameraTransform = cameraTransform;
-        this.zoomMaxDistance = zoomMaxDistance;
-        this.zoomMinDistance = zoomMinDistance;
+        this.camera = props.camera;
+        this.cameraState = props.cameraState;
+        this.cameraController = props.cameraController;
+        this.cameraTransform = props.cameraTransform;
+        this.isZooming = false;
+        this.zoomMaxDistance = props.zoomMaxDistance;
+        this.zoomMinDistance = props.zoomMinDistance;
         this.zoomSignedDirection = 0.0;
-        this.zoomSpeed = zoomSpeed; // Adjust this value based on your sensitivity preference
+        this.zoomSpeed = props.zoomSpeed; // Adjust this value based on your sensitivity preference
 
         // Components
         this.eventDebouncer = new EventUtility();
@@ -26,8 +23,7 @@ class CameraZoomHandler {
             300
         );
 
-        const canvas = document.getElementById("root");
-        canvas.addEventListener("wheel", this.OnMouseWheel.bind(this));
+        GameManager.gameObserver.Subscribe("OnWheelScroll", this.OnMouseWheel.bind(this));
     }
 
     /* -------------------------------------------------------------------------- */
@@ -37,11 +33,13 @@ class CameraZoomHandler {
     OnMouseWheel(event) {
         this.cameraController.DisableLerp();
         this.zoomSignedDirection = Math.sign(event.deltaY);
+        this.cameraState.isZooming = true;
 
         this.OnMouseWheelEndEvent();
     }
 
     OnMouseWheelTimeout() {
+        this.cameraState.isZooming = false;
         this.zoomSignedDirection = 0.0;
     }
 
@@ -68,12 +66,10 @@ class CameraZoomHandler {
             .multiplyScalar(-distance)
             .add(this.cameraController.GetViewTargetPosition());
 
-        // Sets the last position to the current position if not interacting the orbit controls.
-        if (!this.cameraController.IsControllerInteracting()) {
+        if (this.cameraState.isZooming) {
             this.camera.SetPosition(newPosition);
             this.cameraTransform.CaptureCameraLastPosition();
-        } else {
-            this.camera.SetPosition(newPosition);
+            this.cameraTransform.CaptureCameraLastRelativeDistance();
         }
     }
 

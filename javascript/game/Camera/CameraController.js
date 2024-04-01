@@ -1,25 +1,35 @@
 import * as THREE from "three";
+import { OrbitControls } from "../../../addons/OrbitControls.js";
+import { ObjectValidator } from "../../utils/ObjectValidator.js";
+import { GameObject } from "../Entities/GameObject.js";
+import { GameManager } from "../GameManager.js";
 import { CameraInterpolationHandler } from "./CameraInterpolationHandler.js";
 import { CameraTransformHandler } from "./CameraTransformHandler.js";
 import { CameraZoomHandler } from "./CameraZoomHandler.js";
-import { GameManager } from "../GameManager.js";
-import { GameObject } from "../Entities/GameObject.js";
-import { ObjectValidator } from "../../utils/ObjectValidator.js";
-import { OrbitControls } from "../../../addons/OrbitControls.js";
+
+class CameraControlState {
+    constructor() {
+        this.isInteracting = false;
+        this.isLerping = false;
+        this.isZooming = false;
+    }
+}
 
 class CameraController extends GameObject {
-    constructor(camera, renderer) {
-        super({ camera, renderer });
+    constructor(camera, renderer, defaultPosition) {
+        super({ camera, renderer, defaultPosition });
     }
 
     InitialiseFields(parameters) {
         super.InitialiseFields(parameters);
 
         // Fields
-        this.isInteracting = false;
+        this.cameraState = new CameraControlState();
+        this.isInputEnabled = true;
         this.isLerping = false;
         this.renderer = parameters.renderer;
         this.viewTargetPosition = new THREE.Vector3(); // Default the sun as the origin.
+        this.cameraDefaultPosition = parameters.defaultPosition;
 
         // Components
         this.mainCamera = parameters.camera;
@@ -37,9 +47,14 @@ class CameraController extends GameObject {
         // Subscribe input events
         GameManager.gameObserver.Subscribe("OnMouseUp", this.OnMouseUp.bind(this));
         GameManager.gameObserver.Subscribe("OnMouseDown", this.OnMouseDown.bind(this));
+        GameManager.gameObserver.Subscribe("OnHoverMarkerEnter", this.DisableInput.bind(this));
+        GameManager.gameObserver.Subscribe("OnHoverMarkerExit", this.EnableInput.bind(this));
+        GameManager.gameObserver.Subscribe("OnInterfaceEnter", this.DisableInput.bind(this));
+        GameManager.gameObserver.Subscribe("OnInterfaceExit", this.EnableInput.bind(this));
 
-        // Subscribe custom eventsd
+        // Subscribe custom events
         GameManager.gameObserver.Subscribe("NewTargetSelected", this.OnNewTargetSelected.bind(this));
+        GameManager.gameObserver.Subscribe("OnResetToDefault", this.OnResetToDefault.bind(this));
     }
 
     Start() {
@@ -56,27 +71,31 @@ class CameraController extends GameObject {
         const cameraController = {
             DisableLerp: this.DisableLerp.bind(this),
             GetViewTargetPosition: this.GetViewTargetPosition.bind(this),
+            GetTargetRadius: this.GetViewTargetRadius.bind(this),
             IsControllerInteracting: this.IsControllerInteracting.bind(this)
         };
 
-        this.cameraTransformHandler = new CameraTransformHandler(
-            this.mainCamera,
-            this.orbitControls,
+        this.cameraTransformHandler = new CameraTransformHandler({
+            mainCamera: this.mainCamera,
+            cameraState: this.cameraState,
+            orbitControls: this.orbitControls,
             cameraController
-        );
+        });
 
         const cameraTransform = {
-            CaptureCameraLastPosition: this.cameraTransformHandler.CaptureCameraLastPosition.bind(this.cameraTransformHandler)
+            CaptureCameraLastPosition: this.cameraTransformHandler.CaptureCameraLastPosition.bind(this.cameraTransformHandler),
+            CaptureCameraLastRelativeDistance: this.cameraTransformHandler.CaptureCameraLastRelativeDistance.bind(this.cameraTransformHandler)
         };
 
-        this.cameraZoomHandler = new CameraZoomHandler(
-            this.mainCamera,
+        this.cameraZoomHandler = new CameraZoomHandler({
+            camera: this.mainCamera,
+            cameraState: this.cameraState,
             cameraController,
             cameraTransform,
-            100,
-            0.4,
-            0.2
-        );
+            zoomMaxDistance: 100,
+            zoomMinDistance: 0.4,
+            zoomSpeed: 0.2
+        });
 
         const cameraZoomHandler = {
             GetMinZoomDistance: this.cameraZoomHandler.GetMinZoomDistance.bind(this.cameraZoomHandler)
@@ -112,11 +131,15 @@ class CameraController extends GameObject {
     /* -------------------------------------------------------------------------- */
 
     OnMouseUp(event) {
-        this.isInteracting = false;
+        if (this.isInputEnabled) {
+            this.cameraState.isInteracting = false;
+        }
     }
 
     OnMouseDown(event) {
-        this.isInteracting = true;
+        if (this.isInputEnabled) {
+            this.cameraState.isInteracting = true;
+        }
     }
 
     OnNewTargetSelected(target) {
@@ -125,13 +148,19 @@ class CameraController extends GameObject {
             return;
         }
 
-        console.log("Target translation started");
-
         this.EnableLerp();
         this.viewTarget = target;
         this.viewTargetPosition = target.object.position.clone();
 
         this.cameraZoomHandler.SetMinZoomDistance(target.object.gameObject.GetRadius());
+    }
+
+    OnResetToDefault() {
+        // Get Sun Object
+        const sun = GameManager.gameObjectRegistry.GetGameObject("Sun");
+
+        this.OnNewTargetSelected({ object: sun });
+        this.viewTargetPosition = this.cameraDefaultPosition;
     }
 
     /* -------------------------------------------------------------------------- */
@@ -141,20 +170,40 @@ class CameraController extends GameObject {
     DisableLerp() {
         this.isLerping = false;
         this.orbitControls.enabled = true;
+
+        // Restore previous time control state.
+        GameManager.gameObserver.Dispatch("UpdateIsTimePaused", false);
     }
 
     EnableLerp() {
         this.isLerping = true;
         this.orbitControls.enabled = false;
+
+        // Pause time control to allow completion of interpolation of positions.
+        GameManager.gameObserver.Dispatch("UpdateIsTimePaused", true);
+    }
+
+    DisableInput() {
+        this.isInputEnabled = false;
+        this.orbitControls.enabled = false;
+    }
+
+    EnableInput() {
+        this.isInputEnabled = true;
+        this.orbitControls.enabled = true;
     }
 
     IsControllerInteracting() {
-        return this.isInteracting;
+        return this.cameraState.isInteracting;
     }
 
     GetViewTargetPosition() {
         return this.viewTargetPosition;
     }
+
+    GetViewTargetRadius() {
+        return this.viewTarget.object.gameObject.GetRadius();
+    }
 }
 
-export { CameraController };
+export { CameraController, CameraControlState };

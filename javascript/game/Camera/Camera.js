@@ -6,7 +6,7 @@ import { GameManager } from "../GameManager.js";
 
 class Camera extends GameObject {
     InitialiseFields() {
-        this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.4, 6000);
+        this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 6000);
         this.cameraLight = new CameraLight(this.camera);
         this.cameraLight.DisableLight();
 
@@ -39,6 +39,11 @@ class Camera extends GameObject {
     SetPosition(newPosition) {
         this.camera.position.copy(newPosition);
         return this.camera.position;
+    }
+
+    SetRotationFromVector(newRotation) {
+        this.camera.rotation.setFromVector3(newRotation);
+        return this.camera.rotation;
     }
 
     SetQuaternion(newQuaternion) {

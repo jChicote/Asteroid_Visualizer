@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 - Loading screen added on opening the visualiser.
 - Time control buttons added for time scrolling.
 - Hover markers added for planet selection.
+- Refined orbit controls and relative positioning.
 
 ## [3.0.0] - 2024-01-05
 ### Added

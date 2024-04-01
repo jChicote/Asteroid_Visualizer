@@ -1,4 +1,5 @@
 import { Component } from "react";
+import { GameManager } from "../../game/GameManager";
 
 class TimeControlButton extends Component {
     constructor(props) {
@@ -21,14 +22,27 @@ class TimeControlButton extends Component {
         }));
     }
 
+    HandleMouseEnter(event) {
+        GameManager.gameObserver.Dispatch("OnInterfaceEnter");
+    }
+
+    HandleMouseExit(event) {
+        GameManager.gameObserver.Dispatch("OnInterfaceExit");
+    }
+
     /* -------------------------------------------------------------------------- */
-    /*                              Lifecycle Methods                             */
+    /*                                    View                                    */
     /* -------------------------------------------------------------------------- */
 
     render() {
         const buttonClassName = "rounded-square-button time-control-button menu-button-skin";
         return (
-            <button id="play-pause-button" className={buttonClassName} onClick={this.HandleClick.bind(this)}/>
+            <button
+                id="play-pause-button"
+                className={buttonClassName}
+                onClick={this.HandleClick.bind(this)}
+                onMouseEnter={this.HandleMouseEnter.bind(this)}
+                onMouseLeave={this.HandleMouseExit.bind(this)}></button>
         );
     }
 }

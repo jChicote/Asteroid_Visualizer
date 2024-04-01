@@ -7,6 +7,7 @@ class EventManager {
         canvas.addEventListener("mouseup", this.OnMouseUp.bind(this));
         canvas.addEventListener("click", this.OnMouseClick.bind(this), false);
         canvas.addEventListener("pointermove", this.OnMouseMove.bind(this), false);
+        canvas.addEventListener("wheel", this.OnWheelScroll.bind(this), false);
     }
 
     /* -------------------------------------------------------------------------- */
@@ -27,6 +28,10 @@ class EventManager {
 
     OnMouseDown(event) {
         GameManager.gameObserver.Dispatch("OnMouseDown", event);
+    }
+
+    OnWheelScroll(event) {
+        GameManager.gameObserver.Dispatch("OnWheelScroll", event);
     }
 }
 

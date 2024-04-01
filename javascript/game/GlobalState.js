@@ -1,3 +1,5 @@
+import * as THREE from "three";
+
 // The purpose of this global state is to hold the global variables that are used throughout the game.
 // This is especially useful for UI as it allows modification of the scene through these variables.
 class GlobalState {
@@ -11,6 +13,9 @@ class GlobalState {
         // Celestial Objects
         this.physicalRadiusMultiplier = 1;
         this.distanceToSunMultiplier = 1;
+
+        // Camera Properties
+        this.cameraDefaultPosition = new THREE.Vector3(30, 20, 45);
 
         // Scene Properties
         this.isLightActive = false;
