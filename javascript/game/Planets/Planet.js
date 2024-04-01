@@ -8,6 +8,7 @@ import { GameObject } from "../Entities/GameObject.js";
 import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
 import { MathHelper } from "../../utils/math-library.js";
 import { ObjectValidator } from "../../utils/ObjectValidator.js";
+import { OrbitalPath } from "../Components/Visual/OrbitalPath/OrbitalPath.js";
 import { SolarSystemVisualizer } from "../../SolarSystemVisualizer.js";
 
 export class Planet extends GameObject {
@@ -59,6 +60,8 @@ export class Planet extends GameObject {
         this.planetDelegate.GetRenderedObject = this.GetRenderedObject.bind(this);
         this.planetDelegate.GetName = this.GetName.bind(this);
         this.planetDelegate.GetType = this.GetType.bind(this);
+        this.planetDelegate.OnHoverEnter = this.OnHoverEnter.bind(this);
+        this.planetDelegate.OnHoverExit = this.OnHoverExit.bind(this);
 
         this.markerHandler = new CelestialObjectMarkerHandler({
             eventMediator: this.eventMediator,
@@ -91,6 +94,18 @@ export class Planet extends GameObject {
     }
 
     /* -------------------------------------------------------------------------- */
+    /*                                Event Methods                               */
+    /* -------------------------------------------------------------------------- */
+
+    OnHoverEnter() {
+        this.orbitalPath.HighlightOrbitalPathLine();
+    }
+
+    OnHoverExit() {
+        this.orbitalPath.DeselectOrbitalPathLine();
+    }
+
+    /* -------------------------------------------------------------------------- */
     /*                                   Methods                                  */
     /* -------------------------------------------------------------------------- */
 
@@ -102,6 +117,24 @@ export class Planet extends GameObject {
         mesh.gameObject = this;
         this.SetPlanetPosition(mesh);
         GameManager.scene.add(mesh);
+
+        // Create orbital path
+        this.orbitalPath = new OrbitalPath({
+            orbitalMotionLogic: this.orbitalMotion,
+            highlightColor: this.materialConfiguration.defaultColor,
+            normalColor: 0x636363
+        });
+
+        this.orbitalPath.CreateOrbitalPath({
+            semiMajorAxis: MathHelper.ConvertKilometersToAstronomicalUnits(this.planetData.semiMajorAxis),
+            eccentricity: this.planetData.eccentricity,
+            inclination: MathHelper.ConvertDegreesToRadians(this.planetData.inclination) * -1,
+            lineSegments: 128,
+            longitudeOfAscendingNode: MathHelper.ConvertDegreesToRadians(this.planetData.longitudeOfAscendingNode) * -1,
+            argumentOfPerihelion: MathHelper.ConvertDegreesToRadians(this.planetData.argumentOfPerihelion) * -1,
+            meanAnomaly: this.planetState.meanAnomaly,
+            scale: 100
+        });
 
         return mesh;
     }

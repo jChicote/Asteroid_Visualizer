@@ -107,12 +107,14 @@ class CelestialObjectMarker extends Component {
 
     HandleMouseEnter() {
         this.setState({ isHovering: true });
+        this.celestialObjectDelegate.OnHoverEnter();
 
         GameManager.gameObserver.Dispatch("OnHoverMarkerEnter");
     }
 
     HandleMouseExit() {
         this.setState({ isHovering: false });
+        this.celestialObjectDelegate.OnHoverExit();
 
         GameManager.gameObserver.Dispatch("OnHoverMarkerExit");
     }

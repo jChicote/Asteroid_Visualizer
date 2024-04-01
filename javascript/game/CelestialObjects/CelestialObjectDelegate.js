@@ -5,6 +5,10 @@ class CelestialObjectDelegate {
 
     SetMarker(marker) { }
 
+    OnHoverEnter() { }
+
+    OnHoverExit() { }
+
     GetRenderedObject() { }
 
     GetName() { }
