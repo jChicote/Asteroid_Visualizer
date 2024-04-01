@@ -7,6 +7,7 @@ class MarsPlanetMaterialConfiguration extends MaterialConfiguration {
         super();
 
         this.key = "499";
+        this.defaultColor = DefaultPlanetColor.Mars.hexCode;
         this.defaultMaterial = new THREE.MeshStandardMaterial({ color: DefaultPlanetColor.Mars });
         this.textureConfiguration = {
             textureMaps: new TextureMaps({

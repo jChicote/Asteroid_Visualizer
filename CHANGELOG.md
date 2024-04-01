@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
 - Time control buttons added for time scrolling.
 - Hover markers added for planet selection.
 - Refined orbit controls and relative positioning.
+- Included orbital path lines for each planet.
 
 ## [3.0.0] - 2024-01-05
 ### Added

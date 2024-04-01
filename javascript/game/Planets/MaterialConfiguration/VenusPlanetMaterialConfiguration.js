@@ -7,6 +7,7 @@ class VenusPlanetMaterialConfiguration extends MaterialConfiguration {
         super();
 
         this.key = "299";
+        this.defaultColor = DefaultPlanetColor.Venus.hexCode;
         this.defaultMaterial = new THREE.MeshStandardMaterial({ color: DefaultPlanetColor.Venus });
         this.textureConfiguration = {
             textureMaps: new TextureMaps({
