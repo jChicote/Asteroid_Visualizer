@@ -7,7 +7,9 @@ import { LightOptionButton } from "./options/LightOptionButton.jsx";
 import { ShowMarkerButton } from "./options/ShowMarkerButton.jsx";
 import { SolarSystemVisualizer } from "../../SolarSystemVisualizer.js";
 import { faLightbulb, faExpand, faLocationDot, faRotate } from "@fortawesome/free-solid-svg-icons";
+import { faCircleDot } from "@fortawesome/free-regular-svg-icons";
 import { DefaultPositionButton } from "./options/DefaultPositionButton.jsx";
+import { OrbitalPathButton } from "./options/OrbitalPathButton.jsx";
 
 class OptionsMenuGroup extends Component {
     constructor(props) {
@@ -53,6 +55,10 @@ class OptionsMenuGroup extends Component {
                         <DefaultPositionButton icons={{
                             activeIcon: faRotate,
                             inactiveIcon: faRotate
+                        }}/>
+                        <OrbitalPathButton icons={{
+                            activeIcon: faCircleDot,
+                            inactiveIcon: faCircleDot
                         }}/>
                         <ShowMarkerButton icons={{
                             activeIcon: faLocationDot,
