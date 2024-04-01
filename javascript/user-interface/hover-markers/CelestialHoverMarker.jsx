@@ -142,7 +142,7 @@ class CelestialObjectMarker extends Component {
                         left: `${this.state.screenPosition.x - elementHalfWidth}px`,
                         opacity: shouldRender ? "1" : "0",
                         pointerEvents: shouldRender ? "all" : "none",
-                        backgroundColor: this.state.color
+                        backgroundColor: this.state.isHovering ? "transparent" : this.state.color
                     }}
                     onClick={this.HandleClick.bind(this)}
                     onMouseEnter={this.HandleMouseEnter.bind(this)}
