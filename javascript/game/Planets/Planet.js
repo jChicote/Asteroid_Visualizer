@@ -1,14 +1,14 @@
 import * as THREE from "three";
-import { SolarSystemVisualizer } from "../../SolarSystemVisualizer.js";
-import { EventMediator } from "../../user-interface/mediator/EventMediator.js";
-import { ObjectValidator } from "../../utils/ObjectValidator.js";
-import { MathHelper } from "../../utils/math-library.js";
-import { CelestialOrbitalMotionLogic } from "../Components/OrbitalMechanics/CelestialOrbitalMotionLogic.js";
-import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
-import { GameObject } from "../Entities/GameObject.js";
-import { GameManager } from "../GameManager.js";
-import { PlanetMarkerHandler } from "./PlanetMarkerHandler.js";
 import { CelestialObjectDelegate } from "../CelestialObjects/CelestialObjectDelegate.js";
+import { CelestialObjectMarkerHandler } from "../Components/Handlers/CelestialObjectMarkerHandler.js";
+import { CelestialOrbitalMotionLogic } from "../Components/OrbitalMechanics/CelestialOrbitalMotionLogic.js";
+import { EventMediator } from "../../user-interface/mediator/EventMediator.js";
+import { GameManager } from "../GameManager.js";
+import { GameObject } from "../Entities/GameObject.js";
+import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
+import { MathHelper } from "../../utils/math-library.js";
+import { ObjectValidator } from "../../utils/ObjectValidator.js";
+import { SolarSystemVisualizer } from "../../SolarSystemVisualizer.js";
 
 export class Planet extends GameObject {
     constructor(planetCode, planetData, materialConfigurationProvider) {
@@ -60,7 +60,7 @@ export class Planet extends GameObject {
         this.planetDelegate.GetName = this.GetName.bind(this);
         this.planetDelegate.GetType = this.GetType.bind(this);
 
-        this.markerHandler = new PlanetMarkerHandler({
+        this.markerHandler = new CelestialObjectMarkerHandler({
             eventMediator: this.eventMediator,
             planetCode: this.planetCode,
             planetDelegate: this.planetDelegate,

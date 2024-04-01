@@ -1,10 +1,10 @@
 import * as THREE from "three";
 import { CelestialObjectDelegate } from "../CelestialObjects/CelestialObjectDelegate.js";
+import { CelestialObjectMarkerHandler } from "../Components/Handlers/CelestialObjectMarkerHandler.js";
 import { EventMediator } from "../../user-interface/mediator/EventMediator.js";
 import { GameManager } from "../GameManager.js";
 import { GameObject } from "../Entities/GameObject.js";
 import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
-import { PlanetMarkerHandler } from "../Planets/PlanetMarkerHandler.js";
 import { SolarSystemVisualizer } from "../../SolarSystemVisualizer.js";
 import { SunMaterialConfiguration } from "./SunMaterialConfiguration.js";
 
@@ -45,7 +45,7 @@ class Sun extends GameObject {
         this.sunDelegate.GetName = this.GetName.bind(this);
         this.sunDelegate.GetType = this.GetType.bind(this);
 
-        this.markerHandler = new PlanetMarkerHandler({
+        this.markerHandler = new CelestialObjectMarkerHandler({
             eventMediator: this.eventMediator,
             planetCode: "000fff",
             planetDelegate: this.sunDelegate,
