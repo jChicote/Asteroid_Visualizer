@@ -45,6 +45,8 @@ class Sun extends GameObject {
         this.sunDelegate.GetName = this.GetName.bind(this);
         this.sunDelegate.GetType = this.GetType.bind(this);
 
+        this.controlledCamera = GameManager.gameObjectRegistry.GetGameObject("Camera");
+
         this.markerHandler = new CelestialObjectMarkerHandler({
             eventMediator: this.eventMediator,
             planetCode: "000fff",
@@ -66,6 +68,9 @@ class Sun extends GameObject {
 
         this.currentTime += this.deltaTime;
         this.materialRenderer.material.uniforms.time.value = this.currentTime;
+
+        this.RotateSun();
+        this.RenderShaderDetail();
     }
 
     /* -------------------------------------------------------------------------- */
@@ -86,7 +91,7 @@ class Sun extends GameObject {
     }
 
     GetRadius() {
-        return 5;
+        return 2;
     }
 
     CreateLightSource() {
@@ -115,10 +120,13 @@ class Sun extends GameObject {
         this.marker = this.markerHandler.SetMarker(marker);
     }
 
-    DrawDebug() {
-        // Create light helper
-        const pointLightHelper = new THREE.PointLightHelper(this.pointLight, 10);
-        GameManager.scene.add(pointLightHelper);
+    RotateSun() {
+        this.renderedObject.rotation.y += 0.00005 * 27;
+    }
+
+    RenderShaderDetail() {
+        const distanceToCamera = this.renderedObject.position.distanceTo(this.controlledCamera.GetPosition());
+        this.renderedObject.material.uniforms.isDetailed.value = distanceToCamera < 50;
     }
 }
 

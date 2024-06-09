@@ -9,11 +9,13 @@ uniform float lacunarity;
 uniform float persistence;
 uniform float gridSize;
 uniform float time;
+uniform bool isDetailed;
 
 varying vec2 vUv;
 varying vec3 vPos;
 varying vec3 vNormal;
 varying vec3 vView;
+
 
 // smoothens out the noise
 float smoothValue(float x) {
@@ -117,21 +119,26 @@ void main() {
     // Base color
     vec3 finalColor = vec3(0.0, 0.0, 0.0);
 
-    // Calculate offset
-    float scaledTime = time * 0.03;
-    vec3 offset = vec3(scaledTime, scaledTime, scaledTime);
+    if (isDetailed) {
+        // Calculate offset
+        float scaledTime = time * 0.03;
+        vec3 offset = vec3(scaledTime, scaledTime, scaledTime);
 
-    // Layer 1: Calculate noise
-    float noise = solarGranuleNoise((vPos + offset), gridSize, octaves, lacunarity, persistence);
-    noise = clamp(noise * 1.5, 0.0, 0.3);
-    noise = pow(noise, 0.9);
-    noise = invert(noise);
-    finalColor += noise;
+        // Layer 1: Calculate noise
+        float noise = solarGranuleNoise((vPos + offset), gridSize, octaves, lacunarity, persistence);
+        noise = clamp(noise * 1.5, 0.0, 0.3);
+        noise = pow(noise, 0.9);
+        noise = invert(noise);
+        finalColor += noise;
 
-    // Layer 2: Generate the fresnel effect
-    // source: https://kylehalladay.com/blog/tutorial/2014/02/18/Fresnel-Shaders-From-The-Ground-Up.html
-    float fresnel = fresnelBias + fresnelScale * pow(1.0 + dot(vView, vNormal), fresnelPower);
-    finalColor += fresnel;
+        // Layer 2: Generate the fresnel effect
+        // source: https://kylehalladay.com/blog/tutorial/2014/02/18/Fresnel-Shaders-From-The-Ground-Up.html
+        float fresnel = fresnelBias + fresnelScale * pow(1.0 + dot(vView, vNormal), fresnelPower);
+        finalColor += fresnel;
+    }
+    else {
+        finalColor = vec3(1.0, 1.0, 1.0);
+    }
 
     // TODO: Layer 3: Overlay will perlin noise to randomise the surface shading.
 
