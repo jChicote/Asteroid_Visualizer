@@ -7,11 +7,9 @@ import { GameManager } from "../GameManager.js";
 import { GameObject } from "../Entities/GameObject.js";
 import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
 import { MathHelper } from "../../utils/math-library.js";
-import { ObjectValidator } from "../../utils/ObjectValidator.js";
 import { OrbitalPath } from "../Components/Visual/OrbitalPath/OrbitalPath.js";
 import { SolarSystemVisualizer } from "../../SolarSystemVisualizer.js";
 import { PlanetRings } from "./PlanetRings.js";
-import { MaterialConfigurationProvider } from "../Infrastructure/Providers/MaterialConfigurationProvider.js";
 
 export class Planet extends GameObject {
     constructor(planetCode, planetData, materialConfigurationProvider) {
