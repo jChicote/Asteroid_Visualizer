@@ -7,9 +7,9 @@ import { GameManager } from "../GameManager.js";
 import { GameObject } from "../Entities/GameObject.js";
 import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
 import { MathHelper } from "../../utils/math-library.js";
-import { ObjectValidator } from "../../utils/ObjectValidator.js";
 import { OrbitalPath } from "../Components/Visual/OrbitalPath/OrbitalPath.js";
 import { SolarSystemVisualizer } from "../../SolarSystemVisualizer.js";
+import { PlanetRings } from "./PlanetRings.js";
 
 export class Planet extends GameObject {
     constructor(planetCode, planetData, materialConfigurationProvider) {
@@ -27,7 +27,6 @@ export class Planet extends GameObject {
         this.planetData = parameters.planetData;
         this.renderedObject = "";
         this.timeStep = "";
-        this.hasRing = false;
         this.ring = null;
 
         this.identifier = parameters.planetCode;
@@ -38,6 +37,7 @@ export class Planet extends GameObject {
         this.materialRenderer = {};
         this.orbitalMotion = new CelestialOrbitalMotionLogic();
         this.planetState = new PlanetState(parameters.planetData.meanAnomaly, 0);
+        this.materialConfigurationProvider = parameters.materialConfigurationProvider;
 
         // Observers
         this.eventMediator = SolarSystemVisualizer.serviceContainer.Resolve(EventMediator);
@@ -70,10 +70,9 @@ export class Planet extends GameObject {
             renderedObject: this.renderedObject
         });
 
-        // Note: This implementation will only work with saturn.
-        if (ObjectValidator.IsValid(this.materialConfiguration.ringConfiguration)) {
-            console.log("Planet with rings found");
-            this.AddRings();
+        // Check whether this planet is Saturn
+        if (this.planetCode === "699") {
+            this.ring = new PlanetRings("699 Rings", this.renderedObject, this.materialConfigurationProvider);
         }
     }
 
@@ -86,11 +85,6 @@ export class Planet extends GameObject {
         this.UpdateOrbitalState();
         this.SetPlanetPosition(this.renderedObject);
         this.RotatePlanet();
-
-        // Note: This implementation will only work with saturn.
-        if (ObjectValidator.IsValid(this.ring)) {
-            this.ring.position.copy(this.renderedObject.position);
-        }
     }
 
     /* -------------------------------------------------------------------------- */
@@ -182,20 +176,6 @@ export class Planet extends GameObject {
 
     GetRenderedObject() {
         return this.renderedObject;
-    }
-
-    // This method so far is intended for Saturn only.
-    AddRings() {
-        const ringGeometry = new THREE.RingGeometry(1.5 * 5, 2.5 * 5, 42);
-        // Ring material will have to plane color as the material renderer will be changed to handle seperate methods of configuration.
-        const ringMaterial = new THREE.MeshStandardMaterial({ color: 0x473e2e, side: THREE.DoubleSide });
-        this.ring = new THREE.Mesh(ringGeometry, ringMaterial);
-        this.ring.rotation.x = 90 * (Math.PI / 180); // Rotate ring by 90 degrees
-
-        this.renderedObject.add(this.ring);
-        GameManager.scene.add(this.ring);
-
-        this.ring.position.copy(this.renderedObject.position);
     }
 
     UpdateOrbitalState() {
