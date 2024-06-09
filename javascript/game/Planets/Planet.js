@@ -27,7 +27,6 @@ export class Planet extends GameObject {
         this.planetData = parameters.planetData;
         this.renderedObject = "";
         this.timeStep = "";
-        this.hasRing = false;
         this.ring = null;
 
         this.identifier = parameters.planetCode;
