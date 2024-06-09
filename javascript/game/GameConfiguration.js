@@ -8,6 +8,7 @@ import { MercuryPlanetMaterialConfiguration } from "./Planets/MaterialConfigurat
 import { NeptunePlanetMaterialConfiguration } from "./Planets/MaterialConfiguration/NeptunePlanetMaterialConfiguration.js";
 import { PlutoPlanetMaterialConfiguration } from "./Planets/MaterialConfiguration/PlutoPlanetMaterialConfiguration.js";
 import { SaturnPlanetMaterialConfiguration } from "./Planets/MaterialConfiguration/SaturnPlanetMaterialConfiguration.js";
+import { SaturnRingsMaterialConfiguration } from "./Planets/MaterialConfiguration/SaturnRingsMaterialConfiguration.js";
 import { SunMaterialConfiguration } from "./Sun/SunMaterialConfiguration.js";
 import { UranusPlanetMaterialConfiguration } from "./Planets/MaterialConfiguration/UranusPlanetMaterialConfiguration.js";
 import { VenusPlanetMaterialConfiguration } from "./Planets/MaterialConfiguration/VenusPlanetMaterialConfiguration.js";
@@ -31,6 +32,7 @@ class GameConfiguration {
         materialConfigurations.push(new MarsPlanetMaterialConfiguration());
         materialConfigurations.push(new JupiterPlanetMaterialConfiguration());
         materialConfigurations.push(new SaturnPlanetMaterialConfiguration());
+        materialConfigurations.push(new SaturnRingsMaterialConfiguration());
         materialConfigurations.push(new UranusPlanetMaterialConfiguration());
         materialConfigurations.push(new NeptunePlanetMaterialConfiguration());
         materialConfigurations.push(new PlutoPlanetMaterialConfiguration());

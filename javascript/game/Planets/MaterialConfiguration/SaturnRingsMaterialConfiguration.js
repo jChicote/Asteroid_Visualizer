@@ -1,20 +1,20 @@
 import * as THREE from "three";
-import { DefaultPlanetColor } from "../../../shared/Enumerations/DefaultPlanetColor.js";
 import { MaterialConfiguration, TextureMaps } from "../../Base/MaterialConfiguration.js";
+import { DefaultPlanetColor } from "../../../shared/Enumerations/DefaultPlanetColor.js";
 
-class SaturnPlanetMaterialConfiguration extends MaterialConfiguration {
+class SaturnRingsMaterialConfiguration extends MaterialConfiguration {
     constructor() {
         super();
 
-        this.key = "699";
+        this.key = "699 Rings";
         this.defaultColor = DefaultPlanetColor.Saturn.hexCode;
         this.defaultMaterial = new THREE.MeshStandardMaterial({ color: DefaultPlanetColor.Saturn });
         this.textureConfiguration = {
             textureMaps: new TextureMaps({
-                albedoPath: "../../../../../images/Planets/Saturn/saturn-albedo.jpg"
+                albedoPath: "../../../../../images/Planets/Saturn/saturn-ring-albedo.png"
             })
         };
     }
 }
 
-export { SaturnPlanetMaterialConfiguration };
+export { SaturnRingsMaterialConfiguration };
