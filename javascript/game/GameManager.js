@@ -124,10 +124,10 @@ export class GameManager {
         GameManager.renderer.setSize(window.innerWidth, container.clientHeight);
         container.appendChild(GameManager.renderer.domElement);
 
+        this.SetupCamera();
+
         this.background = new Background();
         this.sun = new Sun();
-
-        this.SetupCamera();
 
         // Set the sun as the default target
         this.cameraController.OnResetToDefault();

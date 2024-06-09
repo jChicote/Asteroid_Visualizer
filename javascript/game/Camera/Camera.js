@@ -17,7 +17,7 @@ class Camera extends GameObject {
     /*                              Lifecycle Methods                             */
     /* -------------------------------------------------------------------------- */
 
-    Start() {
+    Awake() {
         const gameObjectRegistry = GameManager.gameObjectRegistry;
         const cameraContract = new CameraContract();
 
