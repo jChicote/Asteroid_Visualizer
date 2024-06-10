@@ -8,6 +8,10 @@ class PlanetRings extends GameObject {
         super({ objectCode, renderedPlanet, materialConfigurationProvider });
     }
 
+    // --------------------------------------------------------------------------
+    //                            Lifecycle Methods
+    // --------------------------------------------------------------------------
+
     InitialiseFields(parameters) {
         super.InitialiseFields(parameters);
 
@@ -29,6 +33,10 @@ class PlanetRings extends GameObject {
     Update() {
         this.ring.position.copy(this.renderedPlanet.position);
     }
+
+    // --------------------------------------------------------------------------
+    //                                 Methods
+    // --------------------------------------------------------------------------
 
     RenderPlanetRings() {
         // Generate geometry

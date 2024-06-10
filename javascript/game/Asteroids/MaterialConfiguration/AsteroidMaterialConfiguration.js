@@ -1,14 +1,35 @@
 import * as THREE from "three";
-import { MaterialConfiguration } from "../../Base/MaterialConfiguration.js";
+import { MaterialConfiguration, TextureMaps } from "../../Base/MaterialConfiguration.js";
 
-class AsteroidMaterialConfiguration extends MaterialConfiguration {
+class AsteroidMaterialConfiguration1 extends MaterialConfiguration {
     constructor() {
         super();
 
-        this.key = "GeneralAsteroid"; // Until there is variations, a general material will be used.
+        this.key = "Asteroid_Variant1";
         this.defaultMaterial = new THREE.MeshBasicMaterial({ color: 0xd4d4d4 });
-        this.shaderConfiguration = null;
+        this.textureConfiguration = {
+            textureMaps: new TextureMaps({
+                albedoPath: "../../../../../images/Asteroids/asteroid_texture_1.jpg"
+            })
+        };
     }
 }
 
-export { AsteroidMaterialConfiguration };
+class AsteroidMaterialConfiguration2 extends MaterialConfiguration {
+    constructor() {
+        super();
+
+        this.key = "Asteroid_Variant2";
+        this.defaultMaterial = new THREE.MeshBasicMaterial({ color: 0xd4d4d4 });
+        this.textureConfiguration = {
+            textureMaps: new TextureMaps({
+                albedoPath: "../../../../../images/Asteroids/asteroid_texture_2.jpg"
+            })
+        };
+    }
+}
+
+export {
+    AsteroidMaterialConfiguration1,
+    AsteroidMaterialConfiguration2
+};

@@ -1,4 +1,7 @@
-import { AsteroidMaterialConfiguration } from "./Asteroids/MaterialConfiguration/AsteroidMaterialConfiguration.js";
+import {
+    AsteroidMaterialConfiguration2,
+    AsteroidMaterialConfiguration1
+} from "./Asteroids/MaterialConfiguration/AsteroidMaterialConfiguration.js";
 import { CometMaterialConfiguration } from "./Comets/MaterialConfiguration/CometMaterialConfiguration.js";
 import { DefaultMaterialConfiguration } from "./Entities/GameObject.js";
 import { EarthPlanetMaterialConfiguration } from "./Planets/MaterialConfiguration/EarthPlanetMaterialConfiguration.js";
@@ -37,7 +40,8 @@ class GameConfiguration {
         materialConfigurations.push(new NeptunePlanetMaterialConfiguration());
         materialConfigurations.push(new PlutoPlanetMaterialConfiguration());
 
-        materialConfigurations.push(new AsteroidMaterialConfiguration());
+        materialConfigurations.push(new AsteroidMaterialConfiguration1());
+        materialConfigurations.push(new AsteroidMaterialConfiguration2());
 
         materialConfigurations.push(new CometMaterialConfiguration());
 

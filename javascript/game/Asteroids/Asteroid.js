@@ -5,6 +5,7 @@ import { GameObject } from "../Entities/GameObject.js";
 import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
 import { MathHelper } from "../../utils/math-library.js";
 import { SolarSystemVisualizer } from "../../SolarSystemVisualizer.js";
+import { AsteroidModelProvider } from "./AsteroidModelProvider.js";
 
 class Asteroid extends GameObject {
     constructor(asteroidData, materialConfigurationProvider) {
@@ -16,7 +17,10 @@ class Asteroid extends GameObject {
 
         // Fields
         this.asteroidData = parameters.asteroidData;
-        this.materialConfiguration = parameters.materialConfigurationProvider.GetMaterialConfiguration("GeneralAsteroid");
+        this.materialConfigurations = [
+            parameters.materialConfigurationProvider.GetMaterialConfiguration("Asteroid_Variant1"),
+            parameters.materialConfigurationProvider.GetMaterialConfiguration("Asteroid_Variant2")
+        ];
         this.meanMotion = 0.0;
         this.orbitalPeriod = 0.0;
         this.renderedObject = {};
@@ -26,14 +30,18 @@ class Asteroid extends GameObject {
         this.asteroidState = new AsteroidState(parameters.asteroidData.meanAnomaly, 0);
         this.materialRenderer = {};
         this.orbitalMotion = new CelestialOrbitalMotionLogic();
+        this.modelProvider = new AsteroidModelProvider();
     }
+
+    // --------------------------------------------------------------------------
+    //                            Lifecycle Methods
+    // --------------------------------------------------------------------------
 
     Start() {
         this.orbitalPeriod = this.orbitalMotion.GetOrbitalPeriodInDays(this.asteroidData.semiMajorAxis);
         this.meanMotion = MathHelper.ConvertDegreesToRadians(this.asteroidData.meanMotion);
         this.timeStep = this.orbitalMotion.CalculateTimeStep(this.asteroidData.orbitalPeriod);
-        this.materialRenderer = new MaterialRenderer(this.materialConfiguration);
-        this.renderedObject = this.RenderAsteroid();
+        this.RenderAsteroid();
     }
 
     Update() {
@@ -43,18 +51,42 @@ class Asteroid extends GameObject {
 
         this.UpdateOrbitalState();
         this.SetAsteroidPosition(this.renderedObject);
+        this.RotateMesh();
+    }
+
+    // --------------------------------------------------------------------------
+    //                                  Methods
+    // --------------------------------------------------------------------------
+
+    GetRadius() {
+        // Default radius as many object have a no default radius in the data
+        return 0.25;
+    }
+
+    RotateMesh() {
+        // Artificial rotation applied to asteroids.
+        // In future work this can be improved to account for polar rotation.
+        this.renderedObject.rotation.y += 0.02;
     }
 
     RenderAsteroid() {
-        const mesh = new THREE.Mesh(
-            new THREE.SphereGeometry(this.GetRadius(), 32, 16),
-            this.materialRenderer.GetMaterial());
+        // Select and load material
+        const materialConfiguration = this.materialConfigurations[Math.floor(Math.random() * this.materialConfigurations.length)];
+        const materialRenderer = new MaterialRenderer(materialConfiguration);
+        const scale = this.GetRadius();
 
-        mesh.gameObject = this;
-        this.SetAsteroidPosition(mesh);
-        GameManager.scene.add(mesh);
+        this.modelProvider.GetAsteroidModelGeometry().then((geometry) => {
+            const mesh = new THREE.Mesh(
+                geometry,
+                materialRenderer.GetMaterial());
 
-        return mesh;
+            mesh.scale.set(scale, scale, scale);
+            mesh.gameObject = this;
+            this.SetAsteroidPosition(mesh);
+            GameManager.scene.add(mesh);
+
+            this.renderedObject = mesh;
+        });
     }
 
     SetAsteroidPosition(asteroid) {
@@ -68,10 +100,6 @@ class Asteroid extends GameObject {
             100);
 
         this.SetVector(asteroid, position);
-    }
-
-    GetRadius() {
-        return 0.3; // Default radius as many object have a no default radius in the data
     }
 
     UpdateOrbitalState() {

@@ -14,6 +14,10 @@ class AssetManager {
         this.textureAssets = [];
     }
 
+    // --------------------------------------------------------------------------
+    //                                 Methods
+    // --------------------------------------------------------------------------
+
     async PreLoadAssets() {
         const materialConfigurations = SolarSystemVisualizer.gameConfiguration.materialConfigurations;
         for (const configuration of materialConfigurations) {
