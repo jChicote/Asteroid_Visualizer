@@ -7,6 +7,10 @@ class TextureLoader {
         this.textureLoader = new THREE.TextureLoader();
     }
 
+    // --------------------------------------------------------------------------
+    //                                 Methods
+    // --------------------------------------------------------------------------
+
     async LoadTextureMaps(materialConfiguration) {
         if (ObjectValidator.IsValid(materialConfiguration.textureConfiguration) &&
             ObjectValidator.IsValid(materialConfiguration.textureConfiguration.textureMaps)) {

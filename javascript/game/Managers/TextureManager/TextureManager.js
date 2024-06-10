@@ -9,6 +9,10 @@ class TextureManager {
         this.textureAssets = assetManager.GetResources().textureAssets;
     }
 
+    // --------------------------------------------------------------------------
+    //                                 Methods
+    // --------------------------------------------------------------------------
+
     GetTextureAsset(key) {
         const texture = this.textureAssets.find(x => x.key === key);
         if (texture === null) {
