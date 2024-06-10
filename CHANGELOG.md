@@ -12,6 +12,9 @@ All notable changes to this project will be documented in this file.
 - Hover markers added for planet selection.
 - Refined orbit controls and relative positioning.
 - Included orbital path lines for each planet.
+- Added fbx loaders for comets and asteroids
+- Add model variations and rotations for Comets and Asteroids
+- Rescaled sun size
 
 ## [3.0.0] - 2024-01-05
 ### Added
