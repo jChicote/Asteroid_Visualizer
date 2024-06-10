@@ -63,12 +63,6 @@ class Asteroid extends GameObject {
         return 0.25;
     }
 
-    RotateMesh() {
-        // Artificial rotation applied to asteroids.
-        // In future work this can be improved to account for polar rotation.
-        this.renderedObject.rotation.y += 0.02;
-    }
-
     RenderAsteroid() {
         // Select and load material
         const materialConfiguration = this.materialConfigurations[Math.floor(Math.random() * this.materialConfigurations.length)];
@@ -87,6 +81,12 @@ class Asteroid extends GameObject {
 
             this.renderedObject = mesh;
         });
+    }
+
+    RotateMesh() {
+        // Artificial rotation applied to asteroids.
+        // In future work this can be improved to account for polar rotation.
+        this.renderedObject.rotation.y += 0.02;
     }
 
     SetAsteroidPosition(asteroid) {

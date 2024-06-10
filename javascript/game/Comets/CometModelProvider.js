@@ -1,14 +1,12 @@
 import { FBXLoader } from "three/addons/loaders/FBXLoader.js";
 
-// Tech debt DEV-166: This is a duplicate of the CometModelProvider
-class AsteroidModelProvider {
+// Tech debt DEV-166: This code is duplicate of the AsteroidModelProvider
+class CometModelProvider {
     constructor() {
         this.objectLocations = [
-            "../../../models/asteroid_1.fbx",
-            "../../../models/asteroid_2.fbx",
-            "../../../models/asteroid_3.fbx",
-            "../../../models/asteroid_4.fbx",
-            "../../../models/asteroid_5.fbx"
+            "../../../models/comet_2.fbx",
+            "../../../models/comet_3.fbx",
+            "../../../models/comet_1.fbx"
         ];
     }
 
@@ -16,7 +14,7 @@ class AsteroidModelProvider {
     //                                 Methods
     // --------------------------------------------------------------------------
 
-    GetAsteroidModelGeometry() {
+    GetCometModelGeometry() {
         // Randomly select an asteroid model location
         const selectedLocation = this.objectLocations[(Math.floor(Math.random() * this.objectLocations.length))];
 
@@ -38,4 +36,4 @@ class AsteroidModelProvider {
     }
 }
 
-export { AsteroidModelProvider };
+export { CometModelProvider };

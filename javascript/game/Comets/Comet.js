@@ -5,11 +5,16 @@ import { GameObject } from "../Entities/GameObject.js";
 import { MaterialRenderer } from "../Components/Visual/MaterialRenderer.js";
 import { MathHelper } from "../../utils/math-library.js";
 import { SolarSystemVisualizer } from "../../SolarSystemVisualizer.js";
+import { CometModelProvider } from "./CometModelProvider.js";
 
 class Comet extends GameObject {
     constructor(cometData, materialConfigurationProvider) {
         super({ cometData, materialConfigurationProvider });
     }
+
+    // --------------------------------------------------------------------------
+    //                            Lifecycle Methods
+    // --------------------------------------------------------------------------
 
     InitialiseFields(parameters) {
         super.InitialiseFields(parameters);
@@ -23,9 +28,12 @@ class Comet extends GameObject {
 
         // Components
         this.cometState = {};
-        this.materialConfiguration = parameters.materialConfigurationProvider.GetMaterialConfiguration("GeneralComet");
-        this.materialRenderer = {};
+        this.materialConfigurations = [
+            parameters.materialConfigurationProvider.GetMaterialConfiguration("Comet_Variant1"),
+            parameters.materialConfigurationProvider.GetMaterialConfiguration("Comet_Variant2")
+        ];
         this.orbitalMotion = {};
+        this.modelProvider = new CometModelProvider();
     }
 
     Start() {
@@ -34,8 +42,7 @@ class Comet extends GameObject {
         this.orbitalPeriod = this.orbitalMotion.GetOrbitalPeriodInDays(this.cometData.semiMajorAxis);
         this.meanMotion = MathHelper.ConvertDegreesToRadians(this.cometData.meanMotion);
         this.timeStep = this.orbitalMotion.CalculateTimeStep(this.orbitalPeriod);
-        this.materialRenderer = new MaterialRenderer(this.materialConfiguration);
-        this.renderedObject = this.Render();
+        this.Render();
     }
 
     Update() {
@@ -45,18 +52,41 @@ class Comet extends GameObject {
 
         this.UpdateOrbitalState();
         this.SetAsteroidPosition(this.renderedObject);
+        this.RotateMesh();
+    }
+
+    // --------------------------------------------------------------------------
+    //                                 Methods
+    // --------------------------------------------------------------------------
+
+    GetRadius() {
+        return 0.25; // Default radius as many object have a no default radius in the data
     }
 
     Render() {
-        const mesh = new THREE.Mesh(
-            new THREE.SphereGeometry(this.GetRadius(), 32, 16),
-            this.materialRenderer.GetMaterial());
+        // Select and load material
+        const materialConfiguration = this.materialConfigurations[Math.floor(Math.random() * this.materialConfigurations.length)];
+        const materialRenderer = new MaterialRenderer(materialConfiguration);
+        const scale = this.GetRadius();
 
-        mesh.gameObject = this;
-        this.SetAsteroidPosition(mesh);
-        GameManager.scene.add(mesh);
+        this.modelProvider.GetCometModelGeometry().then((geometry) => {
+            const mesh = new THREE.Mesh(
+                geometry,
+                materialRenderer.GetMaterial());
 
-        return mesh;
+            mesh.scale.set(scale, scale, scale);
+            mesh.gameObject = this;
+            this.SetAsteroidPosition(mesh);
+            GameManager.scene.add(mesh);
+
+            this.renderedObject = mesh;
+        });
+    }
+
+    RotateMesh() {
+        // Artificial rotation applied to asteroids.
+        // In future work this can be improved to account for polar rotation.
+        this.renderedObject.rotation.y += 0.02;
     }
 
     SetAsteroidPosition(comet) {
@@ -70,10 +100,6 @@ class Comet extends GameObject {
             100);
 
         this.SetVector(comet, position);
-    }
-
-    GetRadius() {
-        return 1; // Default radius as many object have a no default radius in the data
     }
 
     UpdateOrbitalState() {
