@@ -15,6 +15,7 @@ import { GameObserver } from "./Observers/GameObserver.js";
 import { GlobalState } from "./GlobalState.js";
 import { ObjectValidator } from "../utils/ObjectValidator.js";
 import { PlanetManager } from "./Planets/PlanetManager.js";
+import { PostProcessingWorkflow } from "./PostProcessing/PostProcessingWorkflow.js";
 import { ReactCanvasManager } from "../user-interface/manager/canvas-manager/ReactCanvasManager.js";
 import { ShaderManager } from "./Managers/ShaderManager/ShaderManager.js";
 import { Sun } from "./Sun/Sun.js";
@@ -23,7 +24,6 @@ import { TextureManager } from "./Managers/TextureManager/TextureManager.js";
 import { ThreeCanvasManager } from "./Managers/ThreeCanvasManager/ThreeCanvasManager.js";
 import { TimeControl } from "./Components/Time/TimeControl.js";
 import { TimeManager } from "./Managers/TimeManager/TimeManager.js";
-import { PostProcessingWorkflow } from "./PostProcessing/PostProcessingWorkflow.js";
 
 export class GameManager {
     static scene;
