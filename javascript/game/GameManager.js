@@ -15,6 +15,7 @@ import { GameObserver } from "./Observers/GameObserver.js";
 import { GlobalState } from "./GlobalState.js";
 import { ObjectValidator } from "../utils/ObjectValidator.js";
 import { PlanetManager } from "./Planets/PlanetManager.js";
+import { PostProcessingWorkflow } from "./PostProcessing/PostProcessingWorkflow.js";
 import { ReactCanvasManager } from "../user-interface/manager/canvas-manager/ReactCanvasManager.js";
 import { ShaderManager } from "./Managers/ShaderManager/ShaderManager.js";
 import { Sun } from "./Sun/Sun.js";
@@ -81,6 +82,7 @@ export class GameManager {
         // Initialise Camera
         this.camera = {};
         this.cameraController = {};
+        this.postProcessing = { };
 
         const eventMediator = this.serviceProvider.GetService(EventMediator);
 
@@ -103,13 +105,12 @@ export class GameManager {
         this.gameState.canUpdate = true;
     }
 
+    // IMPORTANT: Rendering is now handled within the PostProcessing Workflow
     Update() {
         GameManager.stats.begin(); // Only for debug performance purposes
 
         this.gameObjectManager.UpdateGameObjects();
         this.sun.Update();
-
-        GameManager.renderer.render(GameManager.scene, this.camera.GetControlledCamera());
 
         GameManager.stats.end(); // Only for debug performance purposes
     }
@@ -125,6 +126,11 @@ export class GameManager {
         container.appendChild(GameManager.renderer.domElement);
 
         this.SetupCamera();
+        this.postProcessing = new PostProcessingWorkflow(
+            this.camera.GetControlledCamera(),
+            GameManager.renderer,
+            GameManager.scene
+        );
 
         this.background = new Background();
         this.sun = new Sun();
@@ -137,10 +143,5 @@ export class GameManager {
         this.camera = new Camera();
         this.cameraController = new CameraController(this.camera, GameManager.renderer, this.gameState.cameraDefaultPosition);
         this.cameraRaycaster = new CameraRaycaster({ camera: this.camera });
-    }
-
-    SetupDebugHelpers() {
-        const axesHelper = new THREE.AxesHelper(30);
-        GameManager.scene.add(axesHelper);
     }
 }
