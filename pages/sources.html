@@ -17,7 +17,7 @@
         <!-- NAVIGATION BAR -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-grey-6 fixed-top">
             <div class="container vh-10">
-                <a class="navbar-brand" href="#">Asteroid Visualizer</a>
+                <a class="navbar-brand" href="#">Solar System Visualizer</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -34,7 +34,7 @@
                             <a class="nav-link" href="visualizer.html">Visualizer</a>
                         </li>
                         <li class="nav-item active">
-                            <a class="nav-link" href="#">Sources <span class="sr-only">(current)</a>
+                            <a class="nav-link" href="#">Sources <span class="sr-only">(current)</span></a>
                         </li>
                     </ul>
                 </div>
@@ -42,11 +42,50 @@
         </nav>
 
         <!-- PAGE CONTENT -->
-
+        <div class="container vh-100 d-flex flex-column justify-content-center">
+            <div class="row mb-5"></div>
+            <div class="row justify-content-center mb-3">
+                <div class="col-md-3 mb-3">
+                    <img src="../images/IconsAndLogos/Nasa_Logo.png" alt="Nasa Icon" class="img-fluid mx-auto d-block" width="320">
+                </div>
+                <div class="col-md-3 mb-3">
+                    <img src="../images/IconsAndLogos/React_Logo.png" alt="React Icon" class="img-fluid mx-auto d-block" width="220">
+                </div>
+                <div class="col-md-3 mb-3">
+                    <img src="../images/IconsAndLogos/ThreeJS_Logo.png" alt="ThreeJHS Icon" class="img-fluid mx-auto d-block" width="200">
+                </div>
+            </div>
+            <div class="row mb-5 justify-content-center">
+                <div class="card col-md-3 mb-3 mx-3">
+                    <div class="card-body text-left">
+                        <h1 class="mb-4 text-danger">Nasa</h1>
+                        <h5><a href="https://ssd-api.jpl.nasa.gov/doc/horizons.html">Horizons API</a></h5>
+                        <p>Used for getting planet data.</p>
+                        <h5><a href="https://ssd-api.jpl.nasa.gov/doc/sbdb_query.html">SBDB Query API</a></h5>
+                        <p>Used for getting asteroid and comet data.</p>
+                    </div>
+                </div>
+                <div class="card col-md-3 mb-3 mx-3">
+                    <div class="card-body text-left">
+                        <h1 class="mb-4 text-danger">React</h1>
+                        <h5><a href="https://react.dev/reference/react">Documentation</a></h5>
+                        <p>Used to create interfaces for the visualizer.</p>
+                    </div>
+                </div>
+                <div class="card col-md-3 mb-3 mx-3">
+                    <div class="card-body text-left">
+                        <h1 class="mb-4 text-danger">Three.js</h1>
+                        <h5><a href="https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene">Documentation</a></h5>
+                        <p>Library used to create graphics for visualizer.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-5"></div>
+        </div>
 
         <!-- FOOTER -->
         <footer class="fixed-bottom justify-content-center footer-vh bg-grey-6">
-            <p class="text-white h-100 p-2 no-margin">&copy; 2023 Jaiden Chicote. All rights reserved.</p>
+            <p class="text-white h-100 p-2 no-margin">&copy; 2024 Jaiden Chicote. Released under the GNU General License.</p>
         </footer>
     </div>
 
