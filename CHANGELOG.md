@@ -15,6 +15,8 @@ All notable changes to this project will be documented in this file.
 - Added fbx loaders for comets and asteroids
 - Add model variations and rotations for Comets and Asteroids
 - Rescaled sun size
+- Post-Processing is implemented
+- All other pages now have information
 
 ## [3.0.0] - 2024-01-05
 ### Added
