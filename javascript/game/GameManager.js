@@ -1,5 +1,4 @@
 import * as THREE from "three";
-import Stats from "stats.js";
 import { AsteroidManager } from "./Asteroids/AsteroidManager.js";
 import { Background } from "./Scene/Background/Background.js";
 import { Camera } from "./Camera/Camera.js";
@@ -43,11 +42,11 @@ export class GameManager {
             GameManager.scene = new THREE.Scene();
         }
 
-        if (!ObjectValidator.IsValid(GameManager.stats)) {
-            GameManager.stats = new Stats();
-            GameManager.stats.showPanel(1);
-            document.querySelector("#stats").append(GameManager.stats.dom);
-        }
+        // if (!ObjectValidator.IsValid(GameManager.stats)) {
+        //     GameManager.stats = new Stats();
+        //     GameManager.stats.showPanel(1);
+        //     document.querySelector("#stats").append(GameManager.stats.dom);
+        // }
 
         if (!ObjectValidator.IsValid(GameManager.gameObserver)) {
             GameManager.gameObserver = new GameObserver();
@@ -107,12 +106,12 @@ export class GameManager {
 
     // IMPORTANT: Rendering is now handled within the PostProcessing Workflow
     Update() {
-        GameManager.stats.begin(); // Only for debug performance purposes
+        // GameManager.stats.begin(); // Only for debug performance purposes
 
         this.gameObjectManager.UpdateGameObjects();
         this.sun.Update();
 
-        GameManager.stats.end(); // Only for debug performance purposes
+        // GameManager.stats.end(); // Only for debug performance purposes
     }
 
     /* -------------------------------------------------------------------------- */
