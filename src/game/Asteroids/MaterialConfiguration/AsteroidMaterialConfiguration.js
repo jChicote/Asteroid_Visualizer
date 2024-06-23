@@ -1,5 +1,7 @@
 import * as THREE from "three";
 import { MaterialConfiguration, TextureMaps } from "../../Base/MaterialConfiguration.js";
+import asteroid1Albedo from "../../../textures/Asteroids/asteroid_texture_1.jpg";
+import asteroid2Albedo from "../../../textures/Asteroids/asteroid_texture_2.jpg";
 
 class AsteroidMaterialConfiguration1 extends MaterialConfiguration {
     constructor() {
@@ -9,7 +11,7 @@ class AsteroidMaterialConfiguration1 extends MaterialConfiguration {
         this.defaultMaterial = new THREE.MeshBasicMaterial({ color: 0xd4d4d4 });
         this.textureConfiguration = {
             textureMaps: new TextureMaps({
-                albedoPath: "../../../../../images/Asteroids/asteroid_texture_1.jpg"
+                albedoPath: asteroid1Albedo
             })
         };
     }
@@ -23,7 +25,7 @@ class AsteroidMaterialConfiguration2 extends MaterialConfiguration {
         this.defaultMaterial = new THREE.MeshBasicMaterial({ color: 0xd4d4d4 });
         this.textureConfiguration = {
             textureMaps: new TextureMaps({
-                albedoPath: "../../../../../images/Asteroids/asteroid_texture_2.jpg"
+                albedoPath: asteroid2Albedo
             })
         };
     }
