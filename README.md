@@ -7,8 +7,8 @@ comets. This project is done with the power of Three.js for graphics and
 react for the visualizer's user interface.
 
 ### Project screenshots
-![Screenshot 1](images/ProjectScreenshots/screenshot-1.png "Screenshot 1")
-![Screenshot 2](images/ProjectScreenshots/screenshot-2.png "Screenshot 2")
-![Screenshot 3](images/ProjectScreenshots/screenshot-3.png "Screenshot 3")
-![Screenshot 4](images/ProjectScreenshots/screenshot-4.png "Screenshot 4")
+![Screenshot 1](public/images/ProjectScreenshots/screenshot-1.png "Screenshot 1")
+![Screenshot 2](public/images/ProjectScreenshots/screenshot-2.png "Screenshot 2")
+![Screenshot 3](public/images/ProjectScreenshots/screenshot-3.png "Screenshot 3")
+![Screenshot 4](public/images/ProjectScreenshots/screenshot-4.png "Screenshot 4")
 
