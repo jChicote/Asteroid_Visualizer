@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { DefaultPlanetColor } from "../../../shared/Enumerations/DefaultPlanetColor.js";
 import { MaterialConfiguration, TextureMaps } from "../../Base/MaterialConfiguration.js";
-import saturnAlbedo from "../../../../public/images/Planets/Saturn/saturn-albedo.jpg";
+import saturnAlbedo from "../../../textures/Planets/Saturn/saturn-albedo.jpg";
 
 class SaturnPlanetMaterialConfiguration extends MaterialConfiguration {
     constructor() {

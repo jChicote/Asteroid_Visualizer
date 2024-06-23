@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { DefaultPlanetColor } from "../../../shared/Enumerations/DefaultPlanetColor.js";
 import { MaterialConfiguration, TextureMaps } from "../../Base/MaterialConfiguration.js";
-import venusAlbedo from "../../../../public/images/Planets/Venus/venus-albedo.jpg";
+import venusAlbedo from "../../../textures/Planets/Venus/venus-atmosphere-albedo.jpg";
 
 class VenusPlanetMaterialConfiguration extends MaterialConfiguration {
     constructor() {

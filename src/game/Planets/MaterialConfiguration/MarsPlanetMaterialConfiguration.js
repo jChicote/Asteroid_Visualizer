@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { DefaultPlanetColor } from "../../../shared/Enumerations/DefaultPlanetColor.js";
 import { MaterialConfiguration, TextureMaps } from "../../Base/MaterialConfiguration.js";
-import marsAlbedo from "../../../../public/images/Planets/Mars/mars-albedo.jpg";
+import marsAlbedo from "../../../textures/Planets/Mars/mars-albedo.jpg";
 
 class MarsPlanetMaterialConfiguration extends MaterialConfiguration {
     constructor() {
