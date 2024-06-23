@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { DefaultPlanetColor } from "../../../shared/Enumerations/DefaultPlanetColor.js";
 import { MaterialConfiguration, TextureMaps } from "../../Base/MaterialConfiguration.js";
+import venusAlbedo from "../../../../public/images/Planets/Venus/venus-albedo.jpg";
 
 class VenusPlanetMaterialConfiguration extends MaterialConfiguration {
     constructor() {
@@ -11,7 +12,7 @@ class VenusPlanetMaterialConfiguration extends MaterialConfiguration {
         this.defaultMaterial = new THREE.MeshStandardMaterial({ color: DefaultPlanetColor.Venus });
         this.textureConfiguration = {
             textureMaps: new TextureMaps({
-                albedoPath: "../../../../../images/Planets/Venus/venus-atmosphere-albedo.jpg"
+                albedoPath: venusAlbedo
             })
         };
     }

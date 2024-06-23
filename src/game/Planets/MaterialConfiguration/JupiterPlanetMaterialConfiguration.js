@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { DefaultPlanetColor } from "../../../shared/Enumerations/DefaultPlanetColor.js";
 import { MaterialConfiguration, TextureMaps } from "../../Base/MaterialConfiguration.js";
+import jupiterAlbedo from "../../../../public/images/Planets/Jupiter/jupiter-albedo.jpg";
 
 class JupiterPlanetMaterialConfiguration extends MaterialConfiguration {
     constructor() {
@@ -11,7 +12,7 @@ class JupiterPlanetMaterialConfiguration extends MaterialConfiguration {
         this.defaultMaterial = new THREE.MeshStandardMaterial({ color: DefaultPlanetColor.Jupiter });
         this.textureConfiguration = {
             textureMaps: new TextureMaps({
-                albedoPath: "../../../../../images/Planets/Jupiter/jupiter-albedo.jpg"
+                albedoPath: jupiterAlbedo
             })
         };
     }

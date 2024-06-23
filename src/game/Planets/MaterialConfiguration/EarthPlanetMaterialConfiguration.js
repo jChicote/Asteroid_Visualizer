@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { DefaultPlanetColor } from "../../../shared/Enumerations/DefaultPlanetColor.js";
 import { MaterialConfiguration, TextureMaps } from "../../Base/MaterialConfiguration.js";
+import earthAlbedo from "../../../../public/images/Planets/Earth/earth-albedo.jpg";
 
 class EarthPlanetMaterialConfiguration extends MaterialConfiguration {
     constructor() {
@@ -12,8 +13,7 @@ class EarthPlanetMaterialConfiguration extends MaterialConfiguration {
         this.shaderConfiguration = null;
         this.textureConfiguration = {
             textureMaps: new TextureMaps({
-                albedoPath: "../../../../../images/Planets/Earth/earth-albedo.jpg",
-                specularPath: "../../../../../images/Planets/Earth/earth-specular.tif"
+                albedoPath: earthAlbedo
             }),
             metalness: 0.5,
             roughness: 0.7
