@@ -35,5 +35,9 @@ export default defineConfig({
             "flow",
             "three/addons/loaders/IFCLoader.js"
         ]
+    },
+    server: {
+        open: true,
+        host: true
     }
 });

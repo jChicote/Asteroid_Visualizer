@@ -4,9 +4,9 @@ import { FBXLoader } from "three/addons/loaders/FBXLoader.js";
 class CometModelProvider {
     constructor() {
         this.objectLocations = [
-            "../../../models/comet_2.fbx",
-            "../../../models/comet_3.fbx",
-            "../../../models/comet_1.fbx"
+            "../../../public/models/comet_1.fbx",
+            "../../../public/models/comet_2.fbx",
+            "../../../public/models/comet_3.fbx"
         ];
     }
 
