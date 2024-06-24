@@ -17,17 +17,25 @@ class SmallBodyApiGateway {
     }
 
     async GetAsteroidsAsync() {
-        const asteroidsUri = this.serverUrlProvider.Provide() + encodeURIComponent(this.sbdbApiUrl +
+        // const asteroidsUri = this.serverUrlProvider.Provide() + encodeURIComponent(this.sbdbApiUrl +
+        //     "fields=spkid,full_name,kind,neo,pha,e,a,q,i,om,w,ma,tp,per,n,ad,GM,diameter,pole,rot_per&" +
+        //     "sb-kind=a&sb-class=IEO"); // objects retrieved are from Atira class asteroids
+
+        const asteroidsUri = this.sbdbApiUrl +
             "fields=spkid,full_name,kind,neo,pha,e,a,q,i,om,w,ma,tp,per,n,ad,GM,diameter,pole,rot_per&" +
-            "sb-kind=a&sb-class=IEO"); // objects retrieved are from Atira class asteroids
+            "sb-kind=a&sb-class=IEO"; // objects retrieved are from Atira class asteroids
 
         return await this.InvokeGatewayAsync(asteroidsUri);
     }
 
     async GetCometsAsync() {
-        const cometsUri = this.serverUrlProvider.Provide() + encodeURIComponent(this.sbdbApiUrl +
+        // const cometsUri = this.serverUrlProvider.Provide() + encodeURIComponent(this.sbdbApiUrl +
+        //     "fields=spkid,full_name,kind,e,a,q,i,om,w,ma,tp,per,n,ad,GM,diameter,pole,rot_per&" +
+        //     "sb-kind=c&sb-class=HTC"); // objects retrieved are from Halley-type comets
+
+        const cometsUri = this.sbdbApiUrl +
             "fields=spkid,full_name,kind,e,a,q,i,om,w,ma,tp,per,n,ad,GM,diameter,pole,rot_per&" +
-            "sb-kind=c&sb-class=HTC"); // objects retrieved are from Halley-type comets
+            "sb-kind=c&sb-class=HTC"; // objects retrieved are from Halley-type comets
 
         return await this.InvokeGatewayAsync(cometsUri);
     }

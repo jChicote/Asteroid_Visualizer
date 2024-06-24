@@ -5,21 +5,33 @@ const express = require("express");
 const https = require("https");
 const app = express();
 const port = 8080;
-const host = "localhost";
+const host = "http://solarsystemvisualizer-test-bucket.s3-website-ap-southeast-2.amazonaws.com";
 
 const httpsAgent = new https.Agent({
     keepAlive: true,
     maxSockets: 50 // Adjust this based on your load requirements
 });
 
-// Enable CORS for all origins (not recommended for production)
+const allowedOrigins = [
+    "https://ssd-api.jpl.nasa.gov/sbdb_query.api/*",
+    "https://ssd-api.jpl.nasa.gov/sbdb_query.api"
+]
+
+app.use(cors({
+    origin: "https://ssd-api.jpl.nasa.gov/sbdb_query.api/*"
+}));
+
 app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*"); // Allow requests from any origin
-    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-    cors();
     next();
 });
+
+// app.use((req, res, next) => {
+//     res.header("Access-Control-Allow-Origin", "*"); // Allow requests from any origin
+//     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+//     res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+//     cors();
+//     next();
+// });
 
 app.get("/proxy", (req, res) => {
     const targetUrl = decodeURI(req.query.url);
