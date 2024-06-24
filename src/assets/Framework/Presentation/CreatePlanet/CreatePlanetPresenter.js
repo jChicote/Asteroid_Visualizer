@@ -1,12 +1,12 @@
 import { PlanetCodes } from "../../Infrastructure/Gateways/HorizonsApiGateway.js";
 import { ErrorResult, SuccessfulResult } from "../Common/PresentationResult.js";
 import { CreatePlanetViewModel } from "./CreatePlanetViewModel.js";
-import { ObjectMapper } from "../../../../shared/Infrastructure/Mapper/ObjectMapper.js";
+// import { ObjectMapper } from "../../../../shared/Infrastructure/Mapper/ObjectMapper.js";
 import { ServiceExtractor } from "../../../../shared/DependencyInjectionServices/Utilities/ServiceExtractor.js";
 
 export class CreatePlanetPresenter {
     constructor(serviceDependencies) {
-        this.mapper = ServiceExtractor.ObtainService(serviceDependencies, ObjectMapper);
+        this.mapper = ServiceExtractor.ObtainService(serviceDependencies, "ObjectMapper");
         this.result = {};
     }
 

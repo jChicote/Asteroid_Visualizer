@@ -1,7 +1,7 @@
 import { ServiceExtractor } from "../../../../shared/DependencyInjectionServices/Utilities/ServiceExtractor.js";
-import { ObjectMapper } from "../../../../shared/Infrastructure/Mapper/ObjectMapper.js";
+// import { ObjectMapper } from "../../../../shared/Infrastructure/Mapper/ObjectMapper.js";
 import { Planet } from "../../../Domain/Entities/Planet.js";
-import { PlanetRepository } from "../../../Domain/Repositories/PlanetRepository.js";
+// import { PlanetRepository } from "../../../Domain/Repositories/PlanetRepository.js";
 import { PlanetDto } from "../../Dtos/PlanetDto.js";
 import { CreatePlanetDataContainer } from "./CreatePlanetMapperConfiguration.js";
 
@@ -10,8 +10,8 @@ import { CreatePlanetDataContainer } from "./CreatePlanetMapperConfiguration.js"
  */
 export class CreatePlanetInteractor {
     constructor(serviceDependencies) {
-        this.mapper = ServiceExtractor.ObtainService(serviceDependencies, ObjectMapper);
-        this.planetRepository = ServiceExtractor.ObtainService(serviceDependencies, PlanetRepository);
+        this.mapper = ServiceExtractor.ObtainService(serviceDependencies, "ObjectMapper");
+        this.planetRepository = ServiceExtractor.ObtainService(serviceDependencies, "PlanetRepository");
     }
 
     async Handle(inputPort, presenter) {

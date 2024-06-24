@@ -1,8 +1,8 @@
 import { ServiceExtractor } from "../../../../shared/DependencyInjectionServices/Utilities/ServiceExtractor.js";
 import { GatewayViewModel } from "./Common/GatewayViewModels.js";
 import { textContentOptions } from "./Configuration/gateway-options.js";
-import { GatewayClient } from "./GatewayClient.js";
-import { HorizonsApiUriProvider } from "./Providers/HorizonsApiUriProvider.js";
+// import { GatewayClient } from "./GatewayClient.js";
+// import { HorizonsApiUriProvider } from "./Providers/HorizonsApiUriProvider.js";
 
 export const PlanetCodes = {
     Mercury: "199",
@@ -25,8 +25,8 @@ const HTTPMethods = {
 
 export class HorizonsApiGateway {
     constructor(serviceDependencies) {
-        this.gatewayClient = ServiceExtractor.ObtainService(serviceDependencies, GatewayClient);
-        this.uriProvider = ServiceExtractor.ObtainService(serviceDependencies, HorizonsApiUriProvider);
+        this.gatewayClient = ServiceExtractor.ObtainService(serviceDependencies, "GatewayClient");
+        this.uriProvider = ServiceExtractor.ObtainService(serviceDependencies, "HorizonsApiUriProvider");
     }
 
     async GetPlanetEphemerisData(planetCode) {

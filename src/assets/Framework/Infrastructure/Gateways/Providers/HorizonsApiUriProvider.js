@@ -1,9 +1,9 @@
 import { ServiceExtractor } from "../../../../../shared/DependencyInjectionServices/Utilities/ServiceExtractor.js";
-import { ProxyServerUrlProvider } from "./ProxyServerUrlProvider.js";
+// import { ProxyServerUrlProvider } from "./ProxyServerUrlProvider.js";
 
 export class HorizonsApiUriProvider {
     constructor(serviceDependencies) {
-        this.serverUrlProvider = ServiceExtractor.ObtainService(serviceDependencies, ProxyServerUrlProvider);
+        this.serverUrlProvider = ServiceExtractor.ObtainService(serviceDependencies, "ProxyServerUrlProvider");
     }
 
     Provide(planetCode) {

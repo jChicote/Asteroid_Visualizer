@@ -14,6 +14,6 @@ export class ServiceExtractor {
     }
 
     static FindService(injectedDependencies, classType) {
-        return injectedDependencies.find((dependency) => dependency.name === classType.name).service;
+        return injectedDependencies.find((dependency) => dependency.name === classType).service;
     }
 }

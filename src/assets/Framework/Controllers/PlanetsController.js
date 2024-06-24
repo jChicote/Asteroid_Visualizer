@@ -2,16 +2,16 @@ import { CreatePlanetInputPort } from "../../Application/UseCases/CreatePlanet/C
 import { CreatePlanetPresenter } from "../Presentation/CreatePlanet/CreatePlanetPresenter.js";
 import { GetPlanetsInputPort } from "../../Application/UseCases/GetPlanets/GetPlanetsInputPort.js";
 import { GetPlanetsPresenter } from "../Presentation/GetPlanets/GetPlanetsPresenter.js";
-import { PlanetObserver } from "../../../game/Observers/PlanetObserver.js";
-import { PlanetsAdapter } from "../../InterfaceAdapters/Controllers/PlanetsAdapter.js";
+// import { PlanetObserver } from "../../../game/Observers/PlanetObserver.js";
+// import { PlanetsAdapter } from "../../InterfaceAdapters/Controllers/PlanetsAdapter.js";
 import { ServiceExtractor } from "../../../shared/DependencyInjectionServices/Utilities/ServiceExtractor.js";
-import { ServiceProvider } from "../../../shared/DependencyInjectionServices/ServiceProvider.js";
+// import { ServiceProvider } from "../../../shared/DependencyInjectionServices/ServiceProvider.js";
 
 export class PlanetsController {
     constructor(serviceDependencies) {
-        this.serviceProvider = ServiceExtractor.ObtainService(serviceDependencies, ServiceProvider);
-        this.planetAdapter = ServiceExtractor.ObtainService(serviceDependencies, PlanetsAdapter);
-        this.planetObserver = ServiceExtractor.ObtainService(serviceDependencies, PlanetObserver);
+        this.serviceProvider = ServiceExtractor.ObtainService(serviceDependencies, "ServiceProvider");
+        this.planetAdapter = ServiceExtractor.ObtainService(serviceDependencies, "PlanetsAdapter");
+        this.planetObserver = ServiceExtractor.ObtainService(serviceDependencies, "PlanetObserver");
     }
 
     async CreatePlanetAsync(query) {

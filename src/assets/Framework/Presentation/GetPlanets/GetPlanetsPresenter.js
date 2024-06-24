@@ -1,11 +1,11 @@
 import { GetPlanetsViewModel, PlanetViewModel } from "./GetPlanetsViewModel.js";
 import { SuccessfulResult } from "../Common/PresentationResult.js";
-import { ObjectMapper } from "../../../../shared/Infrastructure/Mapper/ObjectMapper.js";
+// import { ObjectMapper } from "../../../../shared/Infrastructure/Mapper/ObjectMapper.js";
 import { ServiceExtractor } from "../../../../shared/DependencyInjectionServices/Utilities/ServiceExtractor.js";
 
 export class GetPlanetsPresenter {
     constructor(serviceDependencies) {
-        this.mapper = ServiceExtractor.ObtainService(serviceDependencies, ObjectMapper);
+        this.mapper = ServiceExtractor.ObtainService(serviceDependencies, "ObjectMapper");
         this.result = {};
     }
 

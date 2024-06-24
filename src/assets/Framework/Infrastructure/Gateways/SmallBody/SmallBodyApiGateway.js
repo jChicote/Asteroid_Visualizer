@@ -1,17 +1,17 @@
 import { ServiceExtractor } from "../../../../../shared/DependencyInjectionServices/Utilities/ServiceExtractor.js";
-import { ObjectMapper } from "../../../../../shared/Infrastructure/Mapper/ObjectMapper.js";
+// import { ObjectMapper } from "../../../../../shared/Infrastructure/Mapper/ObjectMapper.js";
 import { GatewayViewModel } from "../Common/GatewayViewModels.js";
 import { HTTPMethods, textContentOptions } from "../Configuration/gateway-options.js";
-import { GatewayClient } from "../GatewayClient.js";
-import { ProxyServerUrlProvider } from "../Providers/ProxyServerUrlProvider.js";
+// import { GatewayClient } from "../GatewayClient.js";
+// import { ProxyServerUrlProvider } from "../Providers/ProxyServerUrlProvider.js";
 import { SmallBodyResponseContainer } from "./SmallBodyApiGatewayMapperConfiguration.js";
 import { SmallCelestialBodyViewModel } from "./SmallCelestialBodyViewModel.js";
 
 class SmallBodyApiGateway {
     constructor(serviceDependencies) {
-        this.gatewayClient = ServiceExtractor.ObtainService(serviceDependencies, GatewayClient);
-        this.mapper = ServiceExtractor.ObtainService(serviceDependencies, ObjectMapper);
-        this.serverUrlProvider = ServiceExtractor.ObtainService(serviceDependencies, ProxyServerUrlProvider);
+        this.gatewayClient = ServiceExtractor.ObtainService(serviceDependencies, "GatewayClient");
+        this.mapper = ServiceExtractor.ObtainService(serviceDependencies, "ObjectMapper");
+        this.serverUrlProvider = ServiceExtractor.ObtainService(serviceDependencies, "ProxyServerUrlProvider");
 
         this.sbdbApiUrl = "https://ssd-api.jpl.nasa.gov/sbdb_query.api?";
     }
