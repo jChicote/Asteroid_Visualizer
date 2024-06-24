@@ -36,6 +36,7 @@ export default defineConfig({
             "three/addons/loaders/IFCLoader.js"
         ]
     },
+    publicDir: "./public",
     server: {
         open: true,
         host: true

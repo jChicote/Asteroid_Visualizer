@@ -1,7 +1,5 @@
 import * as THREE from "three";
 import { ShaderConfiguration } from "../Base/ShaderConfiguration.js";
-import vertexShader from "../../shaders/Sun/Sun.vertex.glsl";
-import fragmentShader from "../../shaders/Sun/Sun.fragment.glsl";
 
 class SunMaterialConfiguration {
     constructor() {
@@ -9,8 +7,8 @@ class SunMaterialConfiguration {
         this.defaultMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
         this.shaderConfiguration = new ShaderConfiguration(
             this.key,
-            fragmentShader,
-            vertexShader,
+            "../shaders/Sun/Sun.fragment.glsl",
+            "../shaders/Sun/Sun.vertex.glsl",
             {
                 color: { value: new THREE.Color(0xff0000) },
                 fresnelBias: { value: 0.1 },
