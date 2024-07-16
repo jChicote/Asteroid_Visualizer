@@ -10,9 +10,11 @@ export class GatewayWebClient {
 
                 if (options.body) {
                     fetchOptions.body = JSON.stringify(options.body);
-                    fetchOptions.headers["Content-Type"] = "application/json";
-                    fetchOptions.headers.Accept = "application/json";
-                    fetchOptions.headers["Access-Control-Allow-Origin"] = "https://www.solarsystemvisualizer.com";
+                    fetchOptions.headers = {
+                        "Content-Type": "application/json",
+                        Accept: "application/json",
+                        "Access-Control-Allow-Origin": "*"
+                    };
                 }
 
                 const response = await fetch(url, fetchOptions);
@@ -20,7 +22,7 @@ export class GatewayWebClient {
                 // Compose the response object
                 const responseObject = {
                     ResponseStatus: response.status,
-                    responseText: response.json()
+                    responseText: await response.json()
                 };
 
                 resolve(responseObject);
