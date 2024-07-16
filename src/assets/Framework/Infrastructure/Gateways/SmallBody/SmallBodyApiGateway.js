@@ -9,7 +9,7 @@ import { SmallCelestialBodyViewModel } from "./SmallCelestialBodyViewModel.js";
 
 class SmallBodyApiGateway {
     constructor(serviceDependencies) {
-        this.gatewayClient = ServiceExtractor.ObtainService(serviceDependencies, "GatewayClient");
+        this.gatewayClient = ServiceExtractor.ObtainService(serviceDependencies, "GatewayWebClient");
         this.mapper = ServiceExtractor.ObtainService(serviceDependencies, "ObjectMapper");
         this.serverUrlProvider = ServiceExtractor.ObtainService(serviceDependencies, "ProxyServerUrlProvider");
 

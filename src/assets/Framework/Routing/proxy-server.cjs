@@ -12,26 +12,30 @@ const httpsAgent = new https.Agent({
     maxSockets: 50 // Adjust this based on your load requirements
 });
 
-const allowedOrigins = [
-    "https://ssd-api.jpl.nasa.gov/sbdb_query.api/*",
-    "https://ssd-api.jpl.nasa.gov/sbdb_query.api"
-]
+const allowedOrigins = ["*"];
 
+// Configure CORS to allow only GET requests from the specified origins
 app.use(cors({
-    origin: "https://ssd-api.jpl.nasa.gov/sbdb_query.api/*"
+    origin: function(origin, callback){
+        // allow requests with no origin
+        // (like mobile apps or curl requests)
+        if(!origin) return callback(null, true);
+        if(allowedOrigins.indexOf(origin) === -1){
+            var msg = 'The CORS policy for this site does not ' +
+                'allow access from the specified Origin.';
+            return callback(new Error(msg), false);
+        }
+        return callback(null, true);
+    },
+    methods: ['GET', 'OPTIONS'] // Restrict to GET requests only
 }));
+
+// Handle OPTIONS requests for preflight
+app.options('*', cors({ origin: allowedOrigins }));
 
 app.use((req, res, next) => {
     next();
 });
-
-// app.use((req, res, next) => {
-//     res.header("Access-Control-Allow-Origin", "*"); // Allow requests from any origin
-//     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-//     res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-//     cors();
-//     next();
-// });
 
 app.get("/proxy", (req, res) => {
     const targetUrl = decodeURI(req.query.url);
@@ -43,17 +47,17 @@ app.get("/proxy", (req, res) => {
     https.get(targetUrl, options, (responseFromTarget) => {
         console.log(targetUrl);
 
-        if (responseFromTarget.statusCode !== 200) {
+        if (responseFromTarget.statusCode!== 200) {
             console.error(`Error: ${responseFromTarget.statusCode} ${responseFromTarget.statusMessage}`);
             res.status(responseFromTarget.statusCode).send(`Error: ${responseFromTarget.statusCode} ${responseFromTarget.statusMessage}`);
             return;
         }
 
         responseFromTarget.pipe(res);
+    }).on("error", (error) => {
+        console.log(`Error: ${error}`);
+        res.status(500).send(`Error: ${error.message}`);
     });
-}).on("error", (error) => {
-    console.log(`Error: ${error}`);
-    res.status(500).send(`Error: ${error.message}`);
 });
 
 app.listen(port, host, () => {

@@ -25,7 +25,7 @@ const HTTPMethods = {
 
 export class HorizonsApiGateway {
     constructor(serviceDependencies) {
-        this.gatewayClient = ServiceExtractor.ObtainService(serviceDependencies, "GatewayClient");
+        this.gatewayClient = ServiceExtractor.ObtainService(serviceDependencies, "GatewayWebClient");
         this.uriProvider = ServiceExtractor.ObtainService(serviceDependencies, "HorizonsApiUriProvider");
     }
 

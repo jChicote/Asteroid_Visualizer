@@ -7,7 +7,7 @@ import { PlanetsAdapter } from "../../InterfaceAdapters/Controllers/PlanetsAdapt
 import { SmallCelestialObjectAdapter } from "../../InterfaceAdapters/Controllers/SmallCelestialObjectAdapter.js";
 import { PlanetsController } from "../Controllers/PlanetsController.js";
 import { SmallCelestialObjectsController } from "../Controllers/SmallCelestialObjectsController.js";
-import { GatewayClient } from "../Infrastructure/Gateways/GatewayClient.js";
+// import { GatewayClient } from "../Infrastructure/Gateways/GatewayWebClient.js";
 import { HorizonsApiGateway } from "../Infrastructure/Gateways/HorizonsApiGateway.js";
 import { HorizonsApiUriProvider } from "../Infrastructure/Gateways/Providers/HorizonsApiUriProvider.js";
 import { ProxyServerUrlProvider } from "../Infrastructure/Gateways/Providers/ProxyServerUrlProvider.js";
@@ -27,6 +27,7 @@ import { GetPlanetsConfiguration } from "../Presentation/GetPlanets/GetPlanetsCo
 import { GetPlanetsPresenter } from "../Presentation/GetPlanets/GetPlanetsPresenter.js";
 import { GetPotentiallyHazardousAsteroidsMapperConfiguration } from "../Presentation/GetPotentiallyHazardousAsteroids/GetPotentiallyHazardousAsteroidsMapperConfiguration.js";
 import { GetPotentiallyHazardousAsteroidsPresenter } from "../Presentation/GetPotentiallyHazardousAsteroids/GetPotentiallyHazardousAsteroidsPresenter.js";
+import { GatewayWebClient } from "../Infrastructure/Gateways/GatewayWebClient.js";
 
 /**
  * Registers all the dependencies from the backend application.
@@ -76,9 +77,10 @@ function RegisterGateways(container) {
     container.RegisterService(ProxyServerUrlProvider);
     container.RegisterService(HorizonsApiUriProvider, { ProxyServerUrlProvider });
 
-    container.RegisterService(GatewayClient);
-    container.RegisterService(HorizonsApiGateway, { GatewayClient, HorizonsApiUriProvider });
-    container.RegisterService(SmallBodyApiGateway, { GatewayClient, ProxyServerUrlProvider, ObjectMapper });
+    // container.RegisterService(GatewayClient); // This registers the old GatewayClient using XMLHttpRequest to a proxy
+    container.RegisterService(GatewayWebClient);
+    container.RegisterService(HorizonsApiGateway, { GatewayWebClient, HorizonsApiUriProvider });
+    container.RegisterService(SmallBodyApiGateway, { GatewayWebClient, ProxyServerUrlProvider, ObjectMapper });
 }
 
 export function ConfigureFrameworkMapperConfigurations(mapper) {
