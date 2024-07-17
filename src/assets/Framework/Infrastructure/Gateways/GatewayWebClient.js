@@ -4,18 +4,14 @@ export class GatewayWebClient {
         return new Promise(async (resolve, reject) => {
             try {
                 const fetchOptions = {
-                    method: method,
-                    headers: options.headers || {}
-                };
-
-                if (options.body) {
-                    fetchOptions.body = JSON.stringify(options.body);
-                    fetchOptions.headers = {
+                    method,
+                    headers: options.headers || {
                         "Content-Type": "application/json",
-                        Accept: "application/json",
-                        "Access-Control-Allow-Origin": "*"
-                    };
-                }
+                        "Access-Control-Allow-Origin": "http://127.0.0.1:5173",
+                        "Access-Control-Allow-Headers": "*"
+                    },
+                    body: JSON.stringify(options.body)
+                };
 
                 const response = await fetch(url, fetchOptions);
 
