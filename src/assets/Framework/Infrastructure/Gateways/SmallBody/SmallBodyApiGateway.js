@@ -1,15 +1,12 @@
 import { ServiceExtractor } from "../../../../../shared/DependencyInjectionServices/Utilities/ServiceExtractor.js";
-// import { ObjectMapper } from "../../../../../shared/Infrastructure/Mapper/ObjectMapper.js";
 import { GatewayViewModel } from "../Common/GatewayViewModels.js";
-import { hostUrl, HTTPMethods, textContentOptions } from "../Configuration/gateway-options.js";
-// import { GatewayClient } from "../GatewayClient.js";
-// import { ProxyServerUrlProvider } from "../Providers/ProxyServerUrlProvider.js";
+import { hostUrl } from "../Configuration/gateway-options.js";
 import { SmallBodyResponseContainer } from "./SmallBodyApiGatewayMapperConfiguration.js";
 import { SmallCelestialBodyViewModel } from "./SmallCelestialBodyViewModel.js";
 
 class SmallBodyApiGateway {
     constructor(serviceDependencies) {
-        this.gatewayClient = ServiceExtractor.ObtainService(serviceDependencies, "GatewayWebClient");
+        this.gatewayClient = ServiceExtractor.ObtainService(serviceDependencies, "GatewayClient");
         this.mapper = ServiceExtractor.ObtainService(serviceDependencies, "ObjectMapper");
         this.serverUrlProvider = ServiceExtractor.ObtainService(serviceDependencies, "ProxyServerUrlProvider");
 
@@ -17,25 +14,19 @@ class SmallBodyApiGateway {
     }
 
     async GetAsteroidsAsync() {
-        // const asteroidsUri = this.serverUrlProvider.Provide() + encodeURIComponent(this.sbdbApiUrl +
-        //     "fields=spkid,full_name,kind,neo,pha,e,a,q,i,om,w,ma,tp,per,n,ad,GM,diameter,pole,rot_per&" +
-        //     "sb-kind=a&sb-class=IEO"); // objects retrieved are from Atira class asteroids
-
         const asteroidsUri = this.sbdbApiUrl +
-            "fields=spkid,full_name,kind,neo,pha,e,a,q,i,om,w,ma,tp,per,n,ad,GM,diameter,pole,rot_per&" +
-            "sb-kind=a&sb-class=IEO"; // objects retrieved are from Atira class asteroids
+            encodeURIComponent(
+                "fields=spkid,full_name,kind,neo,pha,e,a,q,i,om,w,ma,tp,per,n,ad,GM,diameter,pole,rot_per&" +
+                "sb-kind=a&sb-class=IEO"); // objects retrieved are from Atira class asteroids
 
         return await this.InvokeGatewayAsync(asteroidsUri);
     }
 
     async GetCometsAsync() {
-        // const cometsUri = this.serverUrlProvider.Provide() + encodeURIComponent(this.sbdbApiUrl +
-        //     "fields=spkid,full_name,kind,e,a,q,i,om,w,ma,tp,per,n,ad,GM,diameter,pole,rot_per&" +
-        //     "sb-kind=c&sb-class=HTC"); // objects retrieved are from Halley-type comets
-
         const cometsUri = this.sbdbApiUrl +
-            "fields=spkid,full_name,kind,e,a,q,i,om,w,ma,tp,per,n,ad,GM,diameter,pole,rot_per&" +
-            "sb-kind=c&sb-class=HTC"; // objects retrieved are from Halley-type comets
+            encodeURIComponent(
+                "fields=spkid,full_name,kind,e,a,q,i,om,w,ma,tp,per,n,ad,GM,diameter,pole,rot_per&" +
+                "sb-kind=c&sb-class=HTC"); // objects retrieved are from Halley-type comets
 
         return await this.InvokeGatewayAsync(cometsUri);
     }
@@ -43,17 +34,17 @@ class SmallBodyApiGateway {
     async InvokeGatewayAsync(uri) {
         const apiUrl = `${hostUrl}?apiUrl=${uri}`;
 
-        const response = await this.gatewayClient.SendAsync(HTTPMethods.GET, uri, textContentOptions, true);
+        console.log(window.location.host);
 
+        const response = await this.gatewayClient.SendAsync(apiUrl);
         if (response.status === 200) {
-            const content = JSON.parse(response.content);
-            const contentData = Array.from(content.data);
+            const contentData = Array.from(response.content.data);
             const smallCelestialBodies = [];
 
             for (const smallBody of contentData) {
                 smallCelestialBodies.push(
                     this.mapper.Map(
-                        new SmallBodyResponseContainer(this.ReassignContentDataKeys(content.fields, smallBody)),
+                        new SmallBodyResponseContainer(this.ReassignContentDataKeys(response.content.fields, smallBody)),
                         SmallCelestialBodyViewModel));
             }
 

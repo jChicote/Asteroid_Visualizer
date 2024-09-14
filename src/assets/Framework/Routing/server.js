@@ -7,8 +7,6 @@ app.use(cors());
 
 app.get("/api/nasa", async (req, res) => {
     const { apiUrl } = req.query;
-    console.log(apiUrl);
-
     try {
         // Fetch data
         const response = await fetch(apiUrl);
@@ -17,8 +15,9 @@ app.get("/api/nasa", async (req, res) => {
         }
 
         const data = await response.json();
-        res.json(data);
+        return res.json(data);
     } catch (error) {
+        console.log(error);
         return res.status(500).json({ error: "Error fetching data from API" });
     }
 });
