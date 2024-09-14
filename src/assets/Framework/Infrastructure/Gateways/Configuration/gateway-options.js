@@ -1,3 +1,5 @@
+export const hostUrl = "http://localhost:80/api/nasa"; // This is temporary. Point Url to AWS server instance??
+
 export const textContentOptions = [
     { name: "Authorization", value: "Bearer YOUR_ACCESS_TOKEN" },
     { name: "Content-Type", value: "text/plain" }

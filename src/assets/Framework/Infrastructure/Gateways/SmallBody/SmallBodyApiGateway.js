@@ -1,7 +1,7 @@
 import { ServiceExtractor } from "../../../../../shared/DependencyInjectionServices/Utilities/ServiceExtractor.js";
 // import { ObjectMapper } from "../../../../../shared/Infrastructure/Mapper/ObjectMapper.js";
 import { GatewayViewModel } from "../Common/GatewayViewModels.js";
-import { HTTPMethods, textContentOptions } from "../Configuration/gateway-options.js";
+import { hostUrl, HTTPMethods, textContentOptions } from "../Configuration/gateway-options.js";
 // import { GatewayClient } from "../GatewayClient.js";
 // import { ProxyServerUrlProvider } from "../Providers/ProxyServerUrlProvider.js";
 import { SmallBodyResponseContainer } from "./SmallBodyApiGatewayMapperConfiguration.js";
@@ -41,6 +41,8 @@ class SmallBodyApiGateway {
     }
 
     async InvokeGatewayAsync(uri) {
+        const apiUrl = `${hostUrl}?apiUrl=${uri}`;
+
         const response = await this.gatewayClient.SendAsync(HTTPMethods.GET, uri, textContentOptions, true);
 
         if (response.status === 200) {
