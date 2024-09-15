@@ -1,6 +1,10 @@
 
 /* GENERAL STYLES */
 
+.scrollable-container {
+    overflow: auto;
+}
+
 .spacer {
     flex: 1;
     height: 100%;
@@ -38,13 +42,15 @@
 
 /* BACKGROUND STYLES */
 
+.bg-grey-6{
+    background-color: #141418;
+
+}
+
+/* Old background colors */
 
 .bg-dark-maroon-black {
     background-color: #0E0A0A;
-}
-
-.bg-dark-maroon {
-    background-color: #3D0000;
 }
 
 .bg-maroon {
@@ -73,8 +79,36 @@
 
 /* DEBUG GUI */
 
-#gui {
+#debug-gui {
   position: absolute;
   top: 60px;
   right: 2rem;
+}
+
+#stats {
+    position: absolute;
+    top: 60px;
+    left: 2rem;
+}
+
+#navbar {
+    opacity: 1;
+    transition: opacity 0.5s ease;
+    pointer-events: all;
+}
+
+#footer {
+    opacity: 1;
+    transition: opacity 1s ease;
+    pointer-events: all;
+}
+
+/* VISUALIZER CANVAS */
+
+#root {
+    position: fixed;
+    height: auto;
+    width: auto;
+    top: 0;
+    bottom: 0;
 }

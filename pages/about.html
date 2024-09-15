@@ -4,20 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Asteroid Visualizer - About</title>
-    
+
     <link rel ="stylesheet" href="../css/general.css">
     <link rel ="stylesheet" href="../css/menu.css">
 
     <!-- Bootstrap Stylesheets -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
-<body class="text-center">
-    <div class="bg-dark-maroon-black cover-container min-vh-100 h-100 flex-column">
-       
+<body class="text-center bg-dark-maroon-black">
+    <div class="cover-container min-vh-100 h-100 flex-column">
+
         <!-- NAVIGATION BAR -->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark-maroon fixed-top">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-grey-6 fixed-top">
             <div class="container">
-                <a class="navbar-brand" href="#">Asteroid Visualizer</a>
+                <a class="navbar-brand" href="../index.html">Solar System Visualizer</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -28,7 +28,7 @@
                             <a class="nav-link" href="../index.html">Home</span></a>
                         </li>
                         <li class="nav-item active">
-                            <a class="nav-link" href="#">About <span class="sr-only">(current)</a>
+                            <a class="nav-link" href="#">About <span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="visualizer.html">Visualizer</a>
@@ -42,11 +42,72 @@
         </nav>
 
         <!-- PAGE CONTENT -->
+        <div class="container content-class mt-5 bg-dark-maroon-black scrollable-container">
+            <h2 class="text-left py-4 pt-5 px-5 text-danger">Purpose and Inspiration</h2>
+            <p class="text-left px-5 text-light">
+                This started with taking 3 different areas of interest and making something out of it. At the
+                intersection of 'Web', 'NASA', and 'Asteroids', I found inspiration to create an asteroid visualizer
+                using Three.js for WebGL-based graphics. The primary objective was to utilize NASA APIs to collect data
+                on asteroids and comets, and then integrate them into a simulated solar system. This visualization
+                serves to illustrate the orbits and density of these celestial bodies as they orbit the Sun, providing
+                a sound exploration of our cosmic neighborhood.
+            </p>
+            <h2 class="text-left py-4 px-5 text-danger">Changes to the project</h2>
+            <p class="text-left px-5 text-light">
+                Although my initial goal was to visualize the density of asteroids within the scene, I encountered
+                performance issues due to the impact caused by a dense cluster of objects. This challenge can be
+                addressed through better design, instanced meshes, and low-poly models. Consequently, I had to limit
+                the visualizer to displaying only Atira and Halley-class celestial objects. This led me to revise the
+                presentation to resemble solar system visualizers like NASA's 'Eyes on the Solar System' and other
+                simulators with greater fidelity than my project.
+            </p>
+            <p class="text-left px-5 text-light">
+                Additionally, throughout the project development, I faced time constraints that required me to classify
+                any additional scope creep, fixes, and cosmetic issues as technical debt. Therefore, the direction of
+                my project was influenced by both performance considerations and time constraints.
+            </p>
+            <h2 class="text-left py-4 px-5 text-danger">Possible Future Development</h2>
+            <ul class="text-left px-5 text-light">
+                <li><b>Sound and Audio</b> - Adding ambient royalty free soundtracks to the visualizer. This was to be originally
+                    implemented but will need to conform with changes with the AudioContext with chrome.</li>
+                <li><b>Mesh Optimisation</b> - Improving the existing mesh handling setup to handle higher volumes of celestial
+                    bodies.</li>
+                <li><b>Atmospherics</b> - For planets like Venus and the Earth, some minor shader based atmospherics
+                    simulate light through an artificial atmosphere.</li>
+                <li><b>Information Window for Planets, Asteroids and Comets</b> - A mini information window will appear after
+                    the selection of a celestial body.</li>
+                <li><b>Inclusion of interstellar objects</b> - Reveal orbital paths and approximate object features of
+                    objects originating outside the solar system.</li>
+                <li><b>Expansion to simulate other small-body objects</b> - With improved optimisation, the visualizer can
+                    extend to reveal other celestial objects.</li>
+            </ul>
+            <h2 class="text-left py-4 px-5 text-danger">Known Issues</h2>
+            <ul class="text-left px-5 text-light">
+                <li><b>Zooming whilst on planet</b> - When scrolling / zooming on a planet while the time travel is moving either
+                    backwards or forwards. The zoom won't be able to keep up with the planet and will zoom out to max distance
+                    from the planet.</li>
+                <li><b>Low detail for Pluto's orbit ring</b> - The same calculation for the orbital ring is used for each planet.
+                    The further they go out the more stepped each of the ring segments are. This causes the ring line to not be
+                    aligned to the planet.</li>
+                <li><b>Extreme lighting on smaller planets</b> - The lighting button activated on smaller planets can be extremely bright.
+                    This is caused by the relative distance to the planet and the light intensity.</li>
+                <li><b>Camera snapping during travel</b> - When attempting to orient camera view whilst travelling to a planet.
+                    This will cause the camera view to snap between positions.</li>
+            </ul>
+            <h2 class="text-left py-4 px-5 text-danger">Limitations</h2>
+            <ul class="text-left px-5 text-light">
+                <li><b>Real-time object positioning</b> - To avoid cost of running a server on an EC2 instance. A snapshot of the data
+                    is stored within a json file to then be used by the visualizer. However, the data stored locally is sourced from both the
+                    SBDB Query and Horizons API.</li>
+                <li><b>Mobile support</b> - The visualizer can be opened through mobile but the interactions are very clunky. This project
+                    was never intended to be created for mobile and only for desktop browsers.</li>
+            </ul>
+        </div>
+        <div class="container mt-5 p-3"></div>
 
-        
         <!-- FOOTER -->
-        <footer class="fixed-bottom justify-content-center footer-vh bg-dark-maroon">
-            <p class="text-white h-100 p-2">&copy; 2023 Jaiden Chicote. All rights reserved.</p>
+        <footer class="fixed-bottom justify-content-center footer-vh bg-grey-6">
+            <p class="text-white h-100 p-2">&copy; 2024 Jaiden Chicote. Released under the GNU General License.</p>
         </footer>
     </div>
 

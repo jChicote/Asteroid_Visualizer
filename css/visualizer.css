@@ -1,0 +1,428 @@
+:root {
+    --navbar-height: 6vh;
+    --view-options-height: 12vh;
+    --option-button-padding: 5px;
+    --option-button-length: 67px;
+}
+
+/* ROOT CANVAS STYLING */
+
+#root {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
+
+#root-canvas {
+    position: absolute;
+    pointer-events: none;
+}
+
+#fullScreenCanvas {
+    pointer-events: none;
+}
+
+.canvas {
+    top: var(--navbar-height);
+    bottom: var(--navbar-height);
+    width: 100%;
+    transition: top 0.5s ease, bottom 0.5s ease;
+}
+
+.canvas.fullscreen {
+    top: 0px;
+    bottom: 0px;
+    width: 100%;
+}
+
+.app-canvas {
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+.three-container {
+    top: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.render-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
+
+#view-options {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 15%;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 20px;
+}
+
+/* LOADING SCREEN STYLES */
+
+.dark-background-06 {
+    background-color: rgb(24, 24, 24);
+}
+
+.loading-panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9997;
+    opacity: 1;
+}
+
+.loading-panel-fade-out {
+    opacity: 0;
+    transition: opacity 1s ease;
+    pointer-events: none;
+}
+
+.loading-bar-shape {
+    position: relative;
+    height: 20px;
+    width: 320px;
+    border-radius: 10px;
+    background-color: #13191d;
+    margin: 10px;
+    z-index: 9998;
+}
+
+.loading-bar-fill-shape {
+    position: absolute;
+    height: 100%;
+    width: 0%;
+    border-radius: 10px;
+    background-color: #4521e4;
+    z-index: 9999;
+    transition: width 0.5s ease;
+}
+
+.loading-bar-background {
+    background-color: #9d9d9d;
+}
+
+.loading-bar-fill {
+    background-color: #4521e4;
+}
+
+/* OPTIONS MENU STYLES */
+
+/* Menu button styles */
+.rounded-square-button {
+    aspect-ratio: 1;
+    border-radius: 10px;
+    border: none;
+    display: flex;
+    padding: var(--option-button-padding);
+    pointer-events: all;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.5s ease;
+}
+
+
+.menu-button-skin {
+    background-color: #13191d;
+    color: white;
+    border: none;
+}
+
+.menu-button-skin:hover {
+    background-color: #e95a07;
+}
+
+.menu-button-skin.active {
+    background-color: #4521e4;
+}
+
+.menu-button-skin:active, .menu-button-skin:focus {
+    outline: none;
+}
+
+
+/* Option button styles */
+.option-button.fade-in {
+    opacity: 1;
+    transition: opacity 1s ease;
+}
+
+.option-button.fade-out {
+    opacity: 0;
+    transition: opacity 1s ease;
+    pointer-events: none;
+}
+
+.option-icon {
+    color: white;
+    width: 60%;
+    height: 60%;
+}
+
+#options-menu {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 80%;
+    width: 50%;
+    display: flex;
+    justify-content: flex-start;
+    padding: 20px;
+}
+
+#expand-menu-button {
+    visibility: visible;
+}
+
+/* Light intensity slider */
+#light-intensity {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: var(--option-button-length);
+    height: 40%;
+    background-color: #13191d;
+    border-radius: 10px;
+    border: none;
+    color: white;
+    padding: var(--option-button-padding);
+    pointer-events: all;
+}
+
+.vertical-slider-container.fade-in {
+    opacity: 1;
+    transition: opacity 1s ease;
+}
+
+.vertical-slider-container.fade-out {
+    opacity: 0;
+    transition: opacity 1s ease;
+    pointer-events: none;
+}
+
+.vertical-slider {
+    display: flex;
+    flex-direction: column;
+    width: calc(100vh * 0.2);
+    height: 20px;
+    margin: 10px;
+    transform: rotate(270deg);
+}
+
+/* Expanded menu options */
+.options-expanded-menu.visible {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 1s ease;
+}
+
+.options-expanded-menu {
+    opacity: 1;
+    transition: opacity 1s ease;
+    z-index: 90;
+}
+
+/* MENU LAYOUT */
+
+.option-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    left: 0;
+    bottom: 0;
+    width: 90px;
+}
+
+.column-button {
+    width: var(--option-button-length);
+    margin-top: 15px;
+}
+
+.row-button {
+    height: var(--option-button-length);
+    margin-right: 15px;
+}
+
+/* TIME CONTROL STYLES */
+
+.centered-canvas {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.center-third-column {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 33%;
+    height: 100%;
+}
+
+.time-control-box {
+    position: absolute;
+    bottom: 0;
+    height: 20%;
+    max-height: 18vh;
+    width: 100%;
+    padding: 20px;
+    z-index: 20;
+}
+
+.time-control-button-group {
+    top: 0;
+    height: 50%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+.time-control-button-group.fade-out {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.time-control-button-group.fade-in {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.time-control-button {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.time-control-reveal-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 5px;
+    margin-bottom: 20px;
+}
+
+.time-control-expand-button {
+    color: #979797;
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: flex-end;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    pointer-events: all;
+    transition: color 0.5s ease;
+}
+
+.time-control-expand-button:hover {
+    color: white;
+}
+
+.time-control-expand-button:focus {
+    outline: none;
+}
+
+.time-control-expand-button-text {
+    font-size: 18px;
+    margin: 0;
+}
+
+.time-control-text {
+    aspect-ratio: 1;
+    margin-left: 5px;
+    margin-right: 5px;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    color: white;
+}
+
+.time-control-icon {
+    height: 32px;
+    opacity: 1;
+    transition: opacity 1s ease, height 1s ease;
+}
+
+.time-control-icon.hidden {
+    opacity: 0;
+    height: 0px;
+}
+
+/* CELESTIAL OBJECT MARKERS */
+
+.fill-canvas {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    position: absolute;
+    overflow: hidden;
+}
+
+.celestial-object-marker {
+    position: absolute;
+    pointer-events: all;
+}
+
+.marker-shape-circle {
+    border-radius: 50%;
+    width: 14px;
+    aspect-ratio: 1;
+}
+
+.marker-skin {
+    background-color: #449ADC;
+    border: 0px solid transparent;
+    border-radius: 50%;
+    color: white;
+    padding: 5px;
+    pointer-events: all;
+    opacity: 1;
+    transition:
+        background-color 0.5s ease,
+        border-radius 0.5s ease,
+        border-width 0.2s linear,
+        width 0.5s ease,
+        border 0.5s ease,
+        opacity 0.1s ease;
+}
+
+.marker-shape-circle:hover {
+    width: 40px;
+}
+
+.marker-skin:hover {
+    background-color: transparent;
+    border: 5px solid #E6E6E6;
+}
+
+.marker-label {
+    position: absolute;
+    color: #E6E6E6;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+}

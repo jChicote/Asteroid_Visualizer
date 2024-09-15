@@ -7,19 +7,19 @@
 
     <link rel ="stylesheet" href="../css/general.css">
     <link rel ="stylesheet" href="../css/menu.css">
+    <link rel ="stylesheet" href="../css/visualizer.css">
 
     <!-- Bootstrap Stylesheets -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <script type='module' src="../main.js"></script>
+    <script type='module' src="../src/main.jsx"></script>
 </head>
-<body class="text-center">
-    <div class=" cover-container min-vh-100 h-100 flex-column">
-
+<body class="text-center dark-background-06">
+    <div id="main-container" class=" cover-container min-vh-100 h-100 flex-column">
         <!-- NAVIGATION BAR -->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark-maroon fixed-top">
+        <nav id="navbar" class="navbar navbar-expand-lg navbar-dark bg-grey-6 fixed-top">
             <div class="container">
-                <a class="navbar-brand" href="#">Asteroid Visualizer</a>
+                <a class="navbar-brand" href="../index.html">Solar System Visualizer</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -45,13 +45,15 @@
 
 
         <!-- PAGE CONTENT -->
-        <div id="gui"></div>
-        <div id="canvas-container">
-        </div>
+        <div id="root" class="dark-background-06"></div>
+
+        <!-- Debug Screens -->
+        <div id="debug-gui"></div>
+        <div id="stats"></div>
 
         <!-- FOOTER -->
-        <footer class="fixed-bottom justify-content-center footer-vh bg-dark-maroon">
-            <p class="text-white h-100 p-2">&copy; 2023 Jaiden Chicote. All rights reserved.</p>
+        <footer id="footer" class="fixed-bottom justify-content-center footer-vh bg-grey-6">
+            <p class="text-white h-100 p-2">&copy; 2024 Jaiden Chicote. Released under the GNU General License.</p>
         </footer>
     </div>
 

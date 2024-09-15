@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+### Changed
+- Website theme to use darker greys over maroon.
+- Supports React.js and Vite.js.
+- Official option buttons included for interaction.
+- Loading screen added on opening the visualiser.
+- Time control buttons added for time scrolling.
+- Hover markers added for planet selection.
+- Refined orbit controls and relative positioning.
+- Included orbital path lines for each planet.
+- Added fbx loaders for comets and asteroids
+- Add model variations and rotations for Comets and Asteroids
+- Rescaled sun size
+- Post-Processing is implemented
+- All other pages now have information
 
 ## [3.0.0] - 2024-01-05
 ### Added
