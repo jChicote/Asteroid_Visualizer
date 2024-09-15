@@ -4,11 +4,11 @@ import { FBXLoader } from "three/addons/loaders/FBXLoader.js";
 class AsteroidModelProvider {
     constructor() {
         this.objectLocations = [
-            "../../../public/models/asteroid_1.fbx",
-            "../../../public/models/asteroid_2.fbx",
-            "../../../public/models/asteroid_3.fbx",
-            "../../../public/models/asteroid_4.fbx",
-            "../../../public/models/asteroid_5.fbx"
+            "../../../models/asteroid_1.fbx",
+            "../../../models/asteroid_2.fbx",
+            "../../../models/asteroid_3.fbx",
+            "../../../models/asteroid_4.fbx",
+            "../../../models/asteroid_5.fbx"
         ];
     }
 

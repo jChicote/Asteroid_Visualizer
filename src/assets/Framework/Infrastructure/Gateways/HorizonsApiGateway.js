@@ -1,8 +1,5 @@
 import { ServiceExtractor } from "../../../../shared/DependencyInjectionServices/Utilities/ServiceExtractor.js";
 import { GatewayViewModel } from "./Common/GatewayViewModels.js";
-import { textContentOptions } from "./Configuration/gateway-options.js";
-// import { GatewayClient } from "./GatewayClient.js";
-// import { HorizonsApiUriProvider } from "./Providers/HorizonsApiUriProvider.js";
 
 export const PlanetCodes = {
     Mercury: "199",
@@ -16,22 +13,16 @@ export const PlanetCodes = {
     Pluto: "999"
 };
 
-const HTTPMethods = {
-    GET: "GET",
-    POST: "POST",
-    PUT: "PUT",
-    DELETE: "DELETE"
-};
-
 export class HorizonsApiGateway {
     constructor(serviceDependencies) {
-        this.gatewayClient = ServiceExtractor.ObtainService(serviceDependencies, "GatewayWebClient");
+        this.gatewayClient = ServiceExtractor.ObtainService(serviceDependencies, "GatewayClient");
         this.uriProvider = ServiceExtractor.ObtainService(serviceDependencies, "HorizonsApiUriProvider");
     }
 
     async GetPlanetEphemerisData(planetCode) {
         try {
-            const response = await this.gatewayClient.SendAsync(HTTPMethods.GET, this.uriProvider.Provide(planetCode), textContentOptions, true);
+            console.log(this.uriProvider.Provide(planetCode));
+            const response = await this.gatewayClient.SendAsync(this.uriProvider.Provide(planetCode));
             if (response.status === 200) {
                 const planetData = {
                     captureSection: {},
@@ -39,9 +30,9 @@ export class HorizonsApiGateway {
                     physicalBodySection: {}
                 };
 
-                planetData.captureSection = this.ExtractCaptureSection(response.content);
-                planetData.heliocentricSection = this.ExtractHeliocentricSection(response.content);
-                planetData.physicalBodySection = this.ExtractPhysicalBodySection(response.content);
+                planetData.captureSection = this.ExtractCaptureSection(response.content.result);
+                planetData.heliocentricSection = this.ExtractHeliocentricSection(response.content.result);
+                planetData.physicalBodySection = this.ExtractPhysicalBodySection(response.content.result);
 
                 return new GatewayViewModel(true, planetData, null);
             } else if (response.status === 400) {
@@ -57,7 +48,7 @@ export class HorizonsApiGateway {
     }
 
     ExtractCaptureSection(response) {
-        const ephemerisPattern = /Ephemeris(.*?)JDTDB/s;
+        const ephemerisPattern = /Ephemeris(.*?)\$\$SOE/s;
         let ephemerisSection = "";
 
         const ephemerisMatch = response.match(ephemerisPattern);
