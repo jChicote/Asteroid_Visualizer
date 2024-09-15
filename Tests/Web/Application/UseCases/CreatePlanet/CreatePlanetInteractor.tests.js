@@ -1,7 +1,7 @@
 import { describe, test } from "@jest/globals";
-import { CreatePlanetInteractor } from "../../../../../javascript/assets/Application/UseCases/CreatePlanet/CreatePlanetInteractor.js";
-import { PlanetRepository } from "../../../../../javascript/assets/Domain/Repositories/PlanetRepository.js";
-import { ObjectMapper } from "../../../../../javascript/shared/Infrastructure/Mapper/ObjectMapper.js";
+import { CreatePlanetInteractor } from "../../../../../src/assets/Application/UseCases/CreatePlanet/CreatePlanetInteractor.js";
+import { PlanetRepository } from "../../../../../src/assets/Domain/Repositories/PlanetRepository.js";
+import { ObjectMapper } from "../../../../../src/shared/Infrastructure/Mapper/ObjectMapper.js";
 
 // Fields
 

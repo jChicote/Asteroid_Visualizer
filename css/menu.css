@@ -1,6 +1,10 @@
 
 /* GENERAL STYLES */
 
+.scrollable-container {
+    overflow: auto;
+}
+
 .spacer {
     flex: 1;
     height: 100%;
