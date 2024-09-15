@@ -4,6 +4,7 @@ const fetch = (await import("node-fetch")).default;
 const app = express();
 
 app.use(cors());
+app.use(express.static("public"));
 
 app.get("/api/nasa", async (req, res) => {
     const { apiUrl } = req.query;

@@ -1,6 +1,6 @@
 import { ServiceExtractor } from "../../../../../shared/DependencyInjectionServices/Utilities/ServiceExtractor.js";
 import { GatewayViewModel } from "../Common/GatewayViewModels.js";
-import { hostUrl } from "../Configuration/gateway-options.js";
+import { isInDevelopment, hostName, protocol } from "../Configuration/gateway-options.js";
 import { SmallBodyResponseContainer } from "./SmallBodyApiGatewayMapperConfiguration.js";
 import { SmallCelestialBodyViewModel } from "./SmallCelestialBodyViewModel.js";
 
@@ -14,27 +14,32 @@ class SmallBodyApiGateway {
     }
 
     async GetAsteroidsAsync() {
-        const asteroidsUri = this.sbdbApiUrl +
-            encodeURIComponent(
-                "fields=spkid,full_name,kind,neo,pha,e,a,q,i,om,w,ma,tp,per,n,ad,GM,diameter,pole,rot_per&" +
-                "sb-kind=a&sb-class=IEO"); // objects retrieved are from Atira class asteroids
+        // const asteroidsUri = this.sbdbApiUrl +
+        //     encodeURIComponent(
+        //         "fields=spkid,full_name,kind,neo,pha,e,a,q,i,om,w,ma,tp,per,n,ad,GM,diameter,pole,rot_per&" +
+        //         "sb-kind=a&sb-class=IEO"); // objects retrieved are from Atira class asteroids
 
-        return await this.InvokeGatewayAsync(asteroidsUri);
+        // NOTE: Use the saved response data to avoid financial cost of running the node server on the web.
+        const asteroidsJsonResponseLocation = "response-data/sbdbquery-asteroids-response.json";
+        return await this.InvokeGatewayAsync(asteroidsJsonResponseLocation);
     }
 
     async GetCometsAsync() {
-        const cometsUri = this.sbdbApiUrl +
-            encodeURIComponent(
-                "fields=spkid,full_name,kind,e,a,q,i,om,w,ma,tp,per,n,ad,GM,diameter,pole,rot_per&" +
-                "sb-kind=c&sb-class=HTC"); // objects retrieved are from Halley-type comets
+        // const cometsUri = this.sbdbApiUrl +
+        //     encodeURIComponent(
+        //         "fields=spkid,full_name,kind,e,a,q,i,om,w,ma,tp,per,n,ad,GM,diameter,pole,rot_per&" +
+        //         "sb-kind=c&sb-class=HTC"); // objects retrieved are from Halley-type comets
 
-        return await this.InvokeGatewayAsync(cometsUri);
+        // NOTE: Use the saved response data to avoid financial cost of running the node server on the web.
+        const cometsJsonResponseLocation = "response-data/sbdbquery-comets-response.json";
+        return await this.InvokeGatewayAsync(cometsJsonResponseLocation);
     }
 
     async InvokeGatewayAsync(uri) {
-        const apiUrl = `${hostUrl}?apiUrl=${uri}`;
+        // const apiUrl = `${hostUrl}?apiUrl=${uri}`;
+        const apiUrl = `${protocol}${hostName}/${isInDevelopment ? "public/" : ""}${uri}`;
 
-        console.log(window.location.host);
+        console.log(apiUrl);
 
         const response = await this.gatewayClient.SendAsync(apiUrl);
         if (response.status === 200) {
